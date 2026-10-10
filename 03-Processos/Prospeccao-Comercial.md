@@ -1,9 +1,12 @@
 ---
-tipo: procedimento
-id: PRC-COM-001
+tipo: guia-operacional
+id: COM-APOIO-PROSPECCAO-001
 status: proposta
+processo_canonico: PRC-COM-001
 ---
-# Processo de prospecção comercial
+# Roteiro complementar de prospecção comercial
+
+**Documento complementar ao [[03-Processos/PRC-COM-001-Processo-Comercial]] (única fonte canônica de PRC-COM-001).** Preserva o roteiro de prospecção; não constitui outro processo nem autoriza contato externo. Em caso de divergência, prevalecem os gates e decisões do processo canônico.
 
 1. Identificar sinal público concreto de necessidade ou parceria.
 2. Registrar URL, data, hipótese e grau de certeza.
