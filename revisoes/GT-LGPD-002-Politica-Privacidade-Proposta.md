@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-002
 tipo: politica-privacidade-proposta
-versao: 0.1.0
+versao: 0.2.0
 status: proposta-interna-nao-publicar
 data: 2026-10-10
 aprovador: Direcao
@@ -39,3 +39,7 @@ Cookies estritamente necessários devem ser distinguidos de analytics/publicidad
 
 ## 8. Pendências para publicação
 [A CONFIRMAR] controlador, identificação e endereço pertinente; canal de privacidade; responsáveis; fluxo técnico real; fornecedores e transferências; bases legais definitivas; prazos de retenção; cookies/analytics; contratos; exceção de pequeno porte; parecer jurídico quando necessário; revisão independente; decisão e autorização específica da Direção. Nenhuma dessas lacunas é suprida por este documento.
+
+
+## 9. Complemento v0.2.0 — finalidade e identidade antes de publicar
+A matriz de tratamento por operação, dados, justificativa e base **candidata** encontra-se no GT-LGPD-001 §9 e integra esta proposta por referência para evitar divergência documental. O aviso público deve derivar da matriz aprovada, sem exibir bases alternativas ainda indecisas como se fossem fundamentação definitiva. Preencher o nome verdadeiro do controlador, canal funcional, fornecedores efetivos, prazo e categoria de cada dado, possíveis transferências internacionais com mecanismo válido e informações de cookies apenas após verificação. **Não publicar este rascunho ou apresentar mera revisão documental como adequação LGPD.**
