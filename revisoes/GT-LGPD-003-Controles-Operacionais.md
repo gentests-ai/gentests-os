@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-003
 tipo: procedimento-operacional-privacidade
-versao: 0.2.0
+versao: 0.2.1
 status: proposta-nao-implementada
 data: 2026-10-10
 ---
@@ -64,3 +64,9 @@ Fontes oficiais: [Resolução CD/ANPD 15/2024 — texto do ato no DOU disponibil
 | Protocolos de direitos/incidentes | abertura do pedido/conhecimento do incidente; exigências legais e prescrição a validar | minimizar/anônimizar quando possível sem destruir dever legal de registro | Direção + jurídico; prazo e justificativa |
 
 **Fluxo mínimo:** localizar por identificador autorizado → registrar manifestação/oposição → cancelar campanhas agendadas e cessar marketing → solicitar exclusão nos sistemas identificados → documentar exceção legal minimizada → conferir cópias/backups/terceiros → responder titular com evidência segura. Ensaiar integralmente com identidade e mensagens fictícias antes da ativação.
+
+## 9. Aplicação futura prioritária ao e-mail do material educativo (PR #21)
+
+A decisão DEC-LGPD-20261010-001 altera **somente a prioridade do desenho**, mantendo a matriz de retenção do §8 e controles de incidentes do §7. Antes de ativar, definir para a operação **entrega de guia por e-mail**: responsável pela caixa e provedor, identificação mínima por solicitação, deduplicação sem importação indiscriminada ao CRM, prazo/evento de exclusão do endereço nas filas, mensagens enviadas, registros de entrega e backups, e prova de descarte onde tecnicamente possível.
+
+Para **marketing**, registrar preferência em campo distinto, aviso/versão e momento de aceite (se consentimento for base aprovada), fornecer descadastro, cancelar campanhas agendadas e conservar somente supressão minimizada com fundamento e prazo próprios. Não manter toda a mensagem/contato para provar oposição. Tratar envios malsucedidos sem considerar tentativa como entrega confirmada. Nenhum dado real, lista, fornecedor ou teste pode ser operado a partir deste adendo.
