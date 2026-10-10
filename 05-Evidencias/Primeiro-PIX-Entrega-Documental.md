@@ -1,7 +1,7 @@
 ---
 tipo: evidencia
 id: EVID-PRIMEIRO-PIX
-versao: 0.2.0
+versao: 0.3.0
 status: registro
 estado_documental: em-validacao
 data: 2026-10-10
@@ -11,7 +11,9 @@ elaborado_por: Codex
 validacao_independente: pendente
 autorizacao_externa: pendente
 ---
-# Primeiro PIX — registro da entrega documental
+# Campanha dos Três Primeiros Clientes — registro da entrega documental
+
+**Registro histórico:** as versões e preços da entrega Primeiro PIX abaixo são históricos. Condições correntes: plano 0.3.0 e adendo ao final.
 
 ## Demanda e alcance
 Solicitação de Cíntia em 10/10/2026: gerar artefatos do plano Operação Primeiro PIX seguindo o processo de documentação. Execução limitada a elaboração, conferência e registro em branch para revisão. Não houve envio a prospectos, mudança no CRM, aprovação de preços, assinatura, cobrança, emissão de NF ou agendamento automático.
@@ -58,3 +60,10 @@ As verificações automáticas da revisão anterior passaram; essa evidência n�
 Sincronização local: no GitHub Desktop, selecionar o repositório gentests-os, branch main, executar Fetch origin e Pull origin se houver alterações recebidas; abrir o cofre Obsidian vinculado à mesma pasta e conferir o link “Operação Primeiro PIX” no INICIO. Se houver mudanças locais ou conflito, preservar e resolver antes de atualizar; não sobrescrever o cofre por ZIP.
 A execução do pull e a abertura no computador da usuária não foram realizadas ou verificadas nesta sessão. Não declarar o Obsidian sincronizado apenas porque os arquivos foram integrados no GitHub.
 **Histórico 0.2.0:** registrada autorização de integração interna e procedimento existente de sincronização; decisões comerciais preservadas.
+
+## Consolidação — 10/10/2026
+Após esclarecimento de Cíntia às 11:50–11:51, consolidado nome Campanha dos Três Primeiros Clientes, promoção limitada e primeiro recebimento como marco.
+Fontes: main a4c3f7606747f29acb6e11928889f962355c3ab7; análise financeira blob 4d245fc90a226c375b7bc4e8679f6fc03811715d; roteiro blob e4e04cde9c124a2bd58908e8c06aa7265248a178; PPTX blob 50f43a7fc3a36f5d45240dee3c6fe8a164c2770c. PPTX com sete slides, conteúdo consistente com roteiro; SHA-256 81c22ebb5166a0af7f6882bb6903df6f60bd8ed5828b8776f020f8388c88cb8e. Binário preservado; não houve revisão visual renderizada.
+Versões correntes: PLN-COM-001 0.3.0; OFERTA-QA-EXPRESS 0.2.0; DEC-PRIMEIRO-PIX e esta evidência 0.3.0. Análise financeira e roteiro com adendo/backlinks, não novos planos.
+Conferência do executor: preços 490/1.490/2.490; parcelas 245/745/1.245; teto total de três clientes; eventos contratação/entrada/entrega/aceite/saldo separados. R$ 890/seis horas historicizados. Conferência não é revisão independente.
+Limites: contabilidade integral não reconsultada; revisão relatada pela direção. CRM e Drive não alterados; sem contatos, propostas, contratos, cobranças ou recebimentos executados. Revisão visual, independente e autorização externa pendentes. Obsidian local não sincronizado pelo executor.

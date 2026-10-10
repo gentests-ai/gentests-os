@@ -14,6 +14,6 @@ tipo: registro
 ## Decisões aprovadas
 _Ainda não registradas neste vault._
 
-## Operação Primeiro PIX — em validação
-- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial|Homologação da oferta, preço e cadência]] — pendente.
-- [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests|Plano comercial 0.2.0]] — proposta; não autoriza envio.
+## Campanha dos Três Primeiros Clientes — em validação
+- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial|Diretriz promocional e validações restantes]] — esclarecimento de Cíntia em 10/10 registrado; condições finais pendentes.
+- [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests|Plano comercial 0.3.0]] — proposta; não autoriza envio.

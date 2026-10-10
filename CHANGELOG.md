@@ -28,3 +28,11 @@ Renomeação e atualização de links concluídas. Outras tarefas permanecem pen
 - Oferta QA Express e registro de homologação/evidências preparados em 0.1.0.
 - Divergências de preço/escopo preservadas para decisão; follow-up candidato corrigido para 19/10.
 - Notas/índices vinculados para revisão; nenhuma política, preço ou divulgação foi aprovada nesta entrega.
+
+## Consolidação Três Primeiros Clientes — 10/10/2026
+- PLN-COM-001 0.3.0: campanha única, primeiro recebimento como marco, três vagas no total e tabela promocional.
+- Oferta QA Express 0.2.0: R$ 490, até cinco páginas públicas OU uma jornada simples; R$ 890/seis horas apenas no histórico.
+- Decisão/evidência 0.3.0: diretriz de Cíntia, rastreabilidade e limites da revisão.
+- Análise financeira, roteiro e PPTX do outro Work incorporados à proposta de consolidação; binário preservado.
+- Índices atualizados; IDs/caminhos existentes mantidos para evitar quebra de links.
+- Sem divulgação, alterações de CRM/Drive, revisão contábil independente ou sincronização local.

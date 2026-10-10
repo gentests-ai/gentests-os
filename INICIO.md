@@ -30,6 +30,9 @@ versao: 1.1.0
 - Ligações ``[link interno de exemplo]`` apontam para notas relacionadas.
 - Ao mudar políticas, registrar a decisão em [[04-Decisoes/Registro-de-Decisoes]].
 
-## Primeiro cliente — revisão em andamento
-- [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests|Operação Primeiro PIX]]
-- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial|Decisão comercial pendente]]
+## Campanha dos Três Primeiros Clientes — consolidação em revisão
+- [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests|Campanha dos Três Primeiros Clientes]]
+- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial|Condições promocionais e decisão registrada]]
+
+- [[revisoes/2026-10-10-precificacao-proposta|Revisão financeira e preços de lançamento]]
+- [[comercial/apresentacao-comercial-v2-proposta|Apresentação comercial para revisão]]
