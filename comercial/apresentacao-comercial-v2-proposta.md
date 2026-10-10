@@ -12,10 +12,10 @@ relacionados:
 
 # GenTests.ai — Apresentação comercial (roteiro da versão visual revisada)
 
-**Status:** proposta. O arquivo editável PowerPoint ainda precisa ser depositado em repositório de artefatos (Drive ou GitHub) e vinculado por URL permanente. Este documento versiona apenas o conteúdo e a rastreabilidade; **não é o PPTX**.
+**Status:** proposta para revisão. O PowerPoint editável está versionado nesta mesma branch em `comercial/apresentacoes/GenTests_Apresentacao_Comercial_Layout_Revisado.pptx`, e há uma cópia no Drive comercial. Não está homologado nem incorporado à branch principal.
 
 **Arquivo produzido:** GenTests_Apresentacao_Comercial_Layout_Revisado.pptx  
-**SHA-256 do arquivo produzido:** `7188f54d6ee65448d63a4f82768fe390aec7b8b9e830d5b186553e76cf73aa6e`  
+**SHA-256 do arquivo produzido:** `81c22ebb5166a0af7f6882bb6903df6f60bd8ed5828b8776f020f8388c88cb8e`  
 **Mudanças:** legibilidade, tipografia, espaçamentos e organização visual de 7 slides.
 
 ## 01 — Qualidade que faz sentido para o seu negócio
@@ -43,7 +43,7 @@ Conversa de 15 a 20 minutos para entender a necessidade, definir escopo viável 
 Contato: gentests.ai@gmail.com | linkedin.com/company/gentests/
 
 ## Validação e publicação pendentes
-- [ ] Registrar o PPTX revisado como arquivo binário em local permanente e adicionar link aqui.
+- [x] Registrar o PPTX revisado como arquivo binário em local permanente: [PowerPoint na branch de revisão](https://github.com/gentestsai-sudo/gentests-os/blob/review/precificacao-2026-10-10/comercial/apresentacoes/GenTests_Apresentacao_Comercial_Layout_Revisado.pptx) e [cópia no Drive](https://drive.google.com/file/d/12gF2iQB6T-eZIWgoMAVVLLvWPDrExjsJ/view).
 - [ ] Revisar a apresentação visual final.
 - [ ] Sincronizar índice e backlinks do Obsidian.
 - [ ] Aprovar divulgação externa conforme processo GenTests OS.
