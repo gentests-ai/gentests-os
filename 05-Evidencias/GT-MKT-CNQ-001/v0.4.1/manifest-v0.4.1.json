@@ -1,0 +1,167 @@
+{
+  "artifact": "GT-MKT-CNQ-001",
+  "version": "0.4.1",
+  "status": "PRONTO PARA REVALIDAÇÃO VISUAL FINAL — SEM AUTORIZAÇÃO PARA DISTRIBUIÇÃO",
+  "pdf": {
+    "path": "../../../comercial/GT-MKT-CNQ-001-Guia-Executivo-v0.4.1.pdf",
+    "sha256": "646554cfdba296457af7d0bdc4b50783f2fe44a2841970fce48692a989f5038a",
+    "bytes": 13631,
+    "pages": 5
+  },
+  "source": {
+    "path": "../../../comercial/GT-MKT-CNQ-001-Guia-Executivo-v0.4.0.pdf",
+    "sha256": "7db1aa3b3d3fda0dea907dbe85550d98940bbae9cd05d8b87fc09440d5f66e8b",
+    "bytes": 13680,
+    "preserved": true
+  },
+  "review": {
+    "pr": 26,
+    "commit": "7a7da503f297c2a7d42cba137cc2058722b4d849",
+    "finding": "CNQ-VIS-006-01"
+  },
+  "rendering": {
+    "program": "pdftoppm",
+    "version": "26.05.0",
+    "command": "pdftoppm -r 150 -png arquivo.pdf page",
+    "dpi": 150,
+    "dimensions": [
+      1240,
+      1755
+    ],
+    "all_pages_rendered": true,
+    "all_pages_inspected_by_executor": true,
+    "independent_visual_approval": false,
+    "mobile_native_pdf_viewer_tested": false
+  },
+  "numbering_delta": {
+    "finding": "CNQ-VIS-006-01",
+    "source_sha256": "7db1aa3b3d3fda0dea907dbe85550d98940bbae9cd05d8b87fc09440d5f66e8b",
+    "corrected_sha256": "646554cfdba296457af7d0bdc4b50783f2fe44a2841970fce48692a989f5038a",
+    "corrected_bytes": 13631,
+    "removed_prefix_pdf_literal": "\\22641 ",
+    "removed_occurrences": 7,
+    "changed_objects": [
+      12
+    ],
+    "changed_pages": [
+      4
+    ],
+    "all_other_objects_byte_identical": true,
+    "changes_infrastructure": [
+      "Length of page 4 content stream",
+      "xref offsets and startxref"
+    ],
+    "all_text_unchanged_except_prefix": true,
+    "original_generator_available": false,
+    "method": "Surgical stream repair; rebuild xref; verify with strict pypdf parser"
+  },
+  "link_check": {
+    "checked_utc": "2026-10-10T20:17:25.579187+00:00",
+    "uri": "https://gentests-site.pages.dev/",
+    "page": 5,
+    "annotation_rect_top_origin": [
+      40.0,
+      512.0,
+      400.0,
+      552.0
+    ],
+    "visible_url_rect_top_origin": [
+      44.0,
+      505.7124938964844,
+      189.3304901123047,
+      520.1395263671875
+    ],
+    "annotation_covers_entire_visible_url": false,
+    "annotation_intersects_visible_url": true,
+    "url_center_in_clickable_area": true,
+    "intersection_rect": [
+      44.0,
+      512.0,
+      189.3304901123047,
+      520.1395263671875
+    ],
+    "cta_text_preserved": true,
+    "annotation_unchanged_from_v040": true,
+    "native_viewer_click_tested": false,
+    "contact_form_tested": false,
+    "limitation": "Área de link herdada cobre a faixa inferior, mas não toda a altura do texto extraído; não alterada nesta correção exclusivamente de numeração.",
+    "http_status": 200,
+    "resolved_url": "https://gentests-site.pages.dev/",
+    "content_type": "text/html; charset=utf-8",
+    "page_title": "GenTests | Qualidade de software que protege a experiência do cliente"
+  },
+  "accessibility": {
+    "tagged": false,
+    "lang_present": false,
+    "struct_tree_present": false,
+    "mark_info_present": false,
+    "text_extractable_all_pages": true,
+    "pdf_ua_certified": false,
+    "screen_reader_tested": false,
+    "html_alternative_evaluated": true,
+    "html_alternative_implemented": false,
+    "html_published": false
+  },
+  "images": [
+    {
+      "page": 1,
+      "png_bytes_identical": true,
+      "image_dimensions": [
+        1240,
+        1755
+      ],
+      "png_sha256": "f80ca3a6249a3d1976d947c3edb64bc4fef53dc25e46843747177d5df0045983",
+      "path": "page-01.png",
+      "bytes": 136080,
+      "inspection": "Regressão visual rápida: sem diferenças em relação ao original; PNG idêntico."
+    },
+    {
+      "page": 2,
+      "png_bytes_identical": true,
+      "image_dimensions": [
+        1240,
+        1755
+      ],
+      "png_sha256": "9b9ecb20256c50652ef361964a86e0eff0ae4ca2c5a3bc0515568ab3e5d4f911",
+      "path": "page-02.png",
+      "bytes": 135906,
+      "inspection": "Regressão visual rápida: sem diferenças em relação ao original; PNG idêntico."
+    },
+    {
+      "page": 3,
+      "png_bytes_identical": true,
+      "image_dimensions": [
+        1240,
+        1755
+      ],
+      "png_sha256": "dbf8b2952ef4da36e14ba893b18a536b96450bf32da24775b9dc9045eed4b239",
+      "path": "page-03.png",
+      "bytes": 136981,
+      "inspection": "Regressão visual rápida: sem diferenças em relação ao original; PNG idêntico."
+    },
+    {
+      "page": 4,
+      "png_bytes_identical": false,
+      "image_dimensions": [
+        1240,
+        1755
+      ],
+      "png_sha256": "f7d190547c86e1fc9cde9ff0b35fa0310d294c936f8e9e0be87e3eacdbd64935",
+      "path": "page-04.png",
+      "bytes": 141690,
+      "inspection": "Checklist sem prefixos indevidos; conteúdo preservado."
+    },
+    {
+      "page": 5,
+      "png_bytes_identical": true,
+      "image_dimensions": [
+        1240,
+        1755
+      ],
+      "png_sha256": "9a0231b81bd66691ede918be1058185f34b392d37a42552024b583dbc9117839",
+      "path": "page-05.png",
+      "bytes": 174761,
+      "inspection": "Regressão visual rápida: sem diferenças em relação ao original; PNG idêntico."
+    }
+  ]
+}
