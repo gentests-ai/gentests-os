@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 REQUIRED = ("id", "tipo", "risco", "status", "assunto", "corpo", "origem_destinatario", "fontes", "versao", "responsavel")
-CLAIM = re.compile(r"(?:\\b\\d+(?:[.,]\\d+)?\\s*%|\\bgarant(?:imos|ia|ido)|\\b(?:triplicamos|dobramos))", re.IGNORECASE)
+CLAIM = re.compile(r"(?:\b\d+(?:[.,]\d+)?\s*%|\bgarant(?:imos|ia|ido)|\b(?:triplicamos|dobramos))", re.IGNORECASE)
 
 def validate(data):
     issues = []
