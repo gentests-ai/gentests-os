@@ -1,0 +1,160 @@
+{
+  "version": "3.2.1",
+  "source": {
+    "repository_path": "comercial/apresentacoes/GenTests_Apresentacao_Comercial_Quality_Journey_v3_2_Revisao_Interna.pptx",
+    "sha256": "b228419977c3267a6b3696a25c40886fc9ffce6ff9ab0d5791750d6661760a48",
+    "bytes": 50690,
+    "unchanged": true
+  },
+  "corrected": {
+    "repository_path": "comercial/apresentacoes/GenTests_Apresentacao_Comercial_Quality_Journey_v3_2_1_Correcao_Focal.pptx",
+    "sha256": "c206916a04666fc7c0f9eed700711db9e5bbd0bb81a605ce2ad784d5b963cd44",
+    "bytes": 50708
+  },
+  "finding": "VIS-QJ-004-01 / QJ31-04",
+  "review_reference": {
+    "pr": 19,
+    "commit": "7c1ce00759a11576dba0cc83b58dce14368ec55f",
+    "path": "revisoes/REV-COM-QJ-004-Parecer-Quality-Journey.md"
+  },
+  "recorded_utc": "2026-10-10T19:25:53.887903+00:00",
+  "renderer": "@oai/artifact-tool",
+  "runtime_node": "v24.19.0",
+  "slide_count": 10,
+  "changed_package_parts": [
+    "ppt/slides/slide2.xml"
+  ],
+  "texts_unchanged": true,
+  "geometry": {
+    "slide": 2,
+    "before": [
+      {
+        "id": "20",
+        "name": "TextBox 19",
+        "position": {
+          "left": 886.08,
+          "top": 357.12,
+          "width": 312,
+          "height": 44.160000000000004
+        },
+        "text": "Decisões sem evidências"
+      },
+      {
+        "id": "21",
+        "name": "TextBox 20",
+        "position": {
+          "left": 886.08,
+          "top": 412.8,
+          "width": 311.04,
+          "height": 110.4
+        },
+        "text": "Sem informações confiáveis, fica difícil escolher o que corrigir e melhorar primeiro."
+      }
+    ],
+    "after": [
+      {
+        "id": "20",
+        "name": "TextBox 19",
+        "position": {
+          "left": 886.08,
+          "top": 357.12,
+          "width": 312,
+          "height": 71.03999999999999
+        },
+        "text": "Decisões sem evidências"
+      },
+      {
+        "id": "21",
+        "name": "TextBox 20",
+        "position": {
+          "left": 886.08,
+          "top": 452,
+          "width": 311.04,
+          "height": 74.39999999999999
+        },
+        "text": "Sem informações confiáveis, fica difícil escolher o que corrigir e melhorar primeiro."
+      }
+    ]
+  },
+  "method": "Artifact Tool: edição de geometria; aplicação de somente três coordenadas no pacote OOXML original para preservar as demais partes byte a byte.",
+  "validation": {
+    "package_integrity": "pass",
+    "layout_geometry": "pass",
+    "artifact_tool_import": "pass",
+    "native_powerpoint_opened": false,
+    "independent_visual_approval": false
+  },
+  "visual_observation_executor": "Slide 2 inspecionado antes/depois; separação visível entre título e corpo no terceiro cartão na projeção. Não é aprovação independente nem prova de equivalência PowerPoint.",
+  "artifacts": [
+    {
+      "slide": 1,
+      "path": "../Quality-Journey-v3.2/slide-01.png",
+      "sha256": "e2863167556d8786673c7103c0fade1da7503dcf6b86672cba441a4a3c0c555a",
+      "bytes": 83074,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 2,
+      "path": "slide-02.png",
+      "sha256": "87a35c86317a00cb62ebdae841d8b8724f7ff698f7551f1168ac5436ab9afa6a",
+      "bytes": 127310,
+      "unchanged_from_v3_2": false
+    },
+    {
+      "slide": 3,
+      "path": "../Quality-Journey-v3.2/slide-03.png",
+      "sha256": "29c838a2503f22c177932caf728fc45152dfb59698c575c69354fd9ab500ff8f",
+      "bytes": 101995,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 4,
+      "path": "../Quality-Journey-v3.2/slide-04.png",
+      "sha256": "c91eeb58e5ae68d3f6e433bd68c7b65198ff8816e0aa672031d51a1bbd6444b0",
+      "bytes": 128956,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 5,
+      "path": "../Quality-Journey-v3.2/slide-05.png",
+      "sha256": "73715da664cde3ae4d738679dfca324057d141a4ef0289d3c8c57341b85271b0",
+      "bytes": 125105,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 6,
+      "path": "../Quality-Journey-v3.2/slide-06.png",
+      "sha256": "af89ac9b84c2e45b374efa3f47131bcdf978a3207cb341c0770f91a7daa92248",
+      "bytes": 115093,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 7,
+      "path": "../Quality-Journey-v3.2/slide-07.png",
+      "sha256": "39d714766f035890d42a218f6fe4a851d53721325d9605108868e8043f5afee1",
+      "bytes": 102922,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 8,
+      "path": "../Quality-Journey-v3.2/slide-08.png",
+      "sha256": "f3f17890aed841b5ef0badb16f195d4a243a03824557bc86600fc616724c5901",
+      "bytes": 110916,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 9,
+      "path": "../Quality-Journey-v3.2/slide-09.png",
+      "sha256": "18f71a8fbe9645463dde321105c91324aecb27573e1f080e987cc06ce914a1e1",
+      "bytes": 116546,
+      "unchanged_from_v3_2": true
+    },
+    {
+      "slide": 10,
+      "path": "../Quality-Journey-v3.2/slide-10.png",
+      "sha256": "7a48ae0706433f6bfe8e3b802c58cfc02e0168ed7d307d44ae8181855b286970",
+      "bytes": 81908,
+      "unchanged_from_v3_2": true
+    }
+  ]
+}
