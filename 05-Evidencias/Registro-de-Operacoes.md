@@ -15,3 +15,6 @@ Para cada execução relevante, registrar:
 **Não incluir credenciais nem dados pessoais desnecessários.**
 
 Modelo: [[07-Templates/Execucao-TEMPLATE]]
+
+## Entregas documentais
+- [[05-Evidencias/Primeiro-PIX-Entrega-Documental|Operação Primeiro PIX — 10/10/2026]]: artefatos em validação; ações externas não executadas.
