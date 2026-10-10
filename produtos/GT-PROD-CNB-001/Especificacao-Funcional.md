@@ -2,7 +2,7 @@
 id: GT-PROD-CNB-001-FUN
 produto: GT-PROD-CNB-001
 tipo: especificacao-funcional
-versao: 0.1.0
+versao: 0.1.1
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -40,10 +40,10 @@ Cada grupo oferece estado explícito `informado`, `hipotetico`, `desconhecido` o
 | IN-07 despesa externa incremental | BRL, até 2 casas, opcional | 0 a R$1 bilhão; confirmar não incluída na taxa/contrato fixo; só parcela atribuível ao incidente |
 | IN-08 ajuste líquido de receita | BRL, até 2 casas, opcional | Mesmo limite; crédito/estorno líquido atribuível. Não presumir desembolso |
 | IN-09 margem líquida não recuperável | BRL, até 2 casas, opcional | Mesmo limite; usuário informa margem já apurada com financeiro. Não aceitar faturamento bruto como margem |
-| IN-10 reconciliação de efeitos | referência local anônima de evento/transação e confirmação de distinção | Referências internas geradas/selecionadas, sem número real de pedido ou cliente; parcelas ligadas ao mesmo evento ficam bloqueadas até resolver overlap |
+| IN-10 reconciliação de efeitos | referência local anônima de evento/transação e confirmação de distinção | Referências internas geradas/selecionadas, sem número real de pedido ou cliente; inclusão exige confirmação contextual das parcelas comparadas conforme RN-09a; referências diferentes não comprovam distinção |
 | IN-11 frequência mensal | inteiro incidentes/mês, opcional | 0 a 100.000; mesma classe/perfil do incidente e origem informada/hipotética; ausente = mês/ano não calculáveis |
 | IN-12 horizonte | fixo 12 meses no MVP | Exibir hipótese de custo e frequência constantes; não receita/custo anual observado |
-| IN-13 indisponibilidade | opcional: duração decimal em h até 2 casas | 0 a 744 h para referência mensal; degradação parcial pode ser informada em nota fixa. Não monetiza nem soma ao total |
+| IN-13 indisponibilidade | opcional: duração decimal em h até 2 casas | 0 a 744 h (31 dias) como limite operacional do campo de contexto mensal do MVP, não duração máxima de incidentes reais; ajuda: “Até 744h nesta ferramenta; incidentes reais podem durar mais”. Acima do limite, rejeitar sem truncar e manter contexto não informado, sem impedir cálculo das parcelas monetárias válidas. Não monetiza nem soma ao total |
 | IN-14 estado e origem de cada grupo | enums citados no §1 | Não aceitar estado informado/hipotético sem operandos válidos |
 | IN-15 e-mail / marketing | apenas fluxo opcional de relatório | Fora do cálculo; especificado em Interface-Jornada |
 
@@ -69,13 +69,19 @@ Precisão proposta: representar horas em centésimos de hora e taxas/valores em 
 
 **RN-09:** conflito em horas/efeitos impede **total completo**; subtotal não conflitante ainda pode ser mostrado com aviso. Para duas parcelas ligadas ao mesmo evento (ex.: ajuste e oportunidade), excluir ambas até usuário remover uma ou declarar e conciliar parcelas incrementais distintas. Mudanças invalidam a confirmação afetada; o sistema não escolhe automaticamente a maior para inflar custo.
 
+**RN-09a — confirmação contextual (CNB-REV-01):** apresentar simultaneamente natureza, valor, origem e relação de E/A/O, com o subtotal R para identificar despesa já incluída nas horas. Para cada efeito candidato à inclusão, exigir resposta específica sobre sua relação com R e com os demais efeitos candidatos: `distinto`, `sobreposto`, `nao_sei` ou `parcela_incremental_distinta`. Cada resposta identifica as naturezas comparadas e os valores/origens vigentes; não existe checkbox global “conciliado”. Referências diferentes, inclusive geradas automaticamente, não preenchem nem habilitam confirmação por si. Origem desconhecida, comparação sem resposta ou `nao_sei` mantém os efeitos envolvidos fora do subtotal conciliado, com motivo e incompletude.
+
+Se houver mesma referência ou sobreposição declarada, excluir os efeitos envolvidos até retirar a parcela sobreposta ou discriminar, na confirmação contextual, as naturezas e os valores incrementais não sobrepostos. Usar os campos monetários existentes para informar somente esses valores elegíveis, após conciliação externa; não criar segunda rubrica, upload ou campo de cliente. A confirmação `parcela_incremental_distinta` identifica cada natureza, valor incluído e natureza comparada, sem importar documentos. Alteração de valor, origem, estado, referência ou relação invalida as confirmações que envolvem a parcela; alterar R invalida as comparações com R. Exibir “Declaração contextual do usuário; a ferramenta não verifica documentos nem comprova ausência de duplicidade”. No exemplo do guia, relações são premissas fictícias explicitamente rotuladas, nunca confirmação auditada do usuário.
+
 **RN-10:** salários já incluídos no custo-hora não são lançados outra vez; tempo de investigação/retrabalho não soma novamente ao bloco de dev/QA. Serviço de fornecedor incluído na taxa/contrato fica fora. Crédito da mesma venda não recuperável não soma à margem da mesma transação sem parcela distinta conciliada.
 
 **RN-11:** indisponibilidade é contexto. Horas do time durante outage já entram em R. SLA/crédito entra em A ou E conforme natureza validada; margem de vendas não recuperadas entra em O se distinta. Não usar receita/hora × downtime como perda automática. Receita adiada/recuperada não é oportunidade perdida. Churn, reputação, produtividade de cliente, multa potencial e estoque de dívida técnica são impactos “não monetizados” no MVP, sem valores padrão ou inclusão genérica em T. Futuras rubricas exigem análise financeira e versão metodológica.
 
 **RF-03 resultado:** quatro naturezas segregadas, T ou subtotal, M/Y quando N válido, memória por linha, origens, excluídos e limites. Se T incompleto, M/Y também recebem “Projeção apenas das parcelas mensuradas”. N desconhecido → M/Y “não calculável”, não zero. N=0 → projeções R$0,00 pela hipótese, preservando T do incidente. Um incidente real isolado não prevê doze meses.
 
-**RF-04 atualização:** edição marca resultado anterior “desatualizado” e desabilita relatório; recalcular após validação explícita. Resultado mantém snapshot imutável de entradas/estados/metodologia; nunca mistura novas entradas com total anterior.
+**RF-04 atualização (CNB-REV-02):** cada cálculo válido cria um snapshot imutável, com entradas, estados, confirmações contextuais, exclusões, resultados, `schema_version`, `product_version`, `methodology_version`, versão do guia e `snapshot_hash`. Cada solicitação de relatório (impressão ou e-mail) recebe `request_id` próprio e fica vinculada àquele snapshot/hash e à versão metodológica antes de renderizar ou iniciar POST. O contrato de canonicalização está em Arquitetura-Tecnica §3.
+
+Edição marca o resultado atual desatualizado e bloqueia novas solicitações de relatório até recalcular. Não modifica, substitui nem cancela presumidamente um relatório já solicitado: impressão e envio em curso continuam ligados ao snapshot original. Mostrar “Relatório solicitado com o cálculo anterior”, request_id, data e versão metodológica, separado do formulário editável. Novo cálculo gera outro snapshot; pedido explícito sobre ele gera outro request_id. Um timeout conserva o vínculo original e status “resultado de envio não confirmado”; consultar/reconciliar o mesmo pedido antes de repetir, sem reenviar valores novos sob o ID antigo ou criar automaticamente outro pedido. Hash identifica conteúdo, não prova autoria, conciliação ou entrega.
 
 ## 5. Exemplo canônico para demonstração
 
@@ -93,3 +99,7 @@ Precisão proposta: representar horas em centésimos de hora e taxas/valores em 
 | Y | M × 12 | R$171.360 |
 
 Todas as origens hipotéticas; fontes de evidência não anexadas. Exemplo não equivale a receita perdida ou caixa de R$4.760. Não é benchmark nem economia proporcionada pela GenTests.ai.
+
+## Histórico focal
+
+0.1.1: tratamento documental CNB-REV-01–03 do REV-PROD-CNB-001; confirmações contextuais, vínculo de relatório e clareza de 744h. Fórmulas, escopo e vetores financeiros preservados; revalidação independente pendente.
