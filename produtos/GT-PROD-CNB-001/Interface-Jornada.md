@@ -2,7 +2,7 @@
 id: GT-PROD-CNB-001-UX
 produto: GT-PROD-CNB-001
 tipo: interface-jornada
-versao: 0.1.0
+versao: 0.1.1
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -22,13 +22,13 @@ publicacao: bloqueada
 | Descoberta | Página HTML com H1 “Calculadora de custo da não qualidade de software”, propósito e limites; links contextuais do guia/site após aprovação |
 | Inicial vazio | Texto “Estime o impacto econômico de um incidente. Seus valores não são perdas verificadas”; botão secundário “Usar exemplo fictício” |
 | 1. Esforço | Horas únicas e custo-hora por dev/QA/suporte; operação opcional; estados desconhecido/N/A e conciliação junto dos campos |
-| 2. Efeitos distintos | Externo, ajuste de receita e margem não recuperável; ajuda com exclusões; referência local de evento; sem anexos/pessoas |
-| 3. Recorrência | Frequência opcional e hipótese constante; indisponibilidade só contextual |
+| 2. Efeitos distintos | Exibir E/A/O simultaneamente com valores/origens e R; confirmar cada comparação contextual conforme RN-09a, sem checkbox global ou validação por IDs diferentes; sem anexos/pessoas |
+| 3. Recorrência | Frequência opcional e hipótese constante; indisponibilidade só contextual, com ajuda “Até 744h nesta ferramenta; não é duração máxima real de incidentes” |
 | Revisar/calcular | Sumário de erro com foco no primeiro erro e mensagens por campo; não depender só de cor |
 | Resultado | Naturezas segregadas, total/subtotal e origem; projeções condicionais; memória e exclusões ao alcance da leitura |
 | Próxima ação | “Conhecer a metodologia no guia” e “Conversar sobre como medir esses custos”; contato voluntário, sem preço/oferta nova |
 | Relatório | Imprimir localmente; opção “Receber este relatório por e-mail” se componente aprovado/operacional |
-| Editar/limpar | Preserve valores ao navegar; resultado desatualizado após edição; confirmar substituição por exemplo ou limpeza |
+| Editar/limpar | Preserve valores ao navegar; edição desatualiza resultado e impede novo relatório até recalcular; pedido anterior mantém snapshot imutável e status separado; limpar/exemplo não cancela envio já solicitado |
 | Falha de rede/envio | Cálculo continua utilizável; envio com status verdadeiro, preserva snapshot sem repetir automaticamente |
 
 Microcopy de resultado completo: “Impacto econômico gerencial estimado por incidente: R$ X. Valores informados por você; sem auditoria ou comprovação de perdas.”
@@ -56,7 +56,11 @@ Entrega nunca depende desse opt-in. Não adicionar checkbox genérica de “LGPD
 
 **EMAIL-02:** relatório HTML com alternativa texto: data, código aleatório de solicitação, versões do produto/método/guia, entradas, proveniência, cálculo linha a linha, arredondamento, naturezas, T/M/Y, hipótese constante, ausências/conflitos e limites. Não incluir rastreio de abertura/pixel ou links que contenham valores/e-mail. Assunto neutro; não usar cifras no assunto. Sem link público persistente para relatório individual; enviar conteúdo no e-mail. Guide link somente após autorização de distribuição do guia exato.
 
-**EMAIL-03:** estados rascunho → validando → aceito para processamento → enviado ao provedor → entregue (somente com evidência de entrega) ou falhou. 202/resposta do provedor não prova caixa de entrada, leitura ou interesse. Reenvio explícito com idempotência; não disparar campanha ou follow-up automático.
+**EMAIL-03 (CNB-REV-02):** ao solicitar, congelar o snapshot do resultado exibido e associar request_id, snapshot_hash e methodology_version antes de enviar. Estados rascunho → validando → aceito para processamento → enviado ao provedor → entregue (somente com evidência de entrega), falhou ou resultado não confirmado. 202/resposta do provedor não prova caixa de entrada, leitura ou interesse.
+
+Se editar, limpar ou carregar exemplo após o pedido, o formulário muda, mas o envio em curso conserva o snapshot anterior. Exibir status separado com request_id, data e versão metodológica, avisando “Este pedido usa o cálculo anterior”; novos relatórios exigem novo cálculo válido e ação explícita. A impressão também captura o snapshot antes de abrir/renderizar o relatório, com request_id local; não lê campos vivos durante a paginação.
+
+Timeout não significa falha definitiva nem autoriza reenvio cego: preservar request_id/snapshot/hash/versão e reconciliar o estado do mesmo pedido conforme contrato técnico. Se inconclusivo, manter “resultado de envio não confirmado” e impedir retry que possa duplicar envio; nunca substituir o conteúdo de um pedido existente pelos dados editados. Não disparar campanha ou follow-up automático.
 
 **EMAIL-04:** entrega solicitada, marketing, telemetria e contato são finalidades separadas. GT-LGPD-001 §9 conserva bases candidatas; legítimo interesse exige teste específico quando escolhido; gratuidade não prova art. 7 V. Direção/jurídico valida base por finalidade, controlador/canal, subprocessadores/países/mecanismo internacional, termos e prazos/eventos de retenção antes da captura.
 
@@ -73,3 +77,7 @@ Links do guia, soluções e contato após aprovação; sitemap e robots atualiza
 Dados estruturados opcionais WebApplication/Breadcrumb somente se refletirem conteúdo real; sem review/rating inventado ou promessa de rich result/posição. Conteúdo editorial informativo, sem extrapolar CISQ/NIST para empresas brasileiras. UTMs permitem somente códigos de campanha previamente autorizados (sem nomes/e-mails); não guardar querystring completa.
 
 Convite para conversa não implica diagnóstico gratuito ou compra. Qualificação futura segue PLN-COM-001: dor confirmada, interlocutor, jornada, urgência e próximo passo; CRM existente registra oportunidade apenas sob autorização, com origem calculadora e preferências por finalidade.
+
+## Histórico focal
+
+0.1.1: CNB-REV-01–03 — confirmação contextual, rótulo do limite de contexto e estados do relatório vinculados a snapshot. Não ativa qualquer fluxo; revalidação focal pendente.
