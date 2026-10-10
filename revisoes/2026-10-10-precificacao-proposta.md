@@ -103,3 +103,17 @@ Auditoria de Processos QA R$2.490: R$1.245 + R$1.245.
 [ ] Jurídico/revisor valida cláusulas de adiantamento, cancelamento, aceite, suspensão e parcelamento.
 [ ] Atualizar catálogo, modelo de proposta e CRM **somente após aprovação** e sincronizar o backlink no Obsidian.
 [ ] Autorizar separadamente cada contato comercial antes de envio.
+
+## Revisão executiva da solicitação de 10/10 — execução comercial
+A direção solicitou validação tributária, contratual, homologação de preços e apresentação visual. Decisão tratada como **autorização de preparação comercial**, não confirmação técnica de tributos ou de cláusulas jurídicas ainda não revisadas. Os preços R$490 / R$1.490 / R$2.490 são a **tabela promocional escolhida comercialmente pela direção**, limitada a 3 clientes pioneiros, sujeita à validação final da margem com a tributação e o contrato definitivos antes de emissão de propostas vinculantes. O catálogo de 09/10 não foi alterado. A presente nota mantém status proposta e exige incorporação ao Vault Obsidian e revisão de PR.
+
+### Evidência oficial consultada
+- Artigo 597 do Código Civil (Lei 10.406/2002): remuneração pode ser convencionada adiantada ou parcelada. Fonte https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm
+- Resolução CGSN 140/2018: classificação das receitas e fator R, quando aplicável, podem alterar o anexo; não extrapolar DAS anterior para novos serviços. Fonte https://normas.receita.fazenda.gov.br/sijut2consulta/normas.receisulta/link.action?idAto=92278&visao=compilado
+- Prefeitura Curitiba NFS-e: https://servicos.curitiba.pr.gov.br/iss-curitiba-acesso-ao-sistema-emissao-da-nota-curitibana-nfs-e/601
+
+### Entregável visual
+Apresentação comercial em PowerPoint editável de 7 slides gerada em 10/10/2026, pendente de revisão visual final e publicação no Drive. Sem valores que dependam de homologação fiscal. Não alegar case ou resultado não comprovado.
+
+### Condições mínimas do contrato comercial a revisar
+Objeto/escopo; ativos autorizados; dependências e acesso; direitos sobre relatório/evidências; proteção de dados e sigilo; marcos de 50% na assinatura e 50% na entrega com aceite objetivo e prazo de contestação; limites de reteste; alteração de escopo; atrasos por parte do contratante; emissão de NFS-e em competência fiscal aplicável; cancelamento, reembolso proporcional, inadimplência e resolução de controvérsias. Não tratar como parecer jurídico.
