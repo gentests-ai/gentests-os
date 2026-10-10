@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-001
 tipo: diagnostico-privacidade
-versao: 0.1.0
+versao: 0.2.0
 status: proposta-para-revisao-independente
 data: 2026-10-10
 aprovador: Direcao
@@ -46,7 +46,7 @@ A LGPD atribui papéis conforme quem decide finalidades e meios (`controlador`) 
 ## 5. Referências legais rastreáveis
 - LGPD, Lei 13.709/2018: arts. 6 (princípios), 7/8/10 (bases, consentimento e legítimo interesse), 9 (transparência), 18 (direitos), 37 (registro de operações), 41 (encarregado), 46–49 (segurança), 48 (incidentes), 33–36 (transferência internacional). Texto oficial: <https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm>.
 - ANPD Res. 2/2022, pequenos agentes: <https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/resolucao-cd-anpd-no-2-de-27-de-janeiro-de-2022>.
-- ANPD Res. 15/2024, comunicação de incidentes: <https://www.gov.br/anpd/pt-br/assuntos/regulacao/analise-de-impacto-regulatorio/>.
+- ANPD Res. 15/2024, comunicação de incidentes: <https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/documentos/rcis___anonimizado_final_ocultado_2_parte3.pdf>.
 - ANPD Res. 19/2024, transferência internacional: <https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/resolucao-cd-anpd-no-19-de-23-de-agosto-de-2024>.
 - ANPD Guia Cookies: <https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia_orientativo_cookies_e_protecao_de_dados_pessoais>.
 - ANPD guias para pequenos agentes e legítimo interesse: <https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes>.
@@ -62,3 +62,50 @@ A LGPD atribui papéis conforme quem decide finalidades e meios (`controlador`) 
 | DEC-LGPD-06 | autorizar PR de implementação no site **somente** após parecer independente e deliberação | **pendente** |
 
 **Saída:** diagnóstico preliminar apto a revisão documental independente, não apto a declaração de conformidade operacional ou lançamento de landing page.
+
+
+## 7. Tratamento focal REV-LGPD-001 — matriz única LGPD-REV-01 a 07 (v0.2.0)
+
+Origem: [parecer independente PR #18](https://github.com/gentestsai-sudo/gentests-os/pull/18), emitido sobre commit `48993e09b04e554f0724640f5b0265d8dcd71883`. **Tratamento documental não é fechamento autoatribuído do achado.** Revisor deverá classificar o delta; Diretor(a) decidirá fatos institucionais e uso operacional.
+
+| ID | Gravidade | Tratamento documental e evidência no pacote | Situação/resíduo |
+|---|---|---|---|
+| LGPD-REV-01 | Alta para lançamento | Checklist §8 de controlador, canal, fornecedor, subprocessadores, país e mecanismo de transferência | **Tratado na especificação; comprovação real pendente Direção/provedores** |
+| LGPD-REV-02 | Alta para ativação | Matriz por finalidade e base jurídica candidata §9 e política GT-LGPD-002 §9 | **Tratado documentalmente; base definitiva condicionada à validação jurídica e Direção** |
+| LGPD-REV-03 | Média jurídica | GT-LGPD-003 §7, tabela com regras gerais, prazo diferenciado e marco inicial | **Tratado documentalmente; enquadramento pequeno porte pendente** |
+| LGPD-REV-04 | Média | GT-LGPD-004 §6, alterações do formulário atual em PR de site futura | **Requisito especificado; site intocado** |
+| LGPD-REV-05 | Média | GT-LGPD-003 §8, matriz por cópias/sistemas com supressão e retenção | **Tratado documentalmente; prazos/tecnologia reais pendentes** |
+| LGPD-REV-06 | Média | GT-LGPD-004 §7 comparação comercial x privacidade e aplicabilidade LP-01–12 | **Alternativas preservadas; escolha da Direção** |
+| LGPD-REV-07 | Baixa | Substituída referência indireta à Res. 15/2024 por ato oficial identificado e página operacional ANPD | **Referência corrigida; conferir vigência antes de operação** |
+
+### 8. Checklist de identificação e fornecedores — LGPD-REV-01
+Preencher somente com documento/evidência; `PENDENTE` não equivale a ausência de controle.
+
+| Item a confirmar | Responsável proposto | Prova requerida | Estado |
+|---|---|---|---|
+| Nome e natureza jurídica do controlador por operação; CNPJ **se existir** | Direção | documentação verificada, identificação para aviso público, responsável pelas decisões | PENDENTE |
+| Canal de privacidade e responsável por respostas/incidentes; necessidade/dispensa de encarregado | Direção + jurídico | caixa realmente monitorada e orientação válida para pequeno porte | PENDENTE |
+| FormSubmit, conta Gmail, Cloudflare Pages, Sheets/Drive e qualquer analytics | responsável técnico + Direção | nome legal do prestador, termos atuais, DPA/condições aplicáveis, acesso, retention e subprocessadores | PENDENTE |
+| Papel jurídico de cada fornecedor por operação (controlador independente, operador etc.) | jurídico + Direção | finalidades e decisões de meios, contrato, compartilhamentos | PENDENTE |
+| Países/origens/destinatários e existência efetiva de transferências internacionais | técnico + jurídico | locais de tratamento, acessos internacionais, subprocessadores e rotas por fluxo | PENDENTE |
+| Transferência, se efetiva | jurídico + Direção | hipótese válida de tratamento da LGPD art. 7/11 **mais** mecanismo próprio do art. 33, Res. 19/2024; cláusulas e evidência, quando pertinentes | PENDENTE |
+| Retenção/exclusão técnica e backup em cada provedor | Infra + operação | telas/configurações sanitizadas e ensaio sintético | PENDENTE |
+
+**Bloqueio:** nenhuma afirmação de adequação internacional por nome de fornecedor; sem controlador, base e canal definidos, política externa e nova captura continuam não autorizadas.
+
+### 9. Matriz de finalidade, operações e bases legais candidatas — LGPD-REV-02
+
+| Operação/finalidade | Dados necessários e minimização | Hipótese jurídica candidata (**não aprovada**) | Necessidade, expectativas/oposição, terceiros/aviso e prova |
+|---|---|---|---|
+| Resposta ao contato espontâneo | e-mail e descrição mínima; nome apenas se necessário | art. 7 V **se** etapa preliminar solicitada relacionada a possível contrato; alternativamente art. 7 IX sujeito a teste; consentimento só se livre e adequado | preservar escopo do pedido; informação de FormSubmit/Gmail, canal e descarte; avaliar se checkbox atual é indevida |
+| Download direto do guia | sem dado inserido pelo visitante; logs de acesso tratados à parte | sem base para cadastro inexistente; logs conforme linha abaixo | entregar mesmo sem marketing; aviso sobre tecnologia efetivamente usada |
+| Entrega do guia por e-mail solicitado | e-mail; não exigir nome/telefone/empresa | art. 7 IX somente após teste de balanceamento da operação, ou outra hipótese juridicamente justificada; **não presumir art. 7 V por gratuidade** | finalidade limitada à entrega; alternativa direta; registro mínimo de entrega e descarte |
+| Conteúdo comercial opcional | e-mail e preferência | consentimento art. 7 I/8 como desenho preferido; outros fundamentos só com análise específica | opt-in separado, desmarcado, sem prejuízo do guia; versão/texto/data/origem, revogação e descadastro |
+| Prospecção B2B individual | contato profissional mínimo, empresa, fonte e etapa | art. 7 IX sujeito a teste de legítimo interesse por contexto | expectativa razoável, necessidade, transparência, oposição, opt-out, fonte/CRM e limites de abordagem |
+| Logs de segurança / abuso | IP ou identificador estritamente necessário se comprovada coleta | art. 7 IX avaliado ou outra hipótese pertinente; não inventar obrigação legal genérica | prazo curto proporcional, acesso mínimo, fornecedores, cookies e descarte; bloquear uso secundário de anúncios |
+| Direitos de titulares/incidentes | identificador mínimo e protocolo | obrigação legal/regulatória quando efetivamente aplicável (art. 7 II), ou fundamento válido específico | verificar identidade proporcional e período legal de evidências; restringir conteúdo |
+
+A decisão final exige: controlador por operação, teste de necessidade, avaliação de legítimo interesse quando invocado, propósito, destinatários/transferências, cláusula do aviso, prazo e evidências. Validar com jurídico antes de ativar; dados sensíveis inesperados requerem análise do art. 11 quando cabível, não aproveitamento para marketing.
+
+### 10. Bloqueios reais para publicação
+Direção deve confirmar identidade/canal, bases por fluxo, modalidade do guia, fornecedores/transferências, retenção e atribuição operacional. Site requer PR própria, aviso publicável e testes sintéticos aplicáveis. Revisor independente deve apenas revalidar LGPD-REV-01–07 e novas regressões materiais, sem auditoria geral.
