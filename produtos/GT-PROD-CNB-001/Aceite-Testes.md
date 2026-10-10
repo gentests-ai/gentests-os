@@ -2,7 +2,7 @@
 id: GT-PROD-CNB-001-QA
 produto: GT-PROD-CNB-001
 tipo: matriz-aceite-testes
-versao: 0.1.0
+versao: 0.1.1
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -75,3 +75,34 @@ Motor: testes unitários/tabela de vetores do guia, estados e limites; proprieda
 UI: testes de integração e e2e com fixtures fictícias, fluxo vazio→exemplo→editar→erro→recalcular→imprimir. E-mail: ambiente isolado aprovado e mailbox sintética; sem destinatários reais/prospectos por esta tarefa. Acessibilidade: automação mais teclado/leitores de tela. Visual: todas as telas e relatório final, estados longos/erros/mobile, screenshots vinculados a commit e método; qualquer conteúdo material cortado/sobreposto é bloqueante, mesmo que testes automatizados passem.
 
 Para cada execução futura: CA, data, ambiente, commit do site, versão do método, fixture, esperado/obtido, status passou/falhou/não verificado/N/A justificado, captura sanitizada e executor. Nunca marcar passou porque cenário foi escrito. Revisor independente inspeciona evidências do artefato exato. Parecer e autorização de implementação/publicação/merge são atos separados.
+
+## 4. Cenários complementares da rodada focal v0.1.1
+
+Os **34 critérios CA-01–CA-34 acima permanecem integralmente preservados**. CF-01–CF-08 são cenários subordinados aos critérios existentes, não nova fase ou funcionalidade. Todos são especificados e **não executados no produto**.
+
+| Cenário / achado | Critérios existentes | Ação/fixture sintética | Resultado obrigatório |
+|---|---|---|---|
+| CF-01 / CNB-REV-01 — negativo | CA-06/18 | R=2.260 e E=600 com conciliação contextual válida; A=900 e O=1.000 recebem refs diferentes automáticas, mas comparação A/O sem resposta específica ou somente booleano genérico. Repetir com origem A desconhecida e tentativa de confirmed=true | Refs diferentes não confirmam ausência de duplicidade; comparação sem identificação/avaliação ou origem desconhecida é inelegível. A/O ficam excluídos, subtotal 2.860 incompleto, com motivo. Não aceitar total 4.760 nem apresentar auditoria |
+| CF-02 / CNB-REV-01 | CA-06/08 | A/O com mesma referência; tentar “distinto” genérico. Depois retirar O, ou informar nos campos existentes somente valores incrementais externos conciliados e selecionar parcela_incremental_distinta com naturezas/valores comparados | Primeiro, ambas excluídas. Segundo, incluir somente parcelas com resolução contextual explícita; não criar outra rubrica. Confirmar que E já incluído em R continua excluído |
+| CF-03 / CNB-REV-01 | CA-16/18 | Após confirmação contextual de E/A/O/R, editar valor, origem, estado, referência ou relação; testar edição de R | Invalidar todas as comparações afetadas, bloquear inclusão dessas parcelas até nova avaliação contextual; edição de R invalida comparações com R. Origem hipotética continua rotulada, nunca comprovada |
+| CF-04 / CNB-REV-02 | CA-16/21 | Calcular S1; solicitar impressão P1; editar formulário durante preparação/paginação | P1/request_id fica ligado ao snapshot/hash/metodologia S1 congelado antes de renderizar; nenhuma página usa valores editados. Novos relatórios bloqueados até recalcular; pedido anterior identificado separadamente |
+| CF-05 / CNB-REV-02 | CA-16/26 | Calcular S1, pedir e-mail Q1 e editar/limpar/carregar exemplo enquanto envio está em curso. Recalcular S2 e solicitar explicitamente outro relatório | Q1 conserva S1/hash/versão, data e status “cálculo anterior”; formulário não cancela nem sobrescreve envio. Novo pedido Q2 usa novo snapshot S2, sem reaproveitar Q1. Sem ação explícita, nenhum novo envio |
+| CF-06 / CNB-REV-02 — timeout | CA-25/26 | Timeout após POST aceito, timeout do provedor e tentativa de retry após edição; simular provedor aceitou / não aceitou com prova / estado inconclusivo | Manter Q1/S1/hash/versão e status não confirmado até reconciliação. Aceitou: atualizar estado sem reenviar. Não aceitou comprovadamente: retomar mesmo pedido sob idempotência. Inconclusivo: bloquear retry de envio. Não trocar por S2 ou criar ID novo automaticamente; não declarar entregue |
+| CF-07 / CNB-REV-02 — integridade | CA-26/27 | Mesmo request_id com snapshot/hash/versão/envelope idênticos; depois alterar snapshot, destinatário ou versão. Também enviar hash inconsistente, envelope com metodologia diferente ou versão não suportada | Pedido idêntico retorna estado sem novo envio; alteração sob mesmo ID resulta conflito 409; hash/versões inválidos rejeitados antes de aceitar. Backend recalcula pela versão suportada correspondente, sem migração silenciosa. Hash não dispensa validação nem atesta entrega |
+| CF-08 / CNB-REV-03 | CA-09/14 | Informar 744h e 744,01h de contexto; simular incidente real superior a 31 dias | 744h permitido somente como limite operacional do campo do MVP; 744,01h rejeitado sem truncar com aviso “não é duração máxima real de incidentes”. Campo de contexto permanece não informado, não vira zero e não bloqueia parcelas monetárias válidas nem as monetiza |
+
+## 5. Matriz de tratamento REV-PROD-CNB-001
+
+Fonte: [parecer PR #30](https://github.com/gentestsai-sudo/gentests-os/pull/30), commit do parecer `dd28e2371e9a7e958d2c3fa0ffbb826aac2481b4`, sobre execução `dd00bb5231cb9d026c7e36a28138c54d5bf851e3`. Uma única rodada focal, restrita a CNB-REV-01–03.
+
+| Achado / severidade | Tratamento documental e localização | Cenários / estado |
+|---|---|---|
+| CNB-REV-01 / média | FUN IN-10/RN-09a identifica naturezas/valores/origens comparados; refs diferentes e checkbox global não conciliam. UX §1 mostra rubricas simultâneas. TEC §2 substitui booleano genérico por comparações contextualizadas e invalidação após edição | CF-01–03 ligados a CA-06/08/16/18; tratado documentalmente pelo autor, **fechamento independente pendente** |
+| CNB-REV-02 / média | FUN RF-04, UX EMAIL-03 e TEC §3 fixam snapshot/hash/request_id/metodologia antes da impressão/POST; edição não muda pedido em curso; timeout conserva vínculo original, exige reconciliação e impede retry cego | CF-04–07 ligados a CA-16/21/25–27; tratado documentalmente pelo autor, **fechamento independente pendente** |
+| CNB-REV-03 / baixa | FUN IN-13 e UX §1 explicitam 744h/31 dias como limite operacional de contexto; excedente não define duração máxima real, não trunca, monetiza ou impede parcelas válidas | CF-08 ligado a CA-09/14; tratado documentalmente pelo autor, **fechamento independente pendente** |
+
+Limitações residuais: conciliação continua declaratória sem auditoria de documentos; hash não é assinatura/prova financeira; nenhuma integridade, idempotência, UI ou entrega foi demonstrada por software. Provedor, retenção/janela de idempotência e autorização de e-mail permanecem pendentes nos gates já existentes; não antecipar Fase 2. Prioridade comercial de primeiros clientes mantida.
+
+Arquivos revisados para 0.1.1: Especificacao-Funcional.md, Interface-Jornada.md, Arquitetura-Tecnica.md e Aceite-Testes.md. README.md e Backlog-Riscos-Decisoes.md permanecem na baseline 0.1.0, sem nova visão, backlog, estimativa ou decisões. Histórico 0.1.0 preservado no Git; a identificação 0.1.1 corresponde somente ao delta focal.
+
+**Solicitação de revalidação:** conferir exclusivamente CNB-REV-01–03, CF-01–08, coerência entre os quatro documentos e preservação dos 34 CAs e fórmulas. Sem nova auditoria integral. PR #28 deve permanecer aberta/Draft; encerramento documental cabe à Direção após parecer. Nenhuma implementação, alteração de site, contratação, envio, captação, publicação ou merge autorizado/executado nesta rodada.
