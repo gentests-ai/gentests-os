@@ -1,0 +1,116 @@
+{
+  "pdf_sha256": "44a2cae3dcb8706fb0674b8140a6e8a29edd9688bc6782c9f945dfdcf277b60e",
+  "generated_utc": "2026-10-10T20:38:08.665509+00:00",
+  "pages": [
+    {
+      "page": 1,
+      "clipped_text": [],
+      "overlapping_text_spans": [],
+      "normalized_approved_text_preserved": true,
+      "body_font_pt": 12,
+      "mobile_fit_width_body_css_px": 7.8655462184873945,
+      "mobile_200_percent_body_css_px": 15.731092436974789
+    },
+    {
+      "page": 2,
+      "clipped_text": [],
+      "overlapping_text_spans": [],
+      "normalized_approved_text_preserved": true,
+      "body_font_pt": 12,
+      "mobile_fit_width_body_css_px": 7.8655462184873945,
+      "mobile_200_percent_body_css_px": 15.731092436974789
+    },
+    {
+      "page": 3,
+      "clipped_text": [],
+      "overlapping_text_spans": [],
+      "normalized_approved_text_preserved": true,
+      "body_font_pt": 12,
+      "mobile_fit_width_body_css_px": 7.8655462184873945,
+      "mobile_200_percent_body_css_px": 15.731092436974789
+    },
+    {
+      "page": 4,
+      "clipped_text": [],
+      "overlapping_text_spans": [],
+      "normalized_approved_text_preserved": true,
+      "body_font_pt": 12,
+      "mobile_fit_width_body_css_px": 7.8655462184873945,
+      "mobile_200_percent_body_css_px": 15.731092436974789
+    },
+    {
+      "page": 5,
+      "clipped_text": [],
+      "overlapping_text_spans": [],
+      "normalized_approved_text_preserved": true,
+      "body_font_pt": 12,
+      "mobile_fit_width_body_css_px": 7.8655462184873945,
+      "mobile_200_percent_body_css_px": 15.731092436974789
+    }
+  ],
+  "hyperlink": {
+    "annotation_rect_top_origin": [
+      43.5,
+      507.3828125,
+      235.41600036621094,
+      520.3828125
+    ],
+    "text_rect_top_origin": [
+      44.0,
+      507.8828125,
+      234.93199157714844,
+      519.8828125
+    ],
+    "fully_contains_visible_text_bbox": true,
+    "uri": "https://gentests-site.pages.dev/",
+    "http": {
+      "status": 200,
+      "url": "https://gentests-site.pages.dev/",
+      "title": "GenTests | Qualidade de software que protege a experiência do cliente",
+      "checked_utc": "2026-10-10T20:38:15.065247+00:00"
+    },
+    "native_reader_click": "NOT_TESTED: cloud browser rejected file:// protocol; no workaround attempted"
+  },
+  "accessibility": {
+    "lang": "pt-BR",
+    "marked": true,
+    "structure_roles": {
+      "/Document": 1,
+      "/Sect": 5,
+      "/P": 19,
+      "/H1": 5,
+      "/H2": 13,
+      "/L": 2,
+      "/LI": 11,
+      "/Lbl": 11,
+      "/LBody": 11,
+      "/Table": 2,
+      "/TR": 7,
+      "/TD": 17,
+      "/Link": 1
+    },
+    "outline_count": 5,
+    "pdf_ua_certified": false,
+    "screen_reader_tested": false,
+    "residuals": [
+      "Financial tables use TD without added column headers, preserving approved content; assistive reading must be validated.",
+      "Fixed A4 layout needs zoom/pan at 390 px; no responsive reflow claim.",
+      "PDF/UA validator and screen-reader user testing remain necessary before any compliance claim."
+    ]
+  },
+  "font_resources": [
+    {
+      "resource": "/F1+0",
+      "font": "/AAAAAA+DejaVuSans-Bold",
+      "font_file2": true,
+      "to_unicode": true
+    },
+    {
+      "resource": "/F2+0",
+      "font": "/AAAAAA+DejaVuSans",
+      "font_file2": true,
+      "to_unicode": true
+    }
+  ],
+  "numbering_1_to_7": true
+}

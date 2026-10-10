@@ -1,0 +1,222 @@
+{
+  "artifact": "GT-MKT-CNQ-001",
+  "version": "0.4.2",
+  "source_commit": "86121f4c1273a02c58f66ffa12af444a90b7abb0",
+  "review": "REV-MKT-CNQ-007 / PR #27",
+  "pdf_path": "comercial/GT-MKT-CNQ-001-Guia-Executivo-v0.4.2.pdf",
+  "pdf_bytes": 67317,
+  "pdf_sha256": "44a2cae3dcb8706fb0674b8140a6e8a29edd9688bc6782c9f945dfdcf277b60e",
+  "pdf_version": "1.7",
+  "page_count": 5,
+  "repeated_generation_identical": true,
+  "dependencies": {
+    "python": "3.12.14",
+    "reportlab": "4.4.9",
+    "pypdf": "6.10.0",
+    "pymupdf": "1.26.6",
+    "pillow": "12.3.0",
+    "poppler": "26.05.0",
+    "pdfjs": "5.6.205"
+  },
+  "evidence": [
+    {
+      "file": "checks-v0.4.2.json",
+      "bytes": 3335,
+      "sha256": "f68654065aadc960b00bad97e45473ac061849db87077dee9e7b5f5e611fd2c2"
+    },
+    {
+      "file": "comparison-1.png",
+      "bytes": 232560,
+      "sha256": "30bec6ad29e09b96e87eef9a5fb93d603f7f8afcf4a4c706ac1ed91768dfb34c",
+      "dimensions": [
+        1210,
+        887
+      ]
+    },
+    {
+      "file": "comparison-2.png",
+      "bytes": 229094,
+      "sha256": "d98a8ca3c98ac87b43f6191373eb24d7e48af5ce2a859ef3dbfc530074dbef67",
+      "dimensions": [
+        1210,
+        887
+      ]
+    },
+    {
+      "file": "comparison-3.png",
+      "bytes": 231345,
+      "sha256": "c0f654c96693992bb5d6259dd43cddcb50c92c5b1e977a80a14c6ae37d35db20",
+      "dimensions": [
+        1210,
+        887
+      ]
+    },
+    {
+      "file": "comparison-4.png",
+      "bytes": 242025,
+      "sha256": "c0afe4773dc9237de7efe7285ec0056234b1ef7661bc5bee017ba48542362379",
+      "dimensions": [
+        1210,
+        887
+      ]
+    },
+    {
+      "file": "comparison-5.png",
+      "bytes": 292909,
+      "sha256": "b1cf2e7e6fc2955a7bc0237129bf091707d20a012c9dabe6987465b8cd49d44b",
+      "dimensions": [
+        1210,
+        887
+      ]
+    },
+    {
+      "file": "mobile-simulation-1.png",
+      "bytes": 147292,
+      "sha256": "0e2084243ec59ef8614ae7043386337ecf9e9a3d447c62a6b5b3e53e5728026e",
+      "dimensions": [
+        1190,
+        1154
+      ]
+    },
+    {
+      "file": "mobile-simulation-2.png",
+      "bytes": 148452,
+      "sha256": "e7425d8dcf13ec593957f6e08bafab6f8e2df6e943eb5fceaeabe1d95c837535",
+      "dimensions": [
+        1190,
+        1154
+      ]
+    },
+    {
+      "file": "mobile-simulation-3.png",
+      "bytes": 151639,
+      "sha256": "0360971b9dad88ab41280f7228d074565dcdbd8177648228bbe3a91d5824be6b",
+      "dimensions": [
+        1190,
+        1154
+      ]
+    },
+    {
+      "file": "mobile-simulation-4.png",
+      "bytes": 156539,
+      "sha256": "b81b17c3317aae481f621c04c278c0e9377ac1227a9ac5f52d31100024ba2cb0",
+      "dimensions": [
+        1190,
+        1154
+      ]
+    },
+    {
+      "file": "mobile-simulation-5.png",
+      "bytes": 190276,
+      "sha256": "7925536db2d67fe739ef55c2aea76e8a2c7cf979605d0dcc9989b7846f97ad97",
+      "dimensions": [
+        1190,
+        1154
+      ]
+    },
+    {
+      "file": "mupdf-1.png",
+      "bytes": 87526,
+      "sha256": "ce6662b08924c5c375fd64f49484eaf028b0262fe774aeb91df3017902ce47eb",
+      "dimensions": [
+        893,
+        1263
+      ]
+    },
+    {
+      "file": "mupdf-2.png",
+      "bytes": 89652,
+      "sha256": "f08a8c064cb38a5f582a5810ce0478a48c39f3105e27a2e1ed396719660b9a25",
+      "dimensions": [
+        893,
+        1263
+      ]
+    },
+    {
+      "file": "mupdf-3.png",
+      "bytes": 93391,
+      "sha256": "b3329064c3ddcbacacc22a271c69c636386091f39b9dc8ebbb32f22ff03e4c4c",
+      "dimensions": [
+        893,
+        1263
+      ]
+    },
+    {
+      "file": "mupdf-4.png",
+      "bytes": 95713,
+      "sha256": "6969ae2e6e46325d8542f424676617ac1afb5f732c3df70d3a945a1d34e73bab",
+      "dimensions": [
+        893,
+        1263
+      ]
+    },
+    {
+      "file": "mupdf-5.png",
+      "bytes": 113053,
+      "sha256": "d0e85e35cf8f0d96236c411b8a6bd9c3771434ce7949b82a01ec504a085cbfc4",
+      "dimensions": [
+        893,
+        1263
+      ]
+    },
+    {
+      "file": "page-1.png",
+      "bytes": 155478,
+      "sha256": "ee339c9abf0b0686f4d2a0cb6424c9f18f8bf10254ae057ac3ebcee860514e76",
+      "dimensions": [
+        1240,
+        1755
+      ]
+    },
+    {
+      "file": "page-2.png",
+      "bytes": 161823,
+      "sha256": "c1663b9c28c9bc67ae7caa18e59c55a81c8f8191dfa5e66b5be74ddf54a46a72",
+      "dimensions": [
+        1240,
+        1755
+      ]
+    },
+    {
+      "file": "page-3.png",
+      "bytes": 164216,
+      "sha256": "4e147c54176c4dca0cf8513ee80e4c1b89e81b7cb4ea7bfafc5bf2efe1456112",
+      "dimensions": [
+        1240,
+        1755
+      ]
+    },
+    {
+      "file": "page-4.png",
+      "bytes": 174009,
+      "sha256": "bcb0196aea9f7eee75ba3109ae9d9018ff94af0973ba1b6071f5900e1a59de4f",
+      "dimensions": [
+        1240,
+        1755
+      ]
+    },
+    {
+      "file": "page-5.png",
+      "bytes": 206758,
+      "sha256": "3f5bea1de37b58eb77437376cbccb3f3ea6c50c75003d8a6dab3f60f5309277b",
+      "dimensions": [
+        1240,
+        1755
+      ]
+    },
+    {
+      "file": "pdfjs-reader-api.json",
+      "bytes": 33430,
+      "sha256": "1f5d53656ecda59429fe34f3a36fe2b2c368a95a1c2017f73d64cacfbfeb0978"
+    },
+    {
+      "file": "README.md",
+      "bytes": 4333,
+      "sha256": "acc06dd376549af66464958e5bea29bc46800ad421e7480ef616930a5ee9951b"
+    }
+  ],
+  "no_distribution_authorization": true,
+  "physical_mobile_test": false,
+  "reader_ui_click_test": false,
+  "pdf_ua_certification": false
+}
