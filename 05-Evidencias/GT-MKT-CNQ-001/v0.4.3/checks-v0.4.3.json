@@ -1,0 +1,55 @@
+{
+  "version": "0.4.3",
+  "sha256": "0d667a4f7e77aae5fa26dd1aef3c007ebf1ce3ce1d7026acd6e70edbafac4b8a",
+  "bytes": 796103,
+  "logo_sha256": "6ee37fe355308b7ca82c3b80841e0b61c011355d82bc6f6d0dee7cbd1a46208c",
+  "logo_pixels": [
+    1613,
+    466
+  ],
+  "logo_rect_pdf": [
+    44,
+    170,
+    210,
+    60.66955982641041
+  ],
+  "logo_marked_artifact": true,
+  "pages": [
+    {
+      "page": 1,
+      "normalized_text_equal": true,
+      "links_equal": true,
+      "pixels_equal": false
+    },
+    {
+      "page": 2,
+      "normalized_text_equal": true,
+      "links_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "page": 3,
+      "normalized_text_equal": true,
+      "links_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "page": 4,
+      "normalized_text_equal": true,
+      "links_equal": true,
+      "pixels_equal": true
+    },
+    {
+      "page": 5,
+      "normalized_text_equal": true,
+      "links_equal": true,
+      "pixels_equal": true
+    }
+  ],
+  "practical_tests": {
+    "TP-01": "NÃO EXECUTADO",
+    "TP-02": "NÃO EXECUTADO",
+    "TP-03": "NÃO EXECUTADO"
+  },
+  "limitations": "Inspeção estrutural e renderização não substituem teste assistivo, clique em leitor ou telefone físico; sem certificação PDF/UA."
+}
