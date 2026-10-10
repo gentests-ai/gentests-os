@@ -69,3 +69,37 @@ Antes de confirmar PGDAS-D, fator R quando aplicável e código da NFS-e, simula
 
 ## Trilha de evidências
 Fontes: Catálogo Comercial Pacotes 2026 (Drive), Política de Precificação (Drive), Planejamento Financeiro e Roadmap (Drive), CRM (Sheets), contrato social e guias fornecidos em conversa. Não copiar documentos sensíveis para GitHub. Revisão criada em branch, sujeito a PR e homologação.
+
+
+## Adendo de 10/10/2026 — Condições de lançamento e faturamento (PROPOSTA)
+Solicitação da direção: priorizar primeiro cliente pagante, aceitando redução deliberada de margem com controle de custo, sem promover aprovação automática de preço. Campanha experimental limitada aos primeiros **3 clientes**, condicionada à homologação individual antes de ofertar.
+
+| Oferta | Catálogo de 09/10 | Condição de lançamento proposta | Redução |
+|---|---:|---:|---:|
+| QA Express | R$690 | R$490 | R$200 (29,0%) |
+| Auditoria Funcional | R$1.800 | R$1.490 | R$310 (17,2%) |
+| Auditoria de Processos QA | R$2.900 | R$2.490 | R$410 (14,1%) |
+
+Atenção: premissas gerais anteriores de margem foram calculadas com preços de catálogo, **não** com promoções. Antes de ofertar, recalcular impostos e cenários de horas pelo preço promocional e fixar tetos de esforço. Recomenda-se não cobrar abaixo de custos diretos, tributos e remuneração imputada à execução. Se não houver margem, reduzir escopo autorizado ou rejeitar oferta.
+
+### Faturamento proposto
+**Fonte preexistente:** o Catálogo Comercial de 09/10/2026 já contém regra **sugerida** de pagamento de **50% na aprovação e 50% na entrega**, além de marcos alternativos em projetos complexos; esta revisão propõe torná-la **padrão a homologar**, não declara aprovação preexistente. Para três propostas promocionais:
+
+- 50% como sinal/primeira parcela na formalização contratual e antes de iniciar a execução; 50% no aceite formal de entrega delimitada por evidência e prazo de validação previsto em contrato. Definir prazo de pagamento explícito e gatilho objetivo para cobrança.
+- Parcelamento diferente, antecipação integral ou serviços recorrentes: exceção só mediante aprovação específica, análise de risco de crédito e caixa; a empresa não deve financiar execução sem controle.
+- Emitir NFS-e conforme regra municipal/competência e orientação contábil; **não presumir** que o momento do pagamento é o momento fiscal da emissão.
+- Definir suspensão, inadimplência, cancelamento, reembolso e mudanças de escopo com advogado/contador antes de fechar modelo contratual; não impor retenção não reembolsável sem análise jurídica.
+- Conferir dados de cobrança com o responsável financeiro do cliente; não inserir dados bancários em repositório público nem no Obsidian.
+- Critério operacional: 'contrato aceito + pagamento de entrada comprovado' é marco de início, mas aceite de entrega e recebimento final têm status separados no CRM.
+
+### Simulação do caixa (valores promocionais; ainda não aprovados)
+QA Express R$490: 50% R$245 na contratação + R$245 na entrega.
+Auditoria Funcional R$1.490: R$745 + R$745.
+Auditoria de Processos QA R$2.490: R$1.245 + R$1.245.
+
+### Próximos gates
+[ ] Contador confirma alíquota efetiva, CNAE/código de serviço, NFS-e, regime de competência.
+[ ] Direção decide campanha, preço por SKU, prazo da condição, limite de clientes, margem mínima e esforço máximo.
+[ ] Jurídico/revisor valida cláusulas de adiantamento, cancelamento, aceite, suspensão e parcelamento.
+[ ] Atualizar catálogo, modelo de proposta e CRM **somente após aprovação** e sincronizar o backlink no Obsidian.
+[ ] Autorizar separadamente cada contato comercial antes de envio.
