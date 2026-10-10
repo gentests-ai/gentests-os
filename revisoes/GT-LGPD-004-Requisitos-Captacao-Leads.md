@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-004
 tipo: requisitos-captacao-leads
-versao: 0.2.0
+versao: 0.2.1
 status: proposta-nao-implementada
 data: 2026-10-10
 ---
@@ -98,3 +98,24 @@ Sem alterar `gentests-site` nesta rodada, registrar para PR próprio:
 | LP-12 | aplicável | aplicável | logs de execução e commit, sem checklist simulado |
 
 Todos os 12 LP continuam **candidatos não executados**, com N/A justificado conforme arquitetura aprovada e teste real futuro. Nenhuma coleta, publicação, processamento de contatos ou implantação está autorizada.
+
+## 8. Direcionamento documental da Direção — DEC-LGPD-20261010-001 (v0.2.1)
+
+**Decisão documentada na [PR #21](https://github.com/gentestsai-sudo/gentests-os/pull/21):** priorizar **entrega do PDF GT-MKT-CNQ-001 por e-mail**, coleta mínima preferencialmente apenas do endereço eletrônico, aviso contextual e marketing opcional e separado. A decisão tem alcance **exclusivamente documental**, não homologa base legal, fornecedor, implantação nem captação. As referências anteriores neste documento a "alternativa preferencial" de download direto são históricas do desenho v0.2.0: **para o planejamento atual prevalece a prioridade do e-mail determinada pela Direção**. Download direto permanece contingência caso haja impedimento material documentado, mediante nova deliberação.
+
+### 8.1. Jornada prioritária futura (não implementada)
+1. Visitante seleciona material educativo gratuito e vê aviso contextual claro, controlador/canal somente depois de identificados.
+2. Informa apenas **e-mail** obrigatório para entrega; campos adicionais somente com justificativa e autorização. Validar finalidade/base legal candidata por operação antes de coletar.
+3. Pode marcar, **sem pré-seleção**, opção **independente** de receber conteúdos promocionais. Não marcar não impede entrega do PDF.
+4. Após submissão autorizada futuramente, registrar referência mínima de solicitação de entrega e, **apenas se selecionado**, prova de opt-in (versão/texto do aviso, timestamp, origem, preferência), com acesso restrito, retenção definida e sem incluir conteúdo sensível.
+5. Enviar link ou PDF com controles de entrega, erro, duplicidade e abuso. **"Enviado" não equivale a entregue, aberto ou lido**. Não adicionar automaticamente destinatário a campanhas.
+6. Oferecer revogação/oposição simples para marketing, cancelar campanhas já programadas, manter supressão mínima fundamentada, propagar a cada cópia/sistema e permitir solicitação de direitos.
+7. Encerrar finalidade de entrega e aplicar prazo/eliminação conforme decisões futuras, inclusive e-mail enviado, fila do fornecedor e backups.
+
+**Microcopy candidata:** "Informe seu e-mail para receber o guia gratuito. Usaremos esse endereço para enviar o material solicitado, conforme nosso Aviso de Privacidade." Checkbox *separada e desmarcada*: "Quero receber conteúdos e novidades da GenTests.ai por e-mail. Posso cancelar quando quiser." O link do aviso deve ser funcional e o texto final refletir bases/fornecedores aprovados, sem dark patterns.
+
+### 8.2. Seleção dos testes LP-01 a LP-12 para arquitetura de e-mail
+**Todos permanecem candidatos, não executados.** Para o desenho prioritário, LP-01, LP-02 (se houver marketing), LP-03 (revogação/cancelamento de campanhas agendadas), LP-04 (validação), LP-05 (antiabuso), LP-06 (dado inesperado), LP-07 (falha do provedor e não confirmação falsa), LP-08 (direitos), LP-09 (negação a acessos não autorizados), LP-10 (contratos + mecanismo de transferência quando aplicável), LP-11 (cookies conforme realidade) e LP-12 (evidências de teste sintético) são **aplicáveis na medida do componente efetivamente adotado**. LP-02/03 só incidem se for ofertado opt-in promocional; LP-11 requer inventário real. A contingência de download direto utiliza o mapeamento do §7, se for autorizada em decisão própria.
+
+### 8.3. Portões antes de qualquer implantação
+Confirmação de controlador/canal, base jurídica final por operação, fornecedor/contrato/subprocessador/país e art. 33 se houver transferência, regras de retenção/exclusão e supressão verificáveis, revisão jurídica proporcional, parecer independente focal, orçamento quando aplicável e **autorização expressa posterior** para PR de site, testes técnicos e publicação. Não alterar site, disparar e-mails, coletar contatos ou cadastrar CRM nesta rodada.
