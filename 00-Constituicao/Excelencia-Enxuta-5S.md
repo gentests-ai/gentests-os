@@ -36,5 +36,19 @@ Revisar durante os processos e retrospectivas já existentes; **não criar cerim
 
 Relacionado: [[01-Empresa/Missao-Visao-Valores]] · [[03-Processos/GenTests-Quality-Framework]] · [[01-Empresa/Registro-de-Ativos-de-Marca]]
 
+
+## Convenção mínima de nomes e rastreabilidade (proposta)
+
+**Para novos artefatos formais:** `ID-Titulo-curto_vX.Y.ext` quando forem arquivos exportados; para notas do Obsidian, manter o nome legível e o `id` estável no YAML. Exemplo ilustrativo: `COM-001-Visibilidade-Comercial_v1.1.pdf`.
+
+- Identificadores são únicos, estáveis e vinculados à origem; **não renumerar arquivos existentes**.
+- Preferir hífen entre palavras, sem acentos, espaços ou nomes de pessoas em arquivos técnicos/exportados; manter a extensão correta.
+- **Não inserir RNC, data nem estado no nome por padrão**: relacionar RNCs, status, data, autoria e versão completa via YAML ou registro de evidências. Incluir data apenas quando distinguir instantâneos entregues fizer sentido.
+- A fonte editável é canônica; PDF é exportação. Versões históricas permanecem recuperáveis por Git ou arquivo histórico, sem cópias concorrentes de “final”, “final2”, “agora-vai”.
+- Para entregas externas, manter número da versão no arquivo exportado e identificação do documento no conteúdo. Publicar somente a versão aprovada.
+- O X9 pode sinalizar nomes fora do padrão em **novos arquivos**, mas não renomear nem reprovar legado automaticamente. Aplicação prospectiva, proporcional ao risco.
+
+**Princípio:** só criar novo código quando houver artefato de negócio que precise de rastreabilidade; não numerar cada rascunho nem cada mensagem.
+
 ## Aprovação
 **Proposta:** somente a direção poderá aprovar e registrar versão, data e decisão. A publicação no repositório não equivale a aprovação.
