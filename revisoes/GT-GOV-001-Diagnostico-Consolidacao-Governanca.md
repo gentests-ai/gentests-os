@@ -1,12 +1,12 @@
 ---
 id: GT-GOV-001
 tipo: diagnostico-e-plano-de-consolidacao
-versao: 0.1.0
+versao: 0.2.0
 status: proposta
 data: 2026-10-10
 responsavel_elaboracao: orquestrador
 aprovador: direcao
-revisao_independente: pendente
+revisao_independente: REV-GOV-001-emitido; revalidacao-de-fechamento-pendente
 autorizacao_merge: pendente
 escopo: gentests-os/main, prs-abertas-e-gentests-site
 ---
@@ -127,3 +127,23 @@ As decisões podem ser consolidadas numa única sessão, mas cada assunto exige 
 ## 10. Controle
 
 Preparado pelo orquestrador para avaliação independente. Nenhuma alteração fora deste arquivo. Não há autoaprovação, substituição silenciosa ou autorização externa.
+
+## 11. Adendo v0.2.0 — tratamento documentado do REV-GOV-001
+
+Este adendo deve ser lido com [GT-GOV-002 — Tratamento do parecer](GT-GOV-002-Tratamento-REV-GOV-001.md), que contém as matrizes de evidências, conflitos, sistemas, decisões e backlog. O parecer independente [REV-GOV-001](https://github.com/gentestsai-sudo/gentests-os/blob/review/rev-gov-001/revisoes/REV-GOV-001-Parecer-Diagnostico-Consolidacao.md) examinou a versão 0.1.0 no commit `cd15cfcc51efba3cfbb4c815fd24b3bb131db287`; não valida automaticamente esta versão.
+
+### Correção de alcance
+O diagnóstico v0.2.0 **não** afirma inspeção exaustiva de Drive, Obsidian instalado, contas CRM, PDFs/PPTX, configurações administrativas ou funcionamento real do site. Registros vinculados a propostas não comprovam decisão aprovada. Um status `emitido` de parecer também não homologa governança. Atividades de implementação e decisões institucionais ficam para trabalhos específicos.
+
+### Estados e decisões
+- `maturidade_documental`: rascunho, proposta, em-revisao, aprovado, substituido, historico; transições para `aprovado`/`substituido` somente mediante decisão comprovada.
+- `autorizacao_uso`: interno-condicionado, externo-pendente, externo-autorizado, bloqueado; é uma dimensão independente.
+- `verificacao`: confirmado-no-documento, confirmado-tecnicamente, parcial, nao-verificado, inaplicavel-com-justificativa.
+- Registro de **decisão aprovada** exige `decision_id`, decisor autorizado, data, objeto, versão, alcance, fonte verificável e autorização; registro de **pendência** identifica responsável e evidência ainda faltante. Nenhuma aprovação nova foi inferida.
+- O registro da autorização humana da integração do PR #1 em `04-Decisoes/Primeiro-PIX-Homologacao-Comercial.md` é histórico delimitado ao merge documental; a evidência da integração é o PR #1 fechado/mesclado. Isso **não** aprova política, preço ou divulgação.
+
+### Tratamento GOV-11
+Manter como ID canônico proposto `PRC-COM-001` para `03-Processos/PRC-COM-001-Processo-Comercial.md`; sugerir `PRC-COM-001-PROSP` como identificador transitório/alias para `03-Processos/Prospeccao-Comercial.md`, sujeito a decisão sobre convenção definitiva. Não alterar YAML legado nesta rodada, pois o novo ID ainda não foi aprovado.
+
+### Critério de fechamento documental
+Revisor independente deve verificar os 13 achados e REV-GOV-01–03 no tratamento, apontando evidência e regressões materiais. Pendências técnicas, tributárias, comerciais e de publicação ficam explicitamente abertas sem bloquear o **encerramento do diagnóstico**, desde que não haja contradição material não registrada. Este PR permanece draft; não há homologação, merge ou autorização operacional.
