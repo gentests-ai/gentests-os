@@ -1,7 +1,7 @@
 ---
 tipo: decisao
 id: DEC-PRIMEIRO-PIX
-versao: 0.1.0
+versao: 0.2.0
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -50,3 +50,7 @@ Após decisão, revisar documentos afetados, vincular análise financeira e pare
 A política financeira integral não foi localizada nas fontes consultadas; isso limita a avaliação de conformidade financeira. Essa pendência não foi resolvida por conta própria.
 
 **Relações:** [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests]] · [[07-Templates/QA-Express-Oferta-Piloto]] · [[05-Evidencias/Primeiro-PIX-Entrega-Documental]] · [[07-Templates/Decisao-TEMPLATE]].
+
+## Autorização de integração documental — 10/10/2026
+Cíntia autorizou executar o fluxo de GitHub para Obsidian em 10/10/2026 às 09:37 (America/Sao_Paulo). Alcance: integrar o conjunto documental do [PR #1](https://github.com/gentestsai-sudo/gentests-os/pull/1) na main com status proposta e pendências preservadas. Essa autorização de registro interno não aprova a oferta nem libera divulgação, cobrança ou contratação. Parecer independente permanece pendente.
+**Histórico 0.2.0:** registro da autorização de integração e alcance, sem mudança em preço/escopo/condições comerciais.
