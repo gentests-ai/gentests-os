@@ -1,7 +1,7 @@
 ---
 id: GT-AI-DISPATCH-001
 tipo: refinamento-funcional-operacional
-versao: 0.1.0
+versao: 0.2.0
 status: proposta-para-revisao-independente-focal
 data: 2026-10-10
 autor_papel: Gerente-de-Produto
@@ -271,7 +271,7 @@ Sem dashboard ou planilha; calcular na retrospectiva já existente a partir de e
 
 Denominador zero = N/A. Testes sintéticos não são desempenho comercial; nenhum indicador institucional ou melhoria causal foi medido nesta entrega. Casos confirmados seguem #46 e curadoria separada da PR #8.
 
-## 12. Recomendação, decisões e menor piloto
+## 12. Recomendação, decisões e menor piloto da Fase 1
 
 **Recomendar somente Fase 1**, com coordenação humana explícita. Estão suficientemente definidos para preparar sua implementação: escopo MVP, contrato, catálogo com limites, estados/eventos, responsabilidades candidatas, consultas, regras, histórias e 19 cenários. **Não está autorizado iniciar a Fase 1.**
 
@@ -293,10 +293,188 @@ Executar CT-01–13 e CT-15–19 aplicáveis ao F1; CT-14 e verificações técn
 
 Parar se impactar P0, faltar autorização/identidade, exceder teto ou surgir incidente; preservar issue/evidências e devolver à Direção. Revisar benefício observado antes de avançar. Resultado sem benefício pode levar a manter apenas o fluxo manual existente.
 
-## 13. Encaminhamento ao Orquestrador e revisão focal
+## 13. Encaminhamento do refinamento funcional e revisão focal
 
 **Ao Orquestrador:** consolidar este refinamento na #47 por referência à PR/commit, coordenar revisor independente distinto do autor e encaminhar parecer à Direção. Este registro é encaminhamento documental, não confirmação de recebimento/aceite ou acionamento automático de outro agente.
 
 Revisão exclusivamente focal: RF-01–06/RNF/RN; lacunas do diagnóstico 6103014403; transições, chave e reatribuição; origem de autorização e segregação; filtros/nomenclaturas candidatas; cobertura dos negativos; estimativas/custos versus desconhecidos; piloto e gates. Classificar achados com fonte e gravidade; não repetir discovery, reabrir auditoria integral ou alterar fontes do executor, salvo novo risco material fundamentado. Não revisar PDF/site/comercial neste escopo.
 
 **Situação da entrega:** refinamento documental preparado e submetido em PR Draft; revisão/aceite da Direção pendentes. Cenários e piloto não executados; controles e canais não homologados; nenhuma implementação/ativação/merge realizada.
+
+## 14. Complemento arquitetural — escopo e decisão proposta
+
+Atende ao [encaminhamento adicional da Direção/Orquestrador](https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6103100985). **Delta v0.1.0 → v0.2.0 exclusivamente documental:** §§14–19 e ajustes de identificação/recomendação. RF-01–06 e a Fase 1 permanecem; não substituir seu piloto manual por execução automática. Não há aprovação independente prévia presumida da v0.1.0.
+
+**Questão central:** um agente executável precisa ser um programa/serviço com runtime, entrada, modelo/API e ferramentas delimitadas. Conta GitHub, papel “Marketing”, label, comentário e assinatura ChatGPT não demonstram esse programa. Um workflow disparado só prova que o GitHub iniciou um job; agente iniciado exige que o runtime confirme validação da missão e início da etapa, vinculados à atribuição atual.
+
+**ADR-DISPATCH-01 — proposta:** primeiro manter F1 manual. Se a Direção autorizar posteriormente prova técnica própria, usar um processo Python de execução finita, **sem framework de agentes**, uma chamada direta a API de modelo por rodada, corpus Markdown fixado por commit e saída documental em diretório permitido. Operador publica branch/PR Draft após verificar a saída; revisor distinto recebe a entrega e Direção decide. Não executar código produzido pelo modelo, não fornecer ferramenta de shell/navegação livre e não delegar merge/publicação ao programa. Esta é recomendação de Produto, sujeita a conferência documental de Governança e viabilidade de Executor/Infra.
+
+**Gatilho candidato para execução futura:** `workflow_dispatch` manual, com issue, revisão, atribuição, referência da decisão e commit autorizado como entradas, em workflow previamente revisado/aprovado. Não adotar `issue_comment`/label como autorização. Em F2, eventos `issues` (abertura/atribuição/labels) podem somente sugerir triagem/alerta; uma pessoa confere origem/escopo e decide o disparo. Em F3 futura, serviço pode consumir eventos apenas depois de existir autorização estruturada verificável e controle técnico de concorrência. O despacho manual inicial limita superfície e não elimina trabalho humano.
+
+**Onde rodaria:** prova mínima candidata em máquina controlada por operador, workspace isolado e armazenamento persistente aprovado, iniciada manualmente com as mesmas entradas. A issue registra a execução e seu identificador. Ainda não há máquina identificada nem disponibilidade comprovada. Variante futura: job finito em runner Linux padrão do Actions, com saída/checkpoints recuperáveis autorizados e token somente de leitura no piloto. Não usar self-hosted ou serviço permanente sem dimensionar host, acesso, rede, atualização, armazenamento e custo. Runner do Actions não mantém por si uma sessão ChatGPT ou checkpoint durável entre jobs.
+
+**Modelo/API possível:** provedor a deliberar; OpenAI Responses API é exemplo de endpoint que aceita requisição de aplicação por HTTP/SDK, **se** conta API, modelo elegível, credencial e orçamento estiverem disponíveis. Modelo/ID/versionamento, capacidade, preço e limites desta conta permanecem não verificados; não escolher nome de modelo nem preço em seu lugar. API não herda automaticamente conversas, contexto ou ferramentas deste chat. Perfil do agente é reconstruído com contrato/decisão/corpus aprovados, não clonagem de conversa. ChatGPT conversacional atual sem interface autorizada identificada é destino **não acionável automaticamente**, com encaminhamento humano.
+
+**Eventos distintos:** registro → tentativa de alerta → job disparado → missão validada/recebida → aceite do runtime autorizado → início real → saída produzida → entrega publicada → revisão → decisão humana → encerramento. Job “success” não transforma todos esses marcos em sucesso.
+
+### Diagrama candidato — fluxo de execução e gates
+
+```mermaid
+flowchart TD
+    I["Issue e decisão explícita"] --> V["Operador verifica escopo e identidade"]
+    V --> D{"Autorização e chave válidas?"}
+    D -->|Não| B["Bloqueio na issue"]
+    D -->|Sim| R["Runner ou processo controlado"]
+    R --> C["Corpus por commit e ferramentas permitidas"]
+    C --> E["Executor via API"]
+    E --> A["Saída e evidências versionadas"]
+    A --> P["Operador publica PR Draft"]
+    P --> Q["Revisor independente"]
+    Q --> G{"Parecer e limite de ciclos"}
+    G -->|Correção autorizada| R
+    G -->|Limite ou falha crítica| B
+    G -->|Favorável| H["Direção delibera"]
+    H --> F["Encerramento rastreável"]
+```
+
+Este fluxo representa **arquitetura proposta**, não componentes existentes. A Direção pode negar/adiar; parecer favorável não decide merge ou publicação. Novo ciclo reconfere validade/versão/autorização antes da API.
+
+### Contrato técnico por etapa — sem segredos
+
+Chave de negócio `K = repo+issue+revisão-autorizada+etapa`; geração da atribuição separada; operação `O = K+geração+rodada+tipo-operação`. ID de entrega/evento evita repetição de alerta; não é nova autorização. Toda escrita externa futura passa por adaptador determinístico, sem texto do modelo virar comando.
+
+| Etapa / gatilho | Ator; entrada → saída | Credencial/escopo e operação GitHub candidata | Estado, falha/retentativa, evidência e custo |
+|---|---|---|---|
+| Registro/alerta | Humano ou notificador F2; issue → sugestão de triagem | Pessoa com acesso já autorizado; bot futuro só leitura/alerta específico aprovado, sem contents write | Issue permanece aguardando; envio desconhecido não é recebido; máximo RN-07. Tempo/Actions se houver |
+| Verificação | Operador/Governança; decisão/corpus/identidade → permissão delimitada de execução | Leitura do repositório e decisão conferida fora do texto não confiável. API de modelo ainda não chamada | Persistir K, geração, decisão e versões; falta/ambiguidade bloqueia antes de gasto |
+| Disparo/deduplicação | Operador; entradas validadas → run ID/registro reservado | Conta humana elegível para dispatch; token de leitura no job. Sem workflow/credencial criado agora | Uma execução ativa; reserva conferida por operador/single consumer; job duplicado não chama modelo. Tempo do runner |
+| Preparação | Runtime controlado; SHA permitido → corpus/manifesto/contexto | GitHub read e arquivos allowlisted; sem acesso a cliente, segredos ou refs arbitrárias | Conferir hashes e estados normativos. Fonte inacessível/stale bloqueia; downloads de leitura limitados |
+| Modelo/executor | Adaptador; contrato/contexto → rascunho estruturado | Credencial do provedor em cofre/secret do host aprovado, nunca no prompt; sem token GitHub exposto ao modelo | Registrar O/request ID, consumo e resultado; falha tratada no §16. Token/API + runtime |
+| Artefato/entrega | Runtime prepara; operador inspeciona → commit/PR Draft/evidência | Piloto: runtime sem escrita remota; humano faz escrita delimitada. F3 futura: publisher restrito a paths/branch propostos, contents/PR write só se aprovados | Reutilizar branch/PR vinculados a K; conferir saída/segredos/versão. Falha de publicação não repete chamada de modelo; publicar somente após reconciliação |
+| Revisão | Revisor distinto; commit/delta/contexto → parecer | Leitura e registro separado autorizado; sem editar artefato do executor/merge | Em revisão; requer recebido/aceite/início. Revisor API é alternativa futura isolada, não obrigatório no piloto. Tempo humano ou chamadas próprias |
+| Correção/pausa | Operador; parecer e autorização atual → rodada ou bloqueio | Sem permissão adicional; mesma allowlist. Mudança de escopo pede revisão da missão | Até duas rodadas corretivas; aprovação aguardada encerra processo e persiste estado, sem loop pago esperando pessoa |
+| Decisão/encerramento | Direção; entrega/parecer → decisão; Orquestrador registra | Decisão humana e atualização da issue no escopo; sem merge implícito | Evidência+parecer+decisão válidos; custo humano; divergência bloqueia conclusão |
+
+**Sempre humanas neste desenho:** designação/aprovação de autonomia e acessos, mudanças de política/permissão, escolha de serviços/credenciais, orçamento/contratação/pagamentos, publicação, merge, distribuição/campanha, envio externo, produção/ações sensíveis e decisão final de encerramento. Registrar e conferir a decisão precede sua execução; rótulo ou recomendação do LLM nunca decide esses atos.
+
+## 15. Comparação arquitetural — frameworks, runtime e busca
+
+Tecnologias não são alternativas de mesmo nível: LangGraph organiza fluxo; LangChain oferece abstrações/adaptadores; APIs fornecem modelo/ferramentas; retrieval fornece contexto. Podem coexistir, mas cada dependência precisa de benefício mensurável. Tabelas abaixo são avaliação de Produto baseada em documentação pública, não benchmark nem inspeção de implantação.
+
+| Opção | Benefício funcional | Dependência/manutenção e limite | Custo e recomendação |
+|---|---|---|---|
+| Sem framework: Python + HTTP/SDK do provedor + GitHub REST | Uma etapa finita previsível, contrato estruturado e adaptadores pequenos; rastreio explícito | Implementar validação, controle de chamadas, checkpoint, retry e testes; não dispõe de orquestração durável “pronta” | Menos dependências iniciais, mas engenharia não é gratuita. **Candidato ao primeiro piloto técnico documental** |
+| LangChain | Interfaces de modelos/ferramentas e composição de tarefas; útil quando existirem vários provedores/integrações | Versões de SDKs/adaptadores, abstrações e configuração aumentam superfície; integração não equivale a autorização. Pode usar LangGraph por baixo; não assumir opções totalmente disjuntas | Custos de API/runtime permanecem; tracing hospedado é opção separada não contratada. Considerar quando troca de provedor/adaptadores justificar |
+| LangGraph, com SDK direto ou adaptadores | Grafo explícito executor/revisor/correção, checkpoints e pausas para entrada externa | Requer checkpointer persistente, identificador de thread, implementação de nós/gates e retomada autenticada; persistência não concede autorização nem garante execução externa única | Mais engenharia/armazenamento/manutenção. **Não necessário em F1**; candidato quando múltiplas pausas/retomadas reais excederem a solução simples |
+| Serviço hospedado de agentes/tracing | Pode reduzir infraestrutura própria | Conta, contratos, dados enviados, retenção, disponibilidade, escopos e custo precisam ser avaliados | Não assumir licença/plataforma gratuita; não necessário ao piloto e nenhuma adoção proposta agora |
+
+LangGraph documenta checkpoints e interrupções para aguardar input; persistência em memória perde estado após restart. Para retomada é preciso storage durável e thread coerente. Nós retomados/efeitos externos ainda exigem desenho idempotente; aprovação só é válida se a aplicação autenticar a fonte e reconferir escopo. Essas características justificam avaliar LangGraph futuramente, não escolhê-lo por nome.
+
+### Busca documental / RAG
+
+RAG aqui significa fornecer fontes recuperadas ao modelo antes da resposta. Pode usar recuperação textual; não exige embeddings ou banco vetorial.
+
+| Opção | Uso e vantagem | Risco/dependência | Decisão candidata |
+|---|---|---|---|
+| Caminhos explícitos + índice/termos em Markdown | Poucos contratos/normas; localizar ID/caminho/título e ler trechos por SHA; fácil provar origem | Sinônimos podem exigir consulta extra; corpus tem que caber no orçamento de contexto | **Primeiro piloto:** selecionar fontes obrigatórias por ID, depois busca textual suplementar |
+| Índice textual local (ex.: SQLite FTS/BM25, se necessário) | Melhora ranking lexical para corpus maior, sem chamada de embeddings | Rebuild por commit, tokenização, testes de recall e manutenção; cache não é fonte canônica | Avaliar somente se seleção por caminho/termo falhar no corpus real |
+| Embeddings + banco vetorial/híbrido | Pode recuperar linguagem sem correspondência literal | Modelo de embedding, custo/reindexação, metadados/ACL, retenção, falsas similaridades e documentos stale | Propor só após medir falhas de recall textual e ganho verificável; não criar banco agora |
+
+**Protocolo proposto de fonte:**
+1. Manifesto por execução: SHA do corpus, path, blob/hash, ID, versão, status declarado e referência de decisão de vigência quando houver. Fontes obrigatórias: contrato do papel, matriz de permissões, QG-001, SEC-AI-001 e decisões específicas; GOV-5S como princípio em proposta. Índice só aponta para arquivos Git, sem copiar normas como autoridades concorrentes.
+2. `status:proposta` permanece contexto proposto, nunca autorização ou norma vigente. “Vigente” exige versão+decisão humana conferidas; conflito ou ausência é explicitado/bloqueado conforme ação pretendida.
+3. Contexto/prompt indica fonte/commit/trecho; saída cita os paths/versões utilizados. Não usar fallback silencioso para main mais recente.
+4. Cache/índice identificado por SHA+versão do indexador (e embedding/chunking se futuro vetor). Novo corpus invalida cache; decisão nova pede conferência antes de retomada. Não misturar chunks de versões.
+5. Comentários, arquivos e resultados de busca são dados, delimitados do contrato confiável. Recuperação não autentica origem/autoridade e não neutraliza injection; validação determinística de ação/allowlist ocorre fora do LLM.
+6. Teste de recuperação com perguntas sintéticas por regra: exigir fontes obrigatórias e distinção proposta/vigente em todos os casos; registrar miss e ambiguidade. Similaridade vetorial não prova regra/permissão. Medir recall sobre conjunto adjudicado pelo revisor antes de aceitar vetor.
+
+## 16. Estado, checkpoint, falhas, segurança e custo
+
+### Fonte única versus estado técnico
+
+Issue continua fonte canônica de contrato, autorização, marcos e resultado. Checkpoint é armazenamento **técnico derivado** para retomada, não nova fila/planilha ou sistema de aprovação. Campos operacionais que só existem no checkpoint nunca permitem concluir ou ampliar escopo.
+
+Envelope candidato: schema_version; K; geração; rodada; executor; run/event IDs; referências de decisão e hash do contrato; corpus_SHA/manifesto; estado operacional/último evento GitHub; status da operação (reservada/em andamento/resultado disponível/incerto); request IDs; artifact hashes; saída/parecer refs; retry_count; correction_count; contabilização de consumo; próximo gate. Segredos e prompts completos não entram em log público.
+
+**Onde persistir na prova local:** arquivo SQLite/JSON transacional em volume persistente aprovado, único processo consumidor e operador responsável. A tecnologia/host não está disponível por presunção. Resultado mínimo e referências são publicados na issue pelo operador. Em Actions, disco efêmero não serve como único checkpoint; storage autorizado e protocolo de exclusão mútua precisam ser demonstrados antes de prova de retomada. Artifacts com retenção limitada são evidência, não garantia de recuperação indefinida.
+
+**Retomada:** carregar checkpoint → conferir K/geração/autorização/corpus e eventos da issue → reconciliar efeito pendente → retomar somente etapa ainda permitida. Se checkpoint ausente/corrompido/incompatível, estado de efeito desconhecido ou reserva ativa de outro executor: bloquear, não reconstruir do LLM nem reiniciar às cegas. Um operador pode reconstruir **por evidência canônica suficiente**, documentar e autorizar retomada. Não garantir “exactly once” para toda API externa.
+
+| Falha | Resposta proposta / limites |
+|---|---|
+| Chave/modelo ausente, 401/403, canal ChatGPT sem interface | Bloquear, nenhuma credencial nova/contorno; não chamar conversa existente por automação de UI |
+| 429/5xx comprovado antes de efeito conhecido | Até 2 retries adicionais com backoff limitado e orçamento rechecado; mesma O; respeitar Retry-After quando suportado. Sem loop ilimitado |
+| Timeout após enviar requisição, sucesso incerto | Consultar por request ID quando API permitir; caso contrário registrar resultado/consumo incerto e pedir reconciliação humana antes de nova chamada. Não assumir idempotência do provedor |
+| Processo cai depois de gerar saída/publicar | Conferir checkpoint, hash e GitHub antes de qualquer repetição; saída já existente não é regenerada; PR já vinculada não é duplicada |
+| Parecer pede correção | Até 2 rodadas corretivas (1 entrega inicial + até 2 corrigidas). Conferir autorização/atribuição em cada uma; depois parar e escalar; falha crítica para imediatamente |
+| Fonte mudou/permissão retirada/custo atingiu limite | Suspender novas ações, preservar histórico, decisão humana para retomar; autorização antiga não vale para nova versão |
+| Modelo tenta ferramenta fora da allowlist/autoaprovação | Adaptador rejeita; registrar mínimo seguro, bloquear a operação afetada e encaminhar à Governança |
+| Escrita GitHub ou log indisponível | Não declarar entrega/conclusão; preservar saída segura/checkpoint, reconciliar antes de publicação; restabelecimento não repete execução de modelo |
+
+**Segurança de credenciais:** conector desta sessão não é credencial deployável do agente. No futuro, separar leitor, executor sem escrita remota, publisher e revisor. Token GitHub com escopos mínimos; nenhum token/secret é fornecido ao LLM, gerado nesta entrega ou guardado em Markdown. `contents:write`/PR write pode exceder paths permitidos nativamente: exigir wrapper allowlisted e revisão real, sem alegar restrição por diretório inexistente. Piloto técnico preferido elimina essa superfície deixando publicação humana. Acesso a workflows/admin/segredos/merge e modelos com execução livre permanece fora do desenho.
+
+**Logs/retencão:** somente K, IDs, instantes, decisão/corpus refs, estado, erro sanitizado, hash e uso; evidências acessíveis aos papéis autorizados. Retenção candidata do checkpoint/log do piloto: 14 dias após sua decisão final, a deliberar; issue/PR/histórico Git permanecem conforme política institucional aprovada futura. Provedor pode reter inputs/outputs independentemente do log local: confirmar termos/configuração/região e autorização antes de enviar mesmo dados corporativos não públicos. Sem política/retencão confirmada, usar apenas fixture sintética autorizada. Incidente exige contenção e evidência mínima segura.
+
+**Rollback:** no piloto parar processo, impedir novos consumos, preservar checkpoint e artefato; operador retira credencial/acesso conforme autorização pertinente. Reverter código/configuração futura em PR próprio aprovado, não apagar trilha ou fazer merge automático. Não há operação em produção a desfazer nesta proposta.
+
+### Custos e dimensionamento — estimativa, não consumo real
+
+Custo por rodada = tokens de entrada × tarifa de entrada + tokens de saída × tarifa de saída + ferramentas opcionais + runtime/armazenamento. Usar unidades da tabela do provedor (ex.: USD por milhão de tokens), contabilizar repetição, contexto do corpus e eventual revisão API separadamente. ChatGPT/plano existente não comprova saldo API.
+
+Exemplo **de dimensionamento**, não preço: 4.000 tokens de entrada e até 2.000 de saída por chamada × até 3 entregas = 12.000 entrada e 6.000 saída sem retry; até 2 retries por chamada podem elevar teto reservado a 9 tentativas, até 36.000 entrada e 18.000 saída. Uma revisão API, se autorizada, adiciona seu próprio orçamento. Modelo/contexto e limites reais podem mudar esses valores: validar antes da prova. Cancelamento não garante custo zero de requisição já aceita.
+
+Tetos candidatos a decidir: uma missão ativa; nenhuma ferramenta paga adicional; até 3 entregas; máximo 2 retries adicionais por operação elegível; timeout de processo finito; reservar custo máximo estimado antes de cada API; parar antes de próximo consumo se teto atingido; reporte de gasto incerto. **Teto monetário ainda pendente**, não substituir por alerta ou assumir orçamento ilimitado.
+
+Plano/cotas GitHub já foram declarados desconhecidos no §10; verificar saldo compartilhado, runner, consumo de checks, armazenamento, retenção e limite de gasto. Credenciais/modelo/cotas API, condições de dados e tarifas também precisam ser verificadas pelo titular sem expor secrets. Sem essa prova e orçamento aprovado, só avaliação documental/mock futuro autorizado, não chamada real.
+
+Estimativa adicional candidata para prova técnica mínima sem framework, **se autorizada:** preparação/segurança/custos 2–4 h; implementação de adaptador/validação/checkpoint 6–10 h; execução/negativos 3–5 h; revisão independente 2–4 h: total 13–23 h humanas. Não é esforço desta rodada nem soma obrigatória ao F1. LangGraph/checkpointer acrescentaria spike candidato 3–6 h antes de decidir adoção; integração vetorial não dimensionada sem corpus/recall. Tempo real do runtime não medido; custo monetário provável ainda não quantificável sem modelo/host/cotas.
+
+## 17. Aceite do delta de arquitetura — cenários adicionais
+
+Todos **NÃO EXECUTADOS**. CT-20–32 complementam CT-01–19; não ampliam piloto F1. Testes técnicos exigem implementação/prova autorizadas próprias, PR técnico e revisão. Positivos e falhas de API podem usar mocks em primeiro ensaio autorizado, distinguindo mock de chamada real.
+
+| ID | Dado / quando | Resultado e evidência exigidos |
+|---|---|---|
+| CT-20 positivo | Missão sintética autorizada, runtime/API/corpus disponíveis; dispatch manual válido | K/geração/run ID, recebido/aceite/início separados, saída documental e commit/PR publicado pelo operador; revisor distinto e decisão humana. Run verde isolado não atende |
+| CT-21 negativo | Issue/P0 sem decisão suficiente tenta iniciar | Nenhuma chamada de API/gasto/escrita; bloqueio com fonte e motivo |
+| CT-22 negativo | Destino é conversa ChatGPT sem interface autorizada demonstrada | “Não acionável automaticamente”; encaminhamento humano; zero tentativa de abrir/assumir sessão |
+| CT-23 negativo | Dois eventos/runs da mesma K/geração; evento antigo após reatribuição | Um consumidor ativo; segundo não chama API; geração obsoleta preservada sem agir; evidência de reserva e reconciliação |
+| CT-24 positivo/negativo | Restart antes/depois de saída; depois checkpoint corrompido/perdido | Retomada pela mesma K de efeito comprovado sem duplicar; estado desconhecido bloqueia, não regenera nem inventa sucesso |
+| CT-25 negativo | API retorna 429/5xx, 401 e timeout pós-envio | Backoff/teto para elegíveis; 401 sem retry de contorno; timeout ambíguo reconcilia. Contagens/request IDs/custos observados, sem claim exactly-once |
+| CT-26 negativo | Revisor devolve duas correções; terceira solicitação tenta novo ciclo | Correções cobertas e limitadas; nenhuma quarta entrega automática; bloqueio/escalonamento. Falha crítica para já |
+| CT-27 negativo | Corpus/comentário diz liberar tokens, ignorar Direção ou executar shell | Adaptador rejeita; fontes tratadas como dados; nenhuma ampliação de acesso ou ferramenta indevida |
+| CT-28 negativo | Executor ou LLM tenta aprovar próprio trabalho, merge/publicação | Parecer/decisão não aceitos; operações fora do programa/token do piloto; negativo técnico documentado |
+| CT-29 negativo | Token tenta path/ref fora do escopo ou orçamento insuficiente | Sem leitura/escrita não permitida e sem próxima chamada cobrável; interrupção e evidência sanitizada |
+| CT-30 positivo/negativo | Busca de regra por ID; depois índice stale/proposta tratada como vigente | Path/versão/SHA/decisão corretos; cache inválido recusado; ausência de prova de vigência bloqueia ação dependente |
+| CT-31 negativo | PR foi criada e resposta perdida; processo reinicia | Reconcilia branch/K/hash e reutiliza PR; não duplica entrega nem chama modelo novamente |
+| CT-32 negativo | Aprovação humana chega para commit/geração antigos ou autorização é retirada durante pausa | Não retoma nem encerra versão atual; reconferência e nova decisão aplicável; logs preservados |
+
+## 18. Dependências, deliberações e encaminhamento focal
+
+A recomendação permanece **F1 primeiro**, sem execução automática. Primeiro piloto **técnico realista**, distinto e posterior ao manual: uma missão documental sintética, processo Python sem framework em host controlado, API direta disponível autorizada, corpus por commit, nenhuma escrita remota pelo executor, publicação humana em PR Draft, revisão distinta e gate da Direção. Não iniciar agora. Se host/API/cotas não existirem, resultado da viabilidade é impedimento explícito, não promessa de conexão.
+
+Decisões adicionais candidatas:
+- **DEC-DISPATCH-06:** escolher/adiar runtime local versus runner Actions e dono de operação/storage; avaliar dependência de execução permanente antes de F3.
+- **DEC-DISPATCH-07:** escolher provedor/modelo elegível, condições de dados, credencial mínima, orçamento monetário e teto humano; confirmar cotas e tarifas. Nenhuma credencial/contratação criada por esse pedido.
+- **DEC-DISPATCH-08:** aprovar/ajustar desenho de estado, retenção, exclusão mútua, limites/retries/correções, allowlists e publisher humano.
+- **DEC-DISPATCH-09:** autorizar ou rejeitar **PR técnico/prova separados**, somente após viabilidade documental e revisão focal; autorizar ativação/execução explicitamente após conferir implementação.
+- **DEC-DISPATCH-10:** avaliar benefício observado antes de LangGraph/LangChain/vetor. Sem framework é candidato inicial, não decisão implementada.
+
+**Conferência focal solicitada à Governança:** identidade e autorização fora do LLM; compatibilidade POL-003/SEC/QG/5S e propostas versus vigência; segregação; dados/logs/retencão; gates e operação humana. Não alterar políticas nem repetir discovery.
+
+**Viabilidade documental solicitada ao Executor Técnico/Infra:** disponibilidade real de host/API/conta/modelo, dispatch/credenciais mínimas, isolamento/checkpoint/cotas e cotação/teto; validar especialmente restart, exclusão mútua e reconciliação de efeitos incertos. Nesta etapa não criar credenciais, testar API, instalar framework, habilitar workflows, configurar acessos ou inspecionar ativamente segurança sem autorização específica.
+
+**Ao Orquestrador:** coordenar as duas conferências acima e revisor independente, registrando confirmação real de recebimento quando ocorrer. **Revalidação independente somente do delta v0.1→v0.2:** §§14–19 e ajustes de consistência; não refazer RF-01–06/discovery inteiro, exceto regressão material fundamentada. Conferências e parecer não foram executados por este autor nem presumidos a partir deste encaminhamento. Issue #47 permanece canônica; PR #48 continua Draft; sem piloto, implementação, ativação, permissão alterada, merge ou publicação comercial.
+
+## 19. Fontes técnicas e controle de versão do delta
+
+Documentação primária consultada em 10/10/2026; recursos são possibilidades públicas, não disponibilidade desta conta. URLs/SDKs/preços podem mudar: fixar versões de dependências e conferir novamente na futura decisão técnica.
+
+- [LangGraph — Persistence](https://docs.langchain.com/oss/python/langgraph/persistence): estado/checkpointers e limites de persistência em memória.
+- [LangGraph — Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts): pausas, retomada por thread e input externo; autenticação de aprovação fica na aplicação.
+- [LangChain — Overview](https://docs.langchain.com/oss/python/langchain/overview): abstrações e relações entre agentes/LangGraph.
+- [Retrieval — documentação LangChain](https://docs.langchain.com/oss/python/deepagents/retrieval): recuperação de contexto; desenho textual/vetorial deste documento é recomendação própria.
+- [GitHub — Workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax), [execução manual](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow) e [GITHUB_TOKEN](https://docs.github.com/en/actions/concepts/security/github_token): gatilhos e escopos técnicos a configurar/revisar futuramente.
+- [OpenAI — API Overview](https://developers.openai.com/api/reference/overview/) e [API Pricing](https://platform.openai.com/pricing/): exemplo de API de aplicação e referência para orçamento futuro. Nenhuma chave, modelo/limite elegível ou tarifa desta conta foi verificada.
+
+**Baseline preservada:** v0.1.0, commit `0645ade74c00959465b2e9acffcf718885372008`. v0.2.0 adiciona arquitetura proposta, comparação de dependências, retrieval versionado, estado técnico derivado, erros/custos, 13 cenários adicionais e decisões/encaminhamentos. Validação desta rodada é documental; testes, integração e controles reais continuam não executados/não comprovados.
