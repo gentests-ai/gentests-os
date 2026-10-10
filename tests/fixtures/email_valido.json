@@ -1,0 +1,14 @@
+{
+  "id": "VAL-PILOTO-001",
+  "tipo": "email_comercial",
+  "risco": "QG-M",
+  "status": "rascunho",
+  "assunto": "Qualidade de software e redução de retrabalho",
+  "corpo": "Somos o Time GenTests.ai. Gostaríamos de conversar para entender os desafios da sua equipe e avaliar se podemos contribuir com estratégia de QA.",
+  "origem_destinatario": "Exemplo fictício: sem destinatário real",
+  "fontes": ["01-Empresa/Posicionamento.md"],
+  "versao": "0.1.0",
+  "responsavel": "Comercial",
+  "aprovacao_envio": false,
+  "enviado": false
+}
