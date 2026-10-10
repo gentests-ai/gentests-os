@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-004
 tipo: requisitos-captacao-leads
-versao: 0.1.0
+versao: 0.2.0
 status: proposta-nao-implementada
 data: 2026-10-10
 ---
@@ -59,3 +59,42 @@ DEC-LP-04: CRM, mecanismo de exclusão/descadastro e dono de preferências? **Pe
 DEC-LP-05: liberação documental, orçamento e PR futura de site? **Pendente.**
 
 **Bloqueio final:** sem publicação, coleta, envio de campanha ou ativação por esta atividade. A PR #4 sobre conteúdo educativo e aprovação de marketing são processos distintos; conformidade com LGPD requer validação jurídica e operacional proporcional ao risco.
+
+
+## 6. Correções futuras do formulário de contato — LGPD-REV-04
+Sem alterar `gentests-site` nesta rodada, registrar para PR próprio:
+1. Confirmar em navegador e com dados sintéticos o fluxo real POST/FormSubmit→Gmail, destinatário ativo, erros, redirecionamento, acessibilidade e dados em URL, sem afirmar entrega apenas pelo HTML.
+2. Rever checkbox obrigatória de resposta: **se base legal aprovada não for consentimento**, remover exigência indevida, mantendo explicação clara de finalidade; nunca reaproveitar como autorização para propaganda. Comunicação promocional só em escolha opcional independente se adotada.
+3. Minimizar campo livre, manter aviso de não envio de segredo, dados sensíveis ou dados de terceiros; triagem e descarte de informação inesperada.
+4. Avaliar `_captcha=false` e honeypot como controles insuficientes isoladamente; testar mitigação de spam/rate limit proporcional sem obrigar CAPTCHA visual nem sacrificar acessibilidade.
+5. Aviso visível com controlador/canal/bases, compartilhamentos, prazo, direitos e fornecedor real; não expor e-mail ou conteúdo em querystring, página de erro, analytics ou logs excessivos.
+6. Testes de acesso indevido e abuso em ambiente de teste e sem dados reais, decisão humana de lançamento depois de jurídico e revisor.
+
+## 7. Alternativas comerciais e cenários aplicáveis — LGPD-REV-06
+
+| Aspecto | Download direto sem identificação | Entrega do guia por e-mail mínimo |
+|---|---|---|
+| Benefício ao visitante | acesso imediato, sem barreira de formulário | recebimento na caixa pessoal quando solicitado |
+| Captação | não gera lead identificado automaticamente; pode convidar a assinatura voluntária, sem condicionar download | identifica e-mail para entrega; marketing somente com opt-in separado, livre e não pré-marcado |
+| Custos/riscos | implementação simples, ainda há logs técnicos de hospedagem | fornecedor de envio, erro de entrega, custo operacional, consentimentos, cópias, retenção/remoção e potenciais transferências |
+| Medição comercial | cliques/downloads agregados somente se telemetria permitida; conversão em assinatura voluntária | entregas e opt-ins válidos, separadamente; não tratar envio como leitura ou interesse comercial |
+| Decisão e prova | arquitetura de menor exposição; validar acessibilidade, aviso e cookies | justificar captura, base legal para entrega, fornecedor, política de envio, segurança e direitos |
+
+**Recomendação de desenho, não escolha institucional:** manter ambas disponíveis à Direção. Se objetivo prioritário for geração de leads consentidos, permitir formulário com e-mail para entrega e checkbox promocional **opcional**, sem bloquear o material se não assinar newsletter. Não afirmar superioridade de conversão sem comparação observada e autorizada.
+
+| Caso original | Download direto | E-mail mínimo | Ressalva de aceite |
+|---|---|---|---|
+| LP-01 | adaptado: acessar sem marketing | aplicável | material nunca condicionado a marketing |
+| LP-02 | aplicável somente se houver opt-in voluntário | aplicável se marketing oferecido | consentimento não pré-marcado, comprovável |
+| LP-03 | aplicável ao opt-in opcional | aplicável ao opt-in opcional | cancelar também campanhas já agendadas e propagar supressão |
+| LP-04 | N/A para campo de e-mail; validar link | aplicável | validação acessível e sem vazamento |
+| LP-05 | avaliar abuso do endpoint/download | aplicável | provar mitigação proporcional, sem CAPTCHA obrigatório |
+| LP-06 | N/A para campo livre ausente | aplicável a campos disponíveis | não permitir dado sensível desnecessário |
+| LP-07 | indisponibilidade de download | indisponibilidade de e-mail/fornecedor | mensagem de falha verdadeira, sem afirmar entrega |
+| LP-08 | aplicável a registros técnicos e opt-in se houver | aplicável | titulares e canal operacionais |
+| LP-09 | aplicável a logs/assinaturas se existirem | aplicável | testes com contas fictícias sem privilégios excessivos |
+| LP-10 | aplicável aos provedores efetivos | aplicável | contrato sozinho não prova mecanismo internacional do art. 33 |
+| LP-11 | aplicável se houver cookies/telemetria | aplicável se houver cookies/telemetria | evidência real antes de ativar não essenciais |
+| LP-12 | aplicável | aplicável | logs de execução e commit, sem checklist simulado |
+
+Todos os 12 LP continuam **candidatos não executados**, com N/A justificado conforme arquitetura aprovada e teste real futuro. Nenhuma coleta, publicação, processamento de contatos ou implantação está autorizada.
