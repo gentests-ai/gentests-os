@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="340" viewBox="0 0 700 340" role="img" aria-labelledby="t d">
+<title id="t">Comparação geométrica da área clicável com o texto da URL da página 5</title>
+<desc id="d">Diagrama esquemático com as coordenadas medidas. A anotação envolve a caixa de texto com aproximadamente meio ponto de margem. Não é uma captura da renderização original nem teste de clique.</desc>
+<rect width="700" height="340" fill="#fff"/>
+<text x="30" y="36" font-size="17" font-family="Arial,sans-serif" font-weight="bold">Página 5 — área do hiperlink e texto</text>
+<text x="30" y="63" font-size="13" fill="#555" font-family="Arial,sans-serif">Escala ampliada 2,7× nas coordenadas PDF. Esquemático, não captura do PDF.</text>
+<rect x="55" y="112" width="518" height="35.1" fill="#fee9e8" stroke="#bf3030" stroke-width="2.2"/>
+<rect x="56.35" y="113.35" width="515.3" height="32.4" fill="#e7f0ff" stroke="#175eb8" stroke-width="1.5"/>
+<text x="62" y="134" font-size="19" fill="#163a70" font-family="Arial,sans-serif">https://gentests-site.pages.dev/</text>
+<rect x="38" y="205" width="18" height="14" fill="#fee9e8" stroke="#bf3030" stroke-width="1.5"/>
+<text x="64" y="217" font-size="14" font-family="Arial,sans-serif">Anotação PDF /Link: [43.5, 321.6172, 235.416, 334.6172]</text>
+<rect x="38" y="235" width="18" height="14" fill="#e7f0ff" stroke="#175eb8" stroke-width="1.5"/>
+<text x="64" y="247" font-size="14" font-family="Arial,sans-serif">Caixa do texto: [44, 322.1172, 234.932, 334.1172]</text>
+<text x="38" y="290" font-size="13" font-family="Arial,sans-serif" fill="#444">Margem: ~0,5 pt em cada lado. O texto está contido na anotação.</text>
+<text x="38" y="313" font-size="12" font-family="Arial,sans-serif" fill="#666">Não comprova acionamento no GitHub Preview ou Adobe no iPhone.</text>
+</svg>
