@@ -1,0 +1,214 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R  >>
+endobj
+6 0 obj
+<< /Length 2069 >>
+stream
+0.985 0.985 0.976 rg 0 0 595 842 re f
+0.08 0.17 0.25 rg 0 806 595 36 re f
+1 1 1 rg BT /F2 15 Tf 1 0 0 1 42 818 Tm (GenTests.ai) Tj ET
+0.83 0.89 0.91 rg BT /F1 8 Tf 1 0 0 1 312 820 Tm (ENGENHARIA & ESTRAT\311GIA DE QUALIDADE) Tj ET
+0.13 0.44 0.49 rg BT /F2 9 Tf 1 0 0 1 43 772 Tm (GUIA EXECUTIVO \225 QUALIDADE DE SOFTWARE) Tj ET
+0.08 0.17 0.25 rg BT /F2 30 Tf 1 0 0 1 43 722 Tm (Quanto custa um) Tj ET
+0.08 0.17 0.25 rg BT /F2 30 Tf 1 0 0 1 43 684 Tm (incidente de software) Tj ET
+0.08 0.17 0.25 rg BT /F2 30 Tf 1 0 0 1 43 646 Tm (para sua opera\347\343o?) Tj ET
+0.32 0.38 0.43 rg BT /F1 12 Tf 1 0 0 1 44 602 Tm (Descubra os custos que n\343o aparecem no ticket do bug) Tj ET
+0.32 0.38 0.43 rg BT /F1 12 Tf 1 0 0 1 44 584 Tm (e aprenda a identificar o impacto da n\343o qualidade.) Tj ET
+0.82 0.86 0.86 rg 42 535 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 513 Tm (QUALIDADE \311 UMA DECIS\303O DE NEG\323CIO) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 487 Tm (Um defeito em produ\347\343o n\343o mobiliza apenas quem o corrige.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 469.5 Tm (Ele pode consumir horas de engenharia, QA e suporte, gerar) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 452 Tm (ajustes comerciais e interromper oportunidades de receita.) Tj ET
+0.82 0.86 0.86 rg 42 404.5 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 382.5 Tm (O QUE VOC\312 VAI ENCONTRAR) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 356.5 Tm (\225 Um exemplo financeiro transparente de R$ 4.760.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 339 Tm (\225 Um checklist pr\341tico para estimar um incidente real.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 321.5 Tm (\225 Crit\351rios para separar despesas, receita e oportunidade.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 304 Tm (\225 Refer\352ncias cient\355ficas e limites da interpreta\347\343o.) Tj ET
+0.08 0.17 0.25 rg 0 0 595 43 re f
+0.84 0.93 0.92 rg BT /F1 9 Tf 1 0 0 1 43 17 Tm (gentests-site.pages.dev) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 526 17 Tm (1 / 5) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 8 0 R  >>
+endobj
+8 0 obj
+<< /Length 2209 >>
+stream
+0.985 0.985 0.976 rg 0 0 595 842 re f
+0.08 0.17 0.25 rg 0 806 595 36 re f
+1 1 1 rg BT /F2 15 Tf 1 0 0 1 42 818 Tm (GenTests.ai) Tj ET
+0.83 0.89 0.91 rg BT /F1 8 Tf 1 0 0 1 312 820 Tm (ENGENHARIA & ESTRAT\311GIA DE QUALIDADE) Tj ET
+0.13 0.44 0.49 rg BT /F2 9 Tf 1 0 0 1 43 772 Tm (01 / ENTENDA O IMPACTO) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 722 Tm (O custo n\343o termina) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 684 Tm (na corre\347\343o do bug.) Tj ET
+0.32 0.38 0.43 rg BT /F1 12 Tf 1 0 0 1 44 640 Tm (Tr\352s dimens\365es ajudam a tornar as perdas vis\355veis.) Tj ET
+0.82 0.86 0.86 rg 42 591 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 569 Tm (TEMPO DAS EQUIPES) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 543 Tm (Investigar, corrigir, reproduzir e retestar um incidente) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 525.5 Tm (desvia capacidade de atividades planejadas. Registre horas) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 508 Tm (\372nicas por pessoa e use custos-hora documentados.) Tj ET
+0.82 0.86 0.86 rg 42 460.5 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 438.5 Tm (EFEITOS FINANCEIROS DIRETOS) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 412.5 Tm (Servi\347os emergenciais e ajustes comerciais precisam ser) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 395 Tm (identificados por nota, transa\347\343o ou documento financeiro.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 377.5 Tm (Cr\351ditos e estornos n\343o s\343o necessariamente sa\355da de caixa.) Tj ET
+0.82 0.86 0.86 rg 42 330 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 308 Tm (OPORTUNIDADES EFETIVAMENTE PERDIDAS) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 282 Tm (Quando comprov\341vel, use a margem de contribui\347\343o l\355quida) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 264.5 Tm (de vendas n\343o recuper\341veis, e n\343o o faturamento bruto.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 247 Tm (Jamais conte o mesmo cliente ou evento duas vezes.) Tj ET
+0.08 0.17 0.25 rg 0 0 595 43 re f
+0.84 0.93 0.92 rg BT /F1 9 Tf 1 0 0 1 43 17 Tm (gentests-site.pages.dev) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 526 17 Tm (2 / 5) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R  >>
+endobj
+10 0 obj
+<< /Length 2386 >>
+stream
+0.985 0.985 0.976 rg 0 0 595 842 re f
+0.08 0.17 0.25 rg 0 806 595 36 re f
+1 1 1 rg BT /F2 15 Tf 1 0 0 1 42 818 Tm (GenTests.ai) Tj ET
+0.83 0.89 0.91 rg BT /F1 8 Tf 1 0 0 1 312 820 Tm (ENGENHARIA & ESTRAT\311GIA DE QUALIDADE) Tj ET
+0.13 0.44 0.49 rg BT /F2 9 Tf 1 0 0 1 43 772 Tm (02 / EXEMPLO FINANCEIRO) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 722 Tm (R$ 4.760: como um) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 684 Tm (incidente pode se compor.) Tj ET
+0.32 0.38 0.43 rg BT /F1 12 Tf 1 0 0 1 44 640 Tm (Simula\347\343o ilustrativa \227 n\343o \351 caso real nem economia garantida.) Tj ET
+0.82 0.86 0.86 rg 42 591 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 569 Tm (HORAS E RECURSOS IMPUTADOS) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 543 Tm (Desenvolvimento   12 h \327 R$ 120/h                  R$ 1.440) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 525.5 Tm (QA                         6 h \327 R$ 90/h                    R$ 540) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 508 Tm (Suporte                  4 h \327 R$ 70/h                    R$ 280) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 490.5 Tm (Subtotal de recursos                                 R$ 2.260) Tj ET
+0.82 0.86 0.86 rg 42 443 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 421 Tm (OUTROS EFEITOS ECON\324MICOS DISTINTOS) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 395 Tm (Fornecedor emergencial \(despesa\)                 R$ 600) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 377.5 Tm (Cr\351dito para cliente A \(ajuste de receita\)     R$ 900) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 360 Tm (Venda perdida de cliente B \(margem\)        R$ 1.000) Tj ET
+0.82 0.86 0.86 rg 42 312.5 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 290.5 Tm (TOTAL ECON\324MICO GERENCIAL CONDICIONAL) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 264.5 Tm (R$ 2.260 + R$ 600 + R$ 900 + R$ 1.000 = R$ 4.760.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 247 Tm (O desembolso efetivo n\343o pode ser inferido desse valor.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 229.5 Tm (Todos os eventos s\343o hipot\351ticos e pressup\365em n\343o sobreposi\347\343o.) Tj ET
+0.08 0.17 0.25 rg 0 0 595 43 re f
+0.84 0.93 0.92 rg BT /F1 9 Tf 1 0 0 1 43 17 Tm (gentests-site.pages.dev) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 526 17 Tm (3 / 5) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 12 0 R  >>
+endobj
+12 0 obj
+<< /Length 2420 >>
+stream
+0.985 0.985 0.976 rg 0 0 595 842 re f
+0.08 0.17 0.25 rg 0 806 595 36 re f
+1 1 1 rg BT /F2 15 Tf 1 0 0 1 42 818 Tm (GenTests.ai) Tj ET
+0.83 0.89 0.91 rg BT /F1 8 Tf 1 0 0 1 312 820 Tm (ENGENHARIA & ESTRAT\311GIA DE QUALIDADE) Tj ET
+0.13 0.44 0.49 rg BT /F2 9 Tf 1 0 0 1 43 772 Tm (03 / APLIQUE NA SUA EMPRESA) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 722 Tm (Como estimar o custo) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 684 Tm (de um incidente.) Tj ET
+0.32 0.38 0.43 rg BT /F1 12 Tf 1 0 0 1 44 640 Tm (Use este roteiro com um incidente identificado e documentado.) Tj ET
+0.82 0.86 0.86 rg 42 591 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 569 Tm (CHECKLIST PR\301TICO) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 543 Tm (\22641 1. Registre horas de desenvolvimento e custo-hora.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 525.5 Tm (\22641 2. Some horas \372nicas de QA e retestes.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 508 Tm (\22641 3. Registre tempo de suporte e atendimento.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 490.5 Tm (\22641 4. Identifique despesas externas emergenciais.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 473 Tm (\22641 5. Separe cr\351ditos, estornos e ajustes de receita.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 455.5 Tm (\22641 6. Considere s\363 oportunidades realmente perdidas,) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 438 Tm (       pela margem l\355quida e com evid\352ncia do evento.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 420.5 Tm (\22641 7. Concilie IDs de cliente, transa\347\343o, hora e despesa;) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 403 Tm (       elimine duplicidades e mantenha os comprovantes.) Tj ET
+0.82 0.86 0.86 rg 42 355.5 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 333.5 Tm (ANTES DE COMPARAR PER\315ODOS) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 307.5 Tm (Use janelas equivalentes de releases e observa\347\343o.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 290 Tm (Registre incidentes sem perda mensur\341vel e dados ausentes.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 272.5 Tm (Redu\347\343o observada n\343o demonstra, sozinha, causalidade ou ROI.) Tj ET
+0.08 0.17 0.25 rg 0 0 595 43 re f
+0.84 0.93 0.92 rg BT /F1 9 Tf 1 0 0 1 43 17 Tm (gentests-site.pages.dev) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 526 17 Tm (4 / 5) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 14 0 R /Annots [15 0 R] >>
+endobj
+14 0 obj
+<< /Length 2759 >>
+stream
+0.985 0.985 0.976 rg 0 0 595 842 re f
+0.08 0.17 0.25 rg 0 806 595 36 re f
+1 1 1 rg BT /F2 15 Tf 1 0 0 1 42 818 Tm (GenTests.ai) Tj ET
+0.83 0.89 0.91 rg BT /F1 8 Tf 1 0 0 1 312 820 Tm (ENGENHARIA & ESTRAT\311GIA DE QUALIDADE) Tj ET
+0.13 0.44 0.49 rg BT /F2 9 Tf 1 0 0 1 43 772 Tm (04 / PR\323XIMOS PASSOS) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 722 Tm (Transforme incidentes) Tj ET
+0.08 0.17 0.25 rg BT /F2 29 Tf 1 0 0 1 43 684 Tm (em decis\365es de qualidade.) Tj ET
+0.32 0.38 0.43 rg BT /F1 12 Tf 1 0 0 1 44 640 Tm (Comece pelo que sua opera\347\343o realmente consegue medir.) Tj ET
+0.82 0.86 0.86 rg 42 591 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 569 Tm (PRIORIZE O QUE INTERESSA) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 543 Tm (Delimite uma jornada cr\355tica, re\372na incidentes recentes) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 525.5 Tm (e separe custo de corre\347\343o, impacto comercial e risco.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 508 Tm (Depois, identifique oportunidades de preven\347\343o mais cedo.) Tj ET
+0.82 0.86 0.86 rg 42 460.5 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 438.5 Tm (VAMOS CONVERSAR?) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 412.5 Tm (Voc\352 sabe quanto os incidentes de software est\343o) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 395 Tm (custando \340 sua opera\347\343o? A GenTests.ai pode conversar) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 377.5 Tm (com sua equipe sobre formas de identificar riscos, reduzir) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 360 Tm (retrabalho e estruturar indicadores de qualidade.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 342.5 Tm (Conhe\347a a GenTests.ai e entre em contato:) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 325 Tm (https://gentests-site.pages.dev/) Tj ET
+0.82 0.86 0.86 rg 42 277.5 511 1 re f
+0.12 0.42 0.47 rg BT /F2 11 Tf 1 0 0 1 43 255.5 Tm (FONTES E LIMITA\307\325ES) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 229.5 Tm (CISQ \(2022\): Cost of Poor Software Quality in the US.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 212 Tm (RTI/NIST \(2002\): Economic Impacts of Inadequate Testing.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 194.5 Tm (Boehm e Basili \(2001\): Software Defect Reduction Top 10 List.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 177 Tm (Estudos hist\363ricos dos EUA n\343o predizem resultados no Brasil.) Tj ET
+0.16 0.25 0.33 rg BT /F1 10.5 Tf 1 0 0 1 44 159.5 Tm (Este guia n\343o promete economia, ROI ou aus\352ncia de falhas.) Tj ET
+0.08 0.17 0.25 rg 0 0 595 43 re f
+0.84 0.93 0.92 rg BT /F1 9 Tf 1 0 0 1 43 17 Tm (gentests-site.pages.dev) Tj ET
+1 1 1 rg BT /F2 9 Tf 1 0 0 1 526 17 Tm (5 / 5) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Annot /Subtype /Link /Rect [40 290 400 330] /Border [0 0 0] /A << /S /URI /URI (https://gentests-site.pages.dev/) >> >>
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000141 00000 n 
+0000000238 00000 n 
+0000000340 00000 n 
+0000000477 00000 n 
+0000002597 00000 n 
+0000002734 00000 n 
+0000004994 00000 n 
+0000005132 00000 n 
+0000007570 00000 n 
+0000007709 00000 n 
+0000010181 00000 n 
+0000010336 00000 n 
+0000013147 00000 n 
+trailer
+<< /Size 16 /Root 1 0 R >>
+startxref
+13293
+%%EOF
