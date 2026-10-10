@@ -1,17 +1,17 @@
 ---
 id: GT-MKT-CNQ-001
 tipo: estudo-comercial-evidencias
-versao: 0.2.0
+versao: 0.3.0
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
 responsavel_elaboracao: agente-executor
-parecer_origem: REV-MKT-CNQ-001
+parecer_origem: REV-MKT-CNQ-002
 aprovador: Direcao
 aprovacao: pendente
 publicacao: bloqueada
 ---
-# O custo invisível da não qualidade de software — v0.2.0
+# O custo invisível da não qualidade de software — v0.3.0
 
 > **PROPOSTA INTERNA • NÃO PUBLICAR • NÃO DISTRIBUIR COMERCIALMENTE.** Documento educacional submetido a revisão independente. Não estabelece oferta, diagnóstico gratuito, economia garantida, campanha, preços, políticas ou serviços homologados. Parecer original preservado na branch `review/parecer-cnq-001`. PR #4 permanece draft.
 
@@ -30,29 +30,32 @@ publicacao: bloqueada
 
 ## 2. Modelo financeiro replicável (CNQ-01)
 
-### 2.1 Regras e unidade de registro
-Unidade de análise: **um incidente único**, ID estável em sistema de incidentes, com período, serviço, severidade, papéis, horas, dados financeiros e fontes. Adotar **custo econômico gerencial** ou **saída de caixa**, nunca somar ambos. Horas de colaborador CLT podem representar custo econômico imputado, não gasto incremental; somente horas extras ou fornecedor adicional comprovado entram como caixa incremental. Taxas administrativas, impostos, encargos e benefícios já integrantes de uma taxa horária integral **não serão adicionados novamente**. Custo-hora deve ser apurado pela área financeira: (remuneração + encargos patronais + benefícios + custos de contratação atribuíveis)/horas produtivas coerentes, com mês e regime; os valores da simulação abaixo são arbitrários, **não equivalem a salários de mercado**.
+### 2.1 Perspectiva gerencial única e conciliação dos componentes
 
-| Rubrica | Valor ilustrativo | Premissa / fonte exigida em uso real | Classificação e regra anti-duplicidade |
-|---|---:|---|---|
-| Desenvolvimento | 12h × R$120 = **R$1.440** | Apontamento único por pessoa/tarefa; custo-hora integral aprovado | Custo econômico imputado; não somar “atraso do projeto” se calculado pelas mesmas horas |
-| QA | 6h × R$90 = **R$540** | Registro de reteste/reprodução e taxa gerencial | Custo econômico imputado; não duplicar horas de engenharia |
-| Suporte | 4h × R$70 = **R$280** | Tickets e alocação de tempo por incidente | Custo econômico imputado; não lançar outra vez em despesas de atendimento |
-| Serviço externo emergencial | **R$600** | Exemplo de nota fiscal exclusiva do incidente | Desembolso incremental; excluir se já rateado no custo-hora |
-| Créditos/estornos concedidos | **R$900** | Exemplo de conciliação/estorno líquido efetivamente concedido | Desembolso ou receita líquida sacrificada; não somar receita bruta original dos mesmos clientes |
-| Transações efetivamente não recuperáveis | **R$1.000** | Exemplo de margem de contribuição líquida perdida, reconciliação de pedidos | Oportunidade econômica; não somar faturamento bruto nem créditos/estornos relativos ao mesmo evento |
-| **Total ilustrativo, econômico misto** | **R$4.760** | Premissas simuladas, nunca observadas | R$2.260 de horas imputadas + R$1.500 de desembolsos/ajustes + R$1.000 de oportunidade, desde que eventos independentes |
+A unidade é o **incidente único** (ID imutável). A medida principal é **impacto econômico gerencial atribuído ao incidente**: somar componentes econômicos **não sobrepostos**, mas **nunca chamar o resultado de caixa, despesa contábil, prejuízo fiscal ou receita perdida total**. Os componentes devem ser apresentados também de forma segregada. Não somar uma medida de caixa novamente ao custo econômico quando ambas representem o mesmo evento.
 
-**Importante:** os R$2.500 são deliberadamente divididos em R$600 + R$900 + R$1.000. São **eventos hipotéticos distintos**, não documentação financeira de cliente. Se a origem da perda não for comprovável ou houver sobreposição, marcar **não mensurado** e excluir do total. A base de caixa incremental do exemplo corresponde somente aos R$1.500, se efetivamente desembolsados; já o custo gerencial combinado é R$4.760. Estornos podem requerer tratamento contábil específico e não devem ser classificados automaticamente como caixa sem verificação. Tributos incidentes sobre serviços vendidos pela GenTests **não fazem parte deste exemplo** nem se assume qualquer alíquota brasileira. O exemplo não demonstra resultado de implantação de QA.
+| Componente ilustrativo | Valor | Categoria | Evidência necessária em produção | Exclusão |
+|---|---:|---|---|---|
+| Desenvolvimento: 12h × R$120/h | R$1.440 | Uso de recursos / custo econômico imputado | timesheet com pessoa+período+tarefa e taxa integral de custo | Sem duplicar atraso/custo-hora em outra rubrica |
+| QA: 6h × R$90/h | R$540 | Uso de recursos / custo econômico imputado | timesheet único e taxa validada | Horas não repetidas entre QA e engenharia |
+| Suporte: 4h × R$70/h | R$280 | Uso de recursos / custo econômico imputado | tickets e tempo por atendente | Sem sobreposição com contrato externo |
+| Serviço emergencial externo | R$600 | Despesa incremental contratada | nota fiscal, liquidação e vinculação ao incidente | Não computar se incluído em custo-hora/contrato fixo |
+| Crédito comercial concedido | R$900 | **Ajuste de receita** (redução de contraprestação), não presumir caixa | ID de crédito, fatura, razão/contas a receber e conciliação | Evento de cliente e venda **distintos** da margem perdida abaixo |
+| Venda cancelada e não recuperável | R$1.000 | **Margem de contribuição líquida perdida / oportunidade** | pedido cancelado, previsão plausível e custos variáveis evitados | Não somar faturamento bruto, crédito da mesma venda nem receita já estornada |
+| **Total econômico ilustrativo condicionado** | **R$4.760** | **R$2.260 recursos + R$600 externo + R$900 ajuste de receita + R$1.000 oportunidade** | Documentos reconciliáveis distintos | Não equivalente a saída de caixa de R$4.760 |
 
-### 2.2 Fórmulas
-`Custo gerencial por incidente = Σ(horas únicas × custo-hora integral) + desembolsos/ajustes distintos + margem de contribuição líquida perdida não sobreposta`.
+**Conciliação do exemplo:** horas R$1.440 + R$540 + R$280 = **R$2.260**; despesa de terceiro R$600; ajuste de receita R$900; oportunidade R$1.000; total **R$4.760**. O crédito hipotético reduz a contraprestação de um cliente A, enquanto a oportunidade decorre da venda perdida de cliente B: **IDs diferentes**; sem prova de distinção, a rubrica sobreposta sai do total e é marcada “não mensurada”. O caixa incremental **não pode ser determinado** pelas hipóteses; pagamento do terceiro pode ser R$600 **se quitado** e crédito pode ser abatimento em fatura, não desembolso. Este material **não declara R$1.500 de caixa**.
 
-`Custo mensal ilustrativo = custo médio por incidente × quantidade de incidentes elegíveis no período`.
+Custo-hora integral ilustrativo não representa salário praticado, inclui encargos e benefícios apenas quando a fonte contábil confirmar a composição; não somar estes novamente. Efeito tributário e receitas em regime de competência somente após análise do financeiro responsável. É proibido usar estes números como economia obtida por cliente ou pela GenTests.ai.
 
-`Custo prevenção = despesas incrementais de prevenção + esforço imputado exclusivamente à iniciativa` (reportar separadamente caixa/econômico).
+**Chaves de prevenção de duplicidade:** `incident_id`, `source_event_id`, `transaction_id`, `customer_id_pseudonym`, `ledger_entry_id`, `person_id_pseudonym`, `start_ts`, `end_ts`; deduplicar por evento+transação+rubrica; vincular créditos e perdas de margem a transações diferentes ou comprovar a parcela incremental distinta; controlar horas sem sobreposição temporal por pessoa, gerar trilha de exclusões com motivo e conciliador. Sem evidência, lançar “desconhecido”, não zero.
 
-`Benefício líquido observacional = (custo normalizado baseline − custo normalizado posterior) − custo prevenção`, apenas como **diferença observada**, não efeito causal provado, quando comparabilidade e dados forem suficientes. Nunca inferir ROI em ausência de histórico, controle de mudanças e atribuição aceitável.
+### 2.2 Fórmulas e perspectivas distintas
+- `Impacto econômico gerencial = Σ horas únicas × custo-hora integral + serviço externo incremental + ajuste líquido de receita distinto + margem de contribuição não recuperável distinta`.
+- `Caixa incremental realizado = Σ pagamentos efetivos atribuídos − recebimentos incrementais efetivos` com reconciliação bancária; **não estimável neste exemplo**.
+- `Resultado contábil = apuração conforme competência, natureza das contas e conciliação pelo responsável contábil`; não igual ao gerencial automaticamente.
+- `Custo de prevenção = Σ esforço preventivo exclusivo × custo-hora + despesas incrementais exclusivas`, segregando perspectiva econômica e caixa.
+- `Variação observada normalizada = custo por unidade de exposição no baseline − custo por unidade de exposição na janela posterior`; antes/depois não prova causalidade nem ROI.
 
 ## 3. Sensibilidade — hipóteses sem probabilidades (CNQ-06)
 O exemplo-base de **3 incidentes por mês durante 12 meses**, R$4.760 cada, equivale a **R$14.280/mês ou R$171.360/12 meses** apenas se ambos permanecerem constantes.
@@ -65,23 +68,26 @@ O exemplo-base de **3 incidentes por mês durante 12 meses**, R$4.760 cada, equi
 
 As três colunas não são percentis nem limites de confiança. A coluna alta pressupõe **R$2.500 adicionais distintos, verificáveis e não sobrepostos**; jamais somar custos inexistentes para inflar perdas. Em bases reais, incluir casos sem perda financeira, eventos extremos, tamanho dos serviços e janelas sazonais. Não há estimativa de retorno sobre contratação.
 
-## 4. Protocolo de medição antes/depois (CNQ-03)
-**Amostra e janela:** 30–90 dias é apenas sugestão inicial; fixar período suficiente para volume/estacionalidade, tipo de sistema e mudanças organizacionais. Comparar janelas equivalentes (carga/transações/releases), mesma definição de incidente e critérios de severidade; explicitar efeitos de sazonalidade, release, mudanças de instrumentação e alterações de equipe. Não excluir incidentes desfavoráveis.
+## 4. Protocolo de medição auditável (CNQ-03 / CNQ32-02)
 
-**Ficha de coleta mínima:** incident_id; serviço/jornada; início/fim; janela; severidade definida; origem provável (incerta quando não comprovada); etapa de detecção; release; autor da validação; IDs de tarefas/tickets; pessoa/papel; horas únicas; taxa-hora/mês; nota/documento de desembolso; ID de transação e valor de **margem líquida**; exclusão/duplicidade; fonte; nível de confiança; iniciativa de prevenção ligada; custo preventivo; fator externo/mudança concomitante. Proteger dados pessoais; agregação e uso mediante autorização.
+### 4.1 Plano de amostragem pré-registrado
+Antes de extrair os dados, fixar por escrito: serviço, perfil de defeito, severidade, coorte de versões **implantadas**, datas de implantação, volume/denominador e regras de inclusão. Coorte = releases implantadas entre as datas acordadas, inclusive sem defeitos. Observar cada release por **30 dias completos após sua implantação**, como ponto de partida explícito, ou outra maturação justificada e **igual** entre os períodos. Coortes ainda imaturas não entram no cálculo consolidado; reportar sua contagem à parte. Reabertura do mesmo defeito mantém ID único e horas adicionais; duplicados são ligados ao canônico; regressão tecnicamente distinta cria novo ID com justificativa. Mudanças de observabilidade devem ser registradas como fator de confusão.
 
-| Indicador | Fórmula / denominador | Fonte e interpretação |
+**Completude mínima candidata (não política homologada):** ≥95% dos releases com data/serviço/denominador; ≥90% dos incidentes com ID, severidade, data de abertura/restauração e release associado; ≥90% dos custos incluídos com evidência de rubrica, período e trilha de conciliação. Se não atingidos, **não publicar custo médio nem comparação causal**, apresentar percentuais de ausência e análise exploratória. Volume mínimo candidato: ≥30 releases maduros por janela para taxa por release; se menor, reportar contagens brutas e intervalos sem concluir tendência. Os valores de corte exigem validação no piloto e não conferem significância estatística.
+
+### 4.2 Indicadores com escopo/denominador coerentes
+| Métrica | Fórmula reproduzível | Evidências / cuidados |
 |---|---|---|
-| Escape rate | defeitos confirmados encontrados após implantação ÷ todos os defeitos confirmados encontrados antes+depois no conjunto e janela definidos | Issue tracker + release; informar cobertura e atraso de detecção; não confundir com nº absoluto |
-| Incidentes críticos normalizados | incidentes Sev1/Sev2 únicos ÷ 1.000 deploys ou por 100 mil transações (escolher denominador relevante) | Incident tracker + CI/CD ou telemetria; severidade e unidade constantes |
-| Retrabalho | Σ horas únicas em atividades de correção/reteste ÷ horas produtivas totais do mesmo time e período | Timesheets + tickets; não contar uma hora em dois incidentes |
-| MTTR | média de (restauração confirmada − início do impacto) nos incidentes elegíveis | Monitoramento/tickets; reportar mediana e valores extremos quando possível |
-| Custo por incidente | Σ custos gerenciais sem duplicidade ÷ nº de incidentes com dados suficientes | Financeiro + timesheets + incidente; publicar completude da amostra |
-| Critérios verificáveis | histórias com critérios verificáveis antes do desenvolvimento ÷ histórias elegíveis iniciadas | Backlog + refinamento, amostra definida |
-| Retorno ao desenvolvimento | itens devolvidos por não conformidade ÷ itens submetidos à primeira validação | Tracker, mesma definição temporal |
-| Custo de prevenção | Σ horas únicas da iniciativa × taxa + despesas incrementais vinculadas | Projeto QA + financeiro; não confundir com correção de incidente |
+| Escape dos defeitos da coorte | defeitos confirmados vinculados à coorte descobertos **após deploy até D+30** ÷ todos os defeitos confirmados vinculados às mesmas releases encontrados até D+30, inclusive pré-deploy | Issue tracker+release_id; zero denominador = N/A; não contar descobertos após D+30 no indicador D+30; reportar atraso em separado |
+| Incidentes críticos por release | incidentes Sev1/Sev2 únicos vinculados à coorte e observados D+30 ÷ releases maduras da coorte × 100 | Incident tracker+CI/CD; não trocar por transações entre períodos; para serviços transacionais, criar indicador separado por 100 mil transações expostas |
+| MTTR de restauração | Σ (timestamp de restauração de serviço − início confirmado do impacto) ÷ incidentes restaurados na janela | Observabilidade + incidente; reportar mediana e censurados; degradação parcial inclui hora de início do impacto parcial segundo definição pactuada; não confundir com tempo até solução definitiva |
+| Retrabalho | Σ horas corrigir/retestar, pessoa e intervalo únicos ÷ horas produtivas do mesmo time/janela | Timesheet + ticket; cobrir tarefas sem incidente e excluir sobreposição |
+| Custo por incidente elegível | Σ impacto econômico comprovável e não sobreposto ÷ incidentes com dados completos elegíveis | Financeiro+tracker; publicar proporção de casos elegíveis e ausências |
+| Critérios verificáveis | histórias com critérios verificáveis documentados antes do início ÷ histórias iniciadas no período | Backlog, checklist estável |
+| Devolução | itens devolvidos na primeira validação ÷ itens submetidos à primeira validação | Tracker, unidade de item imutável |
+| Custo de prevenção | horas exclusivas de prevenção × taxa + aquisições incrementais | Projeto+financeiro; não confundir com correções |
 
-**Avaliação:** registrar baseline, intervenção, indicadores-alvo, custo da mudança e diferenças observadas. Quando viável, usar grupo/serviço comparável, séries temporais e revisão por responsáveis. Ausência de controle ⇒ **associação**, não causalidade. Dados indisponíveis ⇒ “não mensurado”, não zero.
+**Baseline vs posterior:** escolher janelas de releases maduras de exposição semelhante (volume, severidade, clientes, plataforma), normalizar custo total por 100 releases maduras ou por 100 mil transações, **sem misturar denominadores**. Registrar inflação/taxa-hora, sazonalidade, releases especiais, mudança de equipe, observabilidade e dados faltantes. Apresentar medidas absolutas, taxa, amostras e variação observada; grupo de comparação quando viável. **Associação não implica causalidade**; sem controle e completude não estimar benefício/ROI. Dados pessoais pseudonimizados, com acesso autorizado e retenção definida.
 
 ## 5. Mensagem executiva candidata (CNQ-05/07)
 **Headline:** Quanto custa descobrir um defeito depois que ele afeta o cliente?
