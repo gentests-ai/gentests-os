@@ -1,7 +1,7 @@
 ---
 tipo: oferta-piloto
 id: OFERTA-QA-EXPRESS
-versao: 0.2.0
+versao: 0.2.1
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -12,6 +12,9 @@ validacao_independente: pendente
 autorizacao_externa: pendente
 ---
 # QA Express — condição promocional dos três primeiros clientes
+
+
+> **Aviso documental — Quality Journey em revisão (10/10/2026):** a campanha/tabela anterior e a nova jornada têm escopos distintos. R$ 490/1.490/2.490 não se transferem automaticamente para Start/Focus/Evolution; R$ 290/650/1.200 seguem indicativos, sem classificação regular/promocional aprovada. O site observado exibe QA Express a partir de R$ 690. Não cotar ou divulgar a nova tabela antes de decisão formal. Este aviso preserva as alternativas e decisões anteriores; não seleciona campanha nem altera contratos. [Tratamento e pendências — GT-COM-QJ-004](../comercial/GT-COM-QJ-004-Tratamento-REV-COM-QJ-003.md).
 
 **Fonte editável:** esta nota. **Origem:** [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests]], versão 0.3.0. Revisão consolidada; uso interno. Não é contrato nem proposta já enviada a cliente.
 
@@ -65,3 +68,5 @@ Preencher somente para interessado qualificado:
 **Pendências decisórias:** [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial]]. **Evidência de elaboração:** [[05-Evidencias/Primeiro-PIX-Entrega-Documental]].
 
 **Histórico 0.2.0:** R$ 490 para a campanha; escopo-base reconciliado ao catálogo; R$ 890/seis horas preservados apenas como histórico. Referência financeira e decisão de Cíntia registradas; revisão independente e condições de execução permanecem pendentes.
+
+**Histórico 0.2.1:** aviso de conflito com a Journey, sem alteração das condições históricas ou de contratos.

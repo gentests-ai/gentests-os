@@ -1,0 +1,81 @@
+{
+  "source": {
+    "filename": "GenTests_Apresentacao_Comercial_Quality_Journey_v3_2_Revisao_Interna.pptx",
+    "bytes": 50690,
+    "sha256": "b228419977c3267a6b3696a25c40886fc9ffce6ff9ab0d5791750d6661760a48",
+    "repository_path": "comercial/apresentacoes/GenTests_Apresentacao_Comercial_Quality_Journey_v3_2_Revisao_Interna.pptx",
+    "unchanged": true
+  },
+  "rendering": {
+    "renderer": "@oai/artifact-tool",
+    "node": "v24.19.0",
+    "observed_date": "2026-10-10",
+    "format": "PNG",
+    "scale": 1,
+    "slide_count": 10,
+    "width": 1280,
+    "height": 720,
+    "pptx_reexported": false,
+    "visual_approval": false,
+    "limitation": "Fontes e layout podem variar entre renderer e PowerPoint; projeções para revisão independente."
+  },
+  "observations": [
+    {
+      "slide": 2,
+      "location": "terceiro cartão: Decisões sem evidências",
+      "issue": "Título em duas linhas próximo/sobreposto ao corpo na projeção PNG. Conferir no PowerPoint e solicitar correção ao autor se confirmado. Binário exato preservado."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "slide-01.png",
+      "bytes": 83074,
+      "sha256": "e2863167556d8786673c7103c0fade1da7503dcf6b86672cba441a4a3c0c555a"
+    },
+    {
+      "path": "slide-02.png",
+      "bytes": 120586,
+      "sha256": "7a701e720555b82c663b26ff2c69586f5f4322216cc9062f23aef3bfd866bb54"
+    },
+    {
+      "path": "slide-03.png",
+      "bytes": 101995,
+      "sha256": "29c838a2503f22c177932caf728fc45152dfb59698c575c69354fd9ab500ff8f"
+    },
+    {
+      "path": "slide-04.png",
+      "bytes": 128956,
+      "sha256": "c91eeb58e5ae68d3f6e433bd68c7b65198ff8816e0aa672031d51a1bbd6444b0"
+    },
+    {
+      "path": "slide-05.png",
+      "bytes": 125105,
+      "sha256": "73715da664cde3ae4d738679dfca324057d141a4ef0289d3c8c57341b85271b0"
+    },
+    {
+      "path": "slide-06.png",
+      "bytes": 115093,
+      "sha256": "af89ac9b84c2e45b374efa3f47131bcdf978a3207cb341c0770f91a7daa92248"
+    },
+    {
+      "path": "slide-07.png",
+      "bytes": 102922,
+      "sha256": "39d714766f035890d42a218f6fe4a851d53721325d9605108868e8043f5afee1"
+    },
+    {
+      "path": "slide-08.png",
+      "bytes": 110916,
+      "sha256": "f3f17890aed841b5ef0badb16f195d4a243a03824557bc86600fc616724c5901"
+    },
+    {
+      "path": "slide-09.png",
+      "bytes": 116546,
+      "sha256": "18f71a8fbe9645463dde321105c91324aecb27573e1f080e987cc06ce914a1e1"
+    },
+    {
+      "path": "slide-10.png",
+      "bytes": 81908,
+      "sha256": "7a48ae0706433f6bfe8e3b802c58cfc02e0168ed7d307d44ae8181855b286970"
+    }
+  ]
+}

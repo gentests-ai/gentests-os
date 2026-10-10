@@ -1,7 +1,7 @@
 ---
 tipo: plano-comercial
 id: PLN-COM-001
-versao: 0.3.0
+versao: 0.3.1
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -15,6 +15,9 @@ autorizacao_externa: pendente
 origem: solicitação de Cíntia em 10/10/2026
 ---
 # PLN-COM-001 — Campanha dos Três Primeiros Clientes
+
+
+> **Aviso documental — Quality Journey em revisão (10/10/2026):** a campanha/tabela anterior e a nova jornada têm escopos distintos. R$ 490/1.490/2.490 não se transferem automaticamente para Start/Focus/Evolution; R$ 290/650/1.200 seguem indicativos, sem classificação regular/promocional aprovada. O site observado exibe QA Express a partir de R$ 690. Não cotar ou divulgar a nova tabela antes de decisão formal. Este aviso preserva as alternativas e decisões anteriores; não seleciona campanha nem altera contratos. [Tratamento e pendências — GT-COM-QJ-004](../comercial/GT-COM-QJ-004-Tratamento-REV-COM-QJ-003.md).
 
 **Objetivo:** conquistar os três primeiros clientes pagantes da GenTests.ai, validar a entrega e medir o custo de aquisição mediante uma condição promocional limitada. O primeiro contrato com entrada comprovada é o primeiro marco desta campanha. Ciclo inicial de acompanhamento: 13/10 a 11/11/2026 (30 dias corridos, inclusivos); datas e metas experimentais, sem garantia de venda. Ao final, revisar resultados e decidir continuidade; esta data não é automaticamente um prazo promocional divulgado.
 
@@ -108,3 +111,5 @@ Proposta específica exige preço homologado, prazo/capacidade, escopo, exclusõ
 **Rede profissional:** “Olá, [nome]. Estou estruturando a GenTests.ai para projetos de qualidade de software. Você conhece alguma equipe que precise avaliar um fluxo crítico ou organizar seus testes? Uma apresentação ao responsável por Engenharia ou Produto seria muito útil.”
 **Follow-up:** “Olá, [nome]. Retomo o contato de 9/10 sobre [assunto real do e-mail]. Há abertura para uma conversa curta sobre essa necessidade ou parceria? Se não for sua área, com quem poderíamos falar?”
 Não inserir vaga, problema, nome ou contato sem verificação; não usar preço candidato em mensagem antes da homologação.
+
+**Histórico 0.3.1:** aviso de conflito com a Journey, sem alteração de preços ou escolha de alternativa.

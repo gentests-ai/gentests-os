@@ -1,9 +1,12 @@
 ---
 tipo: indice
 status: aprovado-para-uso-inicial
-versao: 1.1.0
+versao: 1.1.1
 ---
 # GenTests OS — Centro de comando
+
+
+> **Aviso documental — Quality Journey em revisão (10/10/2026):** a campanha/tabela anterior e a nova jornada têm escopos distintos. R$ 490/1.490/2.490 não se transferem automaticamente para Start/Focus/Evolution; R$ 290/650/1.200 seguem indicativos, sem classificação regular/promocional aprovada. O site observado exibe QA Express a partir de R$ 690. Não cotar ou divulgar a nova tabela antes de decisão formal. Este aviso preserva as alternativas e decisões anteriores; não seleciona campanha nem altera contratos. [Tratamento e pendências — GT-COM-QJ-004](comercial/GT-COM-QJ-004-Tratamento-REV-COM-QJ-003.md).
 
 > [!tip] Gestão de tarefas
 > **[[09-Backlog/Kanban|Abrir Kanban da GenTests.ai]]** · [[CHANGELOG|Novidades da versão 1.1]]
