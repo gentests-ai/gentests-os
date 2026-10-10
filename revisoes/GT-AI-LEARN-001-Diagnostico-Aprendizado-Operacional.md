@@ -1,13 +1,13 @@
 ---
 id: GT-AI-LEARN-001
 tipo: diagnostico-arquitetura-aprendizado-operacional
-versao: 0.1.0
+versao: 0.2.0
 status: proposta
-estado_documental: aguardando-revisao-independente
+estado_documental: em-correcao-para-revalidacao-focal
 data: 2026-10-10
 responsavel_elaboracao: Orquestrador GenTests.ai
 aprovador: Direcao
-revisao_independente: pendente
+revisao_independente: REV-AI-LEARN-001-aprovado-com-ressalvas
 implementacao_autorizada: nao
 publicacao_autorizada: nao
 ---
@@ -17,7 +17,7 @@ publicacao_autorizada: nao
 
 ## 1. Decisão executiva proposta
 
-**Viabilidade favorável para um piloto pequeno, condicionada à revisão independente, aprovação humana e validação das permissões reais.** Reutilizar GitHub, arquivos Markdown/JSON, testes Python padrão (unittest) e GitHub Actions já existentes. Aprendizado é evolução controlada de instruções, critérios, casos e processo, **não** mudança de pesos de modelos, memória automática ou aprovação por agentes. A prioridade é curar erros já confirmados antes de ampliar o número de agentes.
+**Viabilidade arquitetural apenas conceitual; piloto, CI, implementação, merge e publicação NÃO autorizados.** Reutilizar GitHub, arquivos Markdown/JSON, testes Python padrão (unittest) e GitHub Actions já existentes. Aprendizado é evolução controlada de instruções, critérios, casos e processo, **não** mudança de pesos de modelos, memória automática ou aprovação por agentes. A prioridade é curar erros já confirmados antes de ampliar o número de agentes.
 
 ## 2. Escopo examinado e limites
 
@@ -59,7 +59,7 @@ O repositório foi retornado como **private** pelo conector. Isso não demonstra
 
 ## 5. Modelo canônico proposto de Eval
 
-Usar arquivos pequenos JSON ou YAML versionados no GitHub, por exemplo `evals/cases/EV-001.json`. Campos mínimos:
+Usar exclusivamente arquivos JSON versionados no GitHub, por exemplo `evals/cases/EV-001.json`. Campos mínimos:
 - `id`, `version`, `task_family`, `risk_level`, `source_repo`, `source_pr`, `source_commit`, `source_path`;
 - `input_fixture` sintético/sanitizado, `expected_behavior` objetivo, `forbidden_behavior`, `rubric`;
 - `oracle_type` (`deterministic` / `human`), `curation_status` (`candidate` / `reviewed` / `approved` / `retired`), `curator`, `reviewer`, `approved_by`, `decision_ref`;
@@ -121,7 +121,7 @@ gentests-os/
 - Python stdlib (json, unittest, pathlib) dispensa licenças e dependências adicionais.
 - Primeiro rodar localmente; GitHub Actions somente após examinar limites de minutos, armazenamento, retenção, segurança de workflows, runner e condições do plano vigente.
 - Sem chamada paga a API/modelos na fase determinística; avaliação semântica inicialmente manual e amostrada.
-- **Custo monetário adicional estimado:** R$0 para arquivos, scripts locais e testes determinísticos sem novos serviços pagos, desde que ferramentas/infraestrutura existentes comportem o volume; não é promessa de custo total zero. CI pode consumir cotas/cobrança conforme plano, repositório privado e runner. API/modelos e revisão humana têm custos variáveis, não estimados sem preço/cota e duração reais.
+- **Custo total não determinado:** uso de ferramentas existentes não elimina custo humano, CI, armazenamento, manutenção ou limites do plano; nenhuma gratuidade foi verificada. CI pode consumir cotas/cobrança conforme plano, repositório privado e runner. API/modelos e revisão humana têm custos variáveis, não estimados sem preço/cota e duração reais.
 - **Esforço humano exploratório (não compromisso):** curadoria inicial de 5–8 casos, algo como 4–10 horas distribuídas entre executor/revisor/orquestrador, mais validação da direção; medir no piloto. Implementação técnica futura pode exigir esforço adicional e não está autorizada.
 
 ## 9. Segurança, contaminação e antiaprendizado incorreto
@@ -148,7 +148,7 @@ gentests-os/
 | 4 — Avaliação semântica amostral | Rubricas humanas e divergência entre revisores | Baseline estável | Discrepâncias registradas; humano resolve; custos medidos | Direção decide expansão |
 | 5 — Aprendizado contínuo | Correções por PR e painel simples | 2+ rodadas comparáveis | Regressão, reincidência e esforço exibidos com denominadores | Aprovação por mudanças relevantes |
 
-**Quality Gates propostos:** QG-L para rascunhos isolados; QG-M para fixtures e runner de baixo risco; QG-H para qualquer mudança de política, permissões, produção, dado sensível ou ação externa. Aplicação definitiva depende de homologação do QG-001. Independentemente do nível, bloquear publicação de segredo, autoaprovação, uso de dados não autorizados e alterações a goldens sem validação.
+**Categorias de risco apenas sugeridas, não gates vigentes:** QG-L para rascunhos isolados; QG-M para fixtures e runner de baixo risco; QG-H para qualquer mudança de política, permissões, produção, dado sensível ou ação externa. Aplicação definitiva depende de homologação do QG-001. Independentemente do nível, bloquear publicação de segredo, autoaprovação, uso de dados não autorizados e alterações a goldens sem validação.
 
 **Go/no-go do piloto:** go apenas se casos elegíveis, dados permitidos, papéis independentes, baseline auditável, custo aceitável e decisão humana estiverem documentados. Senão: não verificável/bloqueado conforme natureza do impedimento.
 
@@ -166,3 +166,124 @@ gentests-os/
 Conferir fontes, classificação de status, viabilidade, riscos, critérios de curadoria, independência e custos; procurar exemplos concretos falsos/insuficientes, falsos positivos, vazamento e circularidade de oráculo. Recomendação de parecer itemizado com bloqueios, correções e decisão de elegibilidade para **piloto futuro**, não para implementação atual. Não alterar este arquivo, não realizar merge ou instalar workflows.
 
 **Resultado deste PR:** proposta documental isolada; nenhum Eval foi criado/rodado, nenhum workflow alterado e nenhuma regra institucional promovida.
+
+
+## 13. Matriz de dependências e quatro dimensões independentes — AIL-01/09
+
+**Interpretação estrita:** `status: proposta` significa referência de desenho; aprovação normativa exige decisão identificada da Direção, objeto/versão/alcance/data; controle configurado exige prova administrativa; teste realizado exige execução datada, resultado e artefatos. Nenhuma dessas quatro condições decorre automaticamente da anterior. No snapshot da documentação examinada, não foi localizada homologação do pacote POL/QG/SEC/5S. Não se atesta ausência de proteção real: configuração e testes **não verificados**.
+
+| Dependência | Estado normativo visto | Controle pretendido (não implementado) | Evidência para liberar etapa futura |
+|---|---|---|---|
+| POL-001/002, hierarquia e conflitos | proposta | resolução por regra e versão aprovada, nunca pela instrução de um fixture | decisão por SHA/versão e ensaios positivos/negativos |
+| POL-003, matriz de permissões | proposta | executor sem aprovação/elevação; revisão distinta; Direção autoriza | decisão de poderes + IAM e teste de negativa |
+| POL-004, SEC-AI-001 | proposta | classificação, minimização, isolamento e incidentes | política aplicável + registro e testes de controle |
+| QG-001/QG-CORE/QG-STR | proposta | severidade maior prevalece, decisão separada do resultado técnico | decisão institucional e evidência por gate |
+| GOV-5S-001 | proposta | dois documentos, reutilização de ferramentas, arquivo único por objeto | aceite documental e inventário antirredundância |
+| GT-GOV-001 v0.2 (PR #6), REV-GOV-001 (PR #7) | diagnóstico em evolução e parecer com ressalvas | rastreabilidade GOV e fonte canônica condicionada | revalidação focal e decisões DEC-GOV-A/B/D |
+| GT-AI-LEARN-001 v0.2 (PR #8), REV-AI-LEARN-001 (PR #9) | proposta e parecer, não normas | suíte somente futura | parecer focal + autorização própria, posterior |
+
+### Rastreabilidade GOV-01–13 e recomendações do REV-GOV-001
+
+| Origem | Implicação para Evals | Encaminhamento sem criar governança paralela |
+|---|---|---|
+| GOV-01 / REV-GOV-02 | aprovações não comprovadas | exigir `decision_ref` verificável; pendente ≠ aprovada |
+| GOV-02 | normas em proposta | carimbar versão/status normativo em cada caso |
+| GOV-03 | card x evidência de conclusão | teste não pode concluir card automaticamente |
+| GOV-04/05 | divergência comercial | SKU/escopo/preço permanecem candidatos, não golden |
+| GOV-06 / REV-GOV-03 | múltiplas fontes de dados | apontar source-of-truth por entidade conforme decisão futura; não inferir sync |
+| GOV-07 | enforcement não aferido | checklist técnico obrigatório e classificação não verificado |
+| GOV-08 | site sem homologação funcional | teste estático não comprova entrega, privacidade ou publicação |
+| GOV-09 | PRs com dependências | manifesto deve registrar base/head, SHA e contexto do parecer |
+| GOV-10 | estado documental ≠ autorização | dois campos separados e decisão humana |
+| GOV-11 | ID duplicado | `source_path` e SHA obrigatórios, ID sozinho insuficiente |
+| GOV-12 | aprovação ≠ teste | resultados nos quatro eixos documental/técnico/funcional/autorização |
+| GOV-13 / REV-GOV-01 | inspeção parcial | manifesto de evidência e cobertura verificada/parcial/não verificada |
+| REV-GOV-03 | propriedade e sincronização | adotar propriedade canônica apenas após DEC-GOV-B; não duplicar CRM |
+
+A matriz acima referencia o tratamento GT-GOV-002 na PR #6 e o parecer REV-GOV-001 na PR #7. Não modifica seu estado, conteúdo, nem resolve suas decisões reservadas.
+
+## 14. Segurança operacional e checklist de prova — AIL-02
+
+**Sem execução nesta rodada.** Antes de qualquer CI futuro, Infra/administrador fornecerá capturas ou exportação datada, URL de configuração, ator e SHA, com segredos ocultos; revisor avaliará: (1) rulesets/branch protection da base e branch alvo, revisão obrigatória e impedimento de bypass; (2) permissões efetivas de cada role e possibilidade de modificar oráculos, merges e configurações; (3) `GITHUB_TOKEN` com `contents: read` e demais escopos explicitamente justificados; (4) ausência de PAT amplo, secrets e credenciais de produção; (5) evento `pull_request`, rejeição de `pull_request_target` para código não confiável, limites de write e de aprovação de forks; (6) runner isolado/efêmero, sem rede na etapa local, sem persistência de workspace privilegiado; (7) actions fixadas por SHA se aplicável, dependências revisadas; (8) retenção, exposição e permissão de leitura de artifacts/logs; (9) tentativa negativa de escrita no baseline e acesso a secrets; (10) evidência de execução positiva e negativa sem dados reais. **Todos esses controles estão não verificados; não se criam workflows nem scripts nesta PR.** Achado grave suspende o plano de CI até correção e novo aceite específico.
+
+## 15. Protocolo de curadoria, manifesto e anti-contaminação — AIL-03/07/11
+
+**Elegibilidade cumulativa:** fato comprovado por fonte primária + repositório/caminho/PR/commit; versão/status da regra na data do fato; origem e severidade; fixture sintética lícita e minimizada; comportamento esperado operacionalmente falsificável; oráculo/rubrica testáveis; curador e revisor efetivamente distintos; decisão humana identificada; caso positivo e negativo quando aplicável; nenhuma divergência em aberto. Ausência de qualquer requisito → `candidate` ou `disputed`, fora do baseline. Parecer histórico e RNC ainda contestada não constituem verdade canônica. Revisores da mesma família de modelo não são independência suficiente para ambiguidade crítica: arbitragem humana e/oráculo determinístico externo.
+
+**Fluxo:** candidato → verificação de evidência pelo curador → revisor independente redige/valida `expected_behavior` sem copiar a resposta do executor → divergência registrada com argumentos e versões → arbitragem Direção nos impactos normativos / responsável humano independente nos critérios técnicos delegados → aprovação documental explícita → congelamento com SHA-256 do manifesto e hashes dos JSON → baseline versionado. Alteração de expected/rubrica gera nova versão, revisão e decisão: nunca reescrever o golden para subir score, nem autopromoção por CI.
+
+**Manifesto mínimo:** `manifest_id`, `manifest_version`, `created_at`, `set_type` (`development`, `regression`, `holdout`), `case_ids_and_hashes`, `baseline_commit`, `policy_ref_version_status`, `source_repo_pr_commit_path`, `issue_dispute_status`, `approved_by`, `decision_ref`, `data_classification`, `exposure_history`. Holdout independente não deve ser exibido ao agente avaliado nem empregado para ajuste de prompts; exposição acidental implica retirar/rotacionar conjunto e invalidar comparações afetadas.
+
+**JSON de exemplo ilustrativo — NÃO CRIADO COMO ARQUIVO NEM APROVADO:**
+```json
+{
+  "id": "EV-DEMO-001", "version": "0.1", "set_type": "development",
+  "status": "candidate", "task_family": "source-validation",
+  "risk_level": "medium", "source_repo": "gentests-os",
+  "source_pr": 9, "source_commit": "PREENCHER_SHA_VERIFICADO",
+  "source_path": "revisoes/REV-AI-LEARN-001-Parecer-Aprendizado-Operacional.md",
+  "source_rule_version": "proposta/0.1.0",
+  "source_finding": "AIL-11",
+  "input_fixture": {"format": "JSON", "origin": "synthetic"},
+  "expected_behavior": "Aceitar JSON válido, rejeitar JSON malformado",
+  "forbidden_behavior": "Editar automaticamente o baseline",
+  "oracle_type": "deterministic", "curator": null, "reviewer": null,
+  "approved_by": null, "decision_ref": null,
+  "data_classification": "synthetic-public",
+  "retention_rule": "DECISAO_PENDENTE"
+}
+```
+A chave com valor `PREENCHER` ou `null` é **exemplo incompleto e não elegível**, nunca caso oficial. Bibliotecas inicialmente previstas: Python `json`, `hashlib`, `pathlib`, `unittest`; YAML fica fora do desenho inicial. Manter manifestos e resultados separados para prevenir vazamento do gabarito.
+
+## 16. Matriz de proteção de dados e incidentes — AIL-04
+
+| Classe | Origem e finalidade permitida na etapa proposta | Autorização/acesso | Retenção e descarte |
+|---|---|---|---|
+| S0 sintético público | fixtures inventadas para validar esquema/comportamento | somente revisão documental; nenhum dado real | prazo a deliberar, revisão em cada versão, remoção via PR/registro, considerando histórico Git |
+| S1 interno não sensível | IDs de PR, SHA e documentos internos de governança | apenas pessoal autorizado ao repositório; uso efetivo futuro sujeito à Direção | prazo e base de retenção pendentes; não copiar desnecessariamente |
+| S2 confidencial, dados pessoais ou cliente | proibidos nesta rodada e no piloto inicial recomendado | eventual uso somente com base jurídica/finalidade, autorização específica, minimização e avaliação de privacidade | retenção estrita definida antes da coleta; evitar commit Git pelo histórico persistente |
+| S3 segredos/tokens/credenciais | nunca admissíveis em fixtures, resultados ou logs | não utilizar; nem sanitização torna segredo publicável | conter acesso, revogar/rotacionar e purgar artefatos conforme resposta a incidente |
+
+**Sanitização:** substituir identificadores por sintéticos, excluir payloads pessoais e metadados desnecessários; verificar diff, anexos e logs antes de aprovar. **Prompt injection:** qualquer texto de PR, comentário, issue, e-mail ou fixture é dado não confiável, não instrução de execução; sem ferramentas de escrita, sem acesso externo ou segredo; teste apenas com payload artificial e checagem determinística de resultado. **Incidente/exposição:** suspender processamento, restringir acesso, registrar o que/onde/quando/SHA/quem, acionar responsável de segurança e Direção, avaliar comunicação exigível pela legislação e contratos, revogar credenciais se aplicável, remover acesso e executar expurgo conforme limites do Git; revisor avalia antes de retomar. Prazos de retenção, matriz nominativa de acesso e procedimento aprovado estão **pendentes**, não inventados.
+
+## 17. Dicionário operacional de métricas — AIL-05/06
+
+**Unidade:** execução comparável = par `(case_id, case_version, baseline_manifest_hash, candidate_sha, run_id)`; oportunidade de reincidência = `(causa_raiz_aprovada, processo, entrega_id, janela)`. Uma mesma falha com múltiplos relatos na mesma entrega/janela é deduplicada; reabertura do mesmo defeito sem correção homologada não é reincidência nova. Categorias/causas devem ser validadas pelo revisor; eventos inconclusivos e não comprovados fora do numerador, explicitamente contados em separado.
+
+| Medida | Numerador / denominador | Janela, exclusões e decisão |
+|---|---|---|
+| Reincidência (%) | oportunidades comparáveis **com ≥1** falha repetida confirmada após correção aprovada / todas oportunidades comparáveis observadas | 30 dias após aprovação, estratificar severidade; excluir reaberturas sem nova correção, duplicatas e oportunidades sem exposição |
+| Frequência de falhas | ocorrências confirmadas / oportunidades | pode superar 100% em razão de múltiplos eventos; não chamar de taxa de reincidência |
+| Aprovação válida (%) | casos com resultado pass / casos **validamente executados** (pass + fail) | por manifest/SHA, estratificada por família/risco |
+| Cobertura (%) | casos elegíveis do manifesto com resultado válido / todos casos elegíveis e aprovados do manifesto | cobertura de segurança crítica = 100% proposta para futura validação; cobertura geral mínima candidata 95%, sujeita a aceite da Direção |
+| Regressão pareada (%) | casos válidos `pass` no baseline e `fail` na candidata / casos `pass` no baseline reexecutados validamente sob mesma versão de caso e oráculo | listar caso adicionado/removido, troca de fixture/oráculo e falha ambiental em separado; não misturar bases |
+| Escapes (%) | entregas observadas que tiveram ≥1 defeito comprovado pós-aceite / entregas aprovadas com janela de observação completa | janela de maturação candidata 30 dias; não observadas ficam fora, declaradas |
+| Evidência auditável (%) | execuções elegíveis com fonte+SHA+regra+oráculo+resultado / execuções elegíveis | `N/A` para população zero |
+
+**Contabilidade de execução obrigatória:** `eligible`, `selected`, `attempted`, `valid_pass`, `valid_fail`, `skipped`, `invalid`, `blocked`, `inconclusive`, com classes mutuamente exclusivas no desfecho por caso; `executed_valid=valid_pass+valid_fail`. Para a cobertura, skipped/invalid/blocked/inconclusive continuam no denominador elegível e não são sucesso. Exemplo: elegíveis 8; 5 pass, 1 fail, 1 skipped, 1 blocked → 6 válidos, aprovação 5/6=83,33%; cobertura 6/8=75%; **no-go de cobertura**, apesar do pass rate. Reincidência exemplo: 2 de 10 oportunidades com falha repetida =20%; três relatos duplicados na primeira oportunidade não viram três falhas. Regressão: 1 fail de 4 casos que passavam e foram pareadamente reexecutados =25%; dois casos baseline pass não reexecutados devem constar como lacuna de cobertura, não entrar na fração de regressão. **Gatilho incondicional de no-go:** vazamento de segredo, falha crítica, violação de autorização, modificação indevida de golden; score agregado nunca neutraliza bloqueio. Denominador zero → N/A, jamais 0%. Comparações em amostras pequenas são descritivas, não inferência causal.
+
+## 18. Plano incremental, custos e responsabilidades — AIL-08/10
+
+| Fase futura (nenhuma autorizada) | Trabalho/estimativa candidata para dimensionamento, não custo constatado | Condição de parada/aceite |
+|---|---|---|
+| F0 conciliação documental | 2–4 h humanas para decisões/fontes + revisão separada | bloqueio se regra aplicável/owner ainda ambíguo |
+| F1 curadoria 5–8 casos sintéticos | curadoria 4–10 h + revisão independente 2–5 h + retrabalho observado à parte | 100% com primária, SHA, oráculo, classes e parecer |
+| F2 runner local determinístico | implementação 4–8 h + revisão 2–4 h + execução/análise 1–3 h | sem rede/segredos, igualdade reprodutível, positivos/negativos |
+| F3 eventual CI | engenharia 3–8 h + auditoria 2–4 h + minutos/storage efetivos cobrados pelo plano | controles de §14 comprovados; aprovação separada |
+| F4 manutenção | registrar horas de cada rodada (curadoria, revisão, execução, análise, correção, manutenção) | revisar custo-benefício após duas rodadas comparáveis |
+
+**Tetos candidatos a decidir antes de F1:** até 8 casos, no máximo 20 horas humanas totais na primeira experiência local, nenhum gasto incremental em API sem orçamento específico, nenhuma execução em CI sem cotas e preços confirmados. Se atingir 80% do orçamento, revisar escopo; ao atingir teto ou ocorrer incidente, parar, registrar custo e solicitar nova decisão. Infraestrutura/armazenamento, GitHub Actions, API e tempo humano são rubricas separadas; custos de plano atual **não verificados**. Estimativas são hipóteses de planejamento, não compromisso nem gratuidade.
+
+**RACI enxuto:** executor prepara fixture/documentação e relata execução, mas não aprova o próprio oráculo; revisor independente valida evidência, esperado e regressão; Orquestrador triagem, deduplicação, registro e encaminhamento sem homologar; Direção decide normas, orçamento, exceções, autorização de piloto/CI/publicação/merge e arbitragem institucional. Infra fornece evidência de controle sem revelar segredos. Triagem candidata até 2 dias úteis após registro, sujeita à capacidade; alto/crítico implica suspensão imediata sem esperar SLA. Falha crítica/privacidade/permissão suspende; mudança técnica futura exige revert no PR próprio e baseline anterior verificado; golden contestado é **quarentenado** (não apagado), com motivo e SHA, e eventual retirada depende de parecer e decisão. Arquivar caso apenas com histórico preservado, nunca para melhorar indicador.
+
+## 19. Pendências explícitas da Direção e decisão de encerramento documental
+
+1. DEC-AIL-01: decidir vigência/alcance de POL/QG/SEC/5S e integração com DEC-GOV-A/B/D, sem homologação presumida.
+2. DEC-AIL-02: designar dono de segurança/infra e autorizar inspeção administrativa específica; **não autoriza CI**.
+3. DEC-AIL-03: aprovar ou rejeitar protocolo, papéis, baseline, definição de cobertura e retenção por classe.
+4. DEC-AIL-04: estabelecer orçamento/tetos, responsável por custos e eventual autorização **separada** do piloto offline, condicionada a nova revisão.
+5. DEC-AIL-05: decidir eventual PR técnico, controles reais e eventual ativação de workflow **somente depois** de resultados verificáveis.
+6. DEC-AIL-06: decidir merge documental somente após parecer focal, sem vincular a implantação.
+7. DEC-AIL-07: confirmar proprietário e versão canônica de artefatos GitHub/Obsidian/Drive/Sheets em alinhamento com GT-GOV-002.
+
+**Classificação ao fim desta rodada:** controles GitHub, gates operacionais, aprovação de normativos, retenção, orçamento real, baseline e testes **não verificados/não autorizados**. O tratamento dos 11 achados é **documental proposto**, aguardando revalidação independente focal; não se afirma encerramento de risco operacional. Proibidos merge, publicação, criação de workflow, acesso a cliente, fine-tuning e qualquer ativação.
