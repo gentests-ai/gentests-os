@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-002
 tipo: politica-privacidade-proposta
-versao: 0.2.0
+versao: 0.2.1
 status: proposta-interna-nao-publicar
 data: 2026-10-10
 aprovador: Direcao
@@ -43,3 +43,9 @@ Cookies estritamente necessários devem ser distinguidos de analytics/publicidad
 
 ## 9. Complemento v0.2.0 — finalidade e identidade antes de publicar
 A matriz de tratamento por operação, dados, justificativa e base **candidata** encontra-se no GT-LGPD-001 §9 e integra esta proposta por referência para evitar divergência documental. O aviso público deve derivar da matriz aprovada, sem exibir bases alternativas ainda indecisas como se fossem fundamentação definitiva. Preencher o nome verdadeiro do controlador, canal funcional, fornecedores efetivos, prazo e categoria de cada dado, possíveis transferências internacionais com mecanismo válido e informações de cookies apenas após verificação. **Não publicar este rascunho ou apresentar mera revisão documental como adequação LGPD.**
+
+## 10. Direcionamento editorial da Direção (PR #21) — ainda NÃO PUBLICÁVEL
+
+O desenho futuro prioriza **e-mail mínimo exclusivamente para entrega do guia solicitado**, conforme DEC-LGPD-20261010-001. A política final deve separar com clareza (i) solicitação/entrega do PDF e (ii) marketing opcional mediante opt-in específico, desmarcado e revogável quando fundamentado em consentimento. A falta de opt-in promocional não pode impedir a entrega. Download direto fica como contingência em caso de impedimento material, não modalidade principal.
+
+Este direcionamento **não preenche** controlador, canal, base legal definitiva, fornecedor, países/transferências, prazo de retenção, descarte ou dever de informar; submeter cada fato à Direção e jurídico antes de preparar texto externo. É vedada qualquer afirmação de que a lista de leads já existe ou foi autorizada.
