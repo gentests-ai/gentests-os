@@ -15,7 +15,7 @@ aprovacao: pendente
 ## Direção comercial
 Posicionar GenTests.ai como consultoria especializada em qualidade, orientada a riscos, evidências e melhoria contínua. Apresentar a jornada de cinco etapas **Start → Focus → Evolution → Implementation → Excellence**. Não mostrar preço por hora ou total de horas na apresentação. Manter limites internos de execução, escopo e entregáveis formalizados antes da contratação.
 
-**Nota de governança:** esta versão está em revisão, não foi homologada e não altera o catálogo oficial nem a branch main. Preços dos três primeiros níveis são indicativos e requerem validação financeira. O PPTX v3 foi gerado e revisado visualmente no ambiente de trabalho; **o arquivo binário v3 ainda não foi adicionado ao repositório**. Não confundir com o PPTX v2 existente na branch.
+**Nota de governança:** esta versão está em revisão, não foi homologada e não altera o catálogo oficial nem a branch main. Preços dos três primeiros níveis são indicativos e requerem validação financeira. O PPTX v3 foi gerado, renderizado e validado sem overflow; **o arquivo binário v3 está versionado na mesma branch de revisão**, sem aprovação automática. [PowerPoint v3 no GitHub](https://github.com/gentestsai-sudo/gentests-os/blob/review/precificacao-2026-10-10/comercial/apresentacoes/GenTests_Apresentacao_Comercial_Quality_Journey_v3_Proposta.pptx). [Cópia no Drive comercial](https://drive.google.com/file/d/1ENOt-bHO5XWrbf4UHgug9Oop8zRZbiF1/view). SHA-256: `bc6a66be41eb043a1cdc2d157109797c57aef491f675102b4488681e3ee5593a`.
 
 ## Slides — conteúdo da v3
 1. **Da descoberta à excelência em qualidade de software.** Diagnósticos, investigação de riscos, implantação de melhorias e evolução contínua. GenTests Quality Journey.
@@ -36,7 +36,7 @@ Posicionar GenTests.ai como consultoria especializada em qualidade, orientada a 
 - [ ] Revisar contraste, tamanho de fonte, alinhamento e cortes no PPTX editável.
 - [ ] Confirmar que exemplo ilustrativo não foi apresentado como case real.
 - [ ] Confirmar que Implementation e Excellence são escopos sob proposta, não ilimitados.
-- [ ] Depositar PPTX v3 binário na branch de revisão e registrar SHA-256.
+- [x] Depositar PPTX v3 binário na branch de revisão e registrar SHA-256.
 - [ ] Revisão humana e aprovação explícita antes de promover para main e usar em prospecção.
 
 ## Rastreabilidade
