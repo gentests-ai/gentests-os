@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-003
 tipo: procedimento-operacional-privacidade
-versao: 0.1.0
+versao: 0.2.0
 status: proposta-nao-implementada
 data: 2026-10-10
 ---
@@ -31,3 +31,36 @@ Direção/controlador: finalidade, bases, aprovações, resposta final e decisã
 
 ## 6. Critério futuro de ativação
 Identidade/controlador e canal aprovados; inventário de fornecedores, países e base legal fechado; avisos revisados e publicados com autorização; preferências separadas e provadas; acesso/retention/descarte testados; resposta a direitos/incidentes atribuída; contrato e transferências resolvidos; teste funcional sintético do site e parecer independente. Até lá, **não ativar novo formulário nem publicar a landing page**.
+
+
+## 7. Prazos e eventos regulatórios — LGPD-REV-03
+Quadro normativo candidato, **não é autorização para o controlador utilizar automaticamente prazos ampliados**. O marco de incidente é o conhecimento pelo controlador de que foram afetados dados pessoais; conter e investigar imediatamente.
+
+| Evento | Regra geral | Possível regime de pequeno porte, somente comprovada elegibilidade | Responsável e evidência |
+|---|---|---|---|
+| Confirmação de tratamento/acesso simplificado | art. 19 I LGPD: acesso em formato simplificado imediatamente quando cabível | Res. 2/2022 art. 15: declaração simplificada em até 15 dias contados do pedido | responsável canal; protocolo e identidade proporcional |
+| Declaração clara e completa de acesso | art. 19 II LGPD: até 15 dias do requerimento | Res. 2/2022 art. 14 III: prazo em dobro para declaração completa (observadas regras e elegibilidade) | controlador; entrada, classificação, decisão e resposta |
+| Outros direitos do art. 18 | prazos conforme LGPD e regulamentos próprios aplicáveis, sem SLA universal artificial | art. 14 I Res. 2/2022: dobro apenas nas hipóteses expressamente cobertas por regulamentação; não dobrar todos os direitos por presunção | canal e jurídico; protocolo, norma aplicável e resposta |
+| Incidente que possa acarretar risco ou dano relevante | Res. 15/2024 arts. 6 e 9: comunicação pelo controlador à ANPD e titulares em **3 dias úteis** do conhecimento relevante, salvo prazo específico | art. 14 II Res. 2/2022 (redação atualizada): **dobro quando cabível**, condicionado a enquadramento e exceções legais; confirmar com jurídico, não adiar contenção | controlador/segurança; data de ciência, classificação e comunicações |
+| Incidente sem risco ou dano relevante demonstrado | investigar, mitigar e registrar, sem declarar notificação automática de toda falha | sem dispensa de resposta e documentação | segurança + Direção; fundamentação de risco e decisão |
+
+A Res. 15/2024 prevê conteúdo necessário, possibilidade de comunicação complementar quando faltarem informações, e disciplina de registro de incidentes. Nem toda indisponibilidade constitui incidente notificável. **Nunca aguardar o prazo final para começar triagem ou comunicar risco crítico.** O regime pequeno porte não dispensa segurança nem pressupõe elegibilidade por faturamento ou número reduzido de pessoas. A Res. 2/2022 art. 15 (simplificada até 15 dias) **não** substitui automaticamente o prazo dobrado da declaração completa previsto no art. 14 III.
+
+Fontes oficiais: [Resolução CD/ANPD 15/2024 — texto do ato no DOU disponibilizado pela ANPD](https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/documentos/rcis___anonimizado_final_ocultado_2_parte3.pdf); [ANPD — comunicação de incidente](https://www.gov.br/anpd/pt-br/canais_atendimento/agente-de-tratamento/comunicado-de-incidente-de-seguranca-cis); [Res. 2/2022 consolidada](https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/resolucao-cd-anpd-no-2-de-27-de-janeiro-de-2022). Conferir versão vigente antes de aplicar.
+
+## 8. Matriz de retenção, cópias, revogação e supressão — LGPD-REV-05
+**Nenhum prazo numérico inventado.** Direção/jurídico deverá aprovar prazo ou evento determinável, exceções e capacidade real por fornecedor antes de captura de novos leads.
+
+| Sistema/cópia potencial | Marco inicial e regra de retenção proposta | Titular revoga/exclui — ação candidata | Responsável/prova pendente |
+|---|---|---|---|
+| FormSubmit / fila ou armazenamento intermediário, se existir | recebimento; apagar após entrega confirmada ou prazo técnico/contratual necessário **a definir** | requerer eliminação no prestador, localizar logs/backup aplicáveis | Infra; termos, configurações e confirmação de descarte |
+| Gmail: mensagem recebida e cópias enviadas | conclusão da solicitação, com eventual guarda justificada por obrigação/defesa | remover mensagens/cópias pertinentes e conferir lixeira/retenção/backups conforme capacidade | operador atendimento; IDs sem conteúdo sensível |
+| CRM Google Sheets: oportunidade e histórico | encerramento da oportunidade/último contato válido, critério aprovado | eliminar ou anonimizar campos dispensáveis, marcar oposição, impedir recriação indevida | Comercial; chave única e trilha de alteração |
+| Registro mínimo de consentimento | aceite ou alteração da preferência; conservar apenas enquanto necessário para prova de base/defesa | retirar finalidade promocional de imediato; conservar prova mínima apenas com fundamento próprio e prazo definido | responsável privacidade; versão, horário, origem e situação |
+| Lista de supressão / opt-out | oposição/revogação; mínimo necessário para não recontatar, com revisão da necessidade | impedir campanhas atuais e agendadas, inclusive integrações; não manter perfil completo | Comercial; teste de bloqueio e propagação |
+| Drive/exportações/planilhas copiadas | momento da cópia; proibir cópia redundante e reconciliar com fonte principal | inventariar arquivos, eliminar versões não necessárias; backups conforme política | dono do sistema; registro sem dados pessoais |
+| Cloudflare / hospedagem / analytics, se houver | criação do log/evento; prazo técnico final a definir pela configuração real | políticas de acesso, descarte, opt-out de cookies não essenciais | Infra; inventário cookies/logs e evidência de configuração |
+| Backups de sistemas | criação do backup e ciclo aprovado, com impedimento de reimportação indevida | documentar limites reais de eliminação e garantir que restauração reaplique supressão | Infra; simulação de restore sintético |
+| Protocolos de direitos/incidentes | abertura do pedido/conhecimento do incidente; exigências legais e prescrição a validar | minimizar/anônimizar quando possível sem destruir dever legal de registro | Direção + jurídico; prazo e justificativa |
+
+**Fluxo mínimo:** localizar por identificador autorizado → registrar manifestação/oposição → cancelar campanhas agendadas e cessar marketing → solicitar exclusão nos sistemas identificados → documentar exceção legal minimizada → conferir cópias/backups/terceiros → responder titular com evidência segura. Ensaiar integralmente com identidade e mensagens fictícias antes da ativação.
