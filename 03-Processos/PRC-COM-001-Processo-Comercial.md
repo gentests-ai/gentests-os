@@ -19,6 +19,9 @@ Entregáveis propostos, sujeitos à confirmação de escopo: mapa conciso de ris
 
 **Antes de ofertar:** direção define prazo, preço, capacidade, condições de acesso e dados, critérios de aceite, limites de responsabilidade e modelo contratual. Não solicitar credenciais nem dados sensíveis na primeira conversa.
 
+
+**Roteiro complementar de prospecção:** [[03-Processos/Prospeccao-Comercial]] (ID próprio COM-APOIO-PROSPECCAO-001; este arquivo é a única fonte canônica de PRC-COM-001).
+
 ## Fluxo operacional
 | Etapa | Entrada e ação | Critério de saída | Responsável |
 |---|---|---|---|
