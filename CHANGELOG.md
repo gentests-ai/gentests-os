@@ -22,3 +22,9 @@ Renomeação e atualização de links concluídas. Outras tarefas permanecem pen
 2. Feche o Obsidian antes de substituir o conteúdo do vault.
 3. **Prefira abrir a pasta GenTests-OS desta distribuição como um novo cofre**, para revisar antes de substituir o original.
 4. Se quiser substituir o cofre, copie o conteúdo mantendo a estrutura, após conferir modificações locais.
+
+## Revisão documental Primeiro PIX — 10/10/2026
+- PLN-COM-001 revisado de 0.1.0 para 0.2.0: campanha de 30 dias, oferta candidata e funil no CRM existente.
+- Oferta QA Express e registro de homologação/evidências preparados em 0.1.0.
+- Divergências de preço/escopo preservadas para decisão; follow-up candidato corrigido para 19/10.
+- Notas/índices vinculados para revisão; nenhuma política, preço ou divulgação foi aprovada nesta entrega.
