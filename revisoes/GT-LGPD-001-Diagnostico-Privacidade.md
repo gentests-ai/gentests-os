@@ -1,7 +1,7 @@
 ---
 id: GT-LGPD-001
 tipo: diagnostico-privacidade
-versao: 0.2.0
+versao: 0.2.1
 status: proposta-para-revisao-independente
 data: 2026-10-10
 aprovador: Direcao
@@ -109,3 +109,21 @@ A decisão final exige: controlador por operação, teste de necessidade, avalia
 
 ### 10. Bloqueios reais para publicação
 Direção deve confirmar identidade/canal, bases por fluxo, modalidade do guia, fornecedores/transferências, retenção e atribuição operacional. Site requer PR própria, aviso publicável e testes sintéticos aplicáveis. Revisor independente deve apenas revalidar LGPD-REV-01–07 e novas regressões materiais, sem auditoria geral.
+
+## 11. Adendo decisório — DEC-LGPD-20261010-001 (PR #21)
+
+**Direcionamento documental aprovado pela Direção em 10/10/2026:** arquitetura prioritária de **entrega do material GT-MKT-CNQ-001 por e-mail** com somente e-mail como dado preferencial, aviso contextual e opt-in promocional independente, desmarcado e facultativo. Sem aceite de marketing, o PDF deve ser entregue igualmente. Download direto passa a alternativa de **contingência**, não primeira recomendação, condicionada a impedimento material e deliberação própria. Referência: `04-Decisoes/DEC-LGPD-20261010-001-Arquitetura-Entrega-Email.md` na [PR #21](https://github.com/gentestsai-sudo/gentests-os/pull/21). Esta decisão **não aprova** bases legais, fornecedor, publicação, captação, testes técnicos ou merge.
+
+**Matriz focal dos sete achados após direção (delta v0.2.1):**
+
+| Achado | Encaminhamento conforme decisão | Estado |
+|---|---|---|
+| LGPD-REV-01 | checklist §8 mantido; comprovar controlador, canal, fornecedores de entrega, países e transferência | desenho documentado; fatos institucionais pendentes |
+| LGPD-REV-02 | §9 preserva fundamentos **candidatos** por resposta, entrega do guia e promoção como operações separadas; priorização não equivale a base aprovada | validação jurídica e Direção pendentes |
+| LGPD-REV-03 | GT-LGPD-003 §7 diferencia prazos gerais/especiais e incidentes | enquadramento pequeno porte pendente |
+| LGPD-REV-04 | GT-LGPD-004 §6 especifica correções futuras do contato existente sem alterar site | implementação/ensaio pendentes |
+| LGPD-REV-05 | GT-LGPD-003 §8 identifica fila do provedor, e-mails, CRM, opt-in, supressão, logs e backups | prazos e capacidades reais pendentes |
+| LGPD-REV-06 | GT-LGPD-004 §8 escolhe **e-mail como prioridade documental**, §7 mantém comparação e download direto contingente; LP-01–12 candidatos | escolha arquitetural decidida, operação bloqueada |
+| LGPD-REV-07 | referência normativa oficial corrigida anteriormente | revalidar apenas delta se risco material |
+
+**Limite de atuação:** sem coleta, uso de contatos, envio real, alteração de site, publicação ou merge. Revalidação independente somente dos deltas materiais desta decisão; não reabrir o parecer integral sem risco novo justificado.
