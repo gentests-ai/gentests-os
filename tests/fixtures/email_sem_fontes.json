@@ -1,0 +1,14 @@
+{
+  "id": "VAL-PILOTO-002",
+  "tipo": "email_comercial",
+  "risco": "QG-M",
+  "status": "rascunho",
+  "assunto": "Resultados garantidos",
+  "corpo": "Garantimos 90% de redução de bugs.",
+  "origem_destinatario": "",
+  "fontes": [],
+  "versao": "0.1.0",
+  "responsavel": "Comercial",
+  "aprovacao_envio": false,
+  "enviado": false
+}
