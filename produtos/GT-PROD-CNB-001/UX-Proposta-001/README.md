@@ -6,6 +6,8 @@ produto_versao: 0.1.1
 data: 2026-10-10
 responsavel: Agente-UX-UI
 status: proposta-para-revisao
+rodada_focal: REV-PROD-CNB-003
+revalidacao_focal: CNB-UX-REV-01-pendente
 revisao_independente: pendente
 aprovacao_direcao: pendente
 implementacao: nao-autorizada
@@ -230,3 +232,51 @@ Futuro registro por teste: CA/CF, data/ambiente/dispositivo, commit, versão do 
 5. Após essas decisões, emitir autorização expressa separada de implementação. Publicação e merge continuam exigindo gates próprios.
 
 **Estado final: proposta UX/UI entregue para revisão e deliberação; implementação, publicação e merge não autorizados.**
+
+## 12. Rodada focal única - REV-PROD-CNB-003
+
+Base da correção: [parecer independente PR #37](https://github.com/gentestsai-sudo/gentests-os/pull/37), documento `revisoes/REV-PROD-CNB-003-Parecer-UX-UI-Focal.md`, commit do parecer `b1e2acbe58a9e5b43e7b0f7ff84d98ae1de49c6c`, sobre a proposta `1656257d8ba84ac643aa96926cb35208ce0bf1fd`. Resultado anterior preservado: **aprovado com ressalvas para deliberação de planejamento**. O autor trata os achados; não atribui fechamento independente nem aprovação visual da Direção.
+
+### Matriz objetiva de tratamento
+
+| Achado / severidade | Ajuste realizado | Evidência / estado |
+|---|---|---|
+| CNB-UX-REV-01 / média | D08 e M06 conservam botão cinza sem destino de navegação, com texto adjacente **“Desabilitado · Recalcule para habilitar”**. Adicionado acesso explícito **“Ver relatório anterior”** ao pedido fictício P1/S1. PDF e mapa documental refletem os mesmos estados | [D08.svg](pranchas/D08.svg), [M06.svg](pranchas/M06.svg), [evidência desktop](Evidencia-D08-CNB-UX-REV-01.png) e [evidência mobile](Evidencia-M06-CNB-UX-REV-01.png). Tratado pelo autor; encerramento independente pendente de revalidação exclusivamente deste achado |
+| CNB-UX-REV-02 / baixa | Handoff abaixo define posição/progresso real das comparações, lista de pendentes, expansão e navegação em mobile. M03 preservada, sem novas pranchas | Complementação documental de handoff nesta seção. Tratado; sem nova rodada formal de revisão |
+| CNB-UX-REV-03 / baixa | Handoff abaixo exige medir componentes e estados reais, distinguir controle ativo/desabilitado e testar critérios AA aplicáveis. Tokens permanecem referência preliminar | Complementação documental de handoff nesta seção. Tratado; sem nova rodada formal de revisão. Nenhuma conformidade WCAG declarada |
+
+### CNB-UX-REV-01 - impressão e pedido anterior
+
+O texto “Imprimir novo relatório” continua visível para explicar a ação futura, mas sua indisponibilidade agora é inequívoca no desenho desktop/mobile. O botão é representado desabilitado, sem área clicável no PDF; o aviso “Recalcule para habilitar” está imediatamente abaixo. O acesso ao relatório já solicitado continua separado e disponível, vinculado a S1, mesmo quando os campos editados aguardam recálculo. Na implementação futura, atribuir estado desabilitado nativo e associar a explicação ao controle. Não simular apenas com aparência ou bloquear o acesso ao pedido anterior.
+
+D08/M06 mantêm os mesmos valores editados (QA 95,00), resultado anterior (4.760,00) e fluxo S1/S2. Recalcular continua exigindo revisão das comparações afetadas. O link do relatório anterior é navegação do protótipo documental; não cria impressão real. CF-03/04 e RF-04 permanecem intactos.
+
+### CNB-UX-REV-02 - conciliação em telas pequenas
+
+- Exibir, junto ao título do par ativo, a **posição na lista**, por exemplo “Comparação 1 de 6”. Separadamente mostrar o progresso de respostas válidas, por exemplo “1 de 6 comparações avaliadas; 5 pendentes”. A posição não significa conclusão.
+- Derivar a quantidade dos pares candidatos existentes e elegíveis no estado atual; seis é o máximo de R/E/A/O, não constante imposta quando alguma natureza for N/A ou não existir. Valores desconhecidos ou relações sem resposta não contam como conciliação concluída. “Sobreposto” pode ser resposta registrada, mas mantém as exclusões: responder não significa tornar a parcela incluída.
+- Mostrar lista textual de pares, com estado **pendente**, **avaliado**, **sobreposição**, **não sei** ou **revisão necessária após edição**. Exemplos de rótulos: “E ↔ R - pendente” e “A ↔ O - não sei; parcelas excluídas”. Manter os identificadores das naturezas e nomes compreensíveis. Referências distintas não mudam o estado por si.
+- O usuário pode expandir um par por vez para leitura confortável, sem limitar a abertura de outro ou exigir uma sequência rígida. No par expandido, natureza, valor, origem e referência dos dois lados ficam empilhados e visíveis simultaneamente. Nunca esconder um dos lados em carrossel, aba ou rolagem horizontal.
+- Um controle de expansão mostra nome do par, estado e indicador expandido/recolhido. Na futura UI, usar disclosure nativo ou botão com aria-expanded e relação com o painel; espaço de toque ao menos 44×44px. Disponibilizar “Próxima comparação” e a lista de pendências; retornar a um par não apaga respostas.
+- Ao abrir outro par por ação explícita, levar o foco ao cabeçalho/painel pertinente sem saltos automáticos enquanto se digita. Ao editar valores/origens/referências, invalidar comparações afetadas, atualizar a lista e anunciar apenas o status relevante, sem declarar ausência de duplicidade.
+- A fixture M03 continua ilustrando A ↔ O; o progresso real e a lista completa são contrato de handoff para implementação futura. A simulação fictícia mantém relações como hipóteses rotuladas; não as transforma em confirmações auditadas do usuário.
+
+### CNB-UX-REV-03 - contraste e estados dos componentes reais
+
+Durante a implementação futura, medir os componentes renderizados em seus fundos efetivos, considerando borda, preenchimento, rótulo, ícone, indicador de seleção, aviso e contorno de foco. Cobrir **padrão, foco, hover, erro e desabilitado**, inclusive combinações como erro com foco, e registrar valores obtidos, ambiente, captura e critério aplicável. Considerar temas/backgrounds adjacentes e configurações de alto contraste quando disponíveis.
+
+Os 12 pares de `Contrastes.json` são somente tokens sólidos preliminares. Não demonstram todos os estados, interação, semântica, legibilidade, tamanho de alvo ou conformidade da calculadora. Preservar os valores do arquivo; nenhuma aprovação WCAG se baseia exclusivamente neles.
+
+Verificar os critérios aplicáveis, especialmente 1.4.1 (cor), 1.4.3 (contraste de texto), 1.4.11 (contraste não textual), 2.4.7 (foco visível), 2.4.11 (foco não oculto), 2.5.8 (tamanho de alvo) e 4.1.2 (nome/papel/estado), além de reflow e leitura já previstos no §6. Usar pelo menos 4,5:1 em texto normal e 3:1 em texto grande/elementos não textuais quando aplicável. Componentes inativos têm exceções de contraste nos critérios pertinentes; isso não dispensa distinguir visualmente o estado desabilitado de uma ação habilitada e manter **a orientação explicativa legível**. Hover não pode ser a única forma de descobrir estado ou ajuda; foco deve funcionar por teclado.
+
+### Evidências e preservação focal
+
+![D08 corrigida - impressão nova indisponível e pedido anterior acessível](Evidencia-D08-CNB-UX-REV-01.png)
+
+![M06 corrigida - mesma semântica no mobile](Evidencia-M06-CNB-UX-REV-01.png)
+
+Conferência desta rodada limitada a D08/M06 e às complementações de handoff. Nenhuma auditoria visual integral das 29 pranchas reaberta. As 27 outras pranchas SVG, previews de resultado, tokens/contrastes, fontes e símbolo foram preservados byte a byte em relação ao pacote revisado. Conteúdo dos demais quadros do PDF foi comparado com a base apenas para confirmar preservação, sem nova revisão visual; o PDF foi recomposto para incorporar as duas correções.
+
+O mapa conserva os mesmos 29 IDs/dimensões, acrescentando somente dois destinos explícitos para a prévia do relatório anterior. A matriz financeira, a jornada, os 34 CA, os oito CF, o escopo gratuito, a identidade e a estimativa não foram alterados. Testes de produto, leitor assistivo, browser/mobile real e conformidade AA continuam não executados.
+
+Encaminhamento: **revalidação independente exclusivamente de CNB-UX-REV-01**, para seu encerramento focal se necessário; os apontamentos baixos ficam tratados no handoff sem nova rodada formal. Direção delibera a aprovação visual depois, sem autorização automática de desenvolvimento/publicação. Manter PR #36 aberta/Draft, sem merge, site, contratação, cadastro, e-mail, telemetria ou leads.
