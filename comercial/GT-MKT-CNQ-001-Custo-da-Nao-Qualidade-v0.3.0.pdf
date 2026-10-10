@@ -1,0 +1,143 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2087 >>
+stream
+0.08 0.12 0.20 rg
+36 784 523 2 re f
+0 0 0 rg
+BT /F1 11 Tf 45 757 Td (GenTests.ai | Estudo interno 0.3.0) Tj ET
+BT /F1 18 Tf 45 733 Td (O CUSTO INVISIVEL DA NAO QUALIDADE) Tj ET
+BT /F1 11 Tf 45 709 Td (NAO PUBLICAR - MATERIAL EM REVISAO) Tj ET
+BT /F1 11 Tf 45 685 Td (Quanto custa descobrir um defeito depois que ele afeta o cliente?) Tj ET
+BT /F1 11 Tf 45 661 Td (Um incidente pode exigir investigacao, correcao, reteste, suporte,) Tj ET
+BT /F1 11 Tf 45 637 Td (ajustes comerciais e perda de margem em eventos distintos.) Tj ET
+BT /F1 11 Tf 45 613 Td () Tj ET
+BT /F1 11 Tf 45 589 Td (REFERENCIAS DE PESQUISA - NAO SAO BENCHMARKS DO BRASIL) Tj ET
+BT /F1 11 Tf 45 565 Td (CISQ \(2022\): ao menos US$ 2,41 trilhoes em custos anuais estimados) Tj ET
+BT /F1 11 Tf 45 541 Td (relacionados a baixa qualidade de software nos Estados Unidos.) Tj ET
+BT /F1 11 Tf 45 517 Td (A divida tecnica de US$ 1,52 trilhao e estimativa de estoque distinta.) Tj ET
+BT /F1 11 Tf 45 493 Td (NIST/RTI \(2002\): US$ 59,5 bilhoes/ano de impactos estimados da) Tj ET
+BT /F1 11 Tf 45 469 Td (infraestrutura inadequada de testes; US$ 22,2 bilhoes de reducao) Tj ET
+BT /F1 11 Tf 45 445 Td (potencial no cenario estudado, nao economia realizada.) Tj ET
+BT /F1 11 Tf 45 421 Td (Boehm e Basili \(2001\): custos de correcao podem crescer apos a) Tj ET
+BT /F1 11 Tf 45 397 Td (entrega, mas variam conforme arquitetura, escala e contexto.) Tj ET
+BT /F1 11 Tf 45 373 Td () Tj ET
+BT /F1 11 Tf 45 349 Td (MENSAGEM PARA GESTORES) Tj ET
+BT /F1 11 Tf 45 325 Td (CTO: mensurar risco, incidentes e estabilidade.) Tj ET
+BT /F1 11 Tf 45 301 Td (Engenharia: tornar requisitos verificaveis e priorizar testes por risco.) Tj ET
+BT /F1 11 Tf 45 277 Td (Financas: conciliar rubricas antes de estimar custos e economias.) Tj ET
+BT /F1 11 Tf 45 253 Td () Tj ET
+BT /F1 11 Tf 45 229 Td (Fonte detalhada e limitacoes: documento GT-MKT-CNQ-001 v0.3.0.) Tj ET
+BT /F1 11 Tf 45 205 Td (Proposta interna; qualquer campanha depende de revisao e Direcao.) Tj ET
+BT /F1 9 Tf 45 34 Td (GenTests.ai  -  Documento educacional interno  -  Pagina 1/3) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 2124 >>
+stream
+0.08 0.12 0.20 rg
+36 784 523 2 re f
+0 0 0 rg
+BT /F1 11 Tf 45 757 Td (GenTests.ai | Estudo interno 0.3.0) Tj ET
+BT /F1 18 Tf 45 733 Td (COMO ESTIMAR O IMPACTO DE UM INCIDENTE) Tj ET
+BT /F1 11 Tf 45 709 Td (EXEMPLO INTEIRAMENTE HIPOTETICO) Tj ET
+BT /F1 11 Tf 45 685 Td (Desenvolvimento: 12 h x R$ 120/h  = R$ 1.440 \(recursos\)) Tj ET
+BT /F1 11 Tf 45 661 Td (QA:               6 h x R$  90/h  = R$   540 \(recursos\)) Tj ET
+BT /F1 11 Tf 45 637 Td (Suporte:          4 h x R$  70/h  = R$   280 \(recursos\)) Tj ET
+BT /F1 11 Tf 45 613 Td (Subtotal de recursos imputados:         R$ 2.260) Tj ET
+BT /F1 11 Tf 45 589 Td (Servico externo emergencial:            R$   600 \(despesa\)) Tj ET
+BT /F1 11 Tf 45 565 Td (Credito comercial ao cliente A:         R$   900 \(ajuste receita\)) Tj ET
+BT /F1 11 Tf 45 541 Td (Margem perdida da venda do cliente B:   R$ 1.000 \(oportunidade\)) Tj ET
+BT /F1 11 Tf 45 517 Td (IMPACTO ECONOMICO GERENCIAL CONDICIONAL: R$ 4.760) Tj ET
+BT /F1 11 Tf 45 493 Td () Tj ET
+BT /F1 11 Tf 45 469 Td (IMPORTANTE: R$ 4.760 NAO E SAIDA DE CAIXA.) Tj ET
+BT /F1 11 Tf 45 445 Td (O caixa incremental e indeterminado sem prova de pagamento.) Tj ET
+BT /F1 11 Tf 45 421 Td (O credito de R$ 900 pode abater fatura, sem saida bancaria.) Tj ET
+BT /F1 11 Tf 45 397 Td (Credito e margem perdida exigem transacoes/clientes distintos.) Tj ET
+BT /F1 11 Tf 45 373 Td (Sem ids e conciliacao, remover a rubrica com sobreposicao.) Tj ET
+BT /F1 11 Tf 45 349 Td () Tj ET
+BT /F1 11 Tf 45 325 Td (SENSIBILIDADE MENSAL \(NAO PROBABILISTICA\)) Tj ET
+BT /F1 11 Tf 45 301 Td (1 incidente:   R$ 2.260 / R$ 4.760 / R$ 7.260) Tj ET
+BT /F1 11 Tf 45 277 Td (3 incidentes:  R$ 6.780 / R$14.280 / R$21.780) Tj ET
+BT /F1 11 Tf 45 253 Td (6 incidentes:  R$13.560 / R$28.560 / R$43.560) Tj ET
+BT /F1 11 Tf 45 229 Td (Colunas: somente horas / cenario-base / hipotese + R$2.500.) Tj ET
+BT /F1 11 Tf 45 205 Td (3 incidentes/mes por 12 meses a R$ 4.760 = R$ 171.360.) Tj ET
+BT /F1 11 Tf 45 181 Td (Essa extrapolacao nao e economia nem retorno garantido.) Tj ET
+BT /F1 9 Tf 45 34 Td (GenTests.ai  -  Documento educacional interno  -  Pagina 2/3) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 2544 >>
+stream
+0.08 0.12 0.20 rg
+36 784 523 2 re f
+0 0 0 rg
+BT /F1 11 Tf 45 757 Td (GenTests.ai | Estudo interno 0.3.0) Tj ET
+BT /F1 18 Tf 45 733 Td (COMO MEDIR COM CONFIABILIDADE) Tj ET
+BT /F1 11 Tf 45 709 Td (COORTES, COMPLETUDE E CAUSALIDADE) Tj ET
+BT /F1 11 Tf 45 685 Td (Definir antes: releases, servico, janela, severidades e exposicao.) Tj ET
+BT /F1 11 Tf 45 661 Td (Coortes: releases implantadas no periodo, incluindo sem defeitos.) Tj ET
+BT /F1 11 Tf 45 637 Td (Maturacao candidata: D+30 para cada release; comparar coortes) Tj ET
+BT /F1 11 Tf 45 613 Td (com a mesma janela madura de observacao.) Tj ET
+BT /F1 11 Tf 45 589 Td (Defeito reaberto preserva o ID; duplicatas ligadas ao original.) Tj ET
+BT /F1 11 Tf 45 565 Td () Tj ET
+BT /F1 11 Tf 45 541 Td (MINIMOS CANDIDATOS - A VALIDAR NO PILOTO) Tj ET
+BT /F1 11 Tf 45 517 Td (95% de releases com data, servico e denominador confiaveis.) Tj ET
+BT /F1 11 Tf 45 493 Td (90% de incidentes com data, severidade, release e restauracao.) Tj ET
+BT /F1 11 Tf 45 469 Td (90% dos custos incluidos com documento e trilha de conciliacao.) Tj ET
+BT /F1 11 Tf 45 445 Td (Menos que 30 releases maduros? Reportar contagens e limites.) Tj ET
+BT /F1 11 Tf 45 421 Td () Tj ET
+BT /F1 11 Tf 45 397 Td (INDICADORES OPERACIONAIS) Tj ET
+BT /F1 11 Tf 45 373 Td (Escape D+30 = defeitos encontrados apos deploy / todos os) Tj ET
+BT /F1 11 Tf 45 349 Td (defeitos confirmados da mesma coorte ate o dia D+30.) Tj ET
+BT /F1 11 Tf 45 325 Td (Incidentes Sev1/2 = incidentes / releases maduras x 100.) Tj ET
+BT /F1 11 Tf 45 301 Td (MTTR de restauracao = media entre impacto e restauracao.) Tj ET
+BT /F1 11 Tf 45 277 Td (Custo por incidente = custo comprovado / eventos elegiveis.) Tj ET
+BT /F1 11 Tf 45 253 Td (Comparacao: mesma unidade, janela, severidade e cobertura.) Tj ET
+BT /F1 11 Tf 45 229 Td () Tj ET
+BT /F1 11 Tf 45 205 Td (RESULTADOS ANTES/DEPOIS NAO PROVAM CAUSALIDADE.) Tj ET
+BT /F1 11 Tf 45 181 Td (Registrar sazonalidade, evolucao de trafego, mudanca de equipe) Tj ET
+BT /F1 11 Tf 45 157 Td (e custo da propria iniciativa preventiva.) Tj ET
+BT /F1 11 Tf 45 133 Td () Tj ET
+BT /F1 11 Tf 45 109 Td (GOVERNANCA: PR #3 ainda em proposta. Sem preco, oferta,) Tj ET
+BT /F1 11 Tf 45 85 Td (diagnostico gratuito, campanha ou promessa de economia.) Tj ET
+BT /F1 11 Tf 45 61 Td (REV-MKT-CNQ-002: aprovado com ressalvas so documentalmente.) Tj ET
+BT /F1 11 Tf 45 37 Td (Este PDF e candidato a nova revisao; aprovacao Direcao pendente.) Tj ET
+BT /F1 9 Tf 45 34 Td (GenTests.ai  -  Documento educacional interno  -  Pagina 3/3) Tj ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000127 00000 n 
+0000000224 00000 n 
+0000000350 00000 n 
+0000002488 00000 n 
+0000002614 00000 n 
+0000004789 00000 n 
+0000004915 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+7510
+%%EOF
