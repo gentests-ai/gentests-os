@@ -1,0 +1,14 @@
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+credentials/
+*.token
+.DS_Store
+Thumbs.db
