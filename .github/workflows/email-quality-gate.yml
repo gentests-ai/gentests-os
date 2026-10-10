@@ -1,0 +1,16 @@
+name: Piloto QG Email Comercial
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  prevalidacao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Testes do piloto
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Validar rascunho ficticio
+        run: python3 scripts/validate_commercial_email.py tests/fixtures/email_valido.json
