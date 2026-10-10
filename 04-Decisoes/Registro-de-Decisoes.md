@@ -13,3 +13,7 @@ tipo: registro
 
 ## Decisões aprovadas
 _Ainda não registradas neste vault._
+
+## Operação Primeiro PIX — em validação
+- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial|Homologação da oferta, preço e cadência]] — pendente.
+- [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests|Plano comercial 0.2.0]] — proposta; não autoriza envio.

@@ -29,3 +29,7 @@ versao: 1.1.0
 - `status: aprovado` = política em vigor na versão publicada.
 - Ligações ``[link interno de exemplo]`` apontam para notas relacionadas.
 - Ao mudar políticas, registrar a decisão em [[04-Decisoes/Registro-de-Decisoes]].
+
+## Primeiro cliente — revisão em andamento
+- [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests|Operação Primeiro PIX]]
+- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial|Decisão comercial pendente]]
