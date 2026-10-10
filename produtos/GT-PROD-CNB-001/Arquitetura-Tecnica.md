@@ -2,7 +2,7 @@
 id: GT-PROD-CNB-001-TEC
 produto: GT-PROD-CNB-001
 tipo: especificacao-tecnica
-versao: 0.1.0
+versao: 0.1.1
 status: proposta
 estado_documental: em-validacao
 data: 2026-10-10
@@ -25,17 +25,25 @@ Designações candidatas para implementação futura: página calculadora, asset
 
 ## 2. Contrato de dados proposto
 
-Objeto local: `schema_version`, `methodology_version`, `mode`, `incident_local_id`, até quatro `labor_blocks` (role, hours_hundredths, rate_cents, origin, status, unique_confirmed), três `effects` (nature, amount_cents, local_event_ref, reconciliation_confirmed, origin, status), frequency_monthly inteira opcional, downtime_hundredths contextual opcional. Sem texto livre/pessoa/comprovante. IDs gerados localmente são rótulos de conciliação; não comprovam evidência.
+Objeto local: `schema_version`, `methodology_version`, `mode`, `incident_local_id`, até quatro `labor_blocks` (role, hours_hundredths, rate_cents, origin, status, unique_confirmed), três `effects` (nature, amount_cents, local_event_ref, origin, status) e `reconciliations` contextuais (nature_left, nature_right, relation, included_amounts_cents, compared_values_origins, confirmed), frequency_monthly inteira opcional, downtime_hundredths contextual opcional. Sem texto livre/pessoa/comprovante. IDs gerados localmente são rótulos de conciliação; não comprovam evidência. O antigo booleano genérico reconciliation_confirmed é substituído pelas comparações de RN-09a: igualdade/diferença de refs não confirma distinção. Confirmed só é elegível com comparandos identificados, origem conhecida/hipotética explícita, relação resolvida e valores atuais compatíveis; edição invalida a comparação afetada.
 
 Resposta do motor: linhas com operands, amount_cents, origin; R/E/A/O e T ou subtotal; M/Y ou null; completeness (complete/partial/no_data), excluded com razão; has_hypotheses; warnings; inputs_snapshot. Valores decimais canônicos transportados como strings de inteiros para evitar serialização/overflow de BigInt. Null sempre explícito para desconhecido; não omitir como zero. Lista de propriedades permitidas, enums e limites da funcional; rejeitar extras no endpoint futuro.
 
 ## 3. Componente opcional de entrega
 
-Somente após gates: Pages Function/Worker como backend same-origin, segredo em binding/cofre (nunca JS/GitHub) e fornecedor aprovado de e-mail transacional. Cliente envia e-mail, snapshot numérico minimizado, marketing_opt_in separado, notice_version e request_id aleatório via HTTPS POST. Não transmite refs de documentos/pessoas nem URLs de destino arbitrárias.
+Somente após gates: Pages Function/Worker como backend same-origin, segredo em binding/cofre (nunca JS/GitHub) e fornecedor aprovado de e-mail transacional. Cliente envia e-mail, snapshot numérico minimizado e imutável, snapshot_hash, methodology_version, marketing_opt_in separado, notice_version e request_id aleatório via HTTPS POST. Dados pessoais e identificadores reais continuam proibidos no snapshot. Não transmite refs de documentos/pessoas nem URLs de destino arbitrárias.
 
 Backend valida schema/limites/tipos/proveniência, recalcula por versão canônica e constrói HTML escapado + texto. Não confiar em totais/HTML/assunto remetidos pelo navegador. Limite candidato de corpo 32KiB; payload excessivo 413, inválido 422 com códigos de campo, limitado 429, provedor indisponível 503 e referência opaca; sem echo de e-mail/inputs nos erros. Retorno 202 significa “aceito para processamento”.
 
-Idempotência com request_id e janela/retention a definir: repetir mesma solicitação não duplica envio; conflito de payload rejeitado. Não prometer exactly-once após timeout externo: registrar estado e reconciliar provedor antes de retry; se inconclusivo mostrar “resultado de envio não confirmado”. Persistência mínima de idempotência/fila somente em infraestrutura autorizada; nenhum banco novo escolhido nesta proposta. Preferir recurso já existente se comprovar controles; sem capacidade confiável, componente e-mail permanece desativado.
+**Contrato de integridade (CNB-REV-02):** no cálculo válido, criar cópia profunda imutável do snapshot com versões de schema/produto/método/guia, entradas canônicas, origens/estados, comparações contextuais, linhas/resultados, exclusões e limites. Canonicalizar por schema: chaves de objeto ordenadas, arrays de blocos/naturezas/comparações em ordem estável definida, valores inteiros como strings decimais sem zeros à esquerda (zero = "0"), null explícito, enums fechados, JSON UTF-8 compacto. Gerar snapshot_hash SHA-256 desses bytes; excluir do conteúdo hash/request_id, e-mail, preferência de marketing e timestamps de transporte para não produzir dependência circular ou alterar o cálculo. O schema deve fixar a mesma ordem/representação no cliente e servidor.
+
+Ao pedir impressão ou e-mail, gerar request_id e vincular de forma imutável o snapshot_hash, snapshot e methodology_version; não consultar novamente o estado editável para compor o relatório. No e-mail, backend valida a versão suportada, confirma equivalência entre versão do envelope/snapshot, recalcula pela mesma metodologia e confere conteúdo/hash canônicos antes de aceitar. Divergência ou versão não suportada rejeita o pedido, sem atualizar silenciosamente para método novo. Hash não é assinatura nem dispensa validação; os bytes do snapshot e o envelope de entrega também são comparados ao registro do pedido.
+
+Idempotência por request_id e janela/retention a definir: mesmo ID + mesmo snapshot/hash/versão + mesmo envelope de entrega devolve o estado existente, sem outro envio; mesmo ID com qualquer alteração de conteúdo, destinatário, aviso ou escolha de entrega é conflito (409), não atualização. Não registrar endereço, valores, snapshot_hash ou conteúdo do envelope em analytics/logs gerais; o vínculo mínimo operacional tem acesso/retenção aprovados.
+
+Edição, limpeza e novo cálculo não alteram pedido já em curso; novo cálculo válido e nova solicitação explícita geram outro request_id vinculado ao novo snapshot. Timeout do cliente depois do POST ou do backend depois de acionar o provedor mantém o pedido original como não confirmado: consultar/reconciliar com o registro/provedor pelo vínculo original antes de retry. Só retomar o mesmo pedido quando houver evidência de que o provedor não aceitou o envio e controle de idempotência; se aceitou, atualizar estado sem reenviar; se inconclusivo, bloquear retry de envio e mostrar “resultado de envio não confirmado”. Não criar automaticamente novo request_id para contornar timeout, nem prometer exactly-once.
+
+Persistência mínima de idempotência/fila somente em infraestrutura autorizada; nenhum banco novo escolhido nesta proposta. Preferir recurso já existente se comprovar controles; sem capacidade confiável de preservar vínculo e reconciliar timeout, componente e-mail permanece desativado. Retenção/janela/provedor continuam decisões futuras; este ajuste de contrato não antecipa implementação.
 
 Antiabuso: limite por origem técnica minimizada, global por quota e por destinatário de modo proporcional, honeypot auxiliar, validação server-side e backoff limitado. IP pode ser dado pessoal; política/base/retenção precisam incluir controles de segurança. Valores iniciais de rate limit a calibrar em teste sintético autorizado, não baseados em tráfego inexistente. Se Turnstile for escolhido, validar token no backend, acessibilidade e privacidade; só um widget não garante segurança. Proteção contra spam a terceiros, enumeração, CRLF/header injection, XSS e exfiltração. TLS, CSP ajustada ao stack, sem open relay; origem permitida explicitamente (CORS sozinho não autentica nem evita abuso), segredos rotacionáveis e privilégio mínimo. Kill switch de e-mail e limites globais sem migrar automaticamente para plano pago.
 
@@ -84,3 +92,7 @@ Metas propostas RNF-01: calcular até 4 blocos em ≤100ms p95 em aparelho de te
 RNF-06: duas últimas versões estáveis disponíveis na homologação de Safari iOS, Chrome Android/desktop, Firefox e Edge; registrar versões/dispositivos reais. RNF-07: teste de impressão com paginação e relatório HTML/texto; sem PDF/UA presumido. RNF-08: zero rede contendo inputs antes de pedido autorizado; inspeção de network/storage/logs e cópias. RNF-09: motor determinístico, contratos compartilhados e regressão do exemplo por versão. RNF-10: rollback futuro por versão previamente aprovada e feature flags de envio/analytics; mudança de método invalida snapshot antigo sem recalcular silenciosamente.
 
 Dono técnico, monitoramento de quotas, entrega/abuso, acesso, suporte e resposta a direitos/incidentes precisam ser designados. Não há SLA externo definido; publicar indisponibilidade corretamente e desligar e-mail diante de risco sem impedir consulta ao método.
+
+## Histórico focal
+
+0.1.1: CNB-REV-01/02 — contrato de conciliação contextual e integridade/idempotência do relatório, sem infraestrutura, fornecedor ou funcionalidade adicional ativados. Revalidação focal pendente.
