@@ -1,7 +1,7 @@
 ---
 tipo: evidencia
 id: EVID-PRIMEIRO-PIX
-versao: 0.1.0
+versao: 0.2.0
 status: registro
 estado_documental: em-validacao
 data: 2026-10-10
@@ -31,8 +31,8 @@ Solicitação de Cíntia em 10/10/2026: gerar artefatos do plano Operação Prim
 ## Artefatos correntes
 - [[04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests]] — 0.2.0: plano, cronograma, canais, funil, roteiros e verificação.
 - [[07-Templates/QA-Express-Oferta-Piloto]] — 0.1.0: oferta, escopo, aceite, pagamento e requisitos de margem.
-- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial]] — 0.1.0: divergências e decisão pendente.
-- Esta nota — 0.1.0: fontes, conferência e limites.
+- [[04-Decisoes/Primeiro-PIX-Homologacao-Comercial]] — 0.2.0: divergências e decisão pendente.
+- Esta nota — 0.2.0: fontes, conferência e limites.
 Fonte editável canônica: notas na branch de revisão do GenTests OS. Cópia de entrega é instantâneo, não outra fonte para manutenção. Depois da revisão e integração, a fonte corrente deve ser a revisão aprovada no repositório.
 
 ## Conferência do executor
@@ -51,3 +51,10 @@ Atualizações de índices/histórico somente para tornar os documentos encontr�
 CRM não reconsultado nesta execução; métricas do ponto de partida são relato do plano recebido. URLs originais das vagas não fornecidas; atualizar antes de citar prospectos em mensagens. Política financeira integral, tributos efetivos, custo/hora e rateio não confirmados; sem margem apurada.
 Obsidian local da usuária não está conectado; notas com Wikilinks foram preparadas para sincronização pelo fluxo existente do GitHub, sem afirmar sincronização já realizada.
 Próxima ação: revisor consulta as revisões acima e registra parecer; direção homologa condições/alcance. Operação comercial e primeiro recebimento permanecem pendentes de execução e comprovação.
+
+## Integração autorizada no fluxo GitHub → Obsidian
+Em 10/10/2026 às 09:37 (America/Sao_Paulo), Cíntia solicitou executar o processo de GitHub para disponibilizar os documentos no Obsidian. Autorização específica para integrar os artefatos como propostas internas na main, via [PR #1](https://github.com/gentestsai-sudo/gentests-os/pull/1); não homologa preços, margens, envio ou contratação.
+As verificações automáticas da revisão anterior passaram; essa evidência não substitui revisão independente financeira/comercial, que permanece pendente. Nova revisão registra a autorização e deve passar pelas verificações antes da integração.
+Sincronização local: no GitHub Desktop, selecionar o repositório gentests-os, branch main, executar Fetch origin e Pull origin se houver alterações recebidas; abrir o cofre Obsidian vinculado à mesma pasta e conferir o link “Operação Primeiro PIX” no INICIO. Se houver mudanças locais ou conflito, preservar e resolver antes de atualizar; não sobrescrever o cofre por ZIP.
+A execução do pull e a abertura no computador da usuária não foram realizadas ou verificadas nesta sessão. Não declarar o Obsidian sincronizado apenas porque os arquivos foram integrados no GitHub.
+**Histórico 0.2.0:** registrada autorização de integração interna e procedimento existente de sincronização; decisões comerciais preservadas.
