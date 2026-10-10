@@ -11,6 +11,8 @@ fonte_revisao: revisoes/REV-COM-QJ-001-Ajustes-Quality-Journey.md
 plano_canonico: 04-Decisoes/PLN-COM-001-Primeiras-Vendas-GenTests.md
 ---
 
+> **REVISÃO SUPERVENIENTE (10/10/2026):** o [parecer REV-COM-QJ-002](../revisoes/REV-COM-QJ-002-Parecer-Quality-Journey.md) solicitou seis correções. A proposta técnica de tratamento está em [GT-COM-QJ-003 — v3.2](GT-COM-QJ-003-Tratamento-REV-COM-QJ-002.md). A v3.1 abaixo permanece histórica e **não está homologada**. Os preços R$ 290/650/1.200 e a campanha anterior não são ofertas correntes automaticamente. **Não publicar nem cotar.**
+
 # GenTests Quality Journey — proposta consolidada v3.1
 
 **Status: EM REVISÃO, não homologado.** Consolidação do parecer [REV-COM-QJ-001](../revisoes/REV-COM-QJ-001-Ajustes-Quality-Journey.md) da [PR #2](https://github.com/gentestsai-sudo/gentests-os/pull/2) com o [roteiro v3](https://github.com/gentestsai-sudo/gentests-os/blob/review/precificacao-2026-10-10/comercial/apresentacao-comercial-v3-quality-journey-proposta.md). Esta revisão não aprova preços, margem, escopo, contrato, publicação nem merge na main.
