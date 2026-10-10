@@ -1,0 +1,23 @@
+name: X9 - Inspecao Documental
+on:
+  schedule:
+    # 12:00 UTC = 09:00 de Brasilia (UTC-3)
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspecao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Conferir links internos
+        run: python3 scripts/check_links.py
+      - name: Gerar parecer X9 (sem IA)
+        run: python3 scripts/x9_scan.py
+      - name: Guardar relatorio por 14 dias
+        uses: actions/upload-artifact@v4
+        with:
+          name: x9-relatorio
+          path: x9-report.json
+          retention-days: 14
