@@ -1,6 +1,7 @@
 """Offline deterministic tests of synthetic dispatch state machine."""
 import importlib.util
 import json
+import sqlite3
 import tempfile
 import unittest
 from datetime import datetime, timezone
@@ -70,6 +71,60 @@ class DispatchTests(unittest.TestCase):
         self.db.write_bytes(b'not-sqlite')
         with self.assertRaises(Exception):
             mod.run(self.db, self.e, NOW)
+
+    def test_stage_allowlist(self):
+        for stage in ('merge', 'unknown-stage'):
+            with self.subTest(stage=stage):
+                event = json.loads(json.dumps(self.e))
+                event['stage'] = stage
+                self.assertEqual(mod.run(self.db, event, NOW)['status'], 'blocked')
+
+    def test_identity_change_without_authorization(self):
+        changes = {'repo':'synthetic/other','issue':124,'mission':'SYNTH-OTHER',
+                   'stage':'unknown-stage','generation':2,'corpus_sha':'e'*40}
+        for field, value in changes.items():
+            with self.subTest(field=field):
+                event = json.loads(json.dumps(self.e))
+                event[field] = value
+                self.assertEqual(mod.run(self.db, event, NOW)['status'], 'blocked')
+
+    def test_authorization_forged_mismatch(self):
+        for field in mod.REQUIRED:
+            with self.subTest(field=field):
+                event = json.loads(json.dumps(self.e))
+                event['authorization'][field] = None
+                self.assertEqual(mod.run(self.db, event, NOW)['status'], 'blocked')
+
+    def test_bool_issue_and_generation(self):
+        for field in ('issue', 'generation'):
+            with self.subTest(field=field):
+                event = json.loads(json.dumps(self.e))
+                event[field] = True
+                event['authorization'][field] = True
+                self.assertEqual(mod.run(self.db, event, NOW)['status'], 'blocked')
+
+    def test_invalid_identity_types_and_sha(self):
+        for field, value in [('repo',42),('mission',[]),('issue',0),
+                             ('corpus_sha','xxx'),('corpus_sha','F'*40)]:
+            with self.subTest(field=field):
+                event = json.loads(json.dumps(self.e))
+                event[field] = value
+                event['authorization'][field] = value
+                self.assertEqual(mod.run(self.db, event, NOW)['status'], 'blocked')
+
+    def test_logical_checkpoint_corruption(self):
+        for status, digest in [('done',None),('done',''),('done','not-a-hash'),
+                               ('done','X'*64),('unknown','a'*64),('reserved',None)]:
+            with self.subTest(status=status, digest=digest):
+                with tempfile.TemporaryDirectory() as temp:
+                    db = Path(temp) / 'state.sqlite'
+                    self.assertEqual(mod.run(db, self.e, NOW)['status'], 'done')
+                    with sqlite3.connect(db) as conn:
+                        conn.execute('UPDATE runs SET status=?, output_hash=?',
+                                     (status, digest))
+                    result = mod.run(db, self.e, NOW)
+                    self.assertEqual(result['status'], 'blocked')
+                    self.assertEqual(result['reason'], 'pending_requires_reconciliation')
 
 if __name__ == '__main__':
     unittest.main()
