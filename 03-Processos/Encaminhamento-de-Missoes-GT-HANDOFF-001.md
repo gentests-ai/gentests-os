@@ -1,13 +1,13 @@
 ---
 tipo: processo
 id: GT-HANDOFF-001
-versao: 0.2.0
+versao: 0.2.1
 status: proposta
 responsavel: Governança
 missao: GT-GOV-CHANGE-001
 issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 ---
-# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.0)
+# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.1)
 
 > **Não homologado.** Este desenho não concede acessos, não altera POL-003, contratos ou hierarquia, não autoriza merge, publicação, piloto, GT-WIP-001, Agile Coach ou automação #47. Base: [Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) e [REV-GOV-CHANGE-002](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
@@ -34,6 +34,12 @@ issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 | Governança | Processo, conformidade e propostas | Não homologa proposta própria |
 | Revisor Independente Modelo A | Parecer crítico independente | Não pode ser autor, executor ou aprovador do próprio objeto |
 | Agile Coach (candidato) | Recomendações e métricas de fluxo | Não ativado; não despacha, encerra ou autoriza |
+
+### Consulta canônica e concisão do encaminhamento — proposta v0.2.1
+
+Antes de executar uma missão, o agente e o Orquestrador em seu despacho consultam a [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) e os documentos canônicos aplicáveis do repositório `gentestsai-sudo/gentests-os` na `main`; identificam versão, status, precedência e eventual conflito, distinguindo proposta de norma homologada. Referências consultadas devem constar em **uma linha** no encaminhamento. Conflito documental, de autoridade ou entre despachos é informado ao Orquestrador, sem presumir dispensa, aprovação ou privilégio.
+
+**“Retorno curto” significa GT-HANDOFF-001 preenchido concisamente**, nunca dispensa do template, de evidências reais, estados, responsáveis, verificações executadas/não executadas ou da **mensagem integral endereçada, pronta para copiar e encaminhar**. Campos condicionais sem pertinência: `N/A — motivo`. Não repetir narrativas históricas em várias seções. A mesma regra vincula o **Orquestrador ao emitir despachos**: solicitar simultaneamente “mensagem curta” e “template integral preenchido”, jamais “retorno fora do template” como isenção tácita. O destinatário registra ACEITO ou DEVOLVIDO explicitamente; emissão, registro, acionamento e aceite continuam distintos. Em prestação de contas sem transferência operacional, preservar a exceção justificada da §7, sem autodespacho fictício.
 
 ## 2. Contrato de eventos e transições — proposta v0.2.0
 
@@ -98,6 +104,8 @@ Inventariar, antes da edição: arquivos e IDs canônicos, PRs abertos, versões
 **Bloqueio candidato:** duplicação inequívoca de ID canônico, perda de controle obrigatório, link obrigatório quebrado, conflito não reconciliado ou ato sem autorização. **Aviso candidato:** texto sobreposto sem colisão provada, alias histórico, metadados ou apoio editorial. `GT-HANDOFF-001` é compartilhado intencionalmente por `tipo: processo` e `tipo: template`; não classificar isso isoladamente como duplicidade. Verificar owner e serialização antes de merge. `scripts/check_links.py` e `scripts/x9_scan.py` são candidatos a ensaio; cobertura, testes positivos/negativos/falsos positivos, logs e exit codes **não comprovados por esta especificação**. Gate bloqueante não ativado.
 
 ## 7. Mensagem integral copiável — gate transversal obrigatório
+
+Aplicar a regra de consulta canônica e concisão da §1 também neste gate: retorno curto é **template conciso e integral preenchido**, inclusive no despacho pelo Orquestrador.
 
 Ao concluir, bloquear, devolver ou transferir uma etapa operacional, o remetente preenche [[07-Templates/GT-HANDOFF-001-TEMPLATE]] e entrega **uma única mensagem integral, preenchida e copiável, dirigida ao destinatário seguinte**, com objetivo, DoR/DoD, autoridade, limites, evidências reais, estados de transporte/aceite, próximos responsáveis e retorno. **Resultado isolado, tabela-resumo ou link não substituem a mensagem integral.** Em retorno apenas de prestação de contas ao Orquestrador, a exceção de *não haver despacho operacional direto* deve ser justificada; ainda assim fornecer prestação de contas integral. O Orquestrador **não se autodespacha**: aceita/devolve retorno e produz outro despacho completo para a próxima especialidade. A Direção apenas transporta a mensagem pronta enquanto necessário. Não marcar acionamento por comentário GitHub, aceite por silêncio, ou decisão por parecer.
 
