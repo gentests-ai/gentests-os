@@ -1,12 +1,13 @@
 ---
-tipo: procedimento
-id: PRC-COM-002
-versao: 0.2.0
+tipo: guia-operacional
+id: COM-APOIO-PROSPECCAO-001
+versao: 0.3.0
+processo_canonico: PRC-COM-001
 status: proposta
 ---
-# PRC-COM-002 — Procedimento de prospecção comercial
+# COM-APOIO-PROSPECCAO-001 — Roteiro complementar de prospecção comercial
 
-Procedimento vinculado ao [[03-Processos/PRC-COM-001-Processo-Comercial|processo comercial principal]]. A antiga identificação PRC-COM-001 neste arquivo era duplicada; referências históricas devem ser preservadas.
+Guia complementar vinculado ao [[03-Processos/PRC-COM-001-Processo-Comercial|processo comercial canônico]]. Não constitui processo ou gate paralelo; prevalecem as decisões e autorizações do processo principal. Histórico: ID duplicado `PRC-COM-001` na versão original; identificação intermediária `PRC-COM-002` proposta no PR #50, reconciliada com o PR #43 em REV-ORG-001.
 
 1. Identificar sinal público concreto de necessidade ou parceria.
 2. Registrar URL, data, hipótese e grau de certeza.
