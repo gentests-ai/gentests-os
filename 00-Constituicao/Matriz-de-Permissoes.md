@@ -52,8 +52,8 @@ ORQ Orquestrador Central (AGT-ORQ); PROD Produto (AGT-PROD); UXUI UX/UI (AGT-UXU
 | Propor atualização de política | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | P | P |
 | Propor procedimento operacional | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | P | P |
 | Editar documentação operacional simples em branch isolada | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
-| Realizar autocheck documental proporcional da própria edição | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
-| Abrir/atualizar PR documental operacional no próprio escopo | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
+| Realizar autocheck documental proporcional da própria edição | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
+| Abrir/atualizar PR documental operacional no próprio escopo | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
 | Coordenar fila e handoffs | C | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND |
 | Validar critérios e evidências de outra entrega | ND | ND | ND | ND | ND | ND | ND | ND | ND | C | ND | ND | ND | ND |
 | Auditar controles de produção alheia | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C | ND | ND | ND |
