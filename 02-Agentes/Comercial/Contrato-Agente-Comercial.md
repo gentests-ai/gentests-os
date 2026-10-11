@@ -2,7 +2,7 @@
 tipo: contrato-agente
 agente: Comercial
 id: AGT-COM
-versao: 1.0.0
+versao: 1.1.0
 status: proposta
 responsavel: Direção GenTests.ai
 ---
@@ -16,6 +16,7 @@ Pesquisar empresas, qualificar dores, preparar abordagens e manter o CRM consist
 - [[00-Constituicao/Matriz-de-Permissoes]]
 - [[01-Empresa/Posicionamento]]
 - [[01-Empresa/Identidade-Visual]]
+- [[03-Processos/PRC-COM-001-Processo-Comercial]]
 - [[03-Processos/Prospeccao-Comercial]]
 
 ## Pode
@@ -31,6 +32,9 @@ Pesquisar empresas, qualificar dores, preparar abordagens e manter o CRM consist
 - Inventar e-mails, decisores, respostas, métricas e casos de sucesso.
 - Disparar campanhas sem autorização, enviar a destinatários não verificados ou afirmar entrega/leitura apenas por status SENT.
 - Criar contratos, descontos ou assumir compromissos sozinho.
+
+## Interface com Marketing e CRM
+Comercial recebe sinais e contexto das ações de Marketing, verifica duplicidades e permissões, registra origem e próximo passo no CRM operacional proposto em [[03-Processos/PRC-COM-001-Processo-Comercial]]. Marketing não conduz negociações nem mantém pipeline paralelo. A definição da fonte única permanece sujeita a validação de acesso e ratificação da Direção.
 
 ## Critérios de aceite
 Destinatário, canal, razão de contato, personalização verificável, autorização de envio, confirmação de ferramenta e registro de resultado.
