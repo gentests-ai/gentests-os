@@ -2,7 +2,7 @@
 tipo: politica
 id: POL-003
 status: proposta
-versao: 1.2.0
+versao: 1.2.1
 responsavel: Direcao GenTests.ai
 ---
 # Matriz de permissões — proposta integrada GOV-06
@@ -51,10 +51,15 @@ ORQ Orquestrador Central (AGT-ORQ); PROD Produto (AGT-PROD); UXUI UX/UI (AGT-UXU
 | Assinar contrato ou assumir compromisso financeiro | ND | ND | ND | ND | ND | ND | ND | X | ND | ND | ND | ND | ND | ND |
 | Propor atualização de política | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | P | P |
 | Propor procedimento operacional | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | P | P |
+| Editar documentação operacional simples em branch isolada | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
+| Realizar autocheck documental proporcional da própria edição | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
+| Abrir/atualizar PR documental operacional no próprio escopo | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C* |
 | Coordenar fila e handoffs | C | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND |
 | Validar critérios e evidências de outra entrega | ND | ND | ND | ND | ND | ND | ND | ND | ND | C | ND | ND | ND | ND |
 | Auditar controles de produção alheia | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C | ND | ND | ND |
 | Sinalizar inconsistências documentais (não homologar) | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | ND | C | ND | ND |
+
+**Autonomia documental de Processos (PROC C*):** conforme [decisão da Direção na issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53#issuecomment-6113821399), o C* nas três operações documentais aplica-se **somente** a correções editoriais, links, referências, metadados e ajustes operacionais simples, reversíveis, em branch isolada e recursos autorizados, sem intermediação obrigatória de Engenharia. Exige permissão GitHub efetiva, escopo da missão, autocheck rastreável conforme QG-001, PR documental e retorno à coordenação do Orquestrador. Não cobre mudança de política, contrato (inclusive AGT-PROC), responsabilidades, autorização, privilégios ou controles obrigatórios; essas mudanças requerem revisão competente e decisão específica da Direção. Não autoriza merge, main direta, publicação, deploy, autoaprovação ou concessão de acesso. Processos pode preparar proposta de mudança reservada (P), mas não aprová-la ou integrá-la. Autocheck não é revisão independente; usar somente revisão focal do delta material. Esta regra é **proposta documental**, e a decisão da Direção não prova configuração técnica de ferramenta.
 
 **Qualificações das células com asterisco:** INFRA C* apenas verificação operacional, não substitui teste funcional do QA; AUD L* apenas relatórios financeiros expressamente autorizados; X9 C* sinalização heurística, não auditoria nem validação conclusiva; INFRA H* jamais significa concessão autônoma ou ampliação de privilégios, exige Direção e controles reais; FIN H* emissão fiscal/cobrança real é **candidata a delegação específica**, sem eficácia até deliberação da Direção, validação fiscal e acesso autorizado. Na ausência desses elementos, bloquear. Não confundir emissão com envio, este permanece X. Para outros papéis, ND até fonte explícita e reconciliação.
 
@@ -62,7 +67,7 @@ ORQ Orquestrador Central (AGT-ORQ); PROD Produto (AGT-PROD); UXUI UX/UI (AGT-UXU
 | Etapa | Responsabilidade | Incompatibilidade e resultado |
 |---|---|---|
 | Propor regras | Governança, com participação de especialistas | Não homologa nem concede acesso |
-| Propor processo | Processos, com especialistas | Não cria privilégio ou substitui a política |
+| Propor processo | Processos, com especialistas | Não cria privilégio ou substitui a política; pode editar documentação operacional simples em branch isolada e abrir PR com autocheck proporcional, sem autoaprovação |
 | Planejar e distribuir | Orquestrador Central | Não aprova o mérito próprio nem merge |
 | Executar domínio | ENG/INFRA/COM/MKT/FIN/PROD/UXUI e demais conforme missão | Produção e evidência, sem aprovação independente da própria entrega |
 | Testar comportamento | QA | Evidência de teste real; inspeção documental não é teste funcional |
