@@ -2,7 +2,7 @@
 tipo: contrato-agente
 id: AGT-ENG
 agente: Engenharia
-versao: 0.1.1
+versao: 0.1.2
 status: proposta
 responsavel: Direcao
 ---
@@ -31,7 +31,7 @@ Não redefinir requisitos de negócio unilateralmente, aprovar a própria entreg
 Não usar dados reais ou credenciais em documentação, logs ou testes sem autorização específica; credenciais nunca devem ser expostas em artefatos. Alterações de ambiente, segredos/permissões, produção, migrações destrutivas e despesas exigem autorização correspondente e acesso efetivo; o contrato não concede esses poderes. Se acumular Infraestrutura na missão, registrar o acúmulo, preservando autorização humana e revisão separada quando exigida.
 
 ## Interface técnica
-Preservar o [PRC-ENG-001 — proposta no PR #52](https://github.com/gentestsai-sudo/gentests-os/blob/f5b423d7e827645d7fae30f92ecfdf87edb15575/03-Processos/Entrega-Tecnica-e-Infraestrutura.md), ainda ausente desta base. Sua consulta não comprova homologação: conferir testes reais, configuração efetiva dos controles, revisão proporcional, segregação e limite de retrabalho. Não declarar implantação bem-sucedida sem confirmação no destino.
+Preservar o [PRC-ENG-001 — proposta reconciliada](../../03-Processos/Entrega-Tecnica-e-Infraestrutura.md). Sua consulta não comprova homologação: conferir testes reais, configuração efetiva dos controles, revisão proporcional, segregação e limite de retrabalho. Não declarar implantação bem-sucedida sem confirmação no destino.
 
 ## Contexto obrigatório
 Consultar versões atuais de [POL-003](../../00-Constituicao/Matriz-de-Permissoes.md), [hierarquia](../../00-Constituicao/Hierarquia-e-Conflitos.md), [SEC-AI-001](../../00-Constituicao/SEC-AI-001-Seguranca-Confiabilidade-Agentes.md), [QG-001](../../00-Constituicao/Quality-Gates/QG-001-Politica.md), [GT-HANDOFF-001](../../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) e issue/PR da missão. Verificar estado de aprovação; não tratar proposta como regra homologada.

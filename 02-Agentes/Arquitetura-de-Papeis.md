@@ -1,7 +1,7 @@
 ---
 tipo: proposta-organizacional
 id: GT-ORG-REFORM-001
-versao: 0.1.1
+versao: 0.1.2
 status: proposta
 ---
 # Reformulação da estrutura de agentes
@@ -99,3 +99,8 @@ Fonte de #52: commit f5b423d7e827645d7fae30f92ecfdf87edb15575; AGT-ENG e AGT-INF
 4. Orquestrador confirma sequência e bloqueios, encaminha revalidação focal do delta e integração. Direção decide homologação e merge de cada objeto após evidências. Nenhuma ordem aqui autoriza merge.
 
 DoD documental da correção depende do commit confirmado, autocheck e retorno; missão permanece não encerrada. Não foram alterados Financeiro, POL-003 ou PRs concorrentes por esta rodada.
+
+
+## Delta GOV-04 — compatibilização de branches
+PRC-ENG-001 v0.1.1/proposta incorporado nesta branch com os controles anteriores preservados e nome Engenharia canônico; qualquer merge exige autorização explícita da Direção. Contratos AGT-ENG/AGT-INFRA v0.1.2 e índice v0.2.2 agora usam referência local ao procedimento proposto. O delta correspondente de #52 usa os mesmos contratos e 14 papéis; destinos ainda ausentes em sua base são referências explícitas à proposta #61, sem criar contratos duplicados ou alegar integração.
+A sequência anterior é substituída por: conferir compatibilidade do delta GOV-04 nas duas branches; responsável por #53 reconciliar separadamente POL-003 preexistente de #52/#54; responsáveis por #50/#54 tratar interfaces e FIN-54-01; Orquestrador encaminhar validação focal e confirmar sequência de integração; Direção decidir eventual merge/homologação. Não integrar #52 enquanto sua parcela de permissões não estiver reconciliada. ORG-VAL-01/02/04 preservados; ORG-VAL-03 permanece dependente das entregas externas nomeadas.

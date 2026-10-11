@@ -1,7 +1,7 @@
 ---
 tipo: indice
 status: proposta
-versao: 0.2.1
+versao: 0.2.2
 ---
 # Diretório canônico de agentes — proposta de reformulação
 
@@ -38,7 +38,7 @@ Consultar contrato, políticas e registros atuais antes de agir. Usar [GT-HANDOF
 
 Chat principal identifica especialidade; chat de atividade não cria novo agente. Não presumir envio, acionamento, aceite, independência humana ou automação a partir de nomes, comentários ou arquivos.
 
-**Interface técnica:** PRC-ENG-001, [proposta de #52 no head consultado](https://github.com/gentestsai-sudo/gentests-os/blob/f5b423d7e827645d7fae30f92ecfdf87edb15575/03-Processos/Entrega-Tecnica-e-Infraestrutura.md), coordena Produto/UX/UI/Engenharia/QA/Infraestrutura. Ausente desta base; não homologado por esta referência.
+**Interface técnica:** PRC-ENG-001, [proposta reconciliada de #52/#61](../03-Processos/Entrega-Tecnica-e-Infraestrutura.md), coordena Produto/UX/UI/Engenharia/QA/Infraestrutura. Presente nesta branch como proposta; não homologado por esta referência.
 
 **Interface financeira:** PRC-FIN-001, [proposta de #54 no head consultado](https://github.com/gentestsai-sudo/gentests-os/blob/78dbc6b7de3081f4dab56e7d4fe1942f906a0b10/03-Processos/PRC-FIN-001-Gestao-Financeira.md), relaciona Comercial, área técnica, Financeiro e Direção, sem ampliar permissões. Ausente desta base. FIN-54-01 (ambiguidade sobre iniciar movimentação monetária) permanece pendência de #54; Financeiro não inicia, agenda ou executa pagamentos/transferências.
 

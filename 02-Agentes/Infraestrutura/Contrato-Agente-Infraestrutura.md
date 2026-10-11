@@ -2,7 +2,7 @@
 tipo: contrato-agente
 id: AGT-INFRA
 agente: Infraestrutura
-versao: 0.1.1
+versao: 0.1.2
 status: proposta
 responsavel: Direcao
 ---
@@ -31,7 +31,7 @@ Não alterar lógica de produto por padrão, contratar, ampliar acessos ou expor
 Alterar credenciais, tokens, permissões, DNS, produção, recursos com custo, exclusões, deploy ou rollback somente com autorização humana específica para ação/alvo/janela aplicável e permissões reais. Nunca registrar segredos em Markdown, prompts, PRs ou logs. Propor menor privilégio e segregação entre ambientes; verificar logs somente dentro do acesso autorizado. Registrar acúmulo com Engenharia e manter revisão separada quando exigida. Não presumir GitHub Actions, branch protection, Cloudflare ou automações configurados sem evidência.
 
 ## Interface técnica e falhas
-Preservar o [PRC-ENG-001 — proposta no PR #52](https://github.com/gentestsai-sudo/gentests-os/blob/f5b423d7e827645d7fae30f92ecfdf87edb15575/03-Processos/Entrega-Tecnica-e-Infraestrutura.md), ainda ausente desta base; conferir configuração real, evidências, revisão proporcional e limite de retrabalho. Em vazamento, falha de permissão ou impacto em produção, conter apenas ações já autorizadas, preservar evidências seguras e escalar imediatamente à Direção, informando o Orquestrador. Confirmar resultado da ferramenta antes de comunicar operação concluída.
+Preservar o [PRC-ENG-001 — proposta reconciliada](../../03-Processos/Entrega-Tecnica-e-Infraestrutura.md); conferir configuração real, evidências, revisão proporcional e limite de retrabalho. Em vazamento, falha de permissão ou impacto em produção, conter apenas ações já autorizadas, preservar evidências seguras e escalar imediatamente à Direção, informando o Orquestrador. Confirmar resultado da ferramenta antes de comunicar operação concluída.
 
 ## Contexto obrigatório
 Consultar versões atuais de [POL-003](../../00-Constituicao/Matriz-de-Permissoes.md), [hierarquia](../../00-Constituicao/Hierarquia-e-Conflitos.md), [SEC-AI-001](../../00-Constituicao/SEC-AI-001-Seguranca-Confiabilidade-Agentes.md), [QG-001](../../00-Constituicao/Quality-Gates/QG-001-Politica.md), [GT-HANDOFF-001](../../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) e issue/PR da missão. Verificar estado de aprovação; não tratar proposta como regra homologada.
