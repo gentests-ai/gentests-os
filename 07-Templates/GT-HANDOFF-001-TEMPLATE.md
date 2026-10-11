@@ -1,15 +1,17 @@
 ---
 tipo: template
 id: GT-HANDOFF-001
-versao: 0.2.0
+versao: 0.2.1
 status: proposta
 missao: GT-GOV-CHANGE-001
 ---
-# GT-HANDOFF-001 — Modelo de despacho e retorno (PROPOSTA v0.2.0)
+# GT-HANDOFF-001 — Modelo de despacho e retorno (PROPOSTA v0.2.1)
 
 > Não homologado, não concede permissão, não cria acionamento e não autoriza merge. `tipo: template` diferencia este artefato do `tipo: processo` com o mesmo ID. [Processo proposto](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) · [REV-02](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
 **Uso:** preencher dados reais; para campo condicional não pertinente, `N/A — [motivo]`. **Não** declarar verificado, entregue, aceito ou autorizado por presunção. Este formulário de trabalho é referência; a seção final **precisa ser substituída por mensagem integral sem placeholders no envio efetivo**.
+
+**Consulta e concisão (também para o Orquestrador):** antes de executar ou despachar, conferir [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) e documentos canônicos aplicáveis na `main` do repositório `gentestsai-sudo/gentests-os`; anotar versão/status e conflitos, distinguindo proposta de homologação. **“Retorno curto” = mesmo template preenchido concisamente + mensagem integral endereçada pronta para copiar**, nunca isenção de informações essenciais. Núcleo: missão/handoff/evento; origem/destino; estados reais de missão, etapa, transporte e aceite; resultado e evidência; verificações realizadas/não realizadas pertinentes; limites; owner e próxima ação/condição de aceite; **referências consultadas em uma linha**. Condicionais: `N/A — justificativa`. Evitar duplicação narrativa. Conflitos de documentos/despachos/autoridade são escalados ao Orquestrador, não convertidos em autorização. Em seus próprios despachos, o Orquestrador deve pedir “mensagem curta” **e** “template integral preenchido”.
 
 ## 1. Identidade e owners
 - **mission_id:** [ID]; **handoff_id:** [ID único]; **event_id:** [ID do evento]; **version:** [versão deste evento/handoff].
@@ -61,6 +63,8 @@ missao: GT-GOV-CHANGE-001
 - **Condição para avançar:** [evidência futura]; **condição para encerrar missão:** [todas as etapas e autorizações demonstradas].
 
 ## 6. Checklist de saída
+- [ ] Issue #55 e fontes canônicas aplicáveis consultadas na `main`; versão/status e conflitos conferidos; referências consultadas em uma linha.
+- [ ] Mesmo quando solicitado retorno curto, template essencial conciso e mensagem integral copiável preservados; campos condicionais N/A com motivo, sem narrativa duplicada; regra aplicada também aos despachos do Orquestrador.
 - [ ] Identidade de evento/handoff, versão, instante, owners, estados e links reais completos.
 - [ ] Destino proposto distinto do confirmado; acionamento e ACEITO com prova, ou PENDENTE.
 - [ ] DoR/DoD e cada autorização por ação conferidos; sem permissão inferida.
@@ -71,6 +75,8 @@ missao: GT-GOV-CHANGE-001
 - [ ] Se apenas prestação de contas ao Orquestrador, exceção justificada e sem autoencaminhamento fictício.
 
 ## 7. GT-HANDOFF-001 — Mensagem final integral pronta para copiar (OBRIGATÓRIA)
+
+**Retorno curto mantém este bloco integral e endereçado, com concisão nos campos; a exigência também vale para despachos do Orquestrador.**
 
 **Na emissão efetiva, substituir todo o bloco abaixo por dados verdadeiros e uma mensagem única, sem colchetes de preenchimento.** Na conversa, preferir bloco de escrita copiável ou um único bloco de código Markdown; em GitHub/Obsidian publicar o texto integral selecionável. Um resumo, tabela ou link **não** satisfaz o DoD. O remetente não atribui ACEITO nem entrega a terceiro sem prova.
 
@@ -85,6 +91,7 @@ missao: GT-GOV-CHANGE-001
 **Missão:** [estado] | **Etapa:** [estado e transição]
 **Preparado/registrado/acionado/recebido/aceito:** [cinco estados distintos, evidências ou PENDENTE]
 **Issue, PR, commit e fontes:** [referências reais]
+**Referências consultadas (linha única):** [issue #55; documentos canônicos; versões/status; outras fontes aplicáveis]
 ## Objetivo e DoR
 [resultado específico, insumos conferidos, lacunas e dependências]
 ## Escopo e autoridade
