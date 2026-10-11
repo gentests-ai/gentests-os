@@ -52,3 +52,43 @@ missao: GT-GOV-CHANGE-001
 - [ ] Registrei origem, evidências e próximo destino sem pedir roteamento rotineiro à CEO.
 
 **Referência:** [[03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001]] · [Issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55)
+
+
+## 7. FORMATO DE SAÍDA OBRIGATÓRIO — mensagem copiável (requisito de interface)
+
+**Não basta preencher uma tabela-resumo, emitir um parecer ou apontar o próximo agente.** Ao concluir a etapa, o remetente deve entregar **a mensagem integral de encaminhamento, em um único bloco copiável**, direcionada à especialidade seguinte e pronta para colar em outra conversa de agente, sem recomposição manual pela CEO.
+
+- Em **ChatGPT**, usar **bloco de escrita/mensagem** com ação de copiar disponível no cliente, contendo todo o despacho como Markdown. Se o cliente não oferecer bloco de escrita, usar **um único bloco de código Markdown copiável**, não uma tabela solta.
+- Em **GitHub/Obsidian**, manter a mesma mensagem integral sob título `GT-HANDOFF-001 — Mensagem pronta para encaminhar` em um bloco Markdown ou texto integral fácil de selecionar/copiar; o GitHub não dispara automaticamente conversas.
+- Cabeçalho deve explicitar **DESTINO: [nome do próximo agente]**, **AÇÃO: ENCAMINHAR ESTA MENSAGEM**, missão, etapa, origem, estado, issue, objetivo, escopo, restrições, entregáveis, critérios, evidências existentes, próxima ação e retorno exigido.
+- **Handoff de prestação de contas** pode ser dirigido ao Orquestrador para aceite/triagem, mas **isso não é o despacho final**: o Orquestrador aceita/devolve e, quando houver próxima especialidade, emite **outra mensagem completa copiável** endereçada ao especialista. O Orquestrador **não deve despachar para si mesmo**.
+- Na fase manual, a Direção **somente copia e cola** a mensagem; não escolhe destinatário, não completa contexto e não redige instruções.
+- O despacho não deve afirmar que outro agente foi acionado; registrar separadamente preparado, registrado, transportado, aceito.
+- Dados indisponíveis ficam marcados como **NÃO VERIFICADO/PENDENTE**, não inventados.
+- **Critério de rejeição:** resposta somente em tabela de campos/resumo de status (como `Missão | Etapa | Remetente | Destinatário`) **sem a mensagem integral pronta para copiar** = **DEVOLVIDO PARA COMPLEMENTAÇÃO DE FORMATO**.
+
+### Exemplo mínimo de apresentação exigida
+
+**DESTINO: Agente de UX/UI — COPIAR A MENSAGEM COMPLETA ABAIXO**
+
+```markdown
+# GT-HANDOFF-001 — Despacho para UX/UI
+**Missão:** GT-MISSION-CONTROL-001
+**Etapa:** GT-MISSION-CONTROL-001-UX-01
+**Origem:** Orquestrador Central — GenTests.ai
+**Destino:** Agente de UX/UI
+**Estado:** Aguardando aceite do destinatário
+**Referências:** [issue e documento de especificação efetivamente publicados]
+## 1. Objetivo
+Preparar proposta de interface com base na especificação funcional verificada.
+## 2. Contexto / DoR
+[versão do documento, critérios e dependências reais]
+## 3. Escopo autorizado
+[atividades permitidas, limites, sem deploy/merge]
+## 4. Entregáveis e aceite
+[telas/jornadas, evidências e critérios observáveis]
+## 5. Próximo encaminhamento
+[próximo responsável e ação após esta etapa; retorno pelo GT-HANDOFF-001]
+```
+
+**O exemplo é ilustrativo** e precisa ser preenchido com evidências reais antes de uso.
