@@ -1,55 +1,113 @@
 ---
 tipo: processo
 id: GT-HANDOFF-001
-versao: 0.1.0
+versao: 0.2.0
 status: proposta
 responsavel: Governança
 missao: GT-GOV-CHANGE-001
 issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 ---
-# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA)
+# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.0)
 
-> **Não homologado:** este documento propõe um fluxo e não concede permissões, não altera contratos, não autoriza merge ou publicação. Parecer: [REV-GOV-CHANGE-001](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111725634).
+> **Não homologado.** Este desenho não concede acessos, não altera POL-003, contratos ou hierarquia, não autoriza merge, publicação, piloto, GT-WIP-001, Agile Coach ou automação #47. Base: [Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) e [REV-GOV-CHANGE-002](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
-## Regra central
-Toda etapa concluída, bloqueada ou devolvida exige **GT-HANDOFF-001 preenchido pelo agente remetente**. O **Orquestrador Central único** verifica prontidão e determina a rota; o destinatário confirma **ACEITO** ou **DEVOLVIDO**, com motivo. **A Direção não escolhe destinatários operacionais**, mas delibera sobre atos reservados. Até a automação da [[03-Processos/Despacho-Automatico-de-Agentes|issue #47]], a CEO atua apenas como gatilho/transporte manual da mensagem pronta, quando o canal exigir.
+## 1. Regra central e fonte da autoridade
 
-## Estados separados (não intercambiáveis)
-- **Missão:** registrada → refinamento → pronta → em execução → aguardando verificação → correção / aguardando decisão → entrega autorizada → conferência final → encerrada; bloqueada ou cancelada com motivo e responsável.
-- **Etapa:** proposta → despachada → aguardando aceite → aceita → em execução → concluída com evidência; devolvida ou bloqueada com dono e ação.
-- **Eventos distintos:** texto preparado ≠ registro GitHub ≠ agente realmente acionado ≠ aceite de entrada ≠ aprovação técnica ≠ autorização Direção ≠ entrega ≠ encerramento.
-- **Sem aprovação por silêncio:** falta de aceite gera acompanhamento do Orquestrador, nunca avanço tácito.
+**Orquestrador Central único** mantém ownership da missão, triagem e lacunas de rota, confirma destino e registra transferências; **não se autodespacha**. Especialista só assume execução após **ACEITO explícito**; o parecer de QA, Validação, Auditoria ou Revisor Independente não concede autorização para merge, gastos, publicação ou deploy. Direção decide os atos reservados e, no transporte manual, apenas copia a mensagem pronta, sem escolher rota. A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) trata de automação futura, não implantada.
 
-## Procedimento resumido
-1. Orquestrador tria a issue canônica, confere DoR, referências, prioridade, arquivos/IDs/PRs concorrentes, responsável e permissão aplicável.
-2. Orquestrador gera e registra despacho preenchido para o destinatário especializado conforme matriz aprovada; na ausência de rota, mantém ownership e resolve conflito.
-3. Transporte/acionamento efetivo é verificado separadamente. Enquanto a automação #47 não existir, a Direção pode apenas encaminhar a mensagem pronta, sem redefinir rota.
-4. Destinatário responde ACEITO/DEVOLVIDO. Em devolução informa requisito faltante, dono e próxima ação. Aceite não é parecer ou aprovação.
-5. Especialista executa **apenas ações autorizadas**, registra resultados reais, testes executados/não executados, versões, evidências e riscos.
-6. Especialista preenche retorno pelo [[07-Templates/GT-HANDOFF-001-TEMPLATE]] com próximo destinatário proposto. Orquestrador confirma rota e as verificações/decisões aplicáveis.
-7. Só encerrar missão com DoD, evidências, aprovações expressas cabíveis, riscos residuais atribuídos e registro na issue.
+**Roteamento não é autorização.** O catálogo de papéis/rotas abaixo é candidato. Fonte de autoridade: [[00-Constituicao/Matriz-de-Permissoes|POL-003]], delegação formal vigente, permissão efetiva da ferramenta e aprovação específica para cada ato protegido; reconciliação pendente na [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53). Quando a autoridade é ausente/ambígua: **BLOQUEADA POR AUTORIDADE**, com dono e próxima decisão. RACI ou texto de despacho não cria permissão.
 
-## Interfaces de exemplo (a detalhar na correção focal)
-| Origem | Próximo destino candidato | Entrada mínima | Retorno |
-|---|---|---|---|
-| Produto | UX/UI ou Engenharia | requisitos, critérios de aceite, restrições, issue | dúvida de requisito → Produto |
-| Executor | QA, depois Revisor Independente quando exigido | commit/PR, escopo, evidências, testes e limitações | defeito → Executor |
-| Marketing | revisão de conteúdo/marca, depois Comercial | artefato, guia de marca, canal, evidências | ajuste → Marketing; publicação só com autorização aplicável |
+| Função | Competência da rota candidata | Limite / segregação |
+|---|---|---|
+| Direção | Deliberação reservada, autorização por objeto | Decisão não substitui QA ou parecer técnico |
+| Orquestrador | Triagem, preparo, despacho, acompanhamento e fechamento condicionado | Não executa ação técnica por presunção nem homologa sua própria proposta |
+| Comercial | Prospecção e CRM autorizado | Contato externo sob autorização; sem gasto autônomo |
+| Marketing | Conteúdo e campanhas | Publicação/autoria sem autoaprovação |
+| Produto | Requisitos e critério funcional | Não autoriza deploy/gasto |
+| UX/UI | Proposta de interface | Revisão por pessoa/função distinta quando exigida |
+| Engenharia / Executor | Código, documentação e testes internos | Não autoriza próprio merge/deploy |
+| Infra | Ambiente, CI/CD e rollback autorizado | Não amplia acessos; deploy condicionado |
+| Financeiro | Estimativa, conciliação e preparação | Não inicia, agenda ou executa pagamento/transferência autonomamente |
+| QA | Plano/execução de testes e parecer QA | Não substitui revisão independente nem autoriza merge |
+| Validação | Critério e aceite especializado quando nomeado | Não valida produção própria nem substitui Direção |
+| Auditoria / X9 | Varredura de controles e rastros | Não audita trabalho próprio nem autoriza correção |
+| Governança | Processo, conformidade e propostas | Não homologa proposta própria |
+| Revisor Independente Modelo A | Parecer crítico independente | Não pode ser autor, executor ou aprovador do próprio objeto |
+| Agile Coach (candidato) | Recomendações e métricas de fluxo | Não ativado; não despacha, encerra ou autoriza |
 
-Estas rotas **não substituem POL-003 nem habilitação efetiva**: [[00-Constituicao/Matriz-de-Permissoes]]. QA, validação, auditoria e revisão independente não se substituem automaticamente.
+## 2. Contrato de eventos e transições — proposta v0.2.0
 
-## Bloqueios para implantação (REV-GOV-CHANGE-001)
-- **REV-GOV-01:** reconciliar papel × ação × autoridade × incompatibilidades × substituto autorizado com issue #53, distinguindo regras escritas e permissões efetivas.
-- **REV-GOV-02:** anexar tabela versionada de transições e eventos, incluindo indisponibilidade, aceite, devolução, timeout de acompanhamento, entrega parcial, múltiplas revisões e liberação de WIP.
-- **REV-GOV-03:** provar gate de arquivos/IDs/PRs concorrentes com testes positivos/negativos, falso positivo, severidades, comando/commit/saídas.
-- **REV-GOV-04–06:** exemplos detalhados de DoR/DoD, piloto com baseline real e teste de independência/substitutos por missão.
-- **GT-WIP-001** e **Agile Coach** ainda são candidatos; nenhuma ativação por esta nota.
+Cada evento na **issue canônica** deve conter `event_id`, `mission_id`, `handoff_id`, `version`, instante ISO 8601 com fuso, ator, dono atual, próximo dono, estado anterior/seguinte, evidência, autorização específica e PR/commit correlato. Identidade de evento/versão para idempotência é requisito futuro, **não mecanismo implementado**. Missão, etapa, transporte, aceite, parecer e decisão são estados distintos.
 
-## Integração futura
-A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) poderá implementar transporte automático idempotente, confirmação de entrega e aceite, observabilidade e tratamento de falhas. Comentário na issue **não aciona** sozinho uma conversa de agente.
+| Evento/condição | Transição | Ownership e gate |
+|---|---|---|
+| Nova demanda | inexistente → registrada | Orquestrador assume triagem/DoR |
+| Entrada insuficiente | registrada/refinamento → aguardando refinamento | Orquestrador indica requisito, dono e retorno; sem despacho |
+| DoR satisfeito | registrada/refinamento → pronta | Orquestrador aponta evidência e rota |
+| Mensagem redigida | pronta → handoff preparado | Ainda **não** registrada ou entregue |
+| Registro GitHub | preparado → registrado; acionamento pendente | Comentário/issue **não é** acionamento efetivo |
+| Entrega comprovada | acionamento pendente → aguardando aceite | Referência do transporte; Orquestrador acompanha |
+| ACEITO explícito | aguardando aceite → etapa aceita/em execução | Destinatário assume execução; aceite não aprova mérito |
+| DEVOLVIDO explícito | aguardando aceite → devolvida/refinamento | Motivo, requisito, dono, próxima ação; sem loop infinito |
+| Erro de transporte | preparado/pendente → erro de entrega | Orquestrador documenta erro e nova tentativa segura/manual; sem aceite fictício |
+| Sem resposta | aguardando aceite → aguardando aceite escalonada | Monitorar/substituir se autorizado; prazo a calibrar em piloto; silêncio nunca é aceite |
+| Impedimento do executor | em execução → bloqueada | Executor identifica bloqueio e terceiro; Orquestrador atribui dono da remoção |
+| Desbloqueio | bloqueada → em execução/pronta | Rechecar DoR e autoridade |
+| Entrega com evidência | em execução → etapa concluída/aguardando transferência | Remetente informa realizado/não realizado e riscos; missão continua |
+| Transferência registrada | concluída → handoff pendente | Orquestrador confirma destino; próximo agente ainda não aceitou |
+| Verificações paralelas | em verificação → verificações parciais | QA, Validação, Auditoria e Revisão Independente, se exigidas, têm donos e pareceres próprios; gate só fecha com todos ou dispensa expressa autorizada |
+| Não conformidade | em verificação → correção focal | Achados e condição de rechecagem; retorna ao executor |
+| Mérito verificado | em verificação → aguardando decisão/entrega | Aprovação técnica não autoriza atos reservados |
+| Decisão reservada | aguardando decisão → autorizada/devolvida/cancelada | Direção registra objeto, escopo e decisão |
+| Integração real | autorizada → conferência final | Executor/Infra habilitado registra commit, publicação/deploy e evidência |
+| DoD da missão | conferência final → encerrada | Orquestrador/encarregado autorizado verifica todos os gates |
+| Cancelamento fundamentado | estado não final → cancelada | Autoridade competente documenta motivo, impactos e comunicação |
+
+**Ownership:** missão/rota e filas = Orquestrador; execução aceita = especialista; parecer = verificador nomeado; decisão reservada = Direção. Toda devolução, pendência e bloqueio exige dono atual, próximo dono e próxima ação. Envio do retorno não equivale à transferência aceita.
+
+## 3. WIP e capacidade — regra candidata não ativada
+
+Não impor WIP 1 agora. Slot do remetente pode ser liberado somente quando: (a) evidências e retorno estão completos; (b) próximo especialista aceitou **ou** Orquestrador assumiu expressamente a fila/roteamento com capacidade e substituição habilitada; e (c) não subsiste correção ativa com o remetente. Assumir fila **não** equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
+
+## 4. DoR/DoD e devolução por interface
+
+| Interface | DoR / motivo de devolução | DoD / próximo gate |
+|---|---|---|
+| Produto → UX/UI ou Engenharia | Problema, público, fluxos, regras, critérios testáveis, dependências, decisões pendentes; ambiguidade retorna a Produto | Protótipo/especificação versionada, exceções e evidências; QA/Validação conforme risco; sem autorização implícita |
+| Executor → QA → Revisor Independente | PR/commit, ambiente, escopo, testes realizados e não realizados, evidência de acesso; inacessibilidade ou falta de evidência bloqueia/devolve | Parecer QA rastreável; defeitos retornam ao Executor; revisão independente recebe diff/QA e nunca é feita por autor/executor |
+| Marketing → revisão → Comercial | Artefato/versão, canal/público, fontes, marca, links e testes reais; logo/link não verificável bloqueia | Revisão de conteúdo e marca por funções distintas quando cabível; correção volta a Marketing; publicação/envio com autorização específica |
+
+Campos dispensáveis devem trazer **N/A justificado**, sem exigir commit em texto trivial nem afirmar teste não realizado como aprovado.
+
+## 5. Verificações independentes, substituição e decisão
+
+Para cada objeto crítico, registrar `author_id`, `executor_id`, `qa_id`, `validator_id`, `auditor_id`, `reviewer_id`, `approver_id`, com N/A justificado quando cabível. Verificar **identidade real, participação prévia e habilitação efetiva**, não apenas títulos de agentes; ninguém revisa ou valida independentemente a própria produção. QA, Validação, Auditoria e Revisão Independente são funções distintas e suas aprovações **não se substituem**. Dispensa de gate obrigatório exige autoridade/justificativa registrada. Substituto só entra com competência, permissão e independência verificadas; delegação de autoridade vai à Direção. Sem elegível, bloquear com owner e risco.
+
+## 6. Concorrência documental — gate proposto, ainda não comprovado
+
+Inventariar, antes da edição: arquivos e IDs canônicos, PRs abertos, versões-base, histórico, owner integrador, sobreposições semânticas, links e impactos de permissão. Precedências **propostas, não ordem de merge**:
+
+| Fonte | Concorrência conhecida | Encaminhamento candidato |
+|---|---|---|
+| PRC-COM-001 / COM-APOIO-PROSPECCAO-001 | PRs #43/#50 | #43 como referência de identificação; integrador Comercial a designar |
+| PRC-MKT-001 / Revisao-de-Arte.md | PRs #39/#50 | Preservar controles de #39; integrador Marketing a designar |
+| Indice-de-Agentes.md | #51 incorporado, #52/#54 | #51 como baseline; integrador a designar |
+| POL-003 | PRs #52/#54 e issue #53 | #53 é owner da reconciliação, sem alteração paralela |
+| GT-HANDOFF-001 | issue #55 / PR #57 | Issue fonte da especificação; PR artefato draft |
+
+**Bloqueio candidato:** duplicação inequívoca de ID canônico, perda de controle obrigatório, link obrigatório quebrado, conflito não reconciliado ou ato sem autorização. **Aviso candidato:** texto sobreposto sem colisão provada, alias histórico, metadados ou apoio editorial. `GT-HANDOFF-001` é compartilhado intencionalmente por `tipo: processo` e `tipo: template`; não classificar isso isoladamente como duplicidade. Verificar owner e serialização antes de merge. `scripts/check_links.py` e `scripts/x9_scan.py` são candidatos a ensaio; cobertura, testes positivos/negativos/falsos positivos, logs e exit codes **não comprovados por esta especificação**. Gate bloqueante não ativado.
+
+## 7. Mensagem integral copiável — gate transversal obrigatório
+
+Ao concluir, bloquear, devolver ou transferir uma etapa operacional, o remetente preenche [[07-Templates/GT-HANDOFF-001-TEMPLATE]] e entrega **uma única mensagem integral, preenchida e copiável, dirigida ao destinatário seguinte**, com objetivo, DoR/DoD, autoridade, limites, evidências reais, estados de transporte/aceite, próximos responsáveis e retorno. **Resultado isolado, tabela-resumo ou link não substituem a mensagem integral.** Em retorno apenas de prestação de contas ao Orquestrador, a exceção de *não haver despacho operacional direto* deve ser justificada; ainda assim fornecer prestação de contas integral. O Orquestrador **não se autodespacha**: aceita/devolve retorno e produz outro despacho completo para a próxima especialidade. A Direção apenas transporta a mensagem pronta enquanto necessário. Não marcar acionamento por comentário GitHub, aceite por silêncio, ou decisão por parecer.
+
+**DoD da etapa:** artefato e evidências versionados; testes feitos/não feitos discriminados; bloqueios/riscos e donos; verificações obrigatórias e dispensas autorizadas; autorização da ação; mensagem integral pronta; confirmação de transferência ou fila com Orquestrador. **DoD da missão:** pareceres e decisões exigidas, autorização separada, integração/publicação real comprovada se aplicável, pendências sob dono e encerramento expresso. Sem isso, etapa concluída ≠ missão encerrada.
+
+## 8. Piloto e indicadores — apenas planejamento
+
+Candidato: missão #55, somente após autorização própria. Orquestrador coleta timestamps de despacho/acionamento/aceite/execução/verificações/decisão, WIP, idade por estado, bloqueios, devoluções, lead time, throughput e colisões. **Baseline N/D (não apurada)**; piloto não executado. Uma única amostra não comprova melhoria geral. Automação, GT-WIP-001 e Agile Coach seguem não ativados.
 
 ## Referências
-- [Issue #55 — proposta da Governança](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111681091)
-- [Parecer independente e ressalvas](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111725634)
-- [[07-Templates/GT-HANDOFF-001-TEMPLATE]]
-- [[02-Agentes/Indice-de-Agentes]]
+- [Issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) · [Proposta Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) · [Parecer REV-02](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108)
+- [Issue #53 — POL-003](https://github.com/gentestsai-sudo/gentests-os/issues/53) · [Issue #47 — automação futura](https://github.com/gentestsai-sudo/gentests-os/issues/47)
+- [[07-Templates/GT-HANDOFF-001-TEMPLATE]] · [[02-Agentes/Indice-de-Agentes]]
