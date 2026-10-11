@@ -14,6 +14,10 @@
     "scope": "simulate:synthetic",
     "generation": 1,
     "corpus_sha": "ffffffffffffffffffffffffffffffffffffffff",
-    "expires_at": "2026-10-12T00:00:00Z"
+    "expires_at": "2026-10-12T00:00:00Z",
+    "repo": "synthetic/example",
+    "issue": 123,
+    "mission": "SYNTH-001",
+    "stage": "simulate"
   }
 }
