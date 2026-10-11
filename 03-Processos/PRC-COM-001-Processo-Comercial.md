@@ -19,6 +19,8 @@ Entregáveis propostos, sujeitos à confirmação de escopo: mapa conciso de ris
 
 **Antes de ofertar:** direção define prazo, preço, capacidade, condições de acesso e dados, critérios de aceite, limites de responsabilidade e modelo contratual. Não solicitar credenciais nem dados sensíveis na primeira conversa.
 
+**Guia complementar de prospecção:** [[03-Processos/Prospeccao-Comercial]] (`COM-APOIO-PROSPECCAO-001`). É roteiro de apoio subordinado aos gates deste processo, não um segundo processo comercial.
+
 ## Fluxo operacional
 | Etapa | Entrada e ação | Critério de saída | Responsável |
 |---|---|---|---|
@@ -42,7 +44,7 @@ Um registro por oportunidade: `id`, empresa/contato profissional, origem/fonte, 
 Sugestão de ID: `OP-2026-001` (sequencial, não reutilizar). Vínculos: `OP -> proposta -> contrato -> entrega` somente se existirem. Não fabricar artefatos ou evidências ausentes.
 
 ## Integração Marketing → Comercial
-Marketing registra a origem/campanha, conteúdo, data e contexto do interesse com o mínimo de dados necessários, respeitando privacidade. Comercial verifica duplicidade e autorização de contato, cria ou atualiza um único registro no CRM, qualifica a oportunidade e define responsável, etapa e próximo passo. Interesse ou download não prova consentimento para qualquer modalidade de contato. Prospecção ativa segue [[03-Processos/Prospeccao-Comercial|PRC-COM-002]]. Informações de desempenho agregadas retornam ao Marketing para melhoria das ações, sem compartilhamento de dados pessoais desnecessários.
+Marketing registra a origem/campanha, conteúdo, data e contexto do interesse com o mínimo de dados necessários, respeitando privacidade. Comercial verifica duplicidade e autorização de contato, cria ou atualiza um único registro no CRM, qualifica a oportunidade e define responsável, etapa e próximo passo. Interesse ou download não prova consentimento para qualquer modalidade de contato. Prospecção ativa segue [[03-Processos/Prospeccao-Comercial|COM-APOIO-PROSPECCAO-001]]. Informações de desempenho agregadas retornam ao Marketing para melhoria das ações, sem compartilhamento de dados pessoais desnecessários.
 
 ## Medição e cadência
 Indicadores mínimos: contatos efetivamente realizados, respostas, conversas qualificadas, propostas autorizadas/enviadas e contratos assinados/fechados.
