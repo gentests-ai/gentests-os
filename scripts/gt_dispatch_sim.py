@@ -33,10 +33,18 @@ def authorize(event, now):
         return 'expiration_invalid'
     if event.get('synthetic') is not True or event.get('operation') != 'dry_run':
         return 'external_effect_denied'
-    if not all(isinstance(event.get(k), (str, int)) and event[k] != '' for k in REQUIRED):
+    # Exact types matter: bool is an int subclass in Python.
+    if (type(event.get('repo')) is not str or not event['repo'].strip()
+        or type(event.get('issue')) is not int or event['issue'] < 1
+        or type(event.get('mission')) is not str or not event['mission'].strip()
+        or type(event.get('stage')) is not str or event['stage'] != 'simulate'
+        or type(event.get('generation')) is not int or event['generation'] < 1
+        or type(event.get('corpus_sha')) is not str or len(event['corpus_sha']) != 40
+        or any(c not in '0123456789abcdef' for c in event['corpus_sha'])):
         return 'invalid_identity'
-    if not isinstance(event['generation'], int) or event['generation'] < 1:
-        return 'invalid_generation'
+    # Fictional approval must name the entire immutable request identity.
+    if any(type(auth.get(k)) is not type(event[k]) or auth[k] != event[k] for k in REQUIRED):
+        return 'identity_mismatch'
     return None
 
 def run(db_path, event, now=None, crash_after_reserve=False):
@@ -55,7 +63,8 @@ def run(db_path, event, now=None, crash_after_reserve=False):
             owned = cursor.rowcount == 1
             row = db.execute('SELECT status, output_hash FROM runs WHERE key=?', (k,)).fetchone()
         if not owned:
-            if row[0] == 'done':
+            if (row[0] == 'done' and type(row[1]) is str and len(row[1]) == 64
+                and all(c in '0123456789abcdef' for c in row[1])):
                 return {'status': 'duplicate', 'key': k, 'output_hash': row[1]}
             return {'status': 'blocked', 'reason': 'pending_requires_reconciliation', 'key': k}
         if crash_after_reserve:
