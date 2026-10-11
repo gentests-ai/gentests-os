@@ -1,7 +1,7 @@
 ---
 tipo: procedimento
 id: PRC-ENG-001
-versao: 0.1.0
+versao: 0.1.1
 status: proposta
 responsavel: Engenharia e Infraestrutura
 aprovador: Direcao
@@ -13,10 +13,10 @@ Estabelecer fluxo enxuto entre Produto, UX/UI, Engenharia, QA e Infraestrutura p
 
 ## Fluxo
 1. **Receber e delimitar** — confirmar requisitos, aceite, origem, prioridade, ambiente, dependências, classificação QG e aprovações exigidas.
-2. **Implementar em branch** — Executor Técnico faz mudança mínima e versionada, descrevendo impactos e riscos.
+2. **Implementar em branch** — Engenharia faz mudança mínima e versionada, descrevendo impactos e riscos.
 3. **Verificar** — aplicar testes apropriados e observabilidade; QA contribui na análise de riscos, testes e evidências; documentar testes não realizados.
 4. **Revisar** — controles automáticos comprovadamente disponíveis e revisão por especialista independente quando exigida pelo nível de risco; o próprio autor não emite parecer independente.
-5. **Deliberar** — autorização humana para merge sensível, implantação, acesso a produção, credenciais, despesas e demais operações sujeitas à matriz.
+5. **Deliberar** — autorização explícita da Direção para qualquer merge, implantação, acesso a produção, credenciais, despesas e demais operações sujeitas à matriz.
 6. **Implantar e acompanhar** — Infraestrutura executa apenas operação autorizada, verifica estado posterior e mantém instruções de rollback; comunicar incidentes, resultados e limitações.
 
 ## Responsabilidades e interfaces
@@ -24,9 +24,9 @@ Estabelecer fluxo enxuto entre Produto, UX/UI, Engenharia, QA e Infraestrutura p
 |---|---|---|
 | Requisitos funcionais e priorização | Produto | UX/UI, QA, Engenharia |
 | Interface e estados | UX/UI | Produto, Engenharia, QA |
-| Implementação e correções | Executor Técnico | Produto, Infra, QA |
-| Risco, prevenção e testes | QA | Executor, Produto, Infra |
-| Ambiente, CI/CD e implantação autorizada | Infraestrutura | Executor, QA, Direção |
+| Implementação e correções | Engenharia | Produto, Infra, QA |
+| Risco, prevenção e testes | QA | Engenharia, Produto, Infra |
+| Ambiente, CI/CD e implantação autorizada | Infraestrutura | Engenharia, QA, Direção |
 | Parecer independente, quando exigido | Especialista designado sem conflito | Validador, executor |
 | Autorização sensível | Direção ou responsável formalmente autorizado | Orquestrador |
 
@@ -45,3 +45,6 @@ Falha ou ausência de evidência não equivale a aprovação. Corrigir apenas o 
 
 ## Homologação
 Documento em proposta; implantação dos controles e adoção obrigatória dependem de revisão e decisão da Direção.
+
+## Reconciliação GOV-04
+AGT-ENG/AGT-INFRA e o índice seguem a proposta canônica de #61, preservando IDs e caminhos. Executor é função genérica; Engenharia é o nome canônico do domínio. Orquestrador mantém fila/rota, sem autohandoff. Os cinco contratos e os 14 papéis não concedem privilégios; Modelo A permanece função por missão. POL-003/#53 são dependência separada, não alterada nesta reconciliação. #50 preserva fronteiras Comercial/Marketing; FIN-54-01 permanece com o responsável por #54. Sem homologação ou merge.
