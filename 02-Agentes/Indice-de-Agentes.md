@@ -1,7 +1,7 @@
 ---
 tipo: indice
 status: proposta
-versao: 0.2.0
+versao: 0.2.1
 ---
 # Diretório canônico de agentes — proposta de reformulação
 
@@ -16,7 +16,7 @@ Fonte de nomes e fronteiras: [Arquitetura de papéis](Arquitetura-de-Papeis.md).
 | 🛠️ Infraestrutura | AGT-INFRA | [Contrato](Infraestrutura/Contrato-Agente-Infraestrutura.md) | Ambientes e operação |
 | 🤝 Comercial | AGT-COM | [Contrato](Comercial/Contrato-Agente-Comercial.md) | Oportunidades e relacionamento autorizado |
 | 📣 Marketing | AGT-MKT | [Contrato](Marketing/Contrato-Agente-Marketing.md) | Conteúdo e comunicação |
-| 💰 Financeiro | AGT-FIN | [Contrato](Financeiro/Contrato-Agente-Financeiro.md) | Análise e preparação financeira |
+| 💰 Financeiro | AGT-FIN | [Contrato](Financeiro/Contrato-Agente-Financeiro.md) | Viabilidade, custos, precificação, recebíveis e conciliação sob autorização |
 | 🧪 QA | AGT-QA | [Contrato](QA/Contrato-Agente-QA.md) | Riscos e testes |
 | ✅ Validador | AGT-VAL | [Contrato](Validador/Contrato-Agente-Validador.md) | Critérios de aceite e gates |
 | 🔎 Auditor | AGT-AUD | [Contrato](Auditor/Contrato-Agente-Auditor.md) | Efetividade e conformidade dos controles |
@@ -34,6 +34,12 @@ Nomes antigos de Engenharia (Executor Técnico/Executor do Site) são aliases de
 ## Interfaces e regras comuns
 Consultar contrato, políticas e registros atuais antes de agir. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) como referência de proposta e respeitar a autoridade efetiva. [Produto/UX](../03-Processos/Refinamento-Produto-UX-Handoff.md) mantém sua interface.
 
-[POL-003](../00-Constituicao/Matriz-de-Permissoes.md) precisa de reconciliação na [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53). As novas linhas do índice não ampliam privilégios. Antes de merge, reconciliar o índice concorrente dos PRs #50/#52/#54, sem perda de responsabilidades ou histórico.
+[POL-003](../00-Constituicao/Matriz-de-Permissoes.md) precisa de reconciliação na [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53). As novas linhas do índice não ampliam privilégios. Antes de merge, reconciliar o índice concorrente dos PRs #52/#54 e as interfaces semânticas de #50, sem perda de responsabilidades ou histórico.
 
 Chat principal identifica especialidade; chat de atividade não cria novo agente. Não presumir envio, acionamento, aceite, independência humana ou automação a partir de nomes, comentários ou arquivos.
+
+**Interface técnica:** PRC-ENG-001, [proposta de #52 no head consultado](https://github.com/gentestsai-sudo/gentests-os/blob/f5b423d7e827645d7fae30f92ecfdf87edb15575/03-Processos/Entrega-Tecnica-e-Infraestrutura.md), coordena Produto/UX/UI/Engenharia/QA/Infraestrutura. Ausente desta base; não homologado por esta referência.
+
+**Interface financeira:** PRC-FIN-001, [proposta de #54 no head consultado](https://github.com/gentestsai-sudo/gentests-os/blob/78dbc6b7de3081f4dab56e7d4fe1942f906a0b10/03-Processos/PRC-FIN-001-Gestao-Financeira.md), relaciona Comercial, área técnica, Financeiro e Direção, sem ampliar permissões. Ausente desta base. FIN-54-01 (ambiguidade sobre iniciar movimentação monetária) permanece pendência de #54; Financeiro não inicia, agenda ou executa pagamentos/transferências.
+
+**Interface Comercial/Marketing:** conforme [proposta #50](https://github.com/gentestsai-sudo/gentests-os/pull/50), Marketing fornece origem/contexto; Comercial verifica duplicidade, autorização, qualifica e controla registro/seguimento no CRM, sem pipeline paralelo. Fonte única de CRM permanece proposta dependente de acesso comprovado e ratificação da Direção. Esta fronteira não autoriza contato externo.

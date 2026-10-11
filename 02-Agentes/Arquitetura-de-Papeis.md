@@ -1,7 +1,7 @@
 ---
 tipo: proposta-organizacional
 id: GT-ORG-REFORM-001
-versao: 0.1.0
+versao: 0.1.1
 status: proposta
 ---
 # Reformulação da estrutura de agentes
@@ -46,10 +46,10 @@ QA não precisa ser repetido pelo Validador: este reaproveita evidências sufici
 “Executor” isolado é a função de quem produz a entrega, não sinônimo universal de Engenharia: Marketing executa conteúdo, Processos executa desenho de procedimento etc. Aliases preservam busca e rastreabilidade; não renomear históricos em massa. Chats de atividade são contexto, não novos agentes.
 
 ## Concorrência e impacto
-- Issue #53: dona da reconciliação da matriz de permissões; este pacote não modifica POL-003. Associar os cinco novos papéis na proposta de #53 antes de adoção operacional.
+- Issue #53: dona da reconciliação da matriz de permissões; este pacote não modifica POL-003. Inventariar os 14 papéis e Modelo A na proposta de #53 antes de adoção operacional.
 - PR #52: já propõe AGT-ENG e AGT-INFRA. Preservados IDs e caminhos de arquivos para evitar contratos concorrentes. A nova proposta reformula esses textos; integrar uma versão única, nunca ambas sem reconciliação.
 - PR #54: preservar escopo e restrições Financeiro; índice tem concorrência.
-- PR #50: preservar responsabilidades Comercial/Marketing; reconciliar índice, sem reescrever seus contratos aqui.
+- PR #50: preservar responsabilidades Comercial/Marketing; reconciliar interfaces semânticas (sem alteração do índice no diff atual de #50), sem reescrever seus contratos aqui.
 - PR #51 incorporado: preservar Produto/UX/UI e seus IDs. Sem regressão de requisitos.
 - Issue #55 / GT-HANDOFF-001: aproveitar interfaces e distinguir propostas de homologação; contratos não ativam WIP, Agile Coach ou automação #47.
 - Sem alteração de políticas, processos de domínio existentes, código, infraestrutura, histórico, permissões ou automações.
@@ -65,3 +65,37 @@ QA não precisa ser repetido pelo Validador: este reaproveita evidências sufici
 
 ## Responsáveis e estado
 Autor documental: assistente no chat Auditor, por instrução direta da Direção; autocheck não é auditoria independente. Etapa: proposta preparada. Próximo responsável: Orquestrador para reconciliar concorrências e encaminhar revisão focal. Transporte e aceite ainda precisam de comprovação. Autoridade final: Direção.
+
+## Reconciliação focal GOV-03
+Correções por Governança, em continuidade ao parecer [ORG-VAL-01 a 04](https://github.com/gentestsai-sudo/gentests-os/pull/61#issuecomment-6113396719). Autoria original pelo assistente no chat Auditor preservada acima; esta correção é produção documental e autocheck, sem auditoria independente.
+
+| Achado | Correção / destino |
+|---|---|
+| ORG-VAL-01 | AGT-ORQ: devolução ao originador/dono do dado; decisão reservada ou conflito sem solução à Direção; fila como estado interno |
+| ORG-VAL-02 | AGT-ENG/AGT-INFRA: controles específicos de #52 preservados abaixo e PRC-ENG-001 referenciado como proposta |
+| ORG-VAL-03 | Índice: PRC-ENG-001/PRC-FIN-001, fronteiras de #50 e pendência FIN-54-01; inventário em #53, sem alterar POL-003 |
+| ORG-VAL-04 | Cinco contratos: removido contexto temporário de autoria; mantida segregação geral; fato preservado neste registro |
+
+### Controle → fonte → destino equivalente
+Fonte de #52: commit f5b423d7e827645d7fae30f92ecfdf87edb15575; AGT-ENG e AGT-INFRA nos mesmos caminhos desta proposta.
+
+| Controle preservado | Fonte em #52 | Destino em #61 corrigido |
+|---|---|---|
+| Repositório/branch, ambiente permitido, riscos/dependências/aceite | AGT-ENG Entradas/Pode | AGT-ENG Recebe de e Executa |
+| Dados reais e credenciais com autorização específica; sem exposição | AGT-ENG Limites | AGT-ENG Limites específicos |
+| Registro de acúmulo Engenharia/Infra; revisão/autorização separadas | AGT-ENG Limites; AGT-INFRA Limites | Ambos: Limites específicos e Segregação |
+| Recursos/contas autorizados; testes/revisão e plano de reversão | AGT-INFRA Entradas | AGT-INFRA Recebe de |
+| Credenciais, DNS, produção, custos, exclusões, deploy/rollback sob autorização específica | AGT-INFRA Limites | AGT-INFRA Limites específicos |
+| Segredos protegidos; logs autorizados; menor privilégio e segregação de ambientes | AGT-INFRA Pode/Limites | AGT-INFRA Limites específicos |
+| Estado anterior/posterior, contas, janela, observabilidade e confirmação de destino | AGT-INFRA Saídas; AGT-ENG Saídas | AGT-INFRA Entrega/Interface técnica e falhas; AGT-ENG Entrega/Interface técnica |
+| Configuração real dos controles; sem pressupor automações | AGT-INFRA Limites; PRC-ENG-001 Controles | AGT-INFRA Limites específicos; ambos: Interface técnica |
+| Contenção somente autorizada e escalonamento | AGT-INFRA Tratamento de falhas | AGT-INFRA Interface técnica e falhas |
+| Revisão proporcional, evidências, limite de retrabalho e revalidação focal | PRC-ENG-001 Verificar/Revisar/Falha e retrabalho | Referência expressa ao procedimento de #52 em ambos os contratos e índice; SEC-AI-001 preservada |
+
+### Sequência proposta ao Orquestrador
+1. Manter #61 como versão canônica reconciliada dos cinco contratos e índice; manter PRC-ENG-001 na entrega de #52, sem perda de seus controles.
+2. Antes de qualquer integração, responsável por #52 deve reconciliar seu delta com a versão corrigida de #61: impedir que seus contratos/índice restaurem texto ou aliases superados. Não integrar #52 posteriormente sem essa reconciliação; alternativa é integrar sua parcela técnica reconciliada antes de #61, com inspeção do delta final. Esta proposta não altera/fecha #52.
+3. Responsáveis por #50/#54 preservam seus controles próprios e conciliam interfaces/índice; FIN-54-01 permanece em #54. POL-003 tem dono em #53 e entrega separada para os 14 papéis e Modelo A; issue aberta não equivale a matriz pronta.
+4. Orquestrador confirma sequência e bloqueios, encaminha revalidação focal do delta e integração. Direção decide homologação e merge de cada objeto após evidências. Nenhuma ordem aqui autoriza merge.
+
+DoD documental da correção depende do commit confirmado, autocheck e retorno; missão permanece não encerrada. Não foram alterados Financeiro, POL-003 ou PRs concorrentes por esta rodada.
