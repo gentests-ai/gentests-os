@@ -20,8 +20,8 @@ Falha 401/403: "Acesso não autorizado" (sem qualquer conteúdo interno). Nenhum
 │ Missões     │ [Última tentativa] [Cobertura: parcial]        │
 │ Especialid. ├────────────────────────────────────────────────┤
 │ Alertas/    │ [Filtros: estado | área | dono | prioridade]    │
-│ decisões    │ [Total 12] [Execução 4] [Bloqueadas 2]         │
-│ Evidências  │ [Revisão 1] [Decisão 3] [Concluídas 2]         │
+│ decisões    │ [Identificadas 12] [Estado verificado 10]      │
+│ Evidências  │ [Não verificado 2] [Execução 2] [Bloqueio 2]  │
 │             ├───────────────────────┬────────────────────────┤
 │             │ Missões prioritárias  │ Alertas/decisões       │
 │             │ ID | Estado | Próxima │ tipo, dono, ação      │
@@ -29,14 +29,17 @@ Falha 401/403: "Acesso não autorizado" (sem qualquer conteúdo interno). Nenhum
 │             └───────────────────────┴────────────────────────┘
 └──────────────────────────────────────────────────────────────┘
 ```
-* Os números são EXEMPLOS, não necessariamente somam o total. Implementação deve reconciliar contagens e denominadores, sem dupla contagem. Clique em KPI => Missões filtradas, não edição.
+* Fixture F-12 FICTÍCIA: estados comprovados refinamento 0 + pronta 1 + aceite 1 + execução 2 + revisão 1 + decisão 2 + concluída 1 + bloqueada 2 = 10. Estado não verificado 2 (fila de qualidade, NÃO novo estado operacional). Total identificado 10+2=12. Cobertura PARCIAL 12 de 15 IDs esperados (80%); 3 não recuperados, estados desconhecidos e fora das contagens. Lead time: NÃO APURADO (falta histórico); refinamento: ZERO verificado só entre as 12 recuperadas. Clique em KPI => Missões filtradas, não edição.
 
 ## D03 — Missões (Kanban)
 ```text
 [Busca ID] [Estado] [Prioridade] [Área] [Responsável] [Limpar]
 [Aguard. refinamento] [Pronta] [Aguard. aceite] [Em execução] [Revisão] [Decisão] [Concluída] [Bloqueada]
     └ ID título dono próxima ação fonte último evento ┘
-Condição de qualidade: "Não verificado" transversal, não coluna operacional.
+[FILA DE QUALIDADE CONSULTÁVEL: Estado não verificado — 2] (fora do Kanban operacional)
+  GT-DEMO-011 | estado operacional não comprovado | fonte disponível | regularização
+  GT-DEMO-012 | estado operacional não comprovado | fonte disponível | regularização
+Etiqueta secundária de qualidade pode aparecer em cartão com estado comprovado, mas não soma novamente a missão. "Não verificado" não é estado operacional.
 ```
 Alternativa em lista acessível. Abrir cartão => D04.
 
@@ -45,7 +48,11 @@ Alternativa em lista acessível. Abrir cartão => D04.
 ← Missões / GT-DEMO-001  [FICTÍCIO]  [Estado: aguardando aceite]
 Título | prioridade | área | dono | próxima ação | condição de encerramento
 [Bloqueios + dependências, com dono e ação]
-Trilha: [Despacho preparado] → [Handoff emitido] → [Aceite: NÃO VERIFICADO]
+Trilha informativa (etapas INDEPENDENTES, não barra de conclusão):
+ [Despacho preparado/registrado: COMPROVADO*]   [Notificação tentada: NÃO VERIFICADO]
+ [Agente acionado confirmado: NÃO VERIFICADO] [Handoff emitido: COMPROVADO*]
+ [Aceite explícito: NÃO VERIFICADO]           [Execução iniciada confirmada: NÃO VERIFICADO]
+ * SOMENTE NO EXEMPLO FICTÍCIO, com eventos individuais de prova simulados; produção requer URL, timestamp, ator.
 Origem: [Issue GitHub] [PRs] [Commits] [Evidências]
 Timeline: tipo | ocorreu | observado | ator | confiança | parser | fonte
 [Abre issue no GitHub]     NÃO EXISTE botão "aprovar"/"executar"
