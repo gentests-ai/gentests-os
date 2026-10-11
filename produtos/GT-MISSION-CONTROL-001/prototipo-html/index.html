@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>GenTests.ai — Mission Control · Protótipo</title><link rel="stylesheet" href="styles.css"><script defer src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Pular ao conteúdo</a>
+<div class="demo">PROTÓTIPO LOCAL · DADOS FICTÍCIOS · SOMENTE LEITURA · SEM TEMPO REAL</div>
+<div class="shell"><aside><p class="brand">GenTests.ai</p><p class="muted">Mission Control</p><nav aria-label="Navegação principal"><a href="#dashboard">Visão executiva</a><a href="#missions">Missões</a><a href="#agents">Especialidades</a><a href="#alerts">Alertas e decisões</a><a href="#trace">Rastreabilidade</a></nav><p class="aside-note">Decisões e execução ocorrem fora deste painel.</p></aside>
+<div class="workspace"><header><div><p class="eyebrow">CENTRAL DE ACOMPANHAMENTO</p><h1>Mission Control</h1></div><label>Cenário demonstrativo<select id="scenario"><option value="normal">Inventário parcial F-12</option><option value="stale">Dados desatualizados</option><option value="error">Falha simulada 429</option><option value="empty">Inventário vazio verificado</option></select></label></header>
+<section id="sync" class="sync" aria-label="Origem e atualização"></section>
+<details id="filter-panel" class="filters" open><summary>Filtros <span id="filter-count"></span></summary><form id="filters"><label>Busca por ID ou título<input name="search" type="search" placeholder="Ex.: GT-DEMO-001"></label><label>Estado<select name="state"></select></label><label>Prioridade<select name="priority"></select></label><label>Área<select name="area"></select></label><label>Responsável<select name="owner"></select></label><div class="actions"><button type="submit">Aplicar</button><button type="button" id="clear" class="secondary">Limpar filtros</button></div></form><p id="active-filters" class="muted"></p></details>
+<p id="announcement" class="sr" role="status" aria-live="polite"></p>
+<main id="main" tabindex="-1"></main><footer>Fixture F-12 · versão 1.0 · datas em America/Sao_Paulo · nenhuma consulta ao GitHub</footer></div></div>
+</body></html>
