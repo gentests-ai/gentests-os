@@ -40,6 +40,8 @@ Baseline da main: `a4c3f7606747f29acb6e11928889f962355c3ab7`, consultada em 10/1
 
 Normas em proposta são referências de desenho, não obrigações declaradas vigentes por este documento. As restrições explícitas da Direção aplicam-se a esta entrega. Revisão POL-003 e controles seguem seus registros próprios; não abrir tarefas duplicadas.
 
+**Atualização temporal (11/10/2026; preserva a baseline histórica de 10/10 acima):** na `main` consultada, POL-003 está em **v1.2.1, `status: proposta`, NÃO HOMOLOGADA** (blob `8bc63ad95dfb508f6d72a2513e9bac499aa3ffbe`), com **14 papéis canônicos**. A reconciliação é rastreada na [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53). O documento e a matriz proposta **não concedem permissões técnicas efetivas**, não equivalem a ACL/RBAC nem autorizam piloto, gastos, publicação ou merge. A linha POL-003 v1.0.0 e seu blob na tabela documentam fielmente a consulta original de 10/10; não foram substituídos.
+
 ## 2. MVP e requisitos
 
 **MVP candidato (Fase 1):** contrato na issue existente; triagem humana; um destino por etapa; responsável humano; estados/evidências; labels mínimas aprovadas; pesquisas salvas por URL; encaminhamento manual a sessão disponível; revisão separada e encerramento autorizado. Não exige GitHub Projects, dashboard, planilha, API de IA ou conta GitHub para cada agente. Projects pode ser avaliado depois somente como projeção da issue, sem estado concorrente.
@@ -465,6 +467,34 @@ Decisões adicionais candidatas:
 **Viabilidade documental solicitada ao Executor Técnico/Infra:** disponibilidade real de host/API/conta/modelo, dispatch/credenciais mínimas, isolamento/checkpoint/cotas e cotação/teto; validar especialmente restart, exclusão mútua e reconciliação de efeitos incertos. Nesta etapa não criar credenciais, testar API, instalar framework, habilitar workflows, configurar acessos ou inspecionar ativamente segurança sem autorização específica.
 
 **Ao Orquestrador:** coordenar as duas conferências acima e revisor independente, registrando confirmação real de recebimento quando ocorrer. **Revalidação independente somente do delta v0.1→v0.2:** §§14–19 e ajustes de consistência; não refazer RF-01–06/discovery inteiro, exceto regressão material fundamentada. Conferências e parecer não foram executados por este autor nem presumidos a partir deste encaminhamento. Issue #47 permanece canônica; PR #48 continua Draft; sem piloto, implementação, ativação, permissão alterada, merge ou publicação comercial.
+
+### Consolidação focal T02/T03 — 11/10/2026 (apenas documental)
+
+Os pareceres de [Engenharia T02](https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6114224855) e [Infraestrutura T03](https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6114290179) foram **concluídos documentalmente e aceitos pelo Orquestrador** no [registro de T02](https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6114239016) e no [aceite T03](https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6114326035). Reutiliza-se a [conferência anterior de Governança](https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6103153375), sem repeti-la.
+
+| Tema | Conclusão e consequência para eventual piloto |
+|---|---|
+| Execução com computador da Direção desligado | **VIÁVEL EM PRINCÍPIO** em runner cloud, sem comprovar operação contínua ou disponibilidade da conta; execução de workflow não aciona automaticamente conversas ChatGPT |
+| Stack candidata | **GitHub Actions + Python/API direta + fontes sintéticas por commit/SHA**, sem framework/banco vetorial inicialmente; dispatch controlado, executor sem escrita remota, publicação humana e revisão distinta; escolha ainda não autorizada |
+| Consistência, recuperação e revogação | **NÃO IMPLEMENTADOS** checkpoint remoto durável, reserva atômica, lease/fencing, reconciliação após crash/replay, revogação/autorizações verificáveis e parada segura; `concurrency` do Actions e artifacts não bastam isoladamente |
+| Contas, dados e cobrança | **NÃO COMPROVADOS** plano/saldo/billing do GitHub, cotas e elegibilidade efetiva de modelo/free tier, credenciais/identidades, termos e retenção de dados, limite rígido de excedente; **custo adicional efetivo R$ 0 NÃO COMPROVADO** |
+| Verificações e autoridade | **QA funcional, testes CT-01–32, auditoria operacional e revisão independente do novo delta NÃO EXECUTADOS**. Nenhuma credencial, workflow, integração, chamada de API, piloto, gasto, publicação ou merge decorre destes diagnósticos |
+
+**Gate de segurança:** antes de qualquer prova, exigir confirmação real de identidades e escopos, autenticação e revogação, dados estritamente sintéticos autorizados, tratamento de segredos/logs/retencão por destino, bloqueio de consumo monetário, persistência e exclusão mútua demonstráveis, kill switch e segregação executor/revisor. Insuficiência de prova mantém **piloto técnico BLOQUEADO**; os [32 cenários definidos nos §§9 e 17](https://github.com/gentestsai-sudo/gentests-os/pull/48) permanecem inalterados e não executados.
+
+### Quadro T04 — decisões futuras reservadas à Direção
+
+| Deliberação necessária | Alternativas/condição — nenhuma aprovada nesta consolidação |
+|---|---|
+| Rota e ritmo | **Prosseguir, restringir ou adiar**; decidir F1 manual versus eventual piloto técnico posterior, sem competir com P0 comercial |
+| Host, provedor e responsáveis | Definir host/conta, operador e revisor com independência real; escolher provedor/modelo elegíveis após provar permissões, limites, qualidade mínima e disponibilidade |
+| Dados e identidades | Especificar somente dados/corpus sintéticos autorizados, conta e acessos efetivos, regras de confidencialidade, credenciais e revogação, sem expor segredos |
+| Custo e interrupção | Fixar teto monetário, comprovar **bloqueio de excedente** e cotas reais, consumo observável e kill switch antes da API; `R$ 0` segue hipótese não validada |
+| Estado e retenção | Aprovar armazenamento/checkpoint, reserva atômica, lease/fencing, logs mínimos, retenção/exclusão, recuperação, publicação humana e rollback |
+| Autorizações separadas | Deliberar **preparação/PR técnico**, depois **ativação do host/workflow**, depois **execução de piloto**, cada ato com escopo, prova e gates próprios; aprovação de um não autoriza os demais |
+| Integração e publicação | **Merge, deploy, publicação, envio externo e encerramento** exigem decisões específicas posteriores; parecer técnico não os autoriza |
+
+**Encaminhamento:** Produto consolida este delta no PR Draft #48; Orquestrador coordena **revisão exclusivamente focal da atualização** por responsável habilitado sem autoria do objeto, distinguindo papéis de identidades humanas reais; depois apresenta T04 à Direção. Missão `GT-AI-DISPATCH-001` continua **EM PLANEJAMENTO — NÃO ENCERRADA**. Sem aprovação do piloto ou dispensa de gates.
 
 ## 19. Fontes técnicas e controle de versão do delta
 
