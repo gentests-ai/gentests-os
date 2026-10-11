@@ -20,3 +20,11 @@ O primeiro comando cobre autorização fictícia válida, ausente, revogada, exp
 - Reversão: descartar branch técnica sem merge; nenhuma alteração na `main`. Banco SQLite descartável fora da trilha Git.
 
 **Autocheck** não equivale a QA/cloud/CT-01–32. Revisão e merge permanecem pendentes de autorização aplicável.
+
+## ENG-03 — correção focal QA-01 (11/10/2026)
+
+- A01: `stage` restringido a `simulate`; `authorization` fictícia passa a comparar, por tipo e valor exatos, `repo, issue, mission, stage, generation, corpus_sha` da entrada. Isso **não** é assinatura nem autenticação humana.
+- A02: um checkpoint só é reconhecido como `duplicate` quando `status=done` e `output_hash` é uma cadeia hexadecimal SHA-256 em minúsculas de 64 caracteres. Hash nulo, vazio, inválido ou estado desconhecido resulta em bloqueio para reconciliação. **Não há prova de integridade criptográfica do conteúdo armazenado**, pois a saída não é recuperada para recomputação.
+- A03: tipos exatos nos campos de identidade (`issue` e `generation` inteiros não booleanos), campos textuais não vazios e corpus SHA fictício hexadecimal em minúsculas de 40 caracteres.
+- Regressão offline: 10 testes originais + 6 grupos novos (subtestes de identidade, tipos e corrupção lógica), sem execução cloud, API, Actions, QA independente ou piloto T05.
+- Gate anterior persiste: PR Draft bloqueado por falta de comprovação de Actions/billing/custo incremental R$ 0.
