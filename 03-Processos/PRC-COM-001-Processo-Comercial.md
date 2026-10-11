@@ -1,7 +1,7 @@
 ---
 tipo: processo
 id: PRC-COM-001
-versao: 0.1.0
+versao: 0.2.0
 status: proposta
 responsavel: Comercial
 aprovador: Direcao
@@ -18,6 +18,8 @@ Diagnóstico **pago** e delimitado de **uma jornada crítica** de produto digita
 Entregáveis propostos, sujeitos à confirmação de escopo: mapa conciso de riscos; cobertura mínima orientada a risco; recomendações priorizadas; reunião de devolutiva. Não prometer cobertura total, eliminação de bugs, certificação ou resultados financeiros sem evidência.
 
 **Antes de ofertar:** direção define prazo, preço, capacidade, condições de acesso e dados, critérios de aceite, limites de responsabilidade e modelo contratual. Não solicitar credenciais nem dados sensíveis na primeira conversa.
+
+**Guia complementar de prospecção:** [[03-Processos/Prospeccao-Comercial]] (`COM-APOIO-PROSPECCAO-001`). É roteiro de apoio subordinado aos gates deste processo, não um segundo processo comercial.
 
 ## Fluxo operacional
 | Etapa | Entrada e ação | Critério de saída | Responsável |
@@ -37,9 +39,12 @@ Entregáveis propostos, sujeitos à confirmação de escopo: mapa conciso de ris
 - **G4 — Entrega**: transferência rastreável sem reinterpretação unilateral do escopo.
 
 ## Registro único de oportunidade
-Um registro por oportunidade: `id`, empresa/contato profissional, origem/fonte, problema hipotético ou confirmado, etapa, último contato, próximo passo/data, responsável, documentos relacionados, autorização para ação externa. Registrar o mínimo necessário, evitar dados pessoais desnecessários. Não criar planilha/CRM paralelo enquanto Obsidian for suficiente.
+Um registro por oportunidade: `id`, empresa/contato profissional, origem/fonte, problema hipotético ou confirmado, etapa, último contato, próximo passo/data, responsável, documentos relacionados, autorização para ação externa. Registrar o mínimo necessário, evitar dados pessoais desnecessários. **Fonte única proposta:** [GenTests.ai — CRM](https://docs.google.com/spreadsheets/d/151zLp3akkkbdeA6D44EOAsefT9gjygvv0ZMsGRZ3WV0/edit), já referenciada no procedimento de prospecção. Confirmar acesso e ratificar oficialmente antes de considerar esta escolha homologada. Obsidian registra processos, decisões e evidências, não uma lista paralela de oportunidades.
 
 Sugestão de ID: `OP-2026-001` (sequencial, não reutilizar). Vínculos: `OP -> proposta -> contrato -> entrega` somente se existirem. Não fabricar artefatos ou evidências ausentes.
+
+## Integração Marketing → Comercial
+Marketing registra a origem/campanha, conteúdo, data e contexto do interesse com o mínimo de dados necessários, respeitando privacidade. Comercial verifica duplicidade e autorização de contato, cria ou atualiza um único registro no CRM, qualifica a oportunidade e define responsável, etapa e próximo passo. Interesse ou download não prova consentimento para qualquer modalidade de contato. Prospecção ativa segue [[03-Processos/Prospeccao-Comercial|COM-APOIO-PROSPECCAO-001]]. Informações de desempenho agregadas retornam ao Marketing para melhoria das ações, sem compartilhamento de dados pessoais desnecessários.
 
 ## Medição e cadência
 Indicadores mínimos: contatos efetivamente realizados, respostas, conversas qualificadas, propostas autorizadas/enviadas e contratos assinados/fechados.
