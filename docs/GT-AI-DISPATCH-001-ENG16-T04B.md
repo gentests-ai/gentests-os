@@ -35,3 +35,7 @@ A verificação do `actor_id` em GitHub confirma conta que iniciou workflow, nã
 **Reversão:** nenhum recurso real a desfazer. Para futura reversão de recurso autorizado: bloquear novas invocações, revogar decisão/chave sob owner, preservar status incerto, excluir/rollback configurações apenas com autorização e sem apagar trilha.
 
 **Bloqueio de publicação:** `.github/workflows/email-quality-gate.yml` e `.github/workflows/markdown-check.yml` na main têm `on: pull_request`; abrir Draft pode executar Actions automaticamente. ENG-16 veda executar workflows; portanto preparar apenas local, não criar branch remota/PR sem decisão expressa sobre esse efeito. Não modificar workflows para contornar.
+
+## Correção focal ENG-19 / QA-09
+
+A01 exige chaves, tipos exatos e valores dos seis campos do evento. A02 permite exclusivamente `synthetic-only`, rejeitando operações proibidas e tipos inválidos antes de consultar a allowlist. A03 exige subject do repositório/ref aprovado e claims sintéticos assinados de decisão, issue, recurso, missão, etapa, geração e corpus. Esses claims de aplicação são fixtures locais: não se afirma que GitHub OIDC real os emite; adaptação futura exige desenho autorizado separado. A04 exige identificadores decimais canônicos e usa array JSON na chave de replay. Negativos não consomem a reserva legítima. Regressões estão na suíte T04b; nenhuma integração cloud ou roteamento novo foi incluído.

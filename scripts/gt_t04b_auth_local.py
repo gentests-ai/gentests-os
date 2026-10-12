@@ -67,6 +67,7 @@ def validated_decision(d, now):
         return False
     if (d['synthetic_only'] is not True or d['no_paid_fallback'] is not True
             or d['operation_type'] not in ('authorize','revoke')
+            or type(d['scope']) is not str
             or d['scope'] not in ALLOWED_OFFLINE_SCOPES):
         return False
     for field in FIELDS - {'contract_version','repository_id','issue','generation','not_before','expires_at','max_calls','max_tokens','max_units','max_incremental_cost_brl','revocation_epoch','synthetic_only','no_paid_fallback'}:

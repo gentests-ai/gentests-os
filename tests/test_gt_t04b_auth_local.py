@@ -145,7 +145,7 @@ class AuthContractTests(unittest.TestCase):
                 self.assertEqual(self.g.invoke('test-1',sample,self.jwt('invoke'),NOW)['state'],'blocked')
 
     def test_qa09_a02_disallowed_signed_decisions(self):
-        for forbidden in ('merge','publish','contents:write','synthetic-only;merge',''):
+        for forbidden in ('merge','publish','contents:write','synthetic-only;merge','',None,[],{},True):
             with self.subTest(scope=forbidden):
                 d={**self.d,'scope':forbidden}
                 r=self.g.authorize(d,self.signature(d),self.jwt(),NOW)
