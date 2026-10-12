@@ -28,6 +28,13 @@ def plan_issue_event(raw: bytes) -> dict:
             or type(issue) is not dict or issue.get("number") != 47
             or type(issue.get("labels")) is not list):
         raise ContextRejected("wrong mission or repository")
+    # Only a newly applied routing label may initiate a plan. Opening/reopening
+    # an issue with stale labels must not redispatch old work.
+    if event["action"] != "labeled":
+        raise ContextRejected("route requires a new label event")
+    changed_label = event.get("label")
+    if type(changed_label) is not dict or type(changed_label.get("name")) is not str:
+        raise ContextRejected("missing changed routing label")
     labels = issue["labels"]
     names = []
     for label in labels:
@@ -35,7 +42,8 @@ def plan_issue_event(raw: bytes) -> dict:
             raise ContextRejected("invalid label")
         names.append(label["name"])
     targets = [name[len(LABEL_PREFIX):] for name in names if name.startswith(LABEL_PREFIX)]
-    if len(targets) != 1 or targets[0] not in AGENTS:
+    if (len(targets) != 1 or targets[0] not in AGENTS
+            or changed_label["name"] != LABEL_PREFIX + targets[0]):
         raise ContextRejected("exactly one allowed agent label required")
     return {
         "status": "planned_only", "mission": "GT-AI-DISPATCH-001",
