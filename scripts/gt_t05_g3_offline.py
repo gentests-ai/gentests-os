@@ -61,7 +61,7 @@ class FakeActionsRunner:
         """Persist ambiguity on failures after intent, without unsafe replay."""
         with self.controller.connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            db.execute("UPDATE jobs SET state='uncertain' WHERE k=? AND state='intent' AND fence=?",
+            db.execute("UPDATE jobs SET state='uncertain' WHERE k=? AND state IN ('reserved','intent') AND fence=?",
                        (fingerprint(event), fence))
 
     def reconcile(self, event):
