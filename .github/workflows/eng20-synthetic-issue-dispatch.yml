@@ -3,9 +3,9 @@
 # Alternative B: human-operated single pilot, NOT persistent replay protection.
 # Future operator must apply label once and disable workflow at terminal/expiry.
 # Window must be canonical UTC, <=15 minutes; empty configuration denies execution.
-# Issue #81 is identified for preparation only; no execution decision exists.
-# The explicit false job gate prevents runner allocation for this preparation.
-# Remove it only in a separately authorized/reviewed execution configuration.
+# Issue #81 is pinned; execution decision exists, but operator window is not scheduled.
+# The explicit false job gate remains until operator availability and QA-approved UTC window.
+# Remove it together with the fixed UTC window, under the existing execution authorization.
 # Never substitute preparation authority for execution authority.
 # concurrency serializes runs; it does NOT deduplicate label reapplication.
 # RUNNER_TEMP SQLite only protects replay inside one runner; no cross-run ledger.
@@ -44,8 +44,8 @@ jobs:
     env:
       AUTHORIZED_ISSUE_NUMBER: '81'
       PREPARATION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271'
-      EXECUTION_AUTHORIZATION_REF: ''
-      EXECUTION_AUTHORIZATION_ID: ''
+      EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'
+      EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'
       WINDOW_START_UTC: ''
       WINDOW_END_UTC: ''
     steps:
