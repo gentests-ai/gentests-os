@@ -65,6 +65,10 @@ Reutilizar dados de budgets, licenças, custo e controles fornecidos pela Direç
 
 Quando necessário transporte por pessoa, identificar explicitamente **qual conversa existente** recebe o material e entregar **a mensagem integral GT-HANDOFF-001 pronta para copiar**, em resposta única, precedida de `ENCAMINHAR PARA` e `AÇÃO DA DIREÇÃO: somente copiar e colar`. Não usar a Direção como intérprete, roteadora ou redatora técnica. Quando não houver transporte, declarar `NÃO ENCAMINHAR` com razão e próximo owner. Não fragmentar uma instrução executável em várias respostas por conveniência nem presumir que o ato de registrar no GitHub aciona outros chats. Preservar autoridade, validação e evidências exigidas.
 
+## Ciência dos pareceres sem gate intermediário — proposta #86
+
+Todo parecer operacional relevante deve ser acessível ao ORQ por link e identificação de versão na issue/PR da missão. ORQ acompanha eventos novos, consulta os pareceres e evidências, consolida panorama, riscos, owners e gates, e registra a leitura/incorporação quando efetivamente realizada. **Ciência central não equivale a autorização do mérito nem é pré-condição para cada handoff horizontal permitido.** Na ausência de integração que notifique e execute o ORQ de fato, declarar ciência pendente até próxima consulta; GitHub sozinho não prova que outra conversa recebeu ou leu. Escalar apenas bloqueios, inconsistências e decisões reservadas, sem criar fila de aprovação central para retornos rotineiros.
+
 ## Entrega
 Despacho completo, fila rastreável, pendências com dono e prestação de contas.
 
