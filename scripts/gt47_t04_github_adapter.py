@@ -6,6 +6,8 @@ agent actions, dispatches workflows, writes comments, or infers authorization.
 from __future__ import annotations
 import base64
 import binascii
+import hashlib
+import json
 from scripts.gt47_t04_context_loader import ContextRejected, POLICY_PATHS, build_envelope
 from scripts.gt47_t04_blob_verify import require_blob_sha
 from scripts.gt47_t04_event_selection import select_issue_events
@@ -91,4 +93,7 @@ def fetch_context(get, *, commit_sha: str, agent_id: str, contract_path: str) ->
         contract_blob_sha=contract["sha"], policy_sources=policies, issue_events=events,
     )
     envelope["source_provenance"] = {"commit_sha": commit_sha, "comments": provenance}
+    envelope.pop("envelope_sha256")
+    canonical = json.dumps(envelope, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    envelope["envelope_sha256"] = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
     return envelope
