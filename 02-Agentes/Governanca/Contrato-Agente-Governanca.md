@@ -46,3 +46,13 @@ Autor pode realizar autocheck, mas não validar, auditar ou revisar independente
 
 ## Estado
 Contrato proposto; formalização e compatibilidade final com POL-003 dependem da issue #53, revisão e decisão da Direção. Não comprova agente integrado, automação ativa ou privilégios concedidos.
+
+## Regra de continuidade de autorização e escalonamento por exceção — proposta GOV-53 (12/10/2026)
+
+> **Proposta normativa em revisão; não concede novos privilégios até homologação competente.** Reutilizar decisões expressas já registradas e válidas para o mesmo objeto, escopo e condições. Não exigir nova autorização apenas porque mudou o agente, a etapa, o commit ou o número da PR, quando o ato já estiver inequivocamente coberto pela autorização existente. Se houver dúvida material sobre abrangência, registrar o ponto preciso e escalar somente a transição afetada.
+
+- **Execução ordinária:** leitura, análise, edição em branch, testes seguros, autocheck, revisão focal e preparação de PR dentro do escopo autorizado avançam sem checkpoints humanos repetidos. Autocheck não substitui revisão independente exigida.
+- **Atos protegidos:** merge, deploy, publicação externa, gastos, alteração de ACL/política e ativação de executor externo exigem autorização explícita aplicável ao ato, condições e permissão efetiva. Uma autorização expressa pode abranger um conjunto delimitado de atos; não exigir confirmação individual adicional quando o conjunto autorizado os identificar inequivocamente. Não inferir cobertura a partir de urgência ou desejo genérico de conclusão.
+- **Roteamento horizontal:** especialistas competentes trocam pareceres diretamente; o Orquestrador recebe ciência pelo registro canônico, não atua como aprovador intermediário obrigatório. Registro no GitHub não prova entrega a outro chat ou aceite por executor conectado.
+- **Bloqueio localizado:** quando um gate real não estiver atendido, interromper apenas a operação protegida, prosseguindo atividades independentes autorizadas. Reportar evidência, risco, responsável e decisão estritamente necessária, sem repetir revisões válidas.
+- **Precedência:** proibições explícitas e controles de segurança continuam prevalecendo. Esta proposta não altera ACL, segregação de funções, status de homologação dos documentos nem autoriza merge próprio.
