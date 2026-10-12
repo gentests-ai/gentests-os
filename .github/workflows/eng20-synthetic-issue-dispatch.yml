@@ -1,5 +1,8 @@
 # GT-AI-DISPATCH-001 / ENG-AUTO-EVENT-01 — PREPARATION ONLY.
-# Preparation authority: https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119093844
+# Preparation authority: https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271
+# Alternative B: human-operated single pilot, NOT persistent replay protection.
+# Future operator must apply label once and disable workflow at terminal/expiry.
+# Window must be canonical UTC, <=15 minutes; empty configuration denies execution.
 # No synthetic issue or execution decision has been authorized yet.
 # Issue 0 is an impossible GitHub issue: keep this gate closed until a reviewed,
 # explicitly authorized configuration pins the real issue and execution reference.
@@ -39,16 +42,36 @@ jobs:
     timeout-minutes: 5
     env:
       AUTHORIZED_ISSUE_NUMBER: '0'
+      PREPARATION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271'
       EXECUTION_AUTHORIZATION_REF: ''
+      EXECUTION_AUTHORIZATION_ID: ''
+      WINDOW_START_UTC: ''
+      WINDOW_END_UTC: ''
     steps:
       - name: Validate pinned synthetic event without executing issue content
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
+          cat > "${RUNNER_TEMP}/eng20-event-gate.py" <<'PY'
           import json
           import os
+          import re
+          from datetime import datetime, timezone
           from pathlib import Path
+
+          def window_valid(start, end, now=None):
+              pattern = r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z'
+              if any(type(v) is not str or re.fullmatch(pattern, v, flags=re.ASCII) is None
+                     for v in (start, end)):
+                  return False
+              try:
+                  begin = datetime.strptime(start, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+                  finish = datetime.strptime(end, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+                  current = datetime.now(timezone.utc) if now is None else now
+                  return (0 < (finish - begin).total_seconds() <= 900
+                          and current.tzinfo is not None and begin <= current < finish)
+              except (ValueError, TypeError, AttributeError):
+                  return False
 
           def blocked():
               raise SystemExit("BLOCKED: synthetic event is not authorized")
@@ -62,9 +85,15 @@ jobs:
               # Future reviewed configuration must pin an execution decision URL.
               # Matching its literal marker is a consistency check, not signature
               # verification or proof that issue authors can grant authority.
-              if (expected <= 0 or not auth.startswith(
+              if (not window_valid(os.environ.get('WINDOW_START_UTC'), os.environ.get('WINDOW_END_UTC'))
+                      or os.environ.get('EXECUTION_AUTHORIZATION_ID') != 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'
+                      or expected <= 0 or not re.fullmatch(
+                          r'https://github\.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-[1-9][0-9]*', auth)
+                      or not auth.startswith(
                       "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-")
-                      or auth.endswith("6119093844")
+                      or auth in (os.environ.get("PREPARATION_AUTHORIZATION_REF"),
+                          "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119093844",
+                          "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271")
                       or os.environ.get("GITHUB_EVENT_NAME") != "issues"
                       or os.environ.get("GITHUB_REPOSITORY") != "gentestsai-sudo/gentests-os"
                       or os.environ.get("GITHUB_RUN_ATTEMPT") != "1"
@@ -87,6 +116,7 @@ jobs:
               blocked()
           print("Synthetic event gate passed; fixed repository fixture only.")
           PY
+          python3 "${RUNNER_TEMP}/eng20-event-gate.py"
 
       - name: Read pinned ENG-20 baseline
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -98,6 +128,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Recheck after checkout: an expired window must not start ENG-20.
+          python3 "${RUNNER_TEMP}/eng20-event-gate.py"
           python3 -m scripts.gt_dispatch_two_stage_offline \
             --fixture tests/fixture_eng20.json \
             --db "${RUNNER_TEMP}/eng20-synthetic.sqlite" \
