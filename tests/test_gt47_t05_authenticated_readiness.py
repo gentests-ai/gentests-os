@@ -71,7 +71,8 @@ class T05ReadinessTests(unittest.TestCase):
     def test_valid_verified_envelope_returns_readonly_summary(self):
         import hashlib
         import json
-        envelope = {"target": {"agent_id": "AGT-QA"}, "execution_allowed": False,
+        envelope = {"target": {"agent_id": "AGT-QA", "repo": "gentestsai-sudo/gentests-os",
+                               "issue": 47, "mission": "GT-AI-DISPATCH-001"}, "execution_allowed": False,
                     "source_provenance": {"commit_sha": "a" * 40,
                                           "comments": {"complete": True, "total": 1}}}
         envelope["envelope_sha256"] = hashlib.sha256(json.dumps(
@@ -87,6 +88,25 @@ class T05ReadinessTests(unittest.TestCase):
         self.assertFalse(result["execution_allowed"])
         self.assertFalse(result["external_agent_invoked"])
         self.assertNotIn("test-token", repr(result))
+
+
+    def test_wrong_mission_fails_closed_with_valid_digest(self):
+        import hashlib
+        import json
+        envelope = {"target": {"agent_id": "AGT-QA", "repo": "gentestsai-sudo/gentests-os",
+                               "issue": 48, "mission": "GT-AI-DISPATCH-001"},
+                    "execution_allowed": False,
+                    "source_provenance": {"commit_sha": "a" * 40,
+                                          "comments": {"complete": True}}}
+        envelope["envelope_sha256"] = hashlib.sha256(json.dumps(
+            envelope, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ).encode("utf-8")).hexdigest()
+        with patch("scripts.gt47_t05_authenticated_readiness.fetch_context",
+                   return_value=envelope):
+            with self.assertRaises(ContextRejected):
+                authenticated_readiness(token="test-token", commit_sha="a" * 40,
+                                        agent_id="AGT-QA", contract_path="02-Agentes/qa.md",
+                                        get=lambda url, params: None)
 
 
 if __name__ == "__main__":
