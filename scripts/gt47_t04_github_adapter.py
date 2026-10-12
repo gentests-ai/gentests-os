@@ -31,7 +31,7 @@ def fetch_file(get, path: str, commit_sha: str) -> dict:
     if type(result) is not dict or result.get("type") != "file" or result.get("encoding") != "base64":
         raise ContextRejected("unexpected content response")
     try:
-        raw = base64.b64decode(result["content"], validate=True)
+        raw = base64.b64decode("".join(result["content"].split()), validate=True)
         content = raw.decode("utf-8")
     except (KeyError, TypeError, ValueError, UnicodeError, binascii.Error) as exc:
         raise ContextRejected("invalid content encoding") from exc
