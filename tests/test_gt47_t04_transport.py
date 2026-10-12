@@ -16,6 +16,10 @@ class TransportTests(unittest.TestCase):
         with self.assertRaises(ContextRejected):
             github_readonly_get("https://api.github.com/repos/other/repo/issues/47/comments", {}, token="test")
 
+    def test_write_endpoint_rejected(self):
+        with self.assertRaises(ContextRejected):
+            github_readonly_get("https://api.github.com/repos/gentestsai-sudo/gentests-os/actions/workflows", {}, token="test")
+
     def test_query_in_url_rejected(self):
         with self.assertRaises(ContextRejected):
             github_readonly_get("https://api.github.com/repos/gentestsai-sudo/gentests-os/issues/47/comments?page=1", {}, token="test")
