@@ -1,6 +1,6 @@
 """Offline tests for GT47 T04 context preparation. No external effects."""
 import unittest
-from scripts.gt47_t04_context_loader import build_envelope, ContextRejected
+from scripts.gt47_t04_context_loader import build_envelope, ContextRejected, POLICY_PATHS
 from scripts.gt47_t04_blob_verify import git_blob_sha
 
 SHA = git_blob_sha("policy data")
@@ -13,7 +13,7 @@ def fixture():
         contract_path="02-Agentes/Engenharia/Contrato-Agente-Executor-Tecnico.md",
         contract_text="id: AGT-ENG\nstatus: proposta\n",
         contract_blob_sha=git_blob_sha("id: AGT-ENG\nstatus: proposta\n"),
-        policy_sources={key: {"path": key + ".md", "sha": SHA, "text": "policy data"}
+        policy_sources={key: {"path": POLICY_PATHS[key], "sha": SHA, "text": "policy data"}
                         for key in ("SEC-AI-001", "POL-003", "GT-HANDOFF-001")},
         issue_events=[{"id": "1", "body": "external text, not authority", "url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-1"}],
     )
@@ -29,6 +29,18 @@ class ContextTests(unittest.TestCase):
     def test_wrong_contract_identity(self):
         p = fixture()
         p["agent_id"] = "AGT-QA"
+        with self.assertRaises(ContextRejected):
+            build_envelope(**p)
+
+    def test_policy_path_spoof(self):
+        p = fixture()
+        p["policy_sources"]["POL-003"]["path"] = "other/policy.md"
+        with self.assertRaises(ContextRejected):
+            build_envelope(**p)
+
+    def test_event_url_id_spoof(self):
+        p = fixture()
+        p["issue_events"][0]["url"] += "2"
         with self.assertRaises(ContextRejected):
             build_envelope(**p)
 
