@@ -114,7 +114,7 @@ class GateTests(unittest.TestCase):
         self.assertNotIn('if: >-\n      false &&',TEXT)
         self.assertIn('github.run_attempt == 1',TEXT)
         self.assertIn("github.event.label.name == 'gt-synthetic-dispatch-approved'",TEXT)
-        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'", "EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'", "WINDOW_START_UTC: '2026-10-12T10:30:00Z'", "WINDOW_END_UTC: '2026-10-12T10:45:00Z'"):
+        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'", "EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'", "WINDOW_START_UTC: '2026-10-12T09:40:00Z'", "WINDOW_END_UTC: '2026-10-12T09:55:00Z'"):
             self.assertIn(entry,TEXT)
         configured_start = datetime.fromisoformat('2026-10-12T10:30:00+00:00')
         configured_end = datetime.fromisoformat('2026-10-12T10:45:00+00:00')
