@@ -1,11 +1,11 @@
 ---
 tipo: template
 id: GT-HANDOFF-001
-versao: 0.2.0
+versao: 0.2.1
 status: proposta
 missao: GT-GOV-CHANGE-001
 ---
-# GT-HANDOFF-001 — Modelo de despacho e retorno (PROPOSTA v0.2.0)
+# GT-HANDOFF-001 — Modelo de despacho e retorno (PROPOSTA v0.2.1)
 
 > Não homologado, não concede permissão, não cria acionamento e não autoriza merge. `tipo: template` diferencia este artefato do `tipo: processo` com o mesmo ID. [Processo proposto](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) · [REV-02](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
@@ -20,7 +20,7 @@ missao: GT-GOV-CHANGE-001
 ## 1. Identidade e owners
 - **mission_id:** [ID]; **handoff_id:** [ID único]; **event_id:** [ID do evento]; **version:** [versão deste evento/handoff].
 - **Instante ISO8601/fuso:** [AAAA-MM-DDTHH:MM:SS-03:00]; **origem/ator:** [identidade real]; **tipo:** [execução/QA/etc.]; **prioridade:** [valor].
-- **Destino proposto pelo remetente:** [papel/identidade]; **destino confirmado pelo Orquestrador:** [papel/identidade ou PENDENTE; evidência].
+- **Rota:** [horizontal autorizada / ORQ por exceção]; **destino definido pelo remetente:** [papel, competência e fundamento]; **confirmação pelo ORQ:** [N/A em rota horizontal / intervenção comprovada].
 - **Responsável atual:** [identidade e função]; **próximo responsável:** [identidade/função ou PENDENTE]; **owner de bloqueio/fila:** [identidade ou N/A com motivo].
 - **Estado da missão:** [estado]; **estado da etapa:** [estado]; **transição anterior → seguinte:** [estados ou PENDENTE].
 - **Issue canônica:** [URL]; **PR/commit/artefato/versão-base:** [links/SHA ou N/A justificado].
@@ -58,23 +58,23 @@ missao: GT-GOV-CHANGE-001
 
 ## 5. WIP, transferência e destino seguinte
 - **WIP do executor:** [ativo / candidato à liberação / liberado, com evidência].
-- **Critério de liberação:** retorno/evidências completos + próximo agente ACEITO **ou** Orquestrador assumiu expressamente fila + nenhum retrabalho ativo; [evidências de cada condição].
+- **Critério de liberação:** evidências completas + entrega e ACEITO expressos do próximo agente, ou assunção excepcional de fila pelo ORQ sem aceite fictício + nenhum retrabalho ativo; [provas].
 - **Atenção:** fila assumida não implica aceite do próximo especialista; regra GT-WIP-001 ainda é proposta.
 - **Próximo responsável e ação inequívoca:** [papel, entrega, critério de aceite].
 - **Destino alternativo:** [identidade habilitada e condição, ou BLOQUEADO].
-- **Retorno obrigatório:** [Orquestrador, canal e formato].
+- **Ciência rastreável do ORQ:** [parecer/evento na issue; notificação, leitura e incorporação somente quando comprovadas]; sem retransmissão obrigatória por rotina.
 - **Ação solicitada à Direção:** [somente transporte manual / decisão especificada / N/A].
 - **Condição para avançar:** [evidência futura]; **condição para encerrar missão:** [todas as etapas e autorizações demonstradas].
 
 ## 6. Checklist de saída
 - [ ] Identidade de evento/handoff, versão, instante, owners, estados e links reais completos.
-- [ ] Destino proposto distinto do confirmado; acionamento e ACEITO com prova, ou PENDENTE.
+- [ ] Rota direta autorizada ou exceção fundamentada; entrega e ACEITO comprovados ou PENDENTE, sem confirmação fictícia pelo ORQ.
 - [ ] DoR/DoD e cada autorização por ação conferidos; sem permissão inferida.
 - [ ] Resultados, comandos/exit codes e verificações não realizadas declarados.
 - [ ] QA, Validação, Auditoria e Revisão Independente tratados distintamente; conflito/substituto e dispensa registrados.
 - [ ] WIP e bloqueios com donos; etapa não confundida com missão encerrada.
 - [ ] **Mensagem final integral, endereçada, preenchida e copiável**, sem placeholders ou links isolados, incluída.
-- [ ] Se apenas prestação de contas ao Orquestrador, exceção justificada e sem autoencaminhamento fictício.
+- [ ] Parecer relevante disponível ao ORQ na issue; prestação de contas exclusiva ao ORQ somente quando não houver destinatário operacional seguinte.
 
 ## 7. GT-HANDOFF-001 — Mensagem final integral pronta para copiar (OBRIGATÓRIA)
 
@@ -86,7 +86,7 @@ missao: GT-GOV-CHANGE-001
 **AÇÃO:** [EXECUTAR OU ACEITAR/DEVOLVER ESTA SOLICITAÇÃO]
 **Missão:** [mission_id] | **Handoff:** [handoff_id] | **Evento/versão:** [event_id / version]
 **Origem:** [ator] | **Data/hora/fuso:** [timestamp]
-**Destino proposto:** [papel] | **Destino confirmado pelo Orquestrador:** [papel + prova]
+**Rota:** [direta autorizada / ORQ por exceção] | **Destino:** [especialista e competência]
 **Responsável atual/próximo:** [donos] | **Prioridade:** [prioridade]
 **Missão:** [estado] | **Etapa:** [estado e transição]
 **Preparado/registrado/acionado/recebido/aceito:** [cinco estados distintos, evidências ou PENDENTE]
@@ -104,6 +104,6 @@ missao: GT-GOV-CHANGE-001
 **Aceite requerido:** responder ACEITO ou DEVOLVIDO com motivo e evidência. Não presumir acionamento nem aceite.
 ```
 
-**Regra do Orquestrador:** retorno de prestação de contas ao Orquestrador não é despacho dele para si mesmo; após ACEITO/DEVOLVIDO, ele prepara **novo despacho integral distinto** para o próximo agente. **Exceção justificada:** quando não houver próxima especialidade, a mensagem integral pode limitar-se à prestação de contas/endereço Orquestrador, explicitando por que não há despacho operacional seguinte. Na fase manual, Direção só transporta o texto, não redige nem escolhe destino.
+**Regra horizontal:** remetente e destinatário seguem diretamente conforme autoridade vigente; ORQ acompanha pareceres pela issue e intervém por exceção. Novo despacho do ORQ é exigido apenas quando ele assume efetivamente o encaminhamento. **Exceção justificada:** quando não houver próxima especialidade, a mensagem integral pode limitar-se à prestação de contas/endereço Orquestrador, explicitando por que não há despacho operacional seguinte. Na fase manual, Direção só transporta o texto, não redige nem escolhe destino.
 
 **Referências:** [[03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001]] · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55).
