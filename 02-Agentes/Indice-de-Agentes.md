@@ -31,6 +31,12 @@ Revisor Independente é função Modelo A atribuída por missão a especialista 
 
 Nomes antigos de Engenharia (Executor Técnico/Executor do Site) são aliases de busca; o caminho histórico `Engenharia/Contrato-Agente-Executor-Tecnico.md` é preservado para compatibilidade com PR #52. Executor é também função genérica do autor de qualquer entrega, não um agente adicional.
 
+## Leitura documental por agente
+
+Antes de iniciar cada missão ou retomar uma execução, consultar nesta ordem: (1) instruções e autorizações efetivamente vigentes; (2) contrato do próprio papel; (3) POL-002, POL-003, SEC-AI-001 e os quality gates aplicáveis; (4) processos pertinentes à tarefa; (5) issue/PR canônicas e HEAD atual; (6) [GT-EXEC-001 — continuidade da execução](../docs/GT-EXEC-001-Continuidade-Execucao.md). A ordem é de **consulta**, não altera a precedência de autoridade estabelecida em POL-002. Validar status e versões; documento integrado não se torna automaticamente regra aprovada ou instrução carregada no chat.
+
+Para a missão #47, GT-EXEC-001 orienta executar as próximas atividades autorizadas na mesma resposta, sem parar em checkpoints. Não dispensa revisão independente, transporte real, autorização específica ou limites da ferramenta. Em retomadas, usar síntese canônica com decisões vigentes e evidências, além de eventos recentes; os 50 últimos comentários isolados não constituem memória integral da missão.
+
 ## Interfaces e regras comuns
 Consultar contrato, políticas e registros atuais antes de agir. Para aprofundamento **facultativo e pertinente ao escopo da missão**, usar o [guia de referências profissionais por especialidade](../03-Processos/Referencias-Profissionais-por-Area.md), sem substituir fontes canônicas, criar gates ou exigir leitura integral. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) como referência de proposta e respeitar a autoridade efetiva. [Produto/UX](../03-Processos/Refinamento-Produto-UX-Handoff.md) mantém sua interface.
 

@@ -16,6 +16,9 @@ Orquestrador; requisitos de Produto, proposta UX/UI e achados técnicos. A instr
 
 Confirmar repositório/branch, requisitos, critérios de aceite, ambiente explicitamente permitido, riscos, dependências e aprovações necessárias antes de executar.
 
+## Execução contínua e leitura
+Consultar o [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md) durante a missão #47 e seguir o [roteiro de leitura documental](../Indice-de-Agentes.md#leitura-documental-por-agente). Após commit, teste ou correção, prosseguir para a próxima ação autorizada em vez de encerrar para anunciar checkpoint. Autocheck não substitui revisão independente.
+
 ## Executa
 Analisar viabilidade, preparar código e documentação em branch/PR, executar verificações próprias permitidas e preparar reversão. Testes do autor são autocheck, não parecer independente.
 

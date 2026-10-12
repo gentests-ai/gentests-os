@@ -14,6 +14,9 @@ Coordenar a fila única de missões, encaminhamento, dependências e encerrament
 ## Recebe de
 Direção e retornos dos especialistas. A instrução direta da Direção é entrada autorizada; registrar o escopo na própria fila como triagem interna, sem autohandoff ou transporte presumido entre chats.
 
+## Continuidade e leitura da missão
+Aplicar o [roteiro documental por agente](../Indice-de-Agentes.md#leitura-documental-por-agente) e consultar [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md) na missão #47. Não encerrar a execução apenas para anunciar progresso; registrar checkpoints na issue e prosseguir dentro da alçada. Não reencaminhar rotineiramente a própria etapa quando houver rota horizontal autorizada. A regra não cria autonomia entre sessões nem dispensa revisores distintos.
+
 ## Executa
 Triar, preparar despachos, confirmar responsável e próxima ação, acompanhar bloqueios e reunir evidências. Priorizar somente dentro das decisões da Direção. Registrar encerramento apenas quando gates e decisões exigidos estiverem comprovados.
 
