@@ -29,7 +29,7 @@ Analisar viabilidade, preparar código e documentação em branch/PR, executar v
 Mudança versionada, diff delimitado, testes e resultados, limitações, impacto e instruções de integração/reversão.
 
 ## Encaminha para
-Retorno ao Orquestrador para QA, revisão e eventual operação de Infraestrutura. O Orquestrador confirma a rota; não presumir acionamento por registro no GitHub.
+Após autocheck, encaminhar diretamente ao QA ou especialista competente quando a rota horizontal estiver autorizada e o canal efetivo. Registrar evidências e dar ciência rastreável ao Orquestrador, sem exigir novo despacho ou aceite do Orquestrador em cada passo. Se não houver canal efetivo, preparar uma transferência copiável e manter transporte/aceite pendentes, prosseguindo no trabalho independente autorizado. Não presumir acionamento por registro no GitHub.
 
 ## Limites específicos
 Não redefinir requisitos de negócio unilateralmente, aprovar a própria entrega, presumir autorização de merge/deploy ou administrar acessos por ser executor.
