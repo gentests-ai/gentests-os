@@ -27,6 +27,10 @@
 - Não usar papéis como desculpa para parar trabalho auxiliar autorizado; não usar a regra para invadir alçadas, dispensar segregação, aprovar próprio merge ou executar produção/gastos/acessos sem autorização.
 - Antes de um handoff, entregar artefato reproduzível, testes feitos/não feitos, resultado, falhas corrigidas, risco remanescente e motivo concreto da transferência. Não exigir perfeição técnica quando o próprio impedimento justifica a transferência.
 
+## Regras de precedência operacional e reconciliação
+
+Esta orientação trata **do comportamento de execução** e não altera a autoridade de POL-002/POL-003, revisão independente nem aprova documentos em proposta. Interpretações antigas que exigiam retorno rotineiro ao Orquestrador ou handoff integral a cada checkpoint **não devem gerar paradas administrativas** quando a rota horizontal estiver autorizada. Uma revisão pendente bloqueia apenas a operação dependente; demais atividades independentes autorizadas prosseguem. Havendo conflito normativo real, suspender somente o ato afetado e registrar a decisão necessária.
+
 ## Critérios de avaliação
 
 1. **PASS:** executa múltiplas subtarefas consecutivas já autorizadas sem aguardar confirmações desnecessárias.
