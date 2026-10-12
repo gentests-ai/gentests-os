@@ -36,6 +36,14 @@ def authenticated_readiness(*, token: str, commit_sha: str, agent_id: str,
     ).encode("utf-8")).hexdigest()
     if digest != expected or envelope.get("execution_allowed") is not False:
         raise ContextRejected("unsafe or corrupted context envelope")
+    provenance = envelope.get("source_provenance")
+    if type(provenance) is not dict or provenance.get("commit_sha") != commit_sha:
+        raise ContextRejected("missing or mismatched source provenance")
+    comments = provenance.get("comments")
+    if type(comments) is not dict or comments.get("complete") is not True:
+        raise ContextRejected("incomplete source provenance")
+    if envelope.get("agent_id") != agent_id:
+        raise ContextRejected("agent identity mismatch")
     return {
         "status": "read_only_e2e_pass",
         "commit_sha": commit_sha,
