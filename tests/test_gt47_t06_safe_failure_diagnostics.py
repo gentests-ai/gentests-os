@@ -23,6 +23,10 @@ class SafeFailureDiagnosticsTests(unittest.TestCase):
             opener.return_value.open.side_effect = error
             result = run_once(store, now=NOW, **args)
             calls = opener.return_value.open.call_count
+            if transport is None:
+                self.assertEqual(calls, 1)
+                request = opener.return_value.open.call_args.args[0]
+                self.assertEqual(request.get_header('User-agent'), 'GTS47-Advisory/1.0')
             claims = store.read()[0]['claims']
             self.assertEqual(len(claims), 1)
             self.assertEqual(result['status'], 'manual_reconciliation_required')
