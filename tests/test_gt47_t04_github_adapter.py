@@ -19,6 +19,13 @@ class AdapterTests(unittest.TestCase):
                     "content": base64.b64encode(content.encode()).decode()}
         self.assertEqual(fetch_file(get, PATH, SHA)["text"], content)
 
+    def test_malformed_base64_rejected(self):
+        def get(url, params):
+            return {"type": "file", "encoding": "base64", "path": PATH,
+                    "sha": "0" * 40, "content": "!!!!"}
+        with self.assertRaises(ContextRejected):
+            fetch_file(get, PATH, SHA)
+
     def test_tampered_file(self):
         def get(url, params):
             return {"type": "file", "encoding": "base64", "path": PATH,
