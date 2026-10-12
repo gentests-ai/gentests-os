@@ -19,6 +19,11 @@ AGENT_IDS = frozenset({
 SHA40 = re.compile(r"[0-9a-f]{40}\Z", re.ASCII)
 MAX_TEXT = 100_000
 MAX_EVENTS = 50
+POLICY_PATHS = {
+    "SEC-AI-001": "00-Constituicao/SEC-AI-001-Seguranca-Confiabilidade-Agentes.md",
+    "POL-003": "00-Constituicao/Matriz-de-Permissoes.md",
+    "GT-HANDOFF-001": "03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md",
+}
 
 
 class ContextRejected(ValueError):
@@ -69,6 +74,8 @@ def build_envelope(
         source = policy_sources[key]
         if type(source) is not dict or set(source) != {"path", "sha", "text"}:
             raise ContextRejected("invalid policy source")
+        if source["path"] != POLICY_PATHS[key]:
+            raise ContextRejected("policy path mismatch")
         try:
             require_blob_sha(source["text"], source["sha"])
         except ValueError as exc:
@@ -87,7 +94,7 @@ def build_envelope(
         if not eid.isdecimal() or eid in seen:
             raise ContextRejected("duplicate event id")
         seen.add(eid)
-        if not event["url"].startswith("https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-"):
+        if event["url"] != "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + eid:
             raise ContextRejected("event source outside mission")
         events.append({k: _text(event[k], k) for k in ("id", "body", "url")})
     envelope = {
