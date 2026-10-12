@@ -65,6 +65,21 @@ jobs:
           test "$HOLD_SECONDS" = 0 || test "$HOLD_SECONDS" = 660
           if [ "$HOLD_SECONDS" = 660 ]; then test "$PHASE" = seed; fi
           commit=$(git rev-parse HEAD)
+          if [ "$PHASE" = seed ]; then
+            # Keep state refs based on default-branch files. Pointing a new
+            # ref at PR commits that change workflows may require workflow
+            # administration rights; the test state needs only JSON writes.
+            python3 - <<'PY'
+          import os
+          from scripts.gt47_t06_groq_runner import GitHubStore
+          from scripts.gt47_t06_recovery_rehearsal import test_branch
+          store = GitHubStore(os.environ['GH_TOKEN'], branch=test_branch(os.environ['TRIAL']))
+          code, ref = store.request('GET', '/git/ref/heads/main')
+          if code != 200:
+              raise SystemExit('::error::Default branch unavailable for isolated state')
+          store.initialize(ref['object']['sha'])
+          PY
+          fi
           if [ "$PHASE" = interrupt ]; then
             set +e
             timeout --signal=TERM 30s python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase interrupt --allow-test-writes
