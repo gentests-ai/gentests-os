@@ -1,7 +1,7 @@
 ---
 tipo: indice
 status: proposta
-versao: 0.2.2
+versao: 0.2.3
 ---
 # Diretório canônico de agentes — proposta de reformulação
 
@@ -9,7 +9,7 @@ Fonte de nomes e fronteiras: [Arquitetura de papéis](Arquitetura-de-Papeis.md).
 
 | Nome canônico / chat principal | ID | Contrato | Responsabilidade |
 |---|---|---|---|
-| 🧭 Orquestrador Central | AGT-ORQ | [Contrato](Orquestrador/Contrato-Agente-Orquestrador.md) | Coordenação de missões |
+| 🔄 Scrum Master | AGT-ORQ | [Contrato](Orquestrador/Contrato-Agente-Orquestrador.md) | Facilitação do fluxo, impedimentos e transparência |
 | 📦 Produto | AGT-PROD | [Contrato](Produto/Contrato-Agente-Produto.md) | Necessidades e requisitos |
 | 🎨 UX/UI | AGT-UXUI | [Contrato](UX-UI/Contrato-Agente-UX-UI.md) | Jornadas e interfaces |
 | 💻 Engenharia | AGT-ENG | [Contrato](Engenharia/Contrato-Agente-Executor-Tecnico.md) | Software e integrações |
