@@ -67,7 +67,8 @@ def invoke(*, store, now, agent, commit, task, evidence, engineering=None,
         def transport(value):
             request = Request(URL, data=json.dumps(value).encode(), method='POST',
                               headers={'Authorization': 'Bearer ' + api_key,
-                                       'Content-Type': 'application/json'})
+                                       'Content-Type': 'application/json',
+                                       'User-Agent': 'GTS47-Advisory/1.0'})
             try:
                 from scripts.gt47_t06_groq_runner import NoRedirect
                 from urllib.request import build_opener
