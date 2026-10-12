@@ -110,8 +110,9 @@ class GateTests(unittest.TestCase):
         self.assertNotEqual(self.run_gate(),0)
 
     def test_workflow_remains_blocked_and_rechecks_before_dispatch(self):
-        self.assertIn('github.event.issue.number == 0',TEXT)
-        for entry in ("AUTHORIZED_ISSUE_NUMBER: '0'", "EXECUTION_AUTHORIZATION_REF: ''", "EXECUTION_AUTHORIZATION_ID: ''", "WINDOW_START_UTC: ''", "WINDOW_END_UTC: ''"):
+        self.assertIn('github.event.issue.number == 81',TEXT)
+        self.assertIn('if: >-\n      false &&',TEXT)
+        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: ''", "EXECUTION_AUTHORIZATION_ID: ''", "WINDOW_START_UTC: ''", "WINDOW_END_UTC: ''"):
             self.assertIn(entry,TEXT)
         self.assertEqual(TEXT.count('python3 "${RUNNER_TEMP}/eng20-event-gate.py"'),2)
         self.assertNotIn('${{',GATE)
