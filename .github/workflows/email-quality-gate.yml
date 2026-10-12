@@ -10,8 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Instalar dependencias do piloto T04b em ambiente isolado
+        run: |
+          python3 -m venv .venv-t04b
+          .venv-t04b/bin/python -m pip install --disable-pip-version-check --only-binary=:all: --index-url https://pypi.org/simple -r requirements-t04b-ci.txt
+          .venv-t04b/bin/python -m pip check
       - name: Testes do piloto
-        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+        run: .venv-t04b/bin/python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Validar rascunho ficticio
         run: python3 scripts/validate_commercial_email.py tests/fixtures/email_valido.json
 
