@@ -31,6 +31,18 @@ class ClaimStoreTests(unittest.TestCase):
             with self.assertRaises(ContextRejected):
                 claim_dispatch(os.path.join(directory, "db"), intent)
 
+    def test_rejects_ephemeral_database_and_forged_provenance(self):
+        ctx, request = fixture()
+        intent = prepare_dispatch(context=ctx, request=request)
+        with self.assertRaises(ContextRejected):
+            claim_dispatch(":memory:", intent)
+        with self.assertRaises(ContextRejected):
+            claim_dispatch("file:claims?mode=memory&cache=shared", intent)
+        intent["mission"] = "OTHER-MISSION"
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaises(ContextRejected):
+                claim_dispatch(os.path.join(directory, "claims.db"), intent)
+
     def test_fails_closed_on_store_error(self):
         ctx, request = fixture()
         intent = prepare_dispatch(context=ctx, request=request)
