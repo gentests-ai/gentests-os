@@ -37,5 +37,36 @@ class T05ReadinessTests(unittest.TestCase):
                                         get=lambda url, params: None)
 
 
+    def test_missing_provenance_fails_closed(self):
+        import hashlib
+        import json
+        envelope = {"agent_id": "AGT-QA", "execution_allowed": False}
+        envelope["envelope_sha256"] = hashlib.sha256(json.dumps(
+            envelope, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ).encode("utf-8")).hexdigest()
+        with patch("scripts.gt47_t05_authenticated_readiness.fetch_context",
+                   return_value=envelope):
+            with self.assertRaises(ContextRejected):
+                authenticated_readiness(token="test-token", commit_sha="a" * 40,
+                                        agent_id="AGT-QA", contract_path="02-Agentes/qa.md",
+                                        get=lambda url, params: None)
+
+    def test_agent_identity_mismatch_fails_closed(self):
+        import hashlib
+        import json
+        envelope = {"agent_id": "AGT-ENG", "execution_allowed": False,
+                    "source_provenance": {"commit_sha": "a" * 40,
+                                          "comments": {"complete": True}}}
+        envelope["envelope_sha256"] = hashlib.sha256(json.dumps(
+            envelope, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+        ).encode("utf-8")).hexdigest()
+        with patch("scripts.gt47_t05_authenticated_readiness.fetch_context",
+                   return_value=envelope):
+            with self.assertRaises(ContextRejected):
+                authenticated_readiness(token="test-token", commit_sha="a" * 40,
+                                        agent_id="AGT-QA", contract_path="02-Agentes/qa.md",
+                                        get=lambda url, params: None)
+
+
 if __name__ == "__main__":
     unittest.main()
