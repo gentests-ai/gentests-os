@@ -8,7 +8,7 @@ import base64
 import binascii
 import hashlib
 import json
-from scripts.gt47_t04_context_loader import ContextRejected, POLICY_PATHS, build_envelope
+from scripts.gt47_t04_context_loader import ContextRejected, POLICY_PATHS, MAX_TEXT, build_envelope
 from scripts.gt47_t04_blob_verify import require_blob_sha
 from scripts.gt47_t04_event_selection import select_issue_events
 
@@ -71,10 +71,12 @@ def fetch_issue_comments(get, *, with_metadata=False):
             if type(item) is not dict:
                 raise ContextRejected("invalid comment item")
             ident = item.get("id")
-            if type(item.get("body")) is not str or not item["body"].strip():
+            if type(item.get("body")) is not str or not item["body"].strip() or len(item["body"]) > MAX_TEXT:
                 raise ContextRejected("empty or invalid comment")
             if type(ident) is not int or ident <= last_id or ident in seen:
                 raise ContextRejected("duplicate or nonmonotonic comment pagination")
+            if item.get("html_url") != "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(ident):
+                raise ContextRejected("invalid comment provenance")
             seen.add(ident)
             last_id = ident
             records.append({key: item.get(key) for key in ("id", "body", "html_url")})
