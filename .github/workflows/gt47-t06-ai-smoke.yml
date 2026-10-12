@@ -1,0 +1,40 @@
+name: GT47 T06 Bounded AI Smoke
+on:
+  workflow_dispatch:
+    inputs:
+      enable_paid_smoke:
+        description: "Explicit opt-in for one potentially billable AI API request"
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: gt47-t06-paid-smoke
+  cancel-in-progress: false
+jobs:
+  smoke:
+    if: ${{ inputs.enable_paid_smoke == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run bounded smoke with no GitHub writes
+        env:
+          OPENAI_API_KEY: ${{ secrets.GT47_OPENAI_API_KEY }}
+        run: |
+          python - <<'PY'
+          import os
+          from scripts.gt47_t06_openai_smoke import invoke_smoke
+          result = invoke_smoke(api_key=os.environ.get("OPENAI_API_KEY", ""),
+                                dispatch_id="0" * 64)
+          assert result["status"] == "smoke_pass"
+          assert result["github_write"] is False
+          assert result["agent_mission_executed"] is False
+          print("GT47 T06 bounded API smoke: PASS")
+          print("Model:", result["model"])
+          print("Input tokens:", result["input_tokens"])
+          print("Output tokens:", result["output_tokens"])
+          PY
