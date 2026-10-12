@@ -60,6 +60,8 @@ class AdapterTests(unittest.TestCase):
 
     def test_comments_limit(self):
         def get(url, params):
+            if params["page"] > 1:
+                return []
             return [{"id": i + 1, "body": "data",
                      "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i + 1)}
                     for i in range(51)]
