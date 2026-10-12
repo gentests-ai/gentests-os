@@ -17,6 +17,12 @@ missao: GT-GOV-CHANGE-001
 
 **Antes de pedir dados novamente**, referenciar evidência da própria issue (link, tipo: relato/captura/API/teste, data, alcance, validade e gatilho de rechecagem). Se insuficiente, declarar apenas o campo faltante, motivo e ato específico bloqueado, deixando outras etapas avançarem. Não equiparar budget US$0 a custo futuro garantido. Acionamento, entrega, aceite e execução exigem provas independentes mesmo em handoff direto.
 
+## Regra de usabilidade no transporte manual — proposta #86
+
+**Resposta ao usuário, antes do bloco de handoff:** `ENCAMINHAR PARA: [emoji] [nome exato da conversa existente]` e `AÇÃO DA DIREÇÃO: copiar a mensagem integral abaixo e colar nessa conversa; nenhuma interpretação técnica ou decisão adicional necessária`. Se a ação depender de decisão reservada, declarar essa decisão objetivamente, separada do transporte. O **bloco único**, completo e endereçado ao destinatário, deve vir imediatamente a seguir; jamais espalhar instruções por respostas sucessivas ou exigir que a Direção componha a mensagem. Se não existir próximo destinatário, dizer `NÃO ENCAMINHAR — motivo e dono da próxima ação`.
+
+Enquanto o transporte automático não for comprovado, manter destinatário, canal, envio, recebimento e ACEITO como estados explícitos; não tratar comentário GitHub como mensagem recebida. Handoff direto autorizado dispensa intermediação *decisória* do ORQ, não dispensa qualidade da mensagem integral pronta para copiar.
+
 ## 1. Identidade e owners
 - **mission_id:** [ID]; **handoff_id:** [ID único]; **event_id:** [ID do evento]; **version:** [versão deste evento/handoff].
 - **Instante ISO8601/fuso:** [AAAA-MM-DDTHH:MM:SS-03:00]; **origem/ator:** [identidade real]; **tipo:** [execução/QA/etc.]; **prioridade:** [valor].
