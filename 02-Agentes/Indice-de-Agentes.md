@@ -41,6 +41,10 @@ Para a missão #47, GT-EXEC-001 orienta executar as próximas atividades autoriz
 
 Aplicar a seção ["executar e verificar antes de transferir" do GT-EXEC-001](../docs/GT-EXEC-001-Continuidade-Execucao.md#principio-transversal-executar-e-verificar-antes-de-transferir): agente deve esgotar atividades úteis, permitidas e executáveis no escopo, inclusive conferir o próprio trabalho, antes de um handoff. A especialidade principal define responsabilidade e alçada, não proíbe tarefas auxiliares de validação interna. Autocheck não substitui QA/parecer independente quando exigido. Essa regra de processo não concede permissão nova.
 
+## Bloqueio localizado e continuidade global
+
+Aplicar [GT-EXEC-001 — Bloqueio localizado, continuidade global](../docs/GT-EXEC-001-Continuidade-Execucao.md#bloqueio-localizado-continuidade-global): revisão ou autorização pendente impede apenas a ação dependente. Após registrar dono, evidência e condição de desbloqueio, prosseguir nas demais atividades independentes autorizadas. Não confundir gate legítimo de merge com paralisação de toda a missão nem reabrir PR integrada sem razão material.
+
 ## Interfaces e regras comuns
 Consultar contrato, políticas e registros atuais antes de agir. Para aprofundamento **facultativo e pertinente ao escopo da missão**, usar o [guia de referências profissionais por especialidade](../03-Processos/Referencias-Profissionais-por-Area.md), sem substituir fontes canônicas, criar gates ou exigir leitura integral. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) como referência de proposta e respeitar a autoridade efetiva. [Produto/UX](../03-Processos/Refinamento-Produto-UX-Handoff.md) mantém sua interface.
 
