@@ -4,6 +4,8 @@ No agent invocation or GitHub write. Caller controls the SQLite database path.
 """
 from __future__ import annotations
 import sqlite3
+import os
+import re
 
 from scripts.gt47_t04_context_loader import ContextRejected
 
@@ -24,12 +26,22 @@ def claim_dispatch(db_path: str, intent: dict) -> dict:
             or intent["write_performed"] is not False
             or intent["replay_protection_persistent"] is not False):
         raise ContextRejected("unsafe dispatch intent")
+    if (intent["mission"] != "GT-AI-DISPATCH-001" or intent["issue"] != 47
+            or type(intent["agent_id"]) is not str
+            or not re.fullmatch(r"AGT-[A-Z][A-Z0-9-]{1,30}", intent["agent_id"])
+            or type(intent["commit_sha"]) is not str
+            or not re.fullmatch(r"[0-9a-f]{40}", intent["commit_sha"])
+            or type(intent["context_sha256"]) is not str
+            or not re.fullmatch(r"[0-9a-f]{64}", intent["context_sha256"])):
+        raise ContextRejected("invalid dispatch provenance")
     dispatch_id = intent["dispatch_id"]
     if (type(dispatch_id) is not str or len(dispatch_id) != 64
             or any(c not in "0123456789abcdef" for c in dispatch_id)):
         raise ContextRejected("invalid dispatch id")
-    if type(db_path) is not str or not db_path:
-        raise ContextRejected("missing durable store path")
+    if (type(db_path) is not str or not db_path.strip()
+            or db_path == ":memory:" or db_path.startswith("file:")
+            or not os.path.isdir(os.path.dirname(os.path.abspath(db_path)))):
+        raise ContextRejected("durable local store path required")
     try:
         with sqlite3.connect(db_path, timeout=5) as conn:
             conn.execute("CREATE TABLE IF NOT EXISTS gt47_claims (dispatch_id TEXT PRIMARY KEY)")
