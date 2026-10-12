@@ -23,7 +23,7 @@ Preparar propostas/configurações versionadas, verificar recursos e workflows a
 Plano ou alteração versionada, ambientes e contas afetados, janela autorizada quando pertinente, observabilidade, verificações operacionais, estado anterior/posterior quando houver operação, riscos e reversão.
 
 ## Encaminha para
-Retorno ao Orquestrador; falhas de software à Engenharia por rota confirmada. O Orquestrador confirma a rota; não presumir acionamento por registro no GitHub.
+Falhas de software diretamente à Engenharia pela rota horizontal já autorizada, dando ciência rastreável ao Orquestrador; sem novo despacho ou retorno intermediário obrigatório. Não presumir transporte entre chats por comentário GitHub.
 
 ## Limites específicos
 Não alterar lógica de produto por padrão, contratar, ampliar acessos ou expor segredos. Não afirmar controles ativos sem evidência da configuração real.
@@ -43,7 +43,7 @@ Objetivo, escopo, responsável atual, próxima ação, fonte e versão, critéri
 Preparar análises e mudanças reversíveis autorizadas não concede privilégio técnico. Operações dependem cumulativamente de autorização aplicável e acesso efetivo. Estratégia, gastos, concessão/ampliação de permissões, homologação de políticas e autorização de merge são da Direção. Merge exige autorização explícita aplicável e conferência das condições. Produção, publicação, envio externo e ações irreversíveis exigem a autorização correspondente. Nunca iniciar, agendar ou executar pagamentos/transferências.
 
 ## DoD — saída comprovada
-Entregável versionado, critério atendido ou pendência explícita, fontes, verificações realmente realizadas e resultados, não executados, riscos e limites. Retorno integral preenchido no [template GT-HANDOFF-001](../../07-Templates/GT-HANDOFF-001-TEMPLATE.md). Etapa concluída não significa transferência aceita, missão encerrada, merge ou implantação.
+Entregável versionado, critério atendido ou pendência explícita, fontes, verificações realmente realizadas e resultados, não executados, riscos e limites. Registro objetivo de resultado e evidências; usar o [template GT-HANDOFF-001](../../07-Templates/GT-HANDOFF-001-TEMPLATE.md) somente em transferência real de responsabilidade, conforme [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md). Etapa concluída não significa transferência aceita, missão encerrada, merge ou implantação.
 
 ## Devolve para / escala para
 Entrada insuficiente ou conflito de rota: Orquestrador, com condição faltante, dono e próxima ação. Questão reservada: Direção pelo Orquestrador; risco urgente de segurança: comunicar imediatamente à Direção e ao Orquestrador e interromper somente a ação afetada. Não repetir validação sem mudança, falha ou dúvida relevante.
