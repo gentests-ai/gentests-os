@@ -1,5 +1,21 @@
 name: GT47 isolated recovery rehearsal (no AI)
 on:
+  workflow_call:
+    inputs:
+      enable_test_writes:
+        type: boolean
+        default: false
+        required: false
+      trial:
+        type: string
+        required: true
+      phase:
+        type: string
+        required: true
+      hold_seconds:
+        type: number
+        default: 0
+        required: false
   workflow_dispatch:
     inputs:
       enable_test_writes:
@@ -37,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: refs/heads/main
+          ref: c6ffa661be39a793bcdd43ab226fd4770453cba7 # QA-reviewed controller; no merge needed
           persist-credentials: false
       - name: Isolated branch rehearsal, fixed synthetic provider
         env:

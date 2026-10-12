@@ -1,4 +1,5 @@
 name: GT47 T06 Offline Tests
+run-name: GT47 ${{ inputs.phase || 'offline' }} ${{ inputs.trial || github.sha }}
 on:
   pull_request:
     paths:
@@ -7,10 +8,29 @@ on:
       - ".github/workflows/gt47-t06-offline-tests.yml"
       - ".github/workflows/gt47-groq-advisory.yml"
   workflow_dispatch:
+    inputs:
+      enable_test_writes:
+        description: Explicitly allow isolated recovery trial state writes (no AI)
+        type: boolean
+        default: false
+      trial:
+        description: Isolated recovery trial ID, 8-40 lowercase letters/digits/hyphens
+        type: string
+        default: qa-recovery-manual
+      phase:
+        description: Recovery rehearsal phase
+        type: choice
+        options: [seed, advance, inspect, interrupt]
+        default: inspect
+      hold_seconds:
+        description: Optional seed concurrency occupancy (0 or 660 seconds)
+        type: number
+        default: 0
 permissions:
   contents: read
 jobs:
   offline-tests:
+    if: github.event_name != 'workflow_dispatch' || inputs.enable_test_writes != true
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -19,3 +39,13 @@ jobs:
           persist-credentials: false
       - name: Validate T06 without API credentials
         run: python -m unittest discover -s tests -p 'test_gt47_t06_*.py' -v
+  recovery-rehearsal:
+    if: github.event_name == 'workflow_dispatch' && inputs.enable_test_writes == true
+    permissions:
+      contents: write
+    uses: ./.github/workflows/gt47-groq-recovery-rehearsal.yml
+    with:
+      enable_test_writes: ${{ inputs.enable_test_writes }}
+      trial: ${{ inputs.trial }}
+      phase: ${{ inputs.phase }}
+      hold_seconds: ${{ inputs.hold_seconds }}
