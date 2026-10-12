@@ -37,6 +37,10 @@ Antes de iniciar cada missão ou retomar uma execução, consultar nesta ordem: 
 
 Para a missão #47, GT-EXEC-001 orienta executar as próximas atividades autorizadas na mesma resposta, sem parar em checkpoints. Não dispensa revisão independente, transporte real, autorização específica ou limites da ferramenta. Em retomadas, usar síntese canônica com decisões vigentes e evidências, além de eventos recentes; os 50 últimos comentários isolados não constituem memória integral da missão.
 
+## Regra transversal de execução e autocheck
+
+Aplicar a seção ["executar e verificar antes de transferir" do GT-EXEC-001](../docs/GT-EXEC-001-Continuidade-Execucao.md#principio-transversal-executar-e-verificar-antes-de-transferir): agente deve esgotar atividades úteis, permitidas e executáveis no escopo, inclusive conferir o próprio trabalho, antes de um handoff. A especialidade principal define responsabilidade e alçada, não proíbe tarefas auxiliares de validação interna. Autocheck não substitui QA/parecer independente quando exigido. Essa regra de processo não concede permissão nova.
+
 ## Interfaces e regras comuns
 Consultar contrato, políticas e registros atuais antes de agir. Para aprofundamento **facultativo e pertinente ao escopo da missão**, usar o [guia de referências profissionais por especialidade](../03-Processos/Referencias-Profissionais-por-Area.md), sem substituir fontes canônicas, criar gates ou exigir leitura integral. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) como referência de proposta e respeitar a autoridade efetiva. [Produto/UX](../03-Processos/Refinamento-Produto-UX-Handoff.md) mantém sua interface.
 
