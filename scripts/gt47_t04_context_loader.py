@@ -78,7 +78,9 @@ def build_envelope(
         if not eid.isdecimal() or eid in seen:
             raise ContextRejected("duplicate event id")
         seen.add(eid)
-        if not event["url"].startswith("https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-"):\n            raise ContextRejected("event source outside mission")\n        events.append({k: _text(event[k], k) for k in ("id", "body", "url")})
+        if not event["url"].startswith("https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-"):
+            raise ContextRejected("event source outside mission")
+        events.append({k: _text(event[k], k) for k in ("id", "body", "url")})
     envelope = {
         "schema": "gt47-t04-context-v0",
         "target": {"repo": repo, "issue": issue, "mission": mission, "agent_id": agent_id},
