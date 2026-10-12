@@ -1,9 +1,6 @@
 name: 09 - GTS47 Groq ENG-QA
 run-name: "09 - Groq ENG-QA #${{ github.run_number }} | ${{ github.event_name }}"
 on:
-  workflow_run:
-    workflows: [02 - QG Email]
-    types: [completed]
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -18,17 +15,11 @@ jobs:
   probe:
     if: >-
       vars.GT47_GROQ_ENABLED == 'true' &&
-      vars.GROQ_FREE_PLAN_CONFIRMED == 'true' &&
-      (github.event_name != 'workflow_run' ||
-       (github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.event == 'push' &&
-        github.event.workflow_run.head_branch == 'main' &&
-        github.event.workflow_run.head_repository.full_name == github.repository))
+      vars.GROQ_FREE_PLAN_CONFIRMED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     outputs:
       commit: ${{ steps.head.outputs.commit }}
-      enqueue: ${{ steps.head.outputs.enqueue }}
       status: ${{ steps.queue.outputs.status }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -36,54 +27,17 @@ jobs:
           ref: refs/heads/main
           persist-credentials: false
       - id: head
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          VALIDATED_SHA: ${{ github.event.workflow_run.head_sha }}
-        run: |
-          set -euo pipefail
-          commit=$(git rev-parse HEAD)
-          echo "commit=$commit" >> "$GITHUB_OUTPUT"
-          if [ "$EVENT_NAME" = workflow_run ]; then
-            test "$commit" = "$VALIDATED_SHA"
-            if [ -f gt47-advisory-task.txt ]; then
-              echo 'enqueue=true' >> "$GITHUB_OUTPUT"
-            fi
-          fi
+        run: echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - id: queue
-        if: github.event_name != 'workflow_run'
         env:
           GH_TOKEN: ${{ github.token }}
           GT47_GROQ_ENABLED: ${{ vars.GT47_GROQ_ENABLED }}
           GROQ_FREE_PLAN_CONFIRMED: ${{ vars.GROQ_FREE_PLAN_CONFIRMED }}
           PYTHONDONTWRITEBYTECODE: '1'
         run: python3 -m scripts.gt47_t06_groq_runner --inspect
-  validate:
-    needs: probe
-    if: needs.probe.outputs.enqueue == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-        with:
-          ref: ${{ needs.probe.outputs.commit }}
-          persist-credentials: false
-      - name: Offline checks before enqueue (no secrets)
-        env:
-          PYTHONDONTWRITEBYTECODE: '1'
-        run: |
-          set -euo pipefail
-          python3 -m venv "$RUNNER_TEMP/gt47-venv"
-          "$RUNNER_TEMP/gt47-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: --index-url https://pypi.org/simple -r requirements-t04b-ci.txt
-          "$RUNNER_TEMP/gt47-venv/bin/python" -m pip check
-          "$RUNNER_TEMP/gt47-venv/bin/python" -m unittest discover -s tests -p 'test_*.py'
-          "$RUNNER_TEMP/gt47-venv/bin/python" scripts/check_links.py
-          test -z "$(git status --porcelain)"
   advance:
-    needs: [probe, validate]
-    if: >-
-      always() && needs.probe.result == 'success' &&
-      ((needs.probe.outputs.enqueue == 'true' && needs.validate.result == 'success') ||
-       (needs.probe.outputs.enqueue != 'true' && needs.probe.outputs.status == 'ready'))
+    needs: probe
+    if: needs.probe.result == 'success' && needs.probe.outputs.status == 'ready'
     runs-on: ubuntu-latest
     timeout-minutes: 3
     permissions:
@@ -100,12 +54,7 @@ jobs:
           GT47_GROQ_ENABLED: ${{ vars.GT47_GROQ_ENABLED }}
           GROQ_FREE_PLAN_CONFIRMED: ${{ vars.GROQ_FREE_PLAN_CONFIRMED }}
           SOURCE_SHA: ${{ needs.probe.outputs.commit }}
-          ENQUEUE: ${{ needs.probe.outputs.enqueue }}
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
           set -euo pipefail
-          if [ "$ENQUEUE" = true ]; then
-            python3 -m scripts.gt47_t06_groq_runner --commit "$SOURCE_SHA" --enqueue gt47-advisory-task.txt
-          else
-            python3 -m scripts.gt47_t06_groq_runner --commit "$SOURCE_SHA"
-          fi
+          python3 -m scripts.gt47_t06_groq_runner --commit "$SOURCE_SHA"
