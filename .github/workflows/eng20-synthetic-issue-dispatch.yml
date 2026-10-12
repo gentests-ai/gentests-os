@@ -3,9 +3,9 @@
 # Alternative B: human-operated single pilot, NOT persistent replay protection.
 # Future operator must apply label once and disable workflow at terminal/expiry.
 # Window must be canonical UTC, <=15 minutes; empty configuration denies execution.
-# No synthetic issue or execution decision has been authorized yet.
-# Issue 0 is an impossible GitHub issue: keep this gate closed until a reviewed,
-# explicitly authorized configuration pins the real issue and execution reference.
+# Issue #81 is identified for preparation only; no execution decision exists.
+# The explicit false job gate prevents runner allocation for this preparation.
+# Remove it only in a separately authorized/reviewed execution configuration.
 # Never substitute preparation authority for execution authority.
 # concurrency serializes runs; it does NOT deduplicate label reapplication.
 # RUNNER_TEMP SQLite only protects replay inside one runner; no cross-run ledger.
@@ -23,10 +23,11 @@ jobs:
     # Server-side filter avoids allocating this job's runner for other events.
     # A skipped workflow record can still exist; this is not a billing guarantee.
     if: >-
+      false &&
       github.repository == 'gentestsai-sudo/gentests-os' &&
       github.event_name == 'issues' &&
       github.event.action == 'labeled' &&
-      github.event.issue.number == 0 &&
+      github.event.issue.number == 81 &&
       github.event.issue.state == 'open' &&
       !github.event.issue.pull_request &&
       github.event.label.name == 'gt-synthetic-dispatch-approved' &&
@@ -41,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      AUTHORIZED_ISSUE_NUMBER: '0'
+      AUTHORIZED_ISSUE_NUMBER: '81'
       PREPARATION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271'
       EXECUTION_AUTHORIZATION_REF: ''
       EXECUTION_AUTHORIZATION_ID: ''
