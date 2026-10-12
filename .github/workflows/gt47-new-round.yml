@@ -1,0 +1,50 @@
+name: 12 - GTS47 Nova rodada (sem IA)
+run-name: "12 - Nova rodada #${{ github.run_number }} | ${{ inputs.round_id }}"
+on:
+  workflow_dispatch:
+    inputs:
+      round_id:
+        description: New round ID (8-40 lowercase letters, digits or hyphens)
+        required: true
+        type: string
+      expected_id:
+        description: Exact blocked task ID to archive (64 hex characters)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: gt47-global-groq-advisory
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.ref == 'refs/heads/main' && vars.GT47_GROQ_ENABLED == 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - name: Validate trusted main offline (no provider secrets)
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python3 -m venv "$RUNNER_TEMP/gt47-venv"
+          "$RUNNER_TEMP/gt47-venv/bin/python" -m pip install --disable-pip-version-check --only-binary=:all: --index-url https://pypi.org/simple -r requirements-t04b-ci.txt
+          "$RUNNER_TEMP/gt47-venv/bin/python" -m unittest discover -s tests -p 'test_*.py'
+          "$RUNNER_TEMP/gt47-venv/bin/python" scripts/check_links.py
+          test -z "$(git status --porcelain)"
+      - name: Archive blocked attempt and prepare new queue (zero inference)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GT47_GROQ_ENABLED: ${{ vars.GT47_GROQ_ENABLED }}
+          ROUND_ID: ${{ inputs.round_id }}
+          EXPECTED_ID: ${{ inputs.expected_id }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python3 -m scripts.gt47_t06_groq_runner --commit "$(git rev-parse HEAD)" --new-round gt47-advisory-task.txt --round-id "$ROUND_ID" --expected-id "$EXPECTED_ID"
