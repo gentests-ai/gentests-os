@@ -52,8 +52,11 @@ def github_readonly_get(url: str, params: dict, *, token: str):
             if response.status != 200:
                 raise ContextRejected("unexpected GitHub status")
             raw = response.read(MAX_BYTES + 1)
-    except (HTTPError, URLError, TimeoutError) as exc:
-        raise ContextRejected("GitHub read failed") from None
+    except HTTPError as exc:
+        # Emit only status: never leak response body, URL, token or headers.
+        raise ContextRejected(f"GitHub HTTP status {exc.code}") from None
+    except (URLError, TimeoutError):
+        raise ContextRejected("GitHub network read failed") from None
     if len(raw) > MAX_BYTES:
         raise ContextRejected("GitHub response too large")
     try:
