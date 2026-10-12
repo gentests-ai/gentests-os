@@ -20,6 +20,8 @@ revisao: 2026-10-11
 | [[02-Agentes/Marketing/Contrato-Agente-Marketing]] | Contrato **v1.1.0, proposta**: competências, limites e necessidade de aprovação. |
 | [[03-Processos/PRC-COM-001-Processo-Comercial]] | Processo **v0.2.0, proposta**: gates comerciais e autorização externa. |
 
+**Apoio técnico opcional:** o [guia de referências profissionais por especialidade](Referencias-Profissionais-por-Area.md) reúne fontes de Marketing, UX/UI, acessibilidade e web. Consultar apenas quando pertinente à peça; não substitui identidade visual, fontes canônicas, checklist aplicável ou aprovação da Direção.
+
 Fixar na PR o commit das referências consultadas. Registrar para cada ativo utilizado: URL/ID canônico, nome original, versão declarada ou revisão/data do Drive e SHA-256 dos bytes obtidos. **Não inventar uma versão ausente**: logo e símbolo originais não possuem versão nominal documentada; usar identificação do arquivo, revisão/data e hash. A paleta acompanha a versão do guia/commit da referência, sem virar nova especificação de impressão.
 
 Preservar proporções, cores e integridade dos originais. Não redesenhar por IA, recolorir, recortar a marca, inventar monograma nem usar cópia de origem desconhecida. Conferir contraste no fundo escolhido. Redimensionamento proporcional para aplicação é permitido no escopo autorizado.

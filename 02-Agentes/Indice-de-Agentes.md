@@ -32,7 +32,7 @@ Revisor Independente é função Modelo A atribuída por missão a especialista 
 Nomes antigos de Engenharia (Executor Técnico/Executor do Site) são aliases de busca; o caminho histórico `Engenharia/Contrato-Agente-Executor-Tecnico.md` é preservado para compatibilidade com PR #52. Executor é também função genérica do autor de qualquer entrega, não um agente adicional.
 
 ## Interfaces e regras comuns
-Consultar contrato, políticas e registros atuais antes de agir. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) como referência de proposta e respeitar a autoridade efetiva. [Produto/UX](../03-Processos/Refinamento-Produto-UX-Handoff.md) mantém sua interface.
+Consultar contrato, políticas e registros atuais antes de agir. Para aprofundamento **facultativo e pertinente ao escopo da missão**, usar o [guia de referências profissionais por especialidade](../03-Processos/Referencias-Profissionais-por-Area.md), sem substituir fontes canônicas, criar gates ou exigir leitura integral. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) como referência de proposta e respeitar a autoridade efetiva. [Produto/UX](../03-Processos/Refinamento-Produto-UX-Handoff.md) mantém sua interface.
 
 [POL-003 v1.2.1 — proposta](../00-Constituicao/Matriz-de-Permissoes.md) foi integrada à main pelo PR #62, sem representar homologação ou ampliação de privilégios. A [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53) mantém a rastreabilidade da reconciliação. Antes de integrar #52/#61, preservar o índice canônico e conciliar interfaces semânticas de #50, sem perda de responsabilidades ou histórico.
 
