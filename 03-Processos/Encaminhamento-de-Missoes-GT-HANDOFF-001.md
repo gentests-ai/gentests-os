@@ -115,6 +115,12 @@ Ao concluir, bloquear, devolver ou transferir uma etapa operacional, o remetente
 
 **DoD da etapa:** artefato e evidências versionados; testes feitos/não feitos discriminados; bloqueios/riscos e donos; verificações obrigatórias e dispensas autorizadas; autorização da ação; mensagem integral pronta; confirmação de transferência ou fila com Orquestrador. **DoD da missão:** pareceres e decisões exigidas, autorização separada, integração/publicação real comprovada se aplicável, pendências sob dono e encerramento expresso. Sem isso, etapa concluída ≠ missão encerrada.
 
+## Prevenção de regressão — bilhete integral sem interpretação (proposta #86)
+
+**Anti-padrão observado:** entregar somente diagnóstico, links ou instruções fragmentadas e deixar que a Direção deduza qual agente deve receber a próxima ação. Para todo transporte manual inevitável, o agente remetente fornece **numa resposta só**: linha `ENCAMINHAR PARA: [emoji + nome exato da conversa]`, linha `AÇÃO DA DIREÇÃO: copiar e colar, sem decidir ou editar`, e **uma mensagem GT-HANDOFF-001 integral** com destino e ação inequívocos. Caso não haja encaminhamento, informar `NÃO ENCAMINHAR`, motivo e owner. Não pedir à Direção que interprete o delta, escolha a rota ou monte mensagem a partir de múltiplos trechos. Se houver decisão reservada, apresentá-la isoladamente e apenas no bloqueio acionável.
+
+**Prevenção medida:** observar devoluções por destino ambíguo, mensagens incompletas e intervenções manuais por missão; registrar reincidência conforme [DISC-QA-001 #46](https://github.com/gentestsai-sudo/gentests-os/issues/46) e GT-AI-LEARN-001, sem declarar causa raiz ou regressão funcional do sistema comprovada apenas por conversa. Manter objetivo de automação na #47; este ajuste não cria transporte entre chats.
+
 ## 8. Piloto e indicadores — apenas planejamento
 
 Candidato: missão #55, somente após autorização própria. Orquestrador coleta timestamps de despacho/acionamento/aceite/execução/verificações/decisão, WIP, idade por estado, bloqueios, devoluções, lead time, throughput e colisões. **Baseline N/D (não apurada)**; piloto não executado. Uma única amostra não comprova melhoria geral. Automação, GT-WIP-001 e Agile Coach seguem não ativados.
