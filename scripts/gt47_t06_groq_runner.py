@@ -120,17 +120,28 @@ def advance(store, *, now, api_key, enabled, free_plan_confirmed, transport=None
     if value.get('diagnostic', {}).get('status') == 'manual_reconciliation_required':
         raise ReconciliationRequired('manual reconciliation required', reason='persisted_reconciliation')
     agent = 'AGT-ENG' if status == 'engineering_pending' else 'AGT-QA'
-    result = invoke(store=store, now=now, agent=agent, commit=value['commit'],
+    try:
+        result = invoke(store=store, now=now, agent=agent, commit=value['commit'],
                     task=value['task'], evidence=value['evidence'],
                     engineering=value.get('engineering') if agent == 'AGT-QA' else None,
                     api_key=api_key, transport=transport, enabled=enabled,
-                    free_plan_confirmed=free_plan_confirmed)
+                        free_plan_confirmed=free_plan_confirmed)
+    except BudgetBlocked:
+        raise
+    except (ValueError, OSError, KeyError, TypeError):
+        # Covers injected transports and failures before/while reserving quota.
+        # Never infer whether the provider accepted a submission.
+        raise ReconciliationRequired('invocation or reservation failed', reason='invocation_or_reservation_failure') from None
     updated = dict(value)
     updated.pop('diagnostic', None)
     updated['engineering' if agent == 'AGT-ENG' else 'qa'] = result
     updated['status'] = 'qa_pending' if agent == 'AGT-ENG' else 'completed'
-    if not store.put('gt47-current.json', updated, version):
-        raise ValueError('result storage uncertain; never resubmit provider call')
+    try:
+        stored = store.put('gt47-current.json', updated, version)
+    except (ValueError, OSError, KeyError, TypeError):
+        stored = False
+    if not stored:
+        raise ReconciliationRequired('result storage uncertain; never resubmit provider call', reason='result_storage_uncertain') from None
     return {'status': updated['status'], 'agent': agent, 'commit': value['commit'],
             'approval_granted': False}
 

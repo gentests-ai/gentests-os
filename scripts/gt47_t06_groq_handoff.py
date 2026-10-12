@@ -9,7 +9,7 @@ import re
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from scripts.gt47_t06_groq_budget import reserve, BudgetBlocked
+from scripts.gt47_t06_groq_budget import reserve, BudgetBlocked, ReconciliationRequired
 
 MODEL = 'openai/gpt-oss-120b'
 URL = 'https://api.groq.com/openai/v1/chat/completions'
@@ -76,14 +76,24 @@ def invoke(*, store, now, agent, commit, task, evidence, engineering=None,
             except HTTPError as exc:
                 # Do not print bodies: they may echo prompts or secrets.
                 if exc.code == 429:
-                    raise BudgetBlocked('provider rate limit; no automatic retry') from None
-                raise ValueError('provider HTTP failure; reservation retained') from None
+                    raise ReconciliationRequired('provider rate limit; no automatic retry', reason='provider_http_429') from None
+                code = exc.code if type(exc.code) is int and 100 <= exc.code <= 599 else 'unknown'
+                raise ReconciliationRequired('provider HTTP failure; reservation retained', reason='provider_http_' + str(code)) from None
             except (URLError, OSError):
-                raise ValueError('provider outcome uncertain; reservation retained') from None
+                raise ReconciliationRequired('provider outcome uncertain; reservation retained', reason='provider_transport_uncertain') from None
             if len(raw) > MAX_RESPONSE_BYTES:
-                raise ValueError('provider response too large')
-            return json.loads(raw)
+                raise ReconciliationRequired('provider response too large', reason='provider_response_invalid')
+            try:
+                return json.loads(raw)
+            except (ValueError, UnicodeError):
+                raise ReconciliationRequired('invalid provider JSON', reason='provider_response_invalid') from None
     response = transport(payload)  # Exactly one submission after durable reservation.
+    try:
+        return validate_response(response, agent=agent, commit=commit, digest=digest)
+    except (ValueError, KeyError, TypeError):
+        raise ReconciliationRequired('invalid provider response; reservation retained', reason='provider_response_invalid') from None
+
+def validate_response(response, *, agent, commit, digest):
     if type(response) is not dict or response.get('model') != MODEL:
         raise ValueError('invalid provider response')
     usage = response.get('usage')
