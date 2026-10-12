@@ -63,6 +63,8 @@ def fetch_issue_comments(get) -> list[dict]:
 
 
 def fetch_context(get, *, commit_sha: str, agent_id: str, contract_path: str) -> dict:
+    if type(agent_id) is not str or type(contract_path) is not str:
+        raise ContextRejected("invalid agent or contract path")
     contract = fetch_file(get, contract_path, commit_sha)
     policies = {key: fetch_file(get, path, commit_sha) for key, path in POLICY_PATHS.items()}
     events = fetch_issue_comments(get)
