@@ -1,15 +1,15 @@
-# GT-AI-DISPATCH-001 / ENG-AUTO-EVENT-01 — PREPARATION ONLY.
+# GT-AI-DISPATCH-001 / ENG-AUTO-EVENT-01 — AUTHORIZED SINGLE PILOT WINDOW.
 # Preparation authority: https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271
 # Alternative B: human-operated single pilot, NOT persistent replay protection.
 # Future operator must apply label once and disable workflow at terminal/expiry.
 # Window must be canonical UTC, <=15 minutes; empty configuration denies execution.
-# Issue #81 is identified for preparation only; no execution decision exists.
-# The explicit false job gate prevents runner allocation for this preparation.
-# Remove it only in a separately authorized/reviewed execution configuration.
+# Issue #81 is pinned; execution decision and operator window are fixed for QA review.
+# The job remains guarded by event identity and the two internal UTC-window checks.
+# Never apply the label outside the approved window or repeat the event.
 # Never substitute preparation authority for execution authority.
 # concurrency serializes runs; it does NOT deduplicate label reapplication.
 # RUNNER_TEMP SQLite only protects replay inside one runner; no cross-run ledger.
-name: ENG-20 Synthetic Issue Dispatch (prepared, gated)
+name: ENG-20 Synthetic Issue Dispatch (authorized window, gated)
 
 on:
   issues:
@@ -23,7 +23,6 @@ jobs:
     # Server-side filter avoids allocating this job's runner for other events.
     # A skipped workflow record can still exist; this is not a billing guarantee.
     if: >-
-      false &&
       github.repository == 'gentestsai-sudo/gentests-os' &&
       github.event_name == 'issues' &&
       github.event.action == 'labeled' &&
@@ -44,10 +43,10 @@ jobs:
     env:
       AUTHORIZED_ISSUE_NUMBER: '81'
       PREPARATION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119631271'
-      EXECUTION_AUTHORIZATION_REF: ''
-      EXECUTION_AUTHORIZATION_ID: ''
-      WINDOW_START_UTC: ''
-      WINDOW_END_UTC: ''
+      EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'
+      EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'
+      WINDOW_START_UTC: '2026-10-12T10:30:00Z'
+      WINDOW_END_UTC: '2026-10-12T10:45:00Z'
     steps:
       - name: Validate pinned synthetic event without executing issue content
         shell: bash
