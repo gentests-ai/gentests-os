@@ -25,3 +25,10 @@
 - Direção autoriza merge e qualquer ativação conforme alçadas vigentes.
 
 **Não comprovado nesta PR:** autenticidade da resposta da API, prova real de paginação, autorização humana, disponibilidade/custo de provedor de IA ou execução cloud com computador desligado.
+
+## Adaptador de leitura implementado (ainda não executado contra GitHub real)
+
+- `scripts/gt47_t04_github_adapter.py`: consulta conteúdo por SHA fixado e comentários paginados, rejeitando origem inconsistente e volumes acima de 50.
+- `scripts/gt47_t04_transport.py`: transporte HTTPS GET com token fornecido pelo chamador, domínio/repositório/endpoints permitidos, sem redirecionamento, com timeout e limite de resposta.
+- O adaptador não possui agendamento, workflow ou execução automática; autenticação, integridade da resposta TLS, autorização da Direção e testes E2E reais continuam gates separados.
+- **Atenção operacional:** a issue #47 pode ultrapassar 50 comentários; nesse caso a integração rejeita o histórico completo, exigindo estratégia aprovada de seleção e paginação sem perda de evidências antes do uso real.
