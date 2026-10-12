@@ -1,0 +1,5 @@
+{
+  "demand_id":"SYN-ENG20-001", "run_id":"run-0001",
+  "type":"synthetic_diagnostic", "objective":"analyze synthetic workflow",
+  "synthetic":true, "scope":"simulate:synthetic"
+}
