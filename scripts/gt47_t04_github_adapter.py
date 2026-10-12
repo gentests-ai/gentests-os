@@ -12,7 +12,7 @@ from scripts.gt47_t04_context_loader import ContextRejected, POLICY_PATHS, MAX_T
 from scripts.gt47_t04_blob_verify import require_blob_sha
 from scripts.gt47_t04_event_selection import select_issue_events
 
-REPO = "gentestsai-sudo/gentests-os"
+REPO = "gentests-ai/gentests-os"
 API = "https://api.github.com/repos/" + REPO
 
 
@@ -77,7 +77,7 @@ def fetch_issue_comments(get, *, with_metadata=False):
                 raise ContextRejected("empty or invalid comment")
             if type(ident) is not int or ident <= last_id or ident in seen:
                 raise ContextRejected("duplicate or nonmonotonic comment pagination")
-            if item.get("html_url") != "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(ident):
+            if item.get("html_url") != "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + str(ident):
                 raise ContextRejected("invalid comment provenance")
             seen.add(ident)
             last_id = ident

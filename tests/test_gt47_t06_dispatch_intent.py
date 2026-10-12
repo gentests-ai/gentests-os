@@ -8,7 +8,7 @@ from scripts.gt47_t06_dispatch_intent import prepare_dispatch
 def fixture():
     context = {
         "execution_allowed": False, "authorization_granted": False,
-        "target": {"repo": "gentestsai-sudo/gentests-os", "issue": 47,
+        "target": {"repo": "gentests-ai/gentests-os", "issue": 47,
                    "mission": "GT-AI-DISPATCH-001", "agent_id": "AGT-QA"},
         "source_provenance": {"commit_sha": "a" * 40, "comments": {"complete": True}},
     }

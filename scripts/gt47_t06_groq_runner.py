@@ -17,7 +17,7 @@ from urllib.request import Request, build_opener, HTTPRedirectHandler
 from scripts.gt47_t06_groq_budget import BudgetBlocked, BudgetWaiting, ReconciliationRequired, eligibility
 from scripts.gt47_t06_groq_handoff import invoke, prepare
 
-REPO = 'gentestsai-sudo/gentests-os'
+REPO = 'gentests-ai/gentests-os'
 BRANCH = 'gt47-advisory-state'
 
 class EnqueueRejected(BudgetBlocked):

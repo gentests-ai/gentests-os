@@ -43,7 +43,7 @@ def prepare_dispatch(*, context: dict, request: dict) -> dict:
     sha = provenance.get("commit_sha")
     agent = target.get("agent_id")
     if (type(sha) is not str or not _SHA.fullmatch(sha)
-            or target.get("repo") != "gentestsai-sudo/gentests-os"
+            or target.get("repo") != "gentests-ai/gentests-os"
             or target.get("issue") != _ISSUE
             or target.get("mission") != _MISSION
             or type(agent) is not str or not _AGENT.fullmatch(agent)):

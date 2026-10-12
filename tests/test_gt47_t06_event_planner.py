@@ -4,7 +4,7 @@ from scripts.gt47_t04_context_loader import ContextRejected
 from scripts.gt47_t06_event_planner import plan_issue_event
 
 
-def event(labels, number=47, repo="gentestsai-sudo/gentests-os", action="labeled"):
+def event(labels, number=47, repo="gentests-ai/gentests-os", action="labeled"):
     return json.dumps({"action": action, "repository": {"full_name": repo},
         "issue": {"number": number, "labels": [{"name": x} for x in labels]},
         "label": {"name": labels[-1] if labels else ""}}).encode()

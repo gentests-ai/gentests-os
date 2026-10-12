@@ -24,7 +24,7 @@ def plan_issue_event(raw: bytes) -> dict:
         raise ContextRejected("unsupported event action")
     repository = event.get("repository")
     issue = event.get("issue")
-    if (type(repository) is not dict or repository.get("full_name") != "gentestsai-sudo/gentests-os"
+    if (type(repository) is not dict or repository.get("full_name") != "gentests-ai/gentests-os"
             or type(issue) is not dict or issue.get("number") != 47
             or type(issue.get("labels")) is not list):
         raise ContextRejected("wrong mission or repository")

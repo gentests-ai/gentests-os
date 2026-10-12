@@ -5,7 +5,7 @@ identity, order and provenance for the T04 evidence envelope.
 """
 from scripts.gt47_t04_context_loader import ContextRejected
 
-PREFIX = "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-"
+PREFIX = "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-"
 
 
 def select_issue_events(records: list[dict], limit: int = 50, *, complete: bool = False) -> list[dict]:

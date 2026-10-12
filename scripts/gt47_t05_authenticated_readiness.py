@@ -44,7 +44,7 @@ def authenticated_readiness(*, token: str, commit_sha: str, agent_id: str,
         raise ContextRejected("incomplete source provenance")
     target = envelope.get("target")
     if type(target) is not dict or target.get("agent_id") != agent_id or (
-        target.get("repo") != "gentestsai-sudo/gentests-os"
+        target.get("repo") != "gentests-ai/gentests-os"
         or target.get("issue") != 47
         or target.get("mission") != "GT-AI-DISPATCH-001"
     ):

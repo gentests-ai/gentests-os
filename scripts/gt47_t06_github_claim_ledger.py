@@ -11,6 +11,8 @@ import json
 import re
 from scripts.gt47_t04_context_loader import ContextRejected
 
+# Immutable pre-transfer claim namespace: changing it would allow replay of
+# existing reservations. This value is hashed locally, never used as an API URL.
 _REPO = "gentestsai-sudo/gentests-os"
 _SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 _SHA64 = re.compile(r"[0-9a-f]{64}\Z")
