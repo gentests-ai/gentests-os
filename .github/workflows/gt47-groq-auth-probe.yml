@@ -17,6 +17,13 @@ jobs:
           import json, os, sys
           from urllib.request import Request, build_opener, HTTPRedirectHandler
           from urllib.error import HTTPError
+          def report(value):
+              line = json.dumps(value)
+              print(line)
+              summary = os.environ.get('GITHUB_STEP_SUMMARY')
+              if summary:
+                  with open(summary, 'a', encoding='utf-8') as output:
+                      output.write('### Groq access probe (zero inference)\n\n```json\n' + line + '\n```\n')
           class NoRedirect(HTTPRedirectHandler):
               def redirect_request(self, *args, **kwargs):
                   raise ValueError('redirect refused')
@@ -25,10 +32,11 @@ jobs:
               print('GROQ_API_KEY missing; no request')
               sys.exit(2)
           if not key.isascii() or any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in key):
-              print(json.dumps({'reason': 'secret_format_invalid', 'inference_calls': 0}))
+              report({'reason': 'secret_format_invalid', 'inference_calls': 0})
               sys.exit(2)
           request = Request('https://api.groq.com/openai/v1/models', method='GET',
-              headers={'Authorization': 'Bearer ' + key, 'Accept': 'application/json'})
+              headers={'Authorization': 'Bearer ' + key, 'Accept': 'application/json',
+                       'User-Agent': 'GTS47-Access-Probe/1.0'})
           stage = 'connection'
           status = None
           try:
@@ -43,13 +51,34 @@ jobs:
               if type(models) is not list or any(type(m) is not dict for m in models):
                   raise ValueError('invalid models')
               found = any(m.get('id') == 'openai/gpt-oss-120b' for m in models)
-              print(json.dumps({'http_status': status, 'target_model_listed': found,
-                                'inference_calls': 0}))
+              report({'http_status': status, 'target_model_listed': found,
+                      'inference_calls': 0})
               if not found:
                   sys.exit(2)
           except HTTPError as exc:
               code = exc.code if type(exc.code) is int and 100 <= exc.code <= 599 else 'unknown'
-              print(json.dumps({'http_status': code, 'inference_calls': 0}))
+              # Classify without rendering response headers, messages or bodies.
+              category = 'unclassified_http_error'
+              try:
+                  body = exc.read(16385)
+                  if len(body) <= 16384:
+                      text = body.decode('utf-8', errors='replace')
+                      if 'error code: 1010' in text.lower():
+                          category = 'edge_client_block_1010'
+                      elif 'error code: 1020' in text.lower():
+                          category = 'edge_access_denied_1020'
+                      else:
+                          parsed = json.loads(text)
+                          error = parsed.get('error') if type(parsed) is dict else None
+                          if type(error) is dict:
+                              category = 'api_json_error'
+                              known = {'invalid_api_key', 'model_permission_blocked',
+                                       'organization_restricted', 'permission_denied'}
+                              if type(error.get('code')) is str and error['code'] in known:
+                                  category = error['code']
+              except Exception:
+                  pass
+              report({'http_status': code, 'category': category, 'inference_calls': 0})
               sys.exit(2)
           except Exception as exc:
               # Only fixed categories; no raw exception, body, URL or key.
@@ -57,7 +86,7 @@ jobs:
                   'SSLError': 'tls_error', 'JSONDecodeError': 'invalid_json',
                   'UnicodeDecodeError': 'invalid_encoding', 'ValueError': 'invalid_value',
                   'UnicodeEncodeError': 'invalid_encoding', 'OSError': 'network_error'}
-              print(json.dumps({'stage': stage, 'http_status': status,
+              report({'stage': stage, 'http_status': status,
                   'reason': categories.get(type(exc).__name__, 'unexpected_error'),
-                  'inference_calls': 0}))
+                  'inference_calls': 0})
               sys.exit(2)
