@@ -93,6 +93,8 @@ Campos dispensáveis devem trazer **N/A justificado**, sem exigir commit em text
 
 ## 5. Verificações independentes, substituição e decisão
 
+**Diretriz operacional registrada em 12/10/2026:** consultar [execução eficiente da demanda](../docs/GT-EXEC-001-Continuidade-Execucao.md#execucao-eficiente-da-demanda--diretriz-registrada-em-12102026) antes de preparar uma transferência. O executor continua enquanto houver trabalho útil ao seu alcance; toda demanda recebe ao menos uma revisão por outro QA/Revisor na versão final. Essa revisão mínima não impõe passagem por todos os papéis e não substitui gates especializados exigidos pelo escopo. Conclusão automática normal exige revisão favorável e critérios atendidos; não concede autorização para atos reservados. Os demais pontos deste processo continuam propostas onde assim identificados.
+
 Para cada objeto crítico, registrar `author_id`, `executor_id`, `qa_id`, `validator_id`, `auditor_id`, `reviewer_id`, `approver_id`, com N/A justificado quando cabível. Verificar **identidade real, participação prévia e habilitação efetiva**, não apenas títulos de agentes; ninguém revisa ou valida independentemente a própria produção. QA, Validação, Auditoria e Revisão Independente são funções distintas e suas aprovações **não se substituem**. Dispensa de gate obrigatório exige autoridade/justificativa registrada. Substituto só entra com competência, permissão e independência verificadas; delegação de autoridade vai à Direção. Sem elegível, bloquear com owner e risco.
 
 ## 6. Concorrência documental — gate proposto, ainda não comprovado

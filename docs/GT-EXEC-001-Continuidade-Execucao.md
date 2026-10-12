@@ -27,7 +27,75 @@
 - Não usar papéis como desculpa para parar trabalho auxiliar autorizado; não usar a regra para invadir alçadas, dispensar segregação, aprovar próprio merge ou executar produção/gastos/acessos sem autorização.
 - Antes de um handoff, entregar artefato reproduzível, testes feitos/não feitos, resultado, falhas corrigidas, risco remanescente e motivo concreto da transferência. Não exigir perfeição técnica quando o próprio impedimento justifica a transferência.
 
-## Critérios de avaliação
+## Execução eficiente da demanda — diretriz registrada em 12/10/2026
+
+**Origem:** orientação explícita da usuária na continuidade do piloto GTS-47.
+Registrar esta regra no processo consultado pelos agentes; o documento não
+comprova que o motor já implementa todas as transições descritas abaixo.
+
+> O agente mantém a demanda enquanto puder avançá-la com competência e dentro
+> das permissões e do escopo autorizado. Executa, faz o autocheck e continua
+> até esgotar o trabalho útil ao seu alcance. Transfere somente por necessidade
+> concreta de outra competência, permissão ou revisão independente.
+
+- **Continuidade de responsabilidade:** mudança de etapa ou atividade auxiliar
+  não exige trocar de agente. Se o executor consegue realizar a próxima atividade
+  autorizada, continua; não cria um handoff apenas para cumprir uma sequência de
+  cargos. Papéis orientam responsabilidade e alçada, sem impor passagem pelos
+  14 agentes em toda demanda. O objetivo dos 14 papéis é especialização de alto
+  nível: tarefas auxiliares ao alcance do executor não substituem a competência
+  especializada necessária, e ele transfere quando a entrega exigir essa
+  profundidade técnica. Recebimento, aceite e transferência reais continuam
+  exigindo registro e transporte efetivo.
+- **Revisão mínima obrigatória:** toda demanda passa ao menos uma vez por outro
+  agente com perfil de QA/Revisor, distinto do autor e sem participação conflitante
+  na entrega examinada. A revisão cobre a versão final e seus critérios de aceite.
+  Autocheck não atende esse requisito; ter outro nome de papel também não comprova
+  independência. Gates especializados adicionais continuam conforme risco e escopo.
+- **Mudança após revisão:** registrar a versão/commit revisado. Alteração posterior
+  exige reavaliar o delta e seus impactos antes de concluir, reutilizando evidências
+  anteriores ainda válidas. Não repetir revisão completa sem motivo concreto.
+- **Ajustes:** devolver ao executor apontamentos objetivos ligados aos critérios;
+  ele corrige e continua dentro da sua alçada. Não finalizar demanda que ainda
+  precisa de ajustes. O retorno automático permanece evolução posterior ao caminho
+  feliz; não presumir que já foi implementado.
+- **Finalização:** com entrega final, critérios atendidos e revisão independente
+  favorável vinculada à mesma versão, o motor finaliza a demanda automaticamente,
+  sem aprovação humana obrigatória no fluxo normal autorizado. Registrar resultado,
+  responsável e evidências. Essa conclusão não concede permissões para merge,
+  deploy, execução técnica, comunicação externa ou gastos.
+
+### Economia de tokens sem interromper trabalho útil
+
+- Código do motor controla estados, roteamento determinístico, intervalos,
+  orçamento e finalização; chamar IA para interpretação, criação ou avaliação
+  necessária, não para consultar ou retranscrever estados.
+- Enviar contexto suficiente e mínimo: demanda, critérios, versão, delta e
+  evidências relevantes. Consultar histórico adicional quando houver necessidade,
+  sem reenviar todo o repositório ou toda a conversa a cada etapa.
+- Reutilizar artefatos e pareceres com fonte, versão e limites. Sem mudança de
+  entrada, falha ou evidência nova, não repetir a mesma análise.
+- Usar saída estruturada e curta, suficiente para o próximo passo. Selecionar
+  somente os agentes necessários, preservando a revisão independente mínima.
+- Definir limites de tokens por etapa/demanda/dia e de ciclos de ajustes conforme
+  o fluxo. Ao atingir limite, registrar espera/bloqueio e próxima ação; não gerar
+  conversa indefinida ou declarar conclusão para economizar tokens.
+- Reservar quota antes da chamada; manter claims e bloquear reenvio de resultado
+  incerto. Exibir consumo real separado de reservas. Os 1.024 tokens da rodada 03
+  são uma observação inicial, não uma média nem um orçamento universal.
+
+### Verificação prática
+
+- **PASS:** um executor resolve subtarefas autorizadas e faz autocheck antes de
+  transferir, com motivo concreto para cada handoff.
+- **PASS:** outro QA/Revisor examina a entrega final; o motor conclui com evidência
+  favorável e critérios atendidos, sem checkpoint humano rotineiro.
+- **FAIL:** troca de agente por rótulo, repetição de contexto/análise sem motivo,
+  autoaprovação ou conclusão apoiada somente em revisão de versão ultrapassada.
+- **FAIL:** demanda com ajustes marcada como finalizada, orçamento excedido ou
+  chamada incerta reenviada para tentar obter um resultado.
+
+## Critérios de avaliação da continuidade
 
 1. **PASS:** executa múltiplas subtarefas consecutivas já autorizadas sem aguardar confirmações desnecessárias.
 2. **FAIL:** para depois de um checkpoint, apesar de haver atividade executável e autorizada.
