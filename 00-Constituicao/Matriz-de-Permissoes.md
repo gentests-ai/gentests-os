@@ -2,7 +2,7 @@
 tipo: politica
 id: POL-003
 status: proposta
-versao: 1.2.1
+versao: 1.2.2
 responsavel: Direcao GenTests.ai
 ---
 # Matriz de permissões — proposta integrada GOV-06
@@ -14,6 +14,7 @@ responsavel: Direcao GenTests.ai
 - **Precedência:** X e limites explícitos prevalecem sobre H/C/P para a mesma ação; autorização humana jamais remove X. H não cria acesso e não permite autoaprovação. Suboperações não podem contornar operação geral bloqueada. Fontes contraditórias ficam pendentes de reconciliação, não autorizam a interpretação permissiva.
 - A Direção é **autoridade humana externa** à matriz de 14 agentes: aprova atos reservados e delibera homologação, permissões e merges. O Orquestrador coordena sem assumir autoridade de Direção. Aprovação humana e execução pelo agente são eventos distintos; autorização de merge pela Direção é requisito obrigatório em **todo** PR, inclusive documental.
 - **Função Modelo A:** Revisor Independente é designação temporária por missão a especialista sem autoria, execução ou conflito com o objeto revisado, e não 15º agente. Pode ler/revisar/emitir parecer conforme escopo explícito, mas não autoriza merge, política nem valida a própria produção. Mesma identidade/conector entre chats não caracteriza independência humana.
+- **Conciliação candidata B2 (não vigente):** função Modelo A depende de designação explícita, competência comprovável, checagem de autoria/executor/conflitos e **independência humana real**. A mesma conta, conector ou pessoa alternando chats/perfis não configura revisor humano independente, embora QA, VAL e AUD possam fornecer controles especializados verificáveis. Na ausência de pessoa elegível para gate independente obrigatório, registrar **BLOQUEADO — REVISOR INDISPONÍVEL** para a operação dependente, com objeto/HEAD, owner, risco, evidência, gate e decisão pendente; trabalhos preparatórios separados autorizados podem continuar. Propostas de controle compensatório em QG-001 não substituem revisão obrigatória nem alteram L/P/C/H/X/ND, permissões efetivas, segregação ou aprovação da Direção. Revisão humana exigida, autorização de merge/homologação e outras decisões reservadas somente poderão ter exigibilidade alterada prospectivamente mediante análise, revisão competente, autorização expressa e norma homologada; nenhuma dispensa tácita ou retroativa.
 - Matriz proposta não representa ACL, RBAC ou privilégios habilitados. Exigir conferência de ferramenta/conector, ambiente, dados e trilha antes de ação operacional.
 
 ## Papéis canônicos
