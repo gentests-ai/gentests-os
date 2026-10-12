@@ -14,3 +14,15 @@ O módulo `scripts/gt47_t05_authenticated_readiness.py` disponibiliza `authentic
 - Antes de executar agente na nuvem: obter autorização expressa da Direção para ambiente, credenciais, escopo, custo, replay e operação; QA independente conforme política.
 
 **Estado:** preparação segura T05; a conclusão funcional da T05 depende de E2E autenticado e gates externos verificáveis. Não confundir esta entrega com agente autônomo funcionando.
+
+## Ensaio manual parametrizado (não executado)
+
+O segredo informado pela Direção deve ter o nome exato `GT47_T05_READONLY_TOKEN` nas configurações do repositório. A existência e o valor do segredo **não são visíveis** ao conector de leitura. O workflow `.github/workflows/gt47-t05-readonly-e2e.yml` só pode ser despachado manualmente após estar disponível no branch padrão; a PR Draft por si só não o torna executável em Actions. Não confundir merge com autorização para ativar agentes: este workflow executa apenas GET autenticados e não chama IA.
+
+Parâmetros de referência verificados no GitHub, para o primeiro ensaio de leitura:
+
+- `commit_sha`: `a0e23f62752bb2d75df810585bfcfc4b026f6c70` (merge T04 fixado em main)
+- `agent_id`: `AGT-QA`
+- `contract_path`: `02-Agentes/QA/Contrato-Agente-QA.md` (contrato real, ID conferido)
+
+O ensaio não exige token na interface de dispatch. Se o segredo estiver ausente, a execução deve falhar sem imprimir seu conteúdo. Resultado esperado: linha `GT47 T05 authenticated read-only E2E: PASS`, digest SHA-256 e `Comments complete: True`. Sem logs de PASS de uma execução real, **não declarar E2E concluído**.
