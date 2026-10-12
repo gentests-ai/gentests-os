@@ -44,13 +44,26 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(fetch_issue_comments(get)[0]["id"], "8")
         self.assertEqual(calls, [1, 2])
 
+    def test_comments_full_history_selects_latest(self):
+        def get(url, params):
+            page = params["page"]
+            if page > 4:
+                return []
+            start = (page - 1) * 100
+            return [{"id": i, "body": "data",
+                     "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i)}
+                    for i in range(start + 1, start + 101)]
+        selected = fetch_issue_comments(get)
+        self.assertEqual(len(selected), 50)
+        self.assertEqual(selected[0]["id"], "351")
+        self.assertEqual(selected[-1]["id"], "400")
+
     def test_comments_limit(self):
         def get(url, params):
             return [{"id": i + 1, "body": "data",
                      "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i + 1)}
                     for i in range(51)]
-        with self.assertRaises(ContextRejected):
-            fetch_issue_comments(get)
+        self.assertEqual(len(fetch_issue_comments(get)), 50)
 
     def test_comments_malformed(self):
         with self.assertRaises(ContextRejected):
