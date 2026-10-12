@@ -25,3 +25,9 @@ Regressão T04-A de 16 testes é preservada e descoberta pelo padrão `test_*.py
 Confirmar contrato real da API/modelo, elegibilidade/cotas e tratamento de dados, autorização assinada/validada fora do LLM, exclusão mútua remota transacional com geração/fencing durável, reconciliador de efeitos, isolamento e allowlists, kill switch real e auditoria; QA focal e aprovação da Direção antes de qualquer operação externa. Nenhum benchmark, latência ou disponibilidade com PC desligado demonstrados.
 
 **Reversão:** PR não integrado pode ser fechado e branch descartada por operação autorizada; `main` não deve mudar. Bancos SQLite de testes são temporários e fictícios. **Sem merge, deploy, gastos ou uso de serviços.**
+
+## ENG-05 — correção QA-03-A01/A02 (11/10/2026)
+
+- `complete(k, fence, text, now)` agora recebe tempo de referência determinístico **obrigatório**, verificando `state`, `fence` e prazo com timezone dentro da mesma transação SQLite local. Antes do vencimento: permite; no instante exato ou depois: bloqueia e marca `uncertain` para reconciliação, mesmo sem `reserve` intermediária. Deadline ausente/inválido/sem fuso também bloqueia; o relógio **não é autenticado** e não fornece lease distribuído.
+- `FakeWorkersAI.infer` só retorna `ok=True` se `failure is None`. Erros conhecidos continuam tipados; qualquer erro não reconhecido, inclusive valores de tipo não textual, vira `unexpected_failure`, efeito `unknown`, sem retry. A pipeline bloqueia e deixa checkpoint `uncertain`, não `done`.
+- `attempted`, `spent` e `kill_switch` seguem argumentos de **simulação sem persistência/autoridade financeira real** (QA-03-L01, fora de escopo desta correção). Nenhum Worker, API, serviço, secret, consumo real, AuthN remota ou deploy.
