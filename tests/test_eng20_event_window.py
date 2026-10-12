@@ -3,6 +3,7 @@ import ast
 from datetime import datetime, timedelta, timezone
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -114,10 +115,16 @@ class GateTests(unittest.TestCase):
         self.assertNotIn('if: >-\n      false &&',TEXT)
         self.assertIn('github.run_attempt == 1',TEXT)
         self.assertIn("github.event.label.name == 'gt-synthetic-dispatch-approved'",TEXT)
-        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'", "EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'", "WINDOW_START_UTC: '2026-10-12T10:30:00Z'", "WINDOW_END_UTC: '2026-10-12T10:45:00Z'"):
+        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'", "EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'", "WINDOW_START_UTC: '2026-10-12T10:00:00Z'", "WINDOW_END_UTC: '2026-10-12T10:15:00Z'"):
             self.assertIn(entry,TEXT)
-        configured_start = datetime.fromisoformat('2026-10-12T10:30:00+00:00')
-        configured_end = datetime.fromisoformat('2026-10-12T10:45:00+00:00')
+        start_match = re.search(r"WINDOW_START_UTC: '([^']+)'", TEXT)
+        end_match = re.search(r"WINDOW_END_UTC: '([^']+)'", TEXT)
+        self.assertIsNotNone(start_match)
+        self.assertIsNotNone(end_match)
+        configured_start = datetime.fromisoformat(start_match.group(1).replace('Z', '+00:00'))
+        configured_end = datetime.fromisoformat(end_match.group(1).replace('Z', '+00:00'))
+        self.assertEqual(configured_start.utcoffset(), timedelta(0))
+        self.assertEqual(configured_end.utcoffset(), timedelta(0))
         self.assertEqual((configured_end - configured_start).total_seconds(),900)
         self.assertEqual(TEXT.count('python3 "${RUNNER_TEMP}/eng20-event-gate.py"'),2)
         self.assertNotIn('${{',GATE)
