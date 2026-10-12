@@ -42,7 +42,7 @@ def authenticated_readiness(*, token: str, commit_sha: str, agent_id: str,
     comments = provenance.get("comments")
     if type(comments) is not dict or comments.get("complete") is not True:
         raise ContextRejected("incomplete source provenance")
-    if envelope.get("agent_id") != agent_id:
+    if envelope.get("target", {}).get("agent_id") != agent_id:
         raise ContextRejected("agent identity mismatch")
     return {
         "status": "read_only_e2e_pass",
