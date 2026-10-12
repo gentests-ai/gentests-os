@@ -1,0 +1,134 @@
+# GT-AI-DISPATCH-001 / ENG-AUTO-EVENT-01 — PREPARATION ONLY.
+# Preparation authority: https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6119093844
+# No synthetic issue or execution decision has been authorized yet.
+# Issue 0 is an impossible GitHub issue: keep this gate closed until a reviewed,
+# explicitly authorized configuration pins the real issue and execution reference.
+# Never substitute preparation authority for execution authority.
+# concurrency serializes runs; it does NOT deduplicate label reapplication.
+# RUNNER_TEMP SQLite only protects replay inside one runner; no cross-run ledger.
+name: ENG-20 Synthetic Issue Dispatch (prepared, gated)
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+
+jobs:
+  two-stage-offline:
+    # Server-side filter avoids allocating this job's runner for other events.
+    # A skipped workflow record can still exist; this is not a billing guarantee.
+    if: >-
+      github.repository == 'gentestsai-sudo/gentests-os' &&
+      github.event_name == 'issues' &&
+      github.event.action == 'labeled' &&
+      github.event.issue.number == 0 &&
+      github.event.issue.state == 'open' &&
+      !github.event.issue.pull_request &&
+      github.event.label.name == 'gt-synthetic-dispatch-approved' &&
+      github.event.sender.login == 'gentestsai-sudo' &&
+      github.event.sender.id == 340329299 &&
+      github.actor == 'gentestsai-sudo' &&
+      github.actor_id == '340329299' &&
+      github.run_attempt == 1
+    concurrency:
+      group: eng20-synthetic-issue-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      AUTHORIZED_ISSUE_NUMBER: '0'
+      EXECUTION_AUTHORIZATION_REF: ''
+    steps:
+      - name: Validate pinned synthetic event without executing issue content
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          def blocked():
+              raise SystemExit("BLOCKED: synthetic event is not authorized")
+
+          try:
+              event = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text(encoding="utf-8"))
+              issue = event.get("issue", {})
+              sender = event.get("sender", {})
+              expected = int(os.environ["AUTHORIZED_ISSUE_NUMBER"])
+              auth = os.environ["EXECUTION_AUTHORIZATION_REF"]
+              # Future reviewed configuration must pin an execution decision URL.
+              # Matching its literal marker is a consistency check, not signature
+              # verification or proof that issue authors can grant authority.
+              if (expected <= 0 or not auth.startswith(
+                      "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-")
+                      or auth.endswith("6119093844")
+                      or os.environ.get("GITHUB_EVENT_NAME") != "issues"
+                      or os.environ.get("GITHUB_REPOSITORY") != "gentestsai-sudo/gentests-os"
+                      or os.environ.get("GITHUB_RUN_ATTEMPT") != "1"
+                      or event.get("action") != "labeled"
+                      or type(issue.get("number")) is not int
+                      or issue["number"] != expected
+                      or issue.get("state") != "open"
+                      or "pull_request" in issue
+                      or event.get("label", {}).get("name") != "gt-synthetic-dispatch-approved"
+                      or sender.get("login") != "gentestsai-sudo"
+                      or type(sender.get("id")) is not int
+                      or sender["id"] != 340329299
+                      or os.environ.get("GITHUB_ACTOR") != "gentestsai-sudo"
+                      or os.environ.get("GITHUB_ACTOR_ID") != "340329299"
+                      or issue.get("title") != "SYN-ENG20-001 — authorized synthetic dispatch"
+                      or issue.get("body") !=
+                          "demand_id: SYN-ENG20-001\nsynthetic: true\nauthorization_ref: " + auth):
+                  blocked()
+          except (OSError, ValueError, TypeError, KeyError, AttributeError):
+              blocked()
+          print("Synthetic event gate passed; fixed repository fixture only.")
+          PY
+
+      - name: Read pinned ENG-20 baseline
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: 742bfe2d6bdc7af575ca552654a1b0b9bbd58665
+          persist-credentials: false
+
+      - name: Run synthetic ENG-20 dispatcher and verify trace
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m scripts.gt_dispatch_two_stage_offline \
+            --fixture tests/fixture_eng20.json \
+            --db "${RUNNER_TEMP}/eng20-synthetic.sqlite" \
+            > "${RUNNER_TEMP}/eng20-result.json"
+
+          python3 - "${RUNNER_TEMP}/eng20-result.json" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          result = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          execution, evidence = result["execution"], result["evidence"]
+          stages = evidence["stages"]
+          if (execution.get("state") != "done"
+                  or execution.get("run_id") != "run-0001"
+                  or execution.get("demand_id") != "SYN-ENG20-001"
+                  or execution.get("stages") != ["AGT-ORQ", "AGT-ENG"]
+                  or evidence.get("request", {}).get("state") != "done"
+                  or len(stages) != 2
+                  or [s.get("contract") for s in stages] != ["AGT-ORQ", "AGT-ENG"]
+                  or [s.get("status") for s in stages] != ["done", "done"]
+                  or stages[0].get("output_hash") != stages[1].get("input_hash")
+                  or not stages[0].get("output_hash")):
+              raise SystemExit("BLOCKED: synthetic two-stage trace failed validation")
+          print(json.dumps({
+              "synthetic": True,
+              "demand_id": execution["demand_id"],
+              "run_id": execution["run_id"],
+              "steps": ["AGT-ORQ:done", "AGT-ENG:done"],
+              "orq_output_hash": stages[0]["output_hash"],
+              "eng_input_hash": stages[1]["input_hash"],
+              "status": "done"
+          }, sort_keys=True))
+          PY
