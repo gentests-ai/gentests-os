@@ -21,7 +21,10 @@ def prepare_dispatch(*, context: dict, request: dict) -> dict:
         raise ContextRejected("invalid dispatch inputs")
     if context.get("execution_allowed") is not False:
         raise ContextRejected("context cannot grant execution")
-    if context.get("authorization_granted") is not False:
+    # Real T04/T05 envelopes have NO authorization_granted field. Absence
+    # is NOT authority. Only an explicit false is tolerated if supplied;
+    # execution remains disabled independently in the returned intent.
+    if "authorization_granted" in context and context["authorization_granted"] is not False:
         raise ContextRejected("context authorization mismatch")
     digest = context.get("envelope_sha256")
     unsigned = {k: v for k, v in context.items() if k != "envelope_sha256"}
