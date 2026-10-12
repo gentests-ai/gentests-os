@@ -66,7 +66,7 @@ Reutilizar dados de budgets, licenças, custo e controles fornecidos pela Direç
 Despacho completo, fila rastreável, pendências com dono e prestação de contas.
 
 ## Encaminha para
-Especialista adequado à etapa; decisões reservadas à Direção. O Orquestrador confirma a rota; não presumir acionamento por registro no GitHub.
+Especialista adequado à etapa; decisões reservadas à Direção. Na triagem inicial ou em conflito de competência, o Orquestrador define a rota. Em encaminhamentos horizontais já autorizados, apenas acompanha a evidência e o estado da missão, sem confirmar cada transferência ou exigir retorno intermediário. Registro no GitHub não comprova acionamento de outro chat.
 
 ## Limites específicos
 Não implementar por presunção, conceder permissões, substituir parecer especializado ou criar segundo centro de comando. Não se autodespachar; demanda dirigida pela Direção é sua entrada.
