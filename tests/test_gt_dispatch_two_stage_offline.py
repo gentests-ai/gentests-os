@@ -1,4 +1,7 @@
 import sqlite3
+import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -68,5 +71,43 @@ class TwoStageTests(unittest.TestCase):
         p=evidence(self.db,'unknown')
         self.assertIsNone(p['request'])
         self.assertEqual(p['stages'],[])
+
+
+    def _cli(self, text):
+        fixture=Path(self.temp.name)/'cli-input.json'
+        fixture.write_text(text,encoding='utf-8')
+        return subprocess.run([sys.executable,'-m','scripts.gt_dispatch_two_stage_offline',
+                               '--fixture',str(fixture),'--db',str(self.db)],
+                              capture_output=True,text=True,timeout=15)
+
+    def _assert_cli_rejected(self, payload):
+        p=self._cli(payload)
+        self.assertEqual(p.returncode,2,p.stderr)
+        self.assertNotIn('Traceback',p.stderr)
+        self.assertEqual(p.stderr,'')
+        self.assertEqual(json.loads(p.stdout),
+                         {'state':'blocked','reason':'invalid_fields','retry':False})
+        # No handler, checkpoint, or SQLite file should be touched.
+        self.assertFalse(self.db.exists())
+
+    def test_qa11_cli_empty_array(self):
+        self._assert_cli_rejected('[]')
+
+    def test_qa11_cli_null(self):
+        self._assert_cli_rejected('null')
+
+    def test_qa11_cli_string(self):
+        self._assert_cli_rejected('"invalid request"')
+
+    def test_qa11_cli_valid_still_runs_two_stages(self):
+        p=self._cli(json.dumps(self.req))
+        self.assertEqual(p.returncode,0,p.stderr)
+        self.assertEqual(p.stderr,'')
+        data=json.loads(p.stdout)
+        self.assertEqual(data['execution']['state'],'done')
+        self.assertEqual(data['execution']['stages'],['AGT-ORQ','AGT-ENG'])
+        self.assertEqual([st['status'] for st in data['evidence']['stages']],['done','done'])
+        self.assertEqual(data['evidence']['stages'][0]['output_hash'],
+                         data['evidence']['stages'][1]['input_hash'])
 
 if __name__=='__main__': unittest.main()
