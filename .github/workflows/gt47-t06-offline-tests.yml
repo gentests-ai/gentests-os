@@ -5,6 +5,7 @@ on:
       - "scripts/gt47_t06_*.py"
       - "tests/test_gt47_t06_*.py"
       - ".github/workflows/gt47-t06-offline-tests.yml"
+      - ".github/workflows/gt47-groq-advisory.yml"
   workflow_dispatch:
 permissions:
   contents: read
