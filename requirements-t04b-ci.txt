@@ -1,0 +1,9 @@
+# ENG-18: exact versions from official PyPI; offline T04b test only.
+# https://pypi.org/project/cryptography/46.0.4/
+# https://pypi.org/project/cffi/2.0.0/
+# https://pypi.org/project/pycparser/3.0/
+# Supply-chain residual risk: version pins are NOT wheel hash verification.
+# Hash-locked Linux/Python wheel sets and index attestation remain future hardening.
+cryptography==46.0.4
+cffi==2.0.0
+pycparser==3.0
