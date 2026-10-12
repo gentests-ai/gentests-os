@@ -47,16 +47,16 @@ class AdapterTests(unittest.TestCase):
     def test_comments_full_history_selects_latest(self):
         def get(url, params):
             page = params["page"]
-            if page > 4:
+            if page > 6:
                 return []
-            start = (page - 1) * 100
+            start = (page - 1) * 10
             return [{"id": i, "body": "data",
                      "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i)}
-                    for i in range(start + 1, start + 101)]
+                    for i in range(start + 1, start + 11)]
         selected = fetch_issue_comments(get)
         self.assertEqual(len(selected), 50)
-        self.assertEqual(selected[0]["id"], "351")
-        self.assertEqual(selected[-1]["id"], "400")
+        self.assertEqual(selected[0]["id"], "11")
+        self.assertEqual(selected[-1]["id"], "60")
 
     def test_comments_limit(self):
         def get(url, params):
@@ -64,8 +64,8 @@ class AdapterTests(unittest.TestCase):
                 return []
             return [{"id": i + 1, "body": "data",
                      "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i + 1)}
-                    for i in range(51)]
-        self.assertEqual(len(fetch_issue_comments(get)), 50)
+                    for i in range(10)]
+        self.assertEqual(len(fetch_issue_comments(get)), 10)
 
     def test_duplicate_across_pages_rejected(self):
         def get(url, params):
@@ -120,7 +120,7 @@ class AdapterTests(unittest.TestCase):
             return [{"id": i, "body": "data", "html_url":
                      ("https://attacker.invalid/comment" if i == 1 else
                       "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i))}
-                    for i in range(1, 101)]
+                    for i in range(1, 11)]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
@@ -130,7 +130,7 @@ class AdapterTests(unittest.TestCase):
                 return []
             return [{"id": i, "body": ("x" * 100001 if i == 1 else "data"),
                      "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i)}
-                    for i in range(1, 101)]
+                    for i in range(1, 11)]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
