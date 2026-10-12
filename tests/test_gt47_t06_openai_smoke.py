@@ -12,11 +12,23 @@ class SmokeTests(unittest.TestCase):
             self.assertNotIn("tools", payload)
             return {"status": "completed", "model": MODEL,
                     "usage": {"input_tokens": 24, "output_tokens": 4},
-                    "output": [{"type": "message"}]}
+                    "output": [{"type": "message", "status": "completed",
+                                "content": [{"type": "output_text", "text": "READY"}]}]}
         result = invoke_smoke(api_key="fake-test-key", dispatch_id="a" * 64,
                               transport=transport)
         self.assertEqual(result["status"], "smoke_pass")
         self.assertFalse(result["agent_mission_executed"])
+
+    def test_rejects_empty_or_wrong_smoke_reply(self):
+        for output in ([], [{"type": "message", "status": "completed",
+                "content": [{"type": "output_text", "text": "NOT READY"}]}],
+                [{"type": "message", "status": "completed",
+                "content": [{"type": "refusal", "refusal": "no"}]}]):
+            with self.subTest(output=output), self.assertRaises(ContextRejected):
+                invoke_smoke(api_key="fake", dispatch_id="a" * 64,
+                    transport=lambda _, output=output: {"status": "completed",
+                    "model": MODEL, "usage": {"input_tokens": 1, "output_tokens": 1},
+                    "output": output})
 
     def test_no_token(self):
         with self.assertRaises(ContextRejected):
