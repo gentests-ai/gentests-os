@@ -245,6 +245,68 @@ def run_once(store, **kwargs):
         return {'status': 'manual_reconciliation_required', 'reason': 'diagnostic_storage_failure'}
     return result
 
+def queue_summary(value, result):
+    """Render only bounded metadata; model prose never becomes UI authority."""
+    value = value if type(value) is dict else {}
+    labels = {'engineering_pending': 'Engenharia pendente', 'qa_pending': 'QA pendente',
+              'completed': 'Pareceres concluidos', 'waiting': 'Aguardando intervalo ou quota',
+              'ready': 'Pronto para avancar', 'idle': 'Sem etapa a executar',
+              'manual_reconciliation_required': 'Bloqueado: reconciliacao manual',
+              'rejected': 'Operacao recusada'}
+    status = labels.get(value.get('status'), 'Estado indisponivel')
+    operation = labels.get(result.get('status'), 'Estado indisponivel')
+    def identifier(key, pattern):
+        text = value.get(key)
+        return text if type(text) is str and re.fullmatch(pattern, text) else 'indisponivel'
+    lines = ['### GTS-47 — estado da rodada', '',
+             '| Campo | Valor |', '| --- | --- |',
+             '| Rodada | ' + identifier('round_id', '[a-z0-9-]{8,40}') + ' |',
+             '| Fila | ' + status + ' |', '| Este run | ' + operation + ' |',
+             '| Commit da tarefa | ' + identifier('commit', '[0-9a-f]{40}') + ' |', '',
+             '| Agente | Parecer salvo | Recomendacao | Tokens consumidos |',
+             '| --- | --- | --- | --- |']
+    recommendations = {'needs_changes': 'Requer ajustes',
+                       'ready_for_human_review': 'Pronto para revisao humana'}
+    total = 0
+    for key, agent in [('engineering', 'Engenharia'), ('qa', 'QA')]:
+        entry = value.get(key)
+        entry = entry if type(entry) is dict else {}
+        valid = (entry.get('status') == 'advisory_completed'
+                 and entry.get('commit') == value.get('commit')
+                 and entry.get('agent') == ('AGT-ENG' if key == 'engineering' else 'AGT-QA'))
+        review = entry.get('review') if type(entry.get('review')) is dict else {}
+        usage = entry.get('usage') if type(entry.get('usage')) is dict else {}
+        tokens = usage.get('total_tokens')
+        tokens = tokens if valid and type(tokens) is int and 0 <= tokens <= 4000 else None
+        total += tokens or 0
+        recommendation = recommendations.get(review.get('recommendation'), 'Indisponivel') if valid else 'Pendente'
+        lines.append('| ' + agent + ' | ' + ('Sim' if valid else 'Nao') + ' | '
+                     + recommendation + ' | ' + (str(tokens) if tokens is not None else '—') + ' |')
+    lines += ['', 'Tokens informados nos pareceres: **' + str(total) + '**. Reservas de quota nao sao cobranca.', '',
+              '**Aprovacao humana: pendente.** Parecer de modelo nao aprova merge ou deploy.']
+    if result.get('status') == 'manual_reconciliation_required':
+        lines += ['', 'Proximo passo: pausar e reconciliar; nao reenviar chamadas incertas.']
+    elif value.get('status') == 'completed':
+        lines += ['', 'Proximo passo: pausar o piloto e revisar os pareceres.']
+    elif value.get('status') == 'qa_pending':
+        lines += ['', 'Proximo passo: QA consome Engenharia apos o intervalo minimo de 5 minutos.']
+    else:
+        lines += ['', 'Proximo passo: verificar elegibilidade antes de avancar.']
+    return '\n'.join(lines) + '\n'
+
+def write_queue_summary(store, result):
+    path = os.environ.get('GITHUB_STEP_SUMMARY')
+    if not path:
+        return
+    try:
+        value, _ = store.get('gt47-current.json')
+        content = queue_summary(value, result)
+        with open(path, 'a', encoding='utf-8') as output:
+            output.write(content)
+    except (ValueError, OSError, KeyError, TypeError):
+        # Optional presentation must not change state or trigger a submission.
+        print('GT47 summary unavailable; inspect durable state')
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--enqueue', type=Path)
@@ -281,9 +343,7 @@ def main():
         except (ValueError, OSError, KeyError, TypeError):
             result = {'status': 'manual_reconciliation_required', 'reason': 'state_read_failure'}
         print(json.dumps(result))
-        if os.environ.get('GITHUB_STEP_SUMMARY'):
-            with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
-                summary.write('GT47 queue preflight: `' + json.dumps(result) + '`\n')
+        write_queue_summary(store, result)
         if os.environ.get('GITHUB_OUTPUT'):
             with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
                 output.write('status=' + result['status'] + '\n')
@@ -305,6 +365,7 @@ def main():
     except (ValueError, OSError, KeyError, TypeError):
         result = {'status': 'manual_reconciliation_required', 'reason': 'state_or_enqueue_failure'}
     print(json.dumps(result))  # Model text is retained in state, never rendered as authority.
+    write_queue_summary(store, result)
     if result['status'] in ('manual_reconciliation_required', 'rejected'):
         parser.exit(2)
 
