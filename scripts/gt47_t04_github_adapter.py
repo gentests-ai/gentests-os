@@ -44,22 +44,35 @@ def fetch_file(get, path: str, commit_sha: str) -> dict:
     return {"path": path, "sha": result["sha"], "text": content}
 
 
-def fetch_issue_comments(get) -> list[dict]:
+def fetch_issue_comments(get, *, with_metadata=False):
     """Read all pages and select the newest 50 comments, preserving IDs.
 
     Older comments remain in GitHub's canonical history. This bounded context
     is not evidence of a human authorization or complete mission history.
     """
     records = []
+    seen = set()
+    last_id = 0
     for page in range(1, 102):
         batch = _response(get, "/issues/47/comments", {"per_page": 100, "page": page})
         if type(batch) is not list or len(batch) > 100:
             raise ContextRejected("invalid comments page")
         if not batch:
-            return select_issue_events(records[-50:], complete=True)
+            selected = select_issue_events(records[-50:], complete=True)
+            if with_metadata:
+                return selected, {"total": len(records), "first_id": records[0]["id"] if records else None,
+                                  "last_id": records[-1]["id"] if records else None,
+                                  "pages_fetched": page, "complete": True,
+                                  "consistency": "ordered IDs checked; concurrent insertions not ruled out"}
+            return selected
         for item in batch:
             if type(item) is not dict:
                 raise ContextRejected("invalid comment item")
+            ident = item.get("id")
+            if type(ident) is not int or ident <= last_id or ident in seen:
+                raise ContextRejected("duplicate or nonmonotonic comment pagination")
+            seen.add(ident)
+            last_id = ident
             records.append({key: item.get(key) for key in ("id", "body", "html_url")})
         if len(records) > 10000:
             raise ContextRejected("comment history exceeds safe bound")
@@ -71,9 +84,11 @@ def fetch_context(get, *, commit_sha: str, agent_id: str, contract_path: str) ->
         raise ContextRejected("invalid agent or contract path")
     contract = fetch_file(get, contract_path, commit_sha)
     policies = {key: fetch_file(get, path, commit_sha) for key, path in POLICY_PATHS.items()}
-    events = fetch_issue_comments(get)
-    return build_envelope(
+    events, provenance = fetch_issue_comments(get, with_metadata=True)
+    envelope = build_envelope(
         repo=REPO, issue=47, mission="GT-AI-DISPATCH-001", agent_id=agent_id,
         contract_path=contract["path"], contract_text=contract["text"],
         contract_blob_sha=contract["sha"], policy_sources=policies, issue_events=events,
     )
+    envelope["source_provenance"] = {"commit_sha": commit_sha, "comments": provenance}
+    return envelope
