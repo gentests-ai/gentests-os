@@ -11,6 +11,12 @@ missao: GT-GOV-CHANGE-001
 
 **Uso:** preencher dados reais; para campo condicional não pertinente, `N/A — [motivo]`. **Não** declarar verificado, entregue, aceito ou autorizado por presunção. Este formulário de trabalho é referência; a seção final **precisa ser substituída por mensagem integral sem placeholders no envio efetivo**.
 
+## Adaptação proposta #86 — handoff direto e evidência reutilizável
+
+**Pendente de homologação:** o remetente especialista poderá apontar como destino diretamente outro especialista competente, se a missão, o contrato, a autorização e o acesso efetivo permitirem; não declarar 'destino confirmado pelo Orquestrador' quando não ocorreu. Identificar **rota direta autorizada** ou **rota com ORQ por exceção**, com fundamento/link. ORQ mantém visão consolidada na issue, sem retransmissão obrigatória.
+
+**Antes de pedir dados novamente**, referenciar evidência da própria issue (link, tipo: relato/captura/API/teste, data, alcance, validade e gatilho de rechecagem). Se insuficiente, declarar apenas o campo faltante, motivo e ato específico bloqueado, deixando outras etapas avançarem. Não equiparar budget US$0 a custo futuro garantido. Acionamento, entrega, aceite e execução exigem provas independentes mesmo em handoff direto.
+
 ## 1. Identidade e owners
 - **mission_id:** [ID]; **handoff_id:** [ID único]; **event_id:** [ID do evento]; **version:** [versão deste evento/handoff].
 - **Instante ISO8601/fuso:** [AAAA-MM-DDTHH:MM:SS-03:00]; **origem/ator:** [identidade real]; **tipo:** [execução/QA/etc.]; **prioridade:** [valor].
