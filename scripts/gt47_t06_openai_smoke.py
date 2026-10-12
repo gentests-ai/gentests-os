@@ -60,12 +60,21 @@ def invoke_smoke(*, api_key: str, dispatch_id: str, transport=None) -> dict:
     if (type(input_tokens) is not int or input_tokens < 0
             or type(output_tokens) is not int or not 0 <= output_tokens <= MAX_OUTPUT_TOKENS):
         raise ContextRejected("invalid token accounting")
-    # No tool calls, no untrusted model output published.
+    # A completed API response is not proof that the model passed the smoke.
+    # Reject missing/refusal/extra output and never publish model text.
     outputs = response.get("output")
-    if type(outputs) is not list or any(
-        type(item) is not dict or item.get("type") != "message" for item in outputs
-    ):
-        raise ContextRejected("unexpected AI output type")
+    if type(outputs) is not list or len(outputs) != 1:
+        raise ContextRejected("unexpected AI output count")
+    message = outputs[0]
+    if (type(message) is not dict or message.get("type") != "message"
+            or message.get("status") != "completed"):
+        raise ContextRejected("unexpected AI output type or status")
+    parts = message.get("content")
+    if (type(parts) is not list or len(parts) != 1
+            or type(parts[0]) is not dict
+            or parts[0].get("type") != "output_text"
+            or parts[0].get("text") != "READY"):
+        raise ContextRejected("AI smoke did not return READY")
     return {"status": "smoke_pass", "dispatch_id": dispatch_id,
             "model": MODEL, "input_tokens": input_tokens,
             "output_tokens": output_tokens, "github_write": False,
