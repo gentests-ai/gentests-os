@@ -78,6 +78,13 @@ jobs:
             test "$inspected" = 2
             python3 -c 'import json,os; r=json.load(open(os.environ["RUNNER_TEMP"]+"/recovery.json")); assert r["status"]=="manual_reconciliation_required" and r["synthetic_submissions"]==1 and r["inference_calls"]==0'
           else
-            python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase "$PHASE" --allow-test-writes
+            set +e
+            python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase "$PHASE" --allow-test-writes 2> "$RUNNER_TEMP/recovery-error.txt"
+            outcome=$?
+            set -e
+            if [ "$outcome" != 0 ]; then
+              python3 -c 'import os; lines=open(os.environ["RUNNER_TEMP"]+"/recovery-error.txt").read().splitlines(); msg=lines[-1] if lines else "Recovery failed"; safe=("ValueError: GitHub state HTTP failure","ValueError: state branch initialization failed; reconcile","ValueError: state branch unavailable","ValueError: invalid state response"); print("::error::"+(msg if msg in safe else "Recovery failed; inspect redacted run logs"))'
+              exit "$outcome"
+            fi
             if [ "$HOLD_SECONDS" = 660 ]; then sleep 660; fi
           fi
