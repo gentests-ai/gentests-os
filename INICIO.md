@@ -17,6 +17,7 @@ versao: 1.1.0
 - [[00-Constituicao/Matriz-de-Permissoes|Matriz de permissões]]
 - [[01-Empresa/Identidade-Visual|Identidade visual oficial]]
 - [[02-Agentes/Indice-de-Agentes|Equipe de agentes]]
+- [[docs/GT-EXEC-001-Continuidade-Execucao|GT-EXEC-001 — Continuidade de execução]]
 - [[03-Processos/Prospeccao-Comercial|Processo comercial]]
 - [[03-Processos/Gestao-de-Incidentes-IA|Falhas e alucinações]]
 - [[07-Templates/Contrato-de-Agente-TEMPLATE|Modelo de contrato de agente]]
