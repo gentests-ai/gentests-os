@@ -1,6 +1,7 @@
 """Separate-process recovery fixture. Never uses a network transport or secrets."""
 import argparse
 import json
+import os
 from pathlib import Path
 import sqlite3
 import sys
@@ -53,11 +54,28 @@ def fake_transport(store, *, marker=None):
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--db',required=True)
-    parser.add_argument('--action',choices=('seed','tick','inspect','interrupt'),required=True)
+    parser.add_argument('--action',choices=('seed','tick','inspect','interrupt','cli-inspect','cli-enqueue'),required=True)
     parser.add_argument('--now',type=int,required=True)
     parser.add_argument('--marker')
+    parser.add_argument('--task',default='Different task rejected by the single-slot queue.')
     args=parser.parse_args()
     store=SQLiteStore(args.db)
+    if args.action.startswith('cli-'):
+        from scripts import gt47_t06_groq_runner as runner
+        # Exercise PRODUCTION argparse/exit handling, replacing only transport
+        # storage with an actual durable local store. No GitHub/Groq access.
+        runner.GitHubStore=lambda token: store
+        store.initialize=lambda commit: None
+        runner.time.time=lambda: args.now
+        os.environ.update(GT47_GROQ_ENABLED='true',GROQ_FREE_PLAN_CONFIRMED='true',
+                          GH_TOKEN='offline-fixture',GROQ_API_KEY='offline-fixture')
+        sys.argv=['gt47-runner','--inspect']
+        if args.action=='cli-enqueue':
+            task_file=Path(args.db).parent/'cli-task.txt'
+            task_file.write_text(args.task,encoding='utf-8')
+            sys.argv=['gt47-runner','--commit','a'*40,'--enqueue',str(task_file)]
+        runner.main()
+        return 0
     if args.action=='seed':
         result=enqueue(store,commit='a'*40,task='Verify offline recovery.')
     elif args.action=='inspect':

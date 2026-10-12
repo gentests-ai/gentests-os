@@ -20,6 +20,10 @@ from scripts.gt47_t06_groq_handoff import invoke, prepare
 REPO = 'gentestsai-sudo/gentests-os'
 BRANCH = 'gt47-advisory-state'
 
+class EnqueueRejected(BudgetBlocked):
+    """Task was NOT accepted or persisted; producer must handle the failure."""
+    status = 'rejected'
+
 class NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         raise ValueError('redirect refused')
@@ -93,11 +97,11 @@ def enqueue(store, *, commit, task):
         if current.get('id') == identifier:
             return current
         if current.get('status') != 'completed':
-            raise BudgetWaiting('previous task pending; do not overwrite', reason='previous_task_pending')
+            raise EnqueueRejected('previous task pending; new task not accepted', reason='previous_task_pending')
     value = {'id': identifier, 'commit': commit, 'task': task,
              'evidence': evidence, 'status': 'engineering_pending'}
     if not store.put('gt47-current.json', value, version):
-        raise BudgetWaiting('queue conflict', reason='queue_contention')
+        raise EnqueueRejected('queue conflict; task not accepted', reason='queue_contention')
     return value
 
 def advance(store, *, now, api_key, enabled, free_plan_confirmed, transport=None):
@@ -214,6 +218,8 @@ def main():
         if os.environ.get('GITHUB_OUTPUT'):
             with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
                 output.write('status=' + result['status'] + '\n')
+        if result['status'] == 'manual_reconciliation_required':
+            parser.exit(2)
         return
     if not args.commit:
         parser.error('--commit required to enqueue or advance')
@@ -230,7 +236,7 @@ def main():
     except (ValueError, OSError, KeyError, TypeError):
         result = {'status': 'manual_reconciliation_required', 'reason': 'state_or_enqueue_failure'}
     print(json.dumps(result))  # Model text is retained in state, never rendered as authority.
-    if result['status'] == 'manual_reconciliation_required':
+    if result['status'] in ('manual_reconciliation_required', 'rejected'):
         parser.exit(2)
 
 if __name__ == '__main__':

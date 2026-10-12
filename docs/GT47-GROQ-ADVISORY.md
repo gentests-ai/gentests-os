@@ -58,6 +58,18 @@ gravado, a reserva durável sem resposta é detectada pela próxima consulta.
 Não remover a reserva nem repetir chamada incerta. Reconciliar recibos,
 resultado do provedor e SHA antes de qualquer intervenção no estado.
 
+`--inspect` também sai com código 2 quando retorna
+`manual_reconciliation_required`, depois de gravar o resumo/outputs do job.
+Assim o workflow sinaliza falha operacional; não declara reconciliação em
+um run verde. `idle`, `ready` e `waiting` continuam com código 0.
+
+Se uma tarefa A está pendente, enfileirar uma tarefa B diferente retorna
+`rejected`/exit 2, com motivo `previous_task_pending`. B não foi aceita nem
+persistida: o produtor deve reapresentá-la após resolver/concluir A. Isso
+também vale para conflito CAS de enfileiramento (`queue_contention`). Não
+classificar rejeição de entrada como espera de uma tarefa na fila. A fica
+intacta e nenhuma inferência/reserva nova ocorre para a entrada rejeitada.
+
 ## Limites e persistência
 
 - Teto global dos dois agentes: **40 chamadas e 160.000 tokens reservados em

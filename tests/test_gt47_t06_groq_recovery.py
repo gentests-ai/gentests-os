@@ -104,6 +104,37 @@ class ProcessRecoveryTests(unittest.TestCase):
         self.assertEqual(sum(c['tokens'] for c in state['claims'].values()),8000)
         self.assertEqual(self.calls(),['AGT-ENG','AGT-QA'])
 
+    def test_production_inspect_cli_fails_for_reconciliation(self):
+        self.tick('seed',NOW)
+        with sqlite3.connect(self.db) as db:
+            value=json.loads(db.execute('SELECT value FROM state WHERE key=?',('gt47-current.json',)).fetchone()[0])
+            value['diagnostic']={'status':'manual_reconciliation_required','reason':'persisted_reconciliation'}
+            db.execute('UPDATE state SET value=? WHERE key=?',(json.dumps(value),'gt47-current.json'))
+        result=self.tick('cli-inspect',NOW,expected=2)
+        self.assertEqual(result['status'],'manual_reconciliation_required')
+        self.assertEqual(self.calls(),[])
+
+    def test_production_inspect_cli_keeps_idle_ready_waiting_green(self):
+        self.assertEqual(self.tick('cli-inspect',NOW)['status'],'idle')
+        self.tick('seed',NOW)
+        self.assertEqual(self.tick('cli-inspect',NOW)['status'],'ready')
+        self.tick('tick',NOW)
+        result=self.tick('cli-inspect',NOW+299)
+        self.assertEqual(result['status'],'waiting')
+        self.assertEqual(result['retry_at'],NOW+300)
+        self.assertEqual(self.calls(),['AGT-ENG'])
+
+    def test_production_enqueue_cli_rejects_b_without_losing_a(self):
+        seeded=self.tick('seed',NOW)
+        result=self.tick('cli-enqueue',NOW,expected=2)
+        self.assertEqual(result,{'status':'rejected','reason':'previous_task_pending'})
+        with sqlite3.connect(self.db) as db:
+            current=json.loads(db.execute('SELECT value FROM state WHERE key=?',('gt47-current.json',)).fetchone()[0])
+            reservations=db.execute('SELECT count(*) FROM state WHERE key=?',('gt47-budget.json',)).fetchone()[0]
+        self.assertEqual(current,seeded)
+        self.assertEqual(reservations,0)
+        self.assertEqual(self.calls(),[])
+
 class DiagnosticTests(unittest.TestCase):
     def test_corrupt_queue_reports_manual_not_idle(self):
         for value in ([],['malformed'],{'status':'engineering_pending','diagnostic':'malformed'}):
