@@ -15,7 +15,7 @@ class FakeAuthority:
         d=self.decisions.get(ref)
         if not isinstance(d,dict) or d.get('status')!='authorized': return 'not_authorized'
         if d.get('revoked') is not False: return 'revoked'
-        if d.get('version')!=1 or type(e.get('decision_version')) is not int or e['decision_version']!=1: return 'decision_version_mismatch'
+        if type(d.get('version')) is not int or d['version']!=1 or type(e.get('decision_version')) is not int or e['decision_version']!=1: return 'decision_version_mismatch'
         if d.get('scope')!='simulate:synthetic' or e.get('scope')!='simulate:synthetic' or e.get('operation')!='dry_run': return 'scope_denied'
         if e.get('synthetic') is not True or e.get('stage')!='simulate': return 'stage_denied'
         try:
@@ -23,7 +23,11 @@ class FakeAuthority:
                 or type(e['issue']) is not int or e['issue']<1 or type(e['generation']) is not int or e['generation']<1
                 or type(e['corpus_sha']) is not str or len(e['corpus_sha'])!=40
                 or any(c not in '0123456789abcdef' for c in e['corpus_sha'])): return 'invalid_identity'
-            if d.get('identity')!=identity(e): return 'identity_mismatch'
+            decision_identity=d.get('identity')
+            event_identity=identity(e)
+            if (type(decision_identity) is not dict or set(decision_identity)!=set(FIELDS)
+                or any(type(decision_identity[k]) is not type(event_identity[k]) or decision_identity[k]!=event_identity[k] for k in FIELDS)):
+                return 'identity_mismatch'
             limit=datetime.fromisoformat(d['expires_at'].replace('Z','+00:00'))
             if now.tzinfo is None or limit.tzinfo is None or now>=limit: return 'expired'
         except (KeyError,TypeError,ValueError,AttributeError): return 'invalid_decision'
@@ -69,7 +73,10 @@ class LocalGate:
                 return {'state':'blocked','reason':'stale_fence_or_state'}
             c=db.execute('SELECT killed,used,cap FROM control WHERE id=1').fetchone()
             reason=self.authority.verify(e,now)
-            if not c or c[0]!=0 or c[1]<0 or c[2]<0 or c[1]>c[2]: reason='control_denied'
+            if (not c or any(type(v) is not int for v in c)
+                or c[0] not in (0,1) or c[1]<0 or c[2]<0 or c[1]>c[2]
+                or c[0]!=0):
+                reason='control_denied'
             if reason or failure is not None:
                 db.execute("UPDATE jobs SET state='uncertain' WHERE k=?",(k,))
                 return {'state':'blocked','reason':reason or 'synthetic_provider_failure','retry':False}
