@@ -69,7 +69,7 @@ class ExecutorBridgeTests(unittest.TestCase):
         self.assertEqual(result["result_sha256"], "b" * 64)
         self.assertEqual(self.polls, [RID, RID])
         self.assertFalse(result["independently_verified"])
-        self.assertNotIn("context", json.dumps(self.posts))
+        self.assertNotIn("source_provenance", json.dumps(self.posts))
         self.assertNotIn("authorization", json.dumps(self.posts))
         self.assertNotIn("token", json.dumps(self.posts))
 
@@ -104,7 +104,7 @@ class ExecutorBridgeTests(unittest.TestCase):
             self.execute(submit=lambda _: (202, fake))
 
     def test_receipt_bound_to_wrong_agent(self):
-        fake = signed_receipt(self.intent, "received", agent="AGT-QA")
+        fake = signed_receipt(self.intent, "received", agent="AGT-ENG")
         with self.assertRaises(ContextRejected):
             self.execute(submit=lambda _: (202, fake))
 
