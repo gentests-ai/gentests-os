@@ -1,6 +1,6 @@
 ---
 tipo: kanban
-versao: 1.2.0
+versao: 1.2.1
 status: acompanhamento
 revisado_em: 2026-10-12
 ---
@@ -14,11 +14,11 @@ revisado_em: 2026-10-12
 
 | A fazer | Em andamento | Em validação | Aguardando aprovação | Bloqueado | Concluído |
 |---|---|---|---|---|---|
-| [GOS-006](Cards/GOS-006.md) | [GOS-005](Cards/GOS-005.md) | [GOS-004](Cards/GOS-004.md) | [GOS-003](Cards/GOS-003.md) | [GOS-017](Cards/GOS-017.md) | [GOS-001](Cards/GOS-001.md) |
-| [GOS-007](Cards/GOS-007.md) | [GOS-010](Cards/GOS-010.md) | [GOS-009](Cards/GOS-009.md) |   |   | [GOS-002](Cards/GOS-002.md) |
-| [GOS-008](Cards/GOS-008.md) | [GOS-011](Cards/GOS-011.md) |   |   |   |   |
-|   | [GOS-012](Cards/GOS-012.md) |   |   |   |   |
-|   | [GOS-013](Cards/GOS-013.md) |   |   |   |   |
+| [GOS-006](Cards/GOS-006.md) | [GOS-005](Cards/GOS-005.md) |   | [GOS-003](Cards/GOS-003.md) |   | [GOS-001](Cards/GOS-001.md) |
+| [GOS-007](Cards/GOS-007.md) | [GOS-010](Cards/GOS-010.md) |   |   |   | [GOS-002](Cards/GOS-002.md) |
+| [GOS-008](Cards/GOS-008.md) | [GOS-011](Cards/GOS-011.md) |   |   |   | [GOS-004](Cards/GOS-004.md) |
+|   | [GOS-012](Cards/GOS-012.md) |   |   |   | [GOS-009](Cards/GOS-009.md) |
+|   | [GOS-013](Cards/GOS-013.md) |   |   |   | [GOS-017](Cards/GOS-017.md) |
 
 ## Estado e próxima ação
 
@@ -27,17 +27,17 @@ revisado_em: 2026-10-12
 | [GOS-001](Cards/GOS-001.md) | Concluído — escopo v1.1 | Organização inicial preservada; não comprova sincronização do vault local. | Manter histórico; não reabrir por alerta isolado de metadado. |
 | [GOS-002](Cards/GOS-002.md) | Concluído — criação e preparação do repositório | Consulta à API em 12/10/2026 confirmou private=true e visibility=private; .gitignore e fluxo de PR existem. Este status não certifica MFA, backup ou segurança completa. | Segurança, tokens e backup continuam nos cards próprios. |
 | [GOS-003](Cards/GOS-003.md) | Aguardando aprovação | POL-001 continua proposta; POL-003 v1.2.1 integrada é explicitamente não homologada. | Direção deliberar a homologação aplicável; decisões pontuais não aprovam toda a Constituição. |
-| [GOS-004](Cards/GOS-004.md) | Em validação documental | Diretório, arquitetura e contratos já foram definidos como propostas. Homologação e capacidade operacional não estão comprovadas. | Governança consolidar validação dos papéis; Direção decidir aprovação quando aplicável. |
-| [GOS-005](Cards/GOS-005.md) | Em andamento — preparação parcial | POL-003 e guardas do piloto existem; #47 registra preparação bloqueada. Não há prova de implantação universal dos limites nas ferramentas. | Engenharia/Infra comprovar controles apenas no ambiente e escopo autorizados. |
+| [GOS-004](Cards/GOS-004.md) | Concluído — contextos e contratos homologados | A Direção confirmou alteração, revisão e homologação dos contratos hoje, incluindo autonomia e permissões específicas. Aprovação documental atendida; não equivale a ativação automática ou acesso segregado. | Reconciliar metadados documentais com as versões/decisões já homologadas, sem novo ciclo de aprovação. |
+| [GOS-005](Cards/GOS-005.md) | Em andamento — autorização contratual atendida | A Direção confirmou autonomia e permissões nos contratos específicos. Não há nova aprovação contratual pendente neste card. O objetivo original também inclui aplicação técnica dos limites; implantação universal não foi comprovada pela confirmação. | Comprovar aplicação dos controles nas ferramentas no escopo autorizado; preservar limites dos contratos homologados. |
 | [GOS-006](Cards/GOS-006.md) | A fazer — implantação não comprovada | Não foi localizada evidência suficiente de cofre configurado, MFA e recuperação testada nas fontes consultadas. Falta de evidência não prova inexistência. | Infra apresentar evidências sem divulgar credenciais. |
 | [GOS-007](Cards/GOS-007.md) | A fazer — implantação não comprovada | Não foi localizada comprovação de cofre, rotação e gestão de tokens por serviço. Permissões de um conector não comprovam gestão de credenciais. | Infra verificar gestão no recurso autorizado, sem alterar permissões. |
 | [GOS-008](Cards/GOS-008.md) | A fazer — backup não comprovado | Não foi localizada evidência de backup no Drive com restauração testada. Versionamento GitHub não substitui esse critério. | Infra comprovar backup e restauração, ou propor revisão do escopo à Direção. |
-| [GOS-009](Cards/GOS-009.md) | Em validação — pendências de marca | Existe atividade formal de verificação de identidade; o registro de ativos ainda deixa a segunda assinatura pendente. Não foi comprovada validação integral nos templates e campanhas. | Marketing consolidar evidências do escopo; Direção decide marca/publicação. |
+| [GOS-009](Cards/GOS-009.md) | Concluído — marca e assinaturas confirmadas pela Direção | A Direção confirmou conclusão das alterações de marca e assinaturas de e-mail. Esse ato corrige a pendência de acompanhamento; não representa teste visual novo desta conversa nem autorização geral de distribuição. | Reconciliar referências dos ativos finais no registro existente, sem reabrir aprovação concluída. |
 | [GOS-010](Cards/GOS-010.md) | Em andamento — desenho documental | Contratos, processo de inspeção e registros existem. Inspeção X9 não equivale à auditoria completa dos agentes nem comprova revisão periódica de amostras. | Auditor verificar amostras e cobertura; não duplicar a inspeção X9. |
 | [GOS-011](Cards/GOS-011.md) | Em andamento — cobertura parcial | Há checagem de Wikilinks, pré-revisão determinística e testes de guardas. CI aprovado no escopo existente não certifica contratos, políticas ou todos os limites. | QA mapear cobertura faltante dos critérios; reutilizar evidências sem repetir testes antigos. |
 | [GOS-012](Cards/GOS-012.md) | Em andamento — desenho de consulta | Fontes e regras de consulta estão documentadas; integração automática e consulta restrita a políticas aprovadas não foram comprovadas ponta a ponta. | Engenharia/Infra comprovar integração autorizada; não confundir consulta manual com agente acionado. |
-| [GOS-013](Cards/GOS-013.md) | Em andamento — protótipo parcial | Existe pré-revisão determinística e testes locais definidos. Contrato continua proposta; classificador completo, bloqueio em fluxo real e auditoria de amostras não foram comprovados. Mesma identidade entre agentes não representa independência humana. | Validador/QA verificar critérios restantes no escopo autorizado; Direção decidir homologação. |
-| [GOS-017](Cards/GOS-017.md) | Bloqueado — original da segunda assinatura pendente | Registro de ativos e #38 mantêm a segunda assinatura sem arquivo canônico identificado. Não reconstruir nem substituir o ativo por inferência. | Marketing obter o original e confirmar finalidade com a Direção antes dos testes. |
+| [GOS-013](Cards/GOS-013.md) | Em andamento — contrato do Validador homologado | A Direção confirmou homologação do Validador na alteração dos contratos. A homologação contratual está atendida. Implantação completa, classificador QG-L/M/H, bloqueio em fluxo real e auditoria de amostras continuam sem comprovação nesta inspeção; não solicitar novamente homologação do contrato. | Verificar somente critérios técnicos restantes. A confirmação não permite inferir aprovação isolada de toda a política QG-001 ou independência humana. |
+| [GOS-017](Cards/GOS-017.md) | Concluído — assinaturas confirmadas pela Direção | A Direção confirmou conclusão das assinaturas de e-mail. O bloqueio de negócio é retirado; o registro de ativos consultado ainda declara original pendente. Trata-se de rastreabilidade documental a reconciliar, não nova aprovação exigida. | Atualizar futuramente o registro existente com os arquivos/versões finais efetivos; não inventar links, hashes ou resultados de renderização. |
 
 ## Frentes atuais fora do planejamento inicial GOS
 
@@ -54,10 +54,16 @@ Links para registros existentes, sem criar missões ou cartões duplicados. Não
 
 ## Histórico e manutenção
 
-A v1.1 usava “Agora / Próxima / Depois” como ordem de prioridade; isso não demonstrava execução. As fases originais dos cards foram preservadas como histórico, sem repriorização nesta atualização. GOS-001 permanece concluído no escopo original; GOS-002 registra somente criação/preparação do repositório privado. Os demais não foram concluídos por mera existência de documentos.
+A v1.1 usava “Agora / Próxima / Depois” como ordem de prioridade; isso não demonstrava execução. As fases originais dos cards foram preservadas como histórico, sem repriorização nesta atualização. GOS-001 permanece concluído no escopo original; GOS-002 registra somente criação/preparação do repositório privado. GOS-004, GOS-009 e GOS-017 foram concluídos pela confirmação expressa da Direção, registrada abaixo. Os demais não foram concluídos por mera existência de documentos.
 
 Responsáveis originais permanecem nos cards. Próximos passos são pendências, não despachos enviados ou aceitos. Atualizar card e quadro juntos quando nova evidência mudar o estado. Critérios existentes sem comprovação permanecem desmarcados. Esta atualização não homologa políticas ou contratos, não concede acesso e não autoriza merge.
 
 **Inspeção:** conversa consultiva Agile Coach, solicitada pela Direção; não representa ativação de novo agente canônico. **Responsável pela coordenação futura:** Orquestrador Central, após encaminhamento e aceite comprovados.
 
 [[INICIO|Centro de comando]] · [[CHANGELOG|Histórico do vault]]
+
+## Correção após confirmação da Direção
+
+[Declaração registrada na PR #83](https://github.com/gentestsai-sudo/gentests-os/pull/83#issuecomment-6120555144): contratos revisados e homologados em 12/10/2026, autonomia/permissões nos contratos específicos, marca e assinaturas concluídas e Validador homologado. Não pedir novamente essas aprovações. GOS-005/GOS-013 permanecem parciais somente pelos objetivos técnicos adicionais, não pela homologação dos contratos. GOS-003 preserva pendência distinta de aprovação global da Constituição; não inferir homologação de POL-001/QG-001 por analogia.
+
+Na consulta de 12/10/2026, contrato do Validador e registro de ativos na main ainda continham textos antigos. A declaração da Direção é registrada com sua proveniência; metadados e referências finais precisam de reconciliação documental sem reabrir aprovação. Não inventar versões, arquivos, hashes ou testes. PR #83 teve merge confirmado pela API, realizado pela Direção conforme informado nesta conversa; esta correção posterior requer integração separada.
