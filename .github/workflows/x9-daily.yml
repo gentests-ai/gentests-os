@@ -1,4 +1,4 @@
-name: X9 - Inspecao Documental
+name: 03 - X9 Documentos
 on:
   schedule:
     # 12:00 UTC = 09:00 de Brasilia (UTC-3)

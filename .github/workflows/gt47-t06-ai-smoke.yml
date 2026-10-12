@@ -1,4 +1,4 @@
-name: GT47 T06 Bounded AI Smoke
+name: 07 - GTS47 Smoke IA (manual)
 on:
   workflow_dispatch:
     inputs:

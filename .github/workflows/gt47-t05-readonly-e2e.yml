@@ -1,4 +1,4 @@
-name: GT47 T05 Read-only Authenticated Check
+name: 04 - GTS47 Leitura (sem IA)
 on:
   workflow_dispatch:
     inputs:

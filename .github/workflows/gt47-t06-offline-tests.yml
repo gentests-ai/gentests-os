@@ -1,5 +1,5 @@
-name: GT47 T06 Offline Tests
-run-name: GT47 ${{ inputs.phase || 'offline' }} ${{ inputs.trial || github.sha }}
+name: 05 - GTS47 Testes (sem IA)
+run-name: "05 - GTS47 #${{ github.run_number }} | ${{ inputs.phase || 'offline' }} ${{ inputs.trial || github.sha }}"
 on:
   pull_request:
     paths:

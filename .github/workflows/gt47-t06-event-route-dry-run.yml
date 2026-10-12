@@ -1,4 +1,4 @@
-name: GT47 T06 Event Route Dry Run
+name: 06 - GTS47 Rota (simulacao)
 on:
   issues:
     types: [labeled]
