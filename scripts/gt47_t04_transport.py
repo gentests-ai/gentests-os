@@ -7,10 +7,16 @@ from __future__ import annotations
 import json
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import Request, build_opener, HTTPRedirectHandler
 from scripts.gt47_t04_context_loader import ContextRejected
 
 API_HOST = "api.github.com"
+
+
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        return None
+
 MAX_BYTES = 512_000
 
 
@@ -22,7 +28,9 @@ def github_readonly_get(url: str, params: dict, *, token: str):
     parsed = urlparse(url)
     if parsed.scheme != "https" or parsed.hostname != API_HOST or parsed.port is not None or parsed.username or parsed.password or parsed.query or parsed.fragment:
         raise ContextRejected("GitHub API host mismatch")
-    if not parsed.path.startswith("/repos/gentestsai-sudo/gentests-os/"):
+    root = "/repos/gentestsai-sudo/gentests-os/"
+    tail = parsed.path[len(root):] if parsed.path.startswith(root) else ""
+    if not (tail.startswith("contents/02-Agentes/") or tail.startswith("contents/00-Constituicao/") or tail.startswith("contents/03-Processos/") or tail == "issues/47/comments"):
         raise ContextRejected("GitHub repository mismatch")
     if type(params) is not dict:
         raise ContextRejected("invalid query parameters")
@@ -34,7 +42,7 @@ def github_readonly_get(url: str, params: dict, *, token: str):
         "User-Agent": "GenTests-GT47-ReadOnly",
     }, method="GET")
     try:
-        with urlopen(request, timeout=15) as response:
+        with build_opener(NoRedirect).open(request, timeout=15) as response:
             if response.status != 200:
                 raise ContextRejected("unexpected GitHub status")
             raw = response.read(MAX_BYTES + 1)
