@@ -1,13 +1,13 @@
 ---
 tipo: processo
 id: GT-HANDOFF-001
-versao: 0.2.0
+versao: 0.2.1
 status: proposta
 responsavel: Governança
 missao: GT-GOV-CHANGE-001
 issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 ---
-# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.0)
+# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.1)
 
 > **Não homologado.** Este desenho não concede acessos, não altera POL-003, contratos ou hierarquia, não autoriza merge, publicação, piloto, GT-WIP-001, Agile Coach ou automação #47. Base: [Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) e [REV-GOV-CHANGE-002](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
@@ -21,11 +21,11 @@ O Orquestrador mantém **ownership global**, prioridades e supervisão de exceç
 
 **Memória de evidências, sem sistema paralelo:** reutilizar na issue evidências existentes com fonte, natureza (relato da Direção, captura/transcrição, leitura autenticada, execução técnica), data/período, escopo, limites e gatilho de rechecagem. Novo pedido só quando houver mudança material, período de uso diferente, contradição, novo risco ou gate que exija estado live; apontar campo faltante e por quê. Falta de acesso à UI não invalida relato existente nem prova condição técnica ainda não observada. **Bloquear apenas a ação de risco**, liberando trabalhos independentes autorizados; um budget US$0 com Stop usage não garante isoladamente custo futuro zero.
 
-**Reconciliação necessária antes da vigência:** adaptar na seção 2 as transições que exigem confirmação de destino pelo Orquestrador, na seção 3 a regra de WIP, e na seção 7 o retorno obrigatório para permitir encaminhamento direto, preservando confirmação de ACEITO e prestação de contas sintética ao ORQ. Aplicar leitura compatível com matriz de permissões, hierarquia, segurança e gates sem inferir delegação de merge.
+**Reconciliação documental #86:** as seções 1, 2, 3 e 7 abaixo trazem a proposta de fluxo horizontal, condicionada à revisão competente, autoridade vigente e homologação aplicável. Nenhuma permissão é criada por este texto.
 
 ## 1. Regra central e fonte da autoridade
 
-**Orquestrador Central único** mantém ownership da missão, triagem e lacunas de rota, confirma destino e registra transferências; **não se autodespacha**. Especialista só assume execução após **ACEITO explícito**; o parecer de QA, Validação, Auditoria ou Revisor Independente não concede autorização para merge, gastos, publicação ou deploy. Direção decide os atos reservados e, no transporte manual, apenas copia a mensagem pronta, sem escolher rota. A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) trata de automação futura, não implantada.
+**Orquestrador Central único** mantém ownership da missão, triagem e lacunas de rota, acompanha as transferências registradas, sem confirmar rotineiramente destinos já autorizados; **não se autodespacha**. Especialista só assume execução após **ACEITO explícito**; o parecer de QA, Validação, Auditoria ou Revisor Independente não concede autorização para merge, gastos, publicação ou deploy. Direção decide os atos reservados e, no transporte manual, apenas copia a mensagem pronta, sem escolher rota. A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) trata de automação futura, não implantada.
 
 **Roteamento não é autorização.** O catálogo de papéis/rotas abaixo é candidato. Fonte de autoridade: [[00-Constituicao/Matriz-de-Permissoes|POL-003]], delegação formal vigente, permissão efetiva da ferramenta e aprovação específica para cada ato protegido; reconciliação pendente na [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53). Quando a autoridade é ausente/ambígua: **BLOQUEADA POR AUTORIDADE**, com dono e próxima decisão. RACI ou texto de despacho não cria permissão.
 
@@ -58,15 +58,15 @@ Cada evento na **issue canônica** deve conter `event_id`, `mission_id`, `handof
 | DoR satisfeito | registrada/refinamento → pronta | Orquestrador aponta evidência e rota |
 | Mensagem redigida | pronta → handoff preparado | Ainda **não** registrada ou entregue |
 | Registro GitHub | preparado → registrado; acionamento pendente | Comentário/issue **não é** acionamento efetivo |
-| Entrega comprovada | acionamento pendente → aguardando aceite | Referência do transporte; Orquestrador acompanha |
+| Entrega comprovada | acionamento pendente → aguardando aceite | Remetente registra prova de entrega; ORQ acompanha pela issue sem aprovar cada rota |
 | ACEITO explícito | aguardando aceite → etapa aceita/em execução | Destinatário assume execução; aceite não aprova mérito |
 | DEVOLVIDO explícito | aguardando aceite → devolvida/refinamento | Motivo, requisito, dono, próxima ação; sem loop infinito |
-| Erro de transporte | preparado/pendente → erro de entrega | Orquestrador documenta erro e nova tentativa segura/manual; sem aceite fictício |
-| Sem resposta | aguardando aceite → aguardando aceite escalonada | Monitorar/substituir se autorizado; prazo a calibrar em piloto; silêncio nunca é aceite |
-| Impedimento do executor | em execução → bloqueada | Executor identifica bloqueio e terceiro; Orquestrador atribui dono da remoção |
+| Erro de transporte | preparado/pendente → erro de entrega | Remetente registra erro e recupera dentro da autonomia; escala ao ORQ se persistente; sem aceite fictício |
+| Sem resposta | aguardando aceite → aguardando aceite escalonada | Remetente monitora e escala ORQ quando necessário; silêncio nunca é aceite |
+| Impedimento do executor | em execução → bloqueada | Executor registra dono e ação; ORQ intervém em dependência ou conflito não resolvido diretamente |
 | Desbloqueio | bloqueada → em execução/pronta | Rechecar DoR e autoridade |
 | Entrega com evidência | em execução → etapa concluída/aguardando transferência | Remetente informa realizado/não realizado e riscos; missão continua |
-| Transferência registrada | concluída → handoff pendente | Orquestrador confirma destino; próximo agente ainda não aceitou |
+| Transferência registrada | concluída → handoff pendente | Remetente identifica destinatário competente e registra evento; ORQ acompanha pela issue; destinatário ainda não aceitou |
 | Verificações paralelas | em verificação → verificações parciais | QA, Validação, Auditoria e Revisão Independente, se exigidas, têm donos e pareceres próprios; gate só fecha com todos ou dispensa expressa autorizada |
 | Não conformidade | em verificação → correção focal | Achados e condição de rechecagem; retorna ao executor |
 | Mérito verificado | em verificação → aguardando decisão/entrega | Aprovação técnica não autoriza atos reservados |
@@ -75,11 +75,11 @@ Cada evento na **issue canônica** deve conter `event_id`, `mission_id`, `handof
 | DoD da missão | conferência final → encerrada | Orquestrador/encarregado autorizado verifica todos os gates |
 | Cancelamento fundamentado | estado não final → cancelada | Autoridade competente documenta motivo, impactos e comunicação |
 
-**Ownership:** missão/rota e filas = Orquestrador; execução aceita = especialista; parecer = verificador nomeado; decisão reservada = Direção. Toda devolução, pendência e bloqueio exige dono atual, próximo dono e próxima ação. Envio do retorno não equivale à transferência aceita.
+**Ownership:** missão, prioridades e exceções = Orquestrador; encaminhamento horizontal da etapa e comprovação do transporte = remetente; execução aceita = destinatário; parecer = verificador nomeado; decisão reservada = Direção. Todo parecer relevante deve informar objeto, HEAD/versão, resultado, evidências e responsável na issue canônica. ORQ consulta e incorpora os pareceres à síntese incremental: registro, notificação, leitura e incorporação são eventos diferentes. Toda devolução, pendência e bloqueio exige dono atual, próximo dono e próxima ação. Envio do retorno não equivale à transferência aceita.
 
 ## 3. WIP e capacidade — regra candidata não ativada
 
-Não impor WIP 1 agora. Slot do remetente pode ser liberado somente quando: (a) evidências e retorno estão completos; (b) próximo especialista aceitou **ou** Orquestrador assumiu expressamente a fila/roteamento com capacidade e substituição habilitada; e (c) não subsiste correção ativa com o remetente. Assumir fila **não** equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
+Não impor WIP 1 agora. Slot do remetente pode ser liberado quando: (a) evidências e retorno estão completos; (b) próximo especialista recebeu e **ACEITOU** expressamente, ou ORQ assumiu fila excepcional com dono explícito sem simular aceite do executor; e (c) não subsiste correção ativa com o remetente. Registro ou transporte sem aceite não libera responsabilidade por presunção. Assumir fila **não** equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
 
 ## 4. DoR/DoD e devolução por interface
 
@@ -111,9 +111,9 @@ Inventariar, antes da edição: arquivos e IDs canônicos, PRs abertos, versões
 
 ## 7. Mensagem integral copiável — gate transversal obrigatório
 
-Ao concluir, bloquear, devolver ou transferir uma etapa operacional, o remetente preenche [[07-Templates/GT-HANDOFF-001-TEMPLATE]] e entrega **uma única mensagem integral, preenchida e copiável, dirigida ao destinatário seguinte**, com objetivo, DoR/DoD, autoridade, limites, evidências reais, estados de transporte/aceite, próximos responsáveis e retorno. **Resultado isolado, tabela-resumo ou link não substituem a mensagem integral.** Em retorno apenas de prestação de contas ao Orquestrador, a exceção de *não haver despacho operacional direto* deve ser justificada; ainda assim fornecer prestação de contas integral. O Orquestrador **não se autodespacha**: aceita/devolve retorno e produz outro despacho completo para a próxima especialidade. A Direção apenas transporta a mensagem pronta enquanto necessário. Não marcar acionamento por comentário GitHub, aceite por silêncio, ou decisão por parecer.
+Ao concluir, bloquear, devolver ou transferir uma etapa operacional, o remetente preenche [[07-Templates/GT-HANDOFF-001-TEMPLATE]] e entrega **uma única mensagem integral, preenchida e copiável, dirigida ao destinatário seguinte**, com objetivo, DoR/DoD, autoridade, limites, evidências reais, estados de transporte/aceite, próximos responsáveis e retorno. **Resultado isolado, tabela-resumo ou link não substituem a mensagem integral.** Em retorno apenas de prestação de contas ao Orquestrador, a exceção de *não haver despacho operacional direto* deve ser justificada; ainda assim fornecer prestação de contas integral. Na rota horizontal já autorizada, o remetente endereça mensagem integral diretamente ao especialista seguinte e registra o parecer para ciência rastreável do ORQ; **não depende de retorno ao ORQ e novo despacho**. ORQ prepara despacho próprio na triagem ou ao assumir exceção e não se autodespacha. A Direção apenas transporta a mensagem pronta enquanto necessário. Não marcar acionamento por comentário GitHub, aceite por silêncio, ou decisão por parecer.
 
-**DoD da etapa:** artefato e evidências versionados; testes feitos/não feitos discriminados; bloqueios/riscos e donos; verificações obrigatórias e dispensas autorizadas; autorização da ação; mensagem integral pronta; confirmação de transferência ou fila com Orquestrador. **DoD da missão:** pareceres e decisões exigidas, autorização separada, integração/publicação real comprovada se aplicável, pendências sob dono e encerramento expresso. Sem isso, etapa concluída ≠ missão encerrada.
+**DoD da etapa:** artefato e evidências versionados; testes feitos/não feitos discriminados; bloqueios/riscos e donos; verificações obrigatórias e dispensas autorizadas; autorização da ação; mensagem integral pronta para transporte manual, ou payload técnico quando integração efetiva for autorizada; entrega/ACEITO comprovados ou pendência com dono; parecer rastreável na issue para ORQ. **DoD da missão:** pareceres e decisões exigidas, autorização separada, integração/publicação real comprovada se aplicável, pendências sob dono e encerramento expresso. Sem isso, etapa concluída ≠ missão encerrada.
 
 ## 8. Piloto e indicadores — apenas planejamento
 
