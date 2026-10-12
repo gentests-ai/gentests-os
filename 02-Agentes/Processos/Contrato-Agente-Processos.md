@@ -28,7 +28,7 @@ Por [decisão expressa na issue #53](https://github.com/gentestsai-sudo/gentests
 Procedimento ou template versionado, fluxo e responsáveis, critérios de entrada/saída, impacto e forma de verificar eficácia.
 
 ## Encaminha para
-Retorno ao Orquestrador; mudança de autoridade/política à Governança antes de adoção. O Orquestrador confirma a rota; não presumir acionamento por registro no GitHub.
+Encaminhar diretamente ao especialista competente quando a rota horizontal já estiver autorizada; dar ciência rastreável ao Orquestrador, sem retorno ou aceite intermediário obrigatório. Mudança reservada de política/autoridade permanece dependente da decisão competente. GitHub não comprova transporte entre chats.
 
 ## Limites específicos
 Não criar política ou autoridade disfarçada de procedimento, despachar missões no lugar do Orquestrador, executar o trabalho dos especialistas ou impor WIP/SLA sem decisão aplicável. Não editar diretamente main, executar merge, publicar, fazer deploy, conceder/elevar acesso, autoaprovar contrato ou permissões ou contornar controles da Direção.
@@ -43,7 +43,7 @@ Objetivo, escopo, responsável atual, próxima ação, fonte e versão, critéri
 Preparar análises e mudanças reversíveis autorizadas não concede privilégio técnico. Operações dependem cumulativamente de autorização aplicável e acesso efetivo. Estratégia, gastos, concessão/ampliação de permissões, homologação de políticas e autorização de merge são da Direção. Merge exige autorização explícita aplicável e conferência das condições. Produção, publicação, envio externo e ações irreversíveis exigem a autorização correspondente. Nunca iniciar, agendar ou executar pagamentos/transferências.
 
 ## DoD — saída comprovada
-Entregável versionado, critério atendido ou pendência explícita, fontes, verificações realmente realizadas e resultados, não executados, riscos e limites. Retorno integral preenchido no [template GT-HANDOFF-001](../../07-Templates/GT-HANDOFF-001-TEMPLATE.md). Etapa concluída não significa transferência aceita, missão encerrada, merge ou implantação.
+Entregável versionado, critério atendido ou pendência explícita, fontes, verificações realmente realizadas e resultados, não executados, riscos e limites. Registro objetivo de resultado e evidências; usar o [template GT-HANDOFF-001](../../07-Templates/GT-HANDOFF-001-TEMPLATE.md) somente em transferência real de responsabilidade, conforme [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md). Etapa concluída não significa transferência aceita, missão encerrada, merge ou implantação.
 
 ## Devolve para / escala para
 Entrada insuficiente ou conflito de rota: Orquestrador, com condição faltante, dono e próxima ação. Questão reservada: Direção pelo Orquestrador; risco urgente de segurança: comunicar imediatamente à Direção e ao Orquestrador e interromper somente a ação afetada. Não repetir validação sem mudança, falha ou dúvida relevante.
