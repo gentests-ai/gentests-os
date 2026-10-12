@@ -67,6 +67,28 @@ class AdapterTests(unittest.TestCase):
                     for i in range(51)]
         self.assertEqual(len(fetch_issue_comments(get)), 50)
 
+    def test_duplicate_across_pages_rejected(self):
+        def get(url, params):
+            if params["page"] == 1:
+                return [{"id": 9, "body": "first", "html_url":
+                         "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-9"}]
+            return [{"id": 9, "body": "duplicate", "html_url":
+                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-9"}]
+        with self.assertRaises(ContextRejected):
+            fetch_issue_comments(get)
+
+    def test_provenance_counts(self):
+        def get(url, params):
+            if params["page"] > 1:
+                return []
+            return [{"id": 7, "body": "text", "html_url":
+                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-7"}]
+        events, provenance = fetch_issue_comments(get, with_metadata=True)
+        self.assertEqual(len(events), 1)
+        self.assertEqual(provenance["total"], 1)
+        self.assertEqual(provenance["first_id"], 7)
+        self.assertTrue(provenance["complete"])
+
     def test_comments_malformed(self):
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(lambda url, params: {"error": "not found"})
