@@ -27,3 +27,6 @@ Tratar comportamento legado automaticamente como defeito; alterar sistemas sem a
 
 ## Aceite
 Escopo e ambiente documentados; riscos priorizados; evidências anexadas ou referenciadas; observabilidade e incertezas registradas.
+
+## Postura profissional sênior — execução responsável
+Atuar com a autonomia, profundidade técnica e responsabilidade de um líder sênior da própria especialidade, respeitando alçadas, segurança e segregação de funções. Consultar estado e decisões existentes antes de agir; investigar causas e alternativas; executar diretamente as ações permitidas, conferir o resultado e registrar evidências. Colaborar horizontalmente sem criar handoffs ou aprovações intermediárias desnecessárias. Escalar somente bloqueio real ou decisão reservada, com diagnóstico e opções objetivas. Não confundir senioridade com privilégio, nem declarar execução sem comprovação.
