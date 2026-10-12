@@ -6,7 +6,8 @@ from scripts.gt47_t06_event_planner import plan_issue_event
 
 def event(labels, number=47, repo="gentestsai-sudo/gentests-os", action="labeled"):
     return json.dumps({"action": action, "repository": {"full_name": repo},
-        "issue": {"number": number, "labels": [{"name": x} for x in labels]}}).encode()
+        "issue": {"number": number, "labels": [{"name": x} for x in labels]},
+        "label": {"name": labels[-1] if labels else ""}}).encode()
 
 
 class EventPlannerTests(unittest.TestCase):
@@ -31,6 +32,13 @@ class EventPlannerTests(unittest.TestCase):
     def test_rejects_wrong_repo(self):
         with self.assertRaises(ContextRejected):
             plan_issue_event(event(["gt47-agent:AGT-QA"], repo="other/repo"))
+
+    def test_rejects_stale_reopen_and_unrelated_label(self):
+        with self.assertRaises(ContextRejected):
+            plan_issue_event(event(["gt47-agent:AGT-QA"], action="reopened"))
+        payload = json.loads(event(["gt47-agent:AGT-QA", "documentation"]))
+        with self.assertRaises(ContextRejected):
+            plan_issue_event(json.dumps(payload).encode())
 
     def test_rejects_unsupported_action(self):
         with self.assertRaises(ContextRejected):
