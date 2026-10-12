@@ -59,4 +59,37 @@ class SecurityMockTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=2) as pool:
             results=list(pool.map(lambda _:self.g.reserve(self.e,NOW),range(2)))
         self.assertEqual(sorted(x['state'] for x in results),['blocked','reserved'])
+
+    def test_qa05_a01_exact_types_in_decision(self):
+        for field in ('version',):
+            with self.subTest(field=field):
+                self.d['TEST-DEC-001'][field]=True
+                self.assertEqual(self.g.reserve(self.e,NOW)['reason'],'decision_version_mismatch')
+                self.d['TEST-DEC-001'][field]=1
+        for field in ('generation','issue'):
+            with self.subTest(field=field):
+                original=self.d['TEST-DEC-001']['identity'][field]
+                self.d['TEST-DEC-001']['identity'][field]=True
+                self.assertEqual(self.g.reserve(self.e,NOW)['reason'],'identity_mismatch')
+                self.d['TEST-DEC-001']['identity'][field]=original
+
+    def test_qa05_a02_corrupt_counters_after_reserve(self):
+        for field,sql_value in (('used',1.5),('cap',1.5),('used','bogus'),('cap','bogus'),
+                                ('used',None),('cap',None),('killed',None),('killed',1.5),
+                                ('used',-1),('cap',-1),('used',9)):
+            with self.subTest(field=field,value=repr(sql_value)):
+                with tempfile.TemporaryDirectory() as t:
+                    gate=LocalGate(Path(t)/'db.sqlite',FakeAuthority(self.d))
+                    reserved=gate.reserve(self.e,NOW)
+                    self.assertEqual(reserved['state'],'reserved')
+                    with gate.connect() as db:
+                        db.execute('UPDATE control SET '+field+'=? WHERE id=1',(sql_value,))
+                    result=gate.effect(self.e,reserved['fence'],NOW)
+                    self.assertEqual(result['state'],'blocked')
+                    self.assertEqual(result['reason'],'control_denied')
+                    self.assertIs(result['retry'],False)
+                    with gate.connect() as db:
+                        state=db.execute('SELECT state FROM jobs WHERE k=?',(reserved['key'],)).fetchone()
+                    self.assertEqual(state,('uncertain',))
+
 if __name__=='__main__':unittest.main()
