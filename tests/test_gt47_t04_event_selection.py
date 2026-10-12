@@ -8,29 +8,33 @@ class EventSelectionTests(unittest.TestCase):
         return {"id": eid, "body": "evidence only", "html_url": PREFIX + str(eid)}
 
     def test_valid_comment(self):
-        self.assertEqual(select_issue_events([self.event()])[0]["id"], "12")
+        self.assertEqual(select_issue_events([self.event()], complete=True)[0]["id"], "12")
 
     def test_duplicate_rejected(self):
         with self.assertRaises(ContextRejected):
-            select_issue_events([self.event(), self.event()])
+            select_issue_events([self.event(), self.event()], complete=True)
 
     def test_spoofed_url_rejected(self):
         record = self.event()
         record["html_url"] += "9"
         with self.assertRaises(ContextRejected):
-            select_issue_events([record])
+            select_issue_events([record], complete=True)
 
     def test_partial_page_rejected(self):
         with self.assertRaises(ContextRejected):
-            select_issue_events([self.event()], limit=0)
+            select_issue_events([self.event()], limit=0, complete=True)
 
     def test_limit_rejected(self):
         with self.assertRaises(ContextRejected):
-            select_issue_events([self.event(10), self.event(11)], limit=1)
+            select_issue_events([self.event(10), self.event(11)], limit=1, complete=True)
+
+    def test_unconfirmed_pagination_rejected(self):
+        with self.assertRaises(ContextRejected):
+            select_issue_events([self.event()])
 
     def test_boolean_id_rejected(self):
         with self.assertRaises(ContextRejected):
-            select_issue_events([self.event(True)])
+            select_issue_events([self.event(True)], complete=True)
 
 
 if __name__ == "__main__":
