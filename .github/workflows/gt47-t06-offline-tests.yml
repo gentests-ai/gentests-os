@@ -41,11 +41,43 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_gt47_t06_*.py' -v
   recovery-rehearsal:
     if: github.event_name == 'workflow_dispatch' && inputs.enable_test_writes == true
+    concurrency:
+      group: gt47-recovery-${{ inputs.trial }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: write
-    uses: ./.github/workflows/gt47-groq-recovery-rehearsal.yml
-    with:
-      enable_test_writes: ${{ inputs.enable_test_writes }}
-      trial: ${{ inputs.trial }}
-      phase: ${{ inputs.phase }}
-      hold_seconds: ${{ inputs.hold_seconds }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: c6ffa661be39a793bcdd43ab226fd4770453cba7 # QA-reviewed controller; no merge needed
+          persist-credentials: false
+      - name: Isolated branch rehearsal, fixed synthetic provider
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRIAL: ${{ inputs.trial }}
+          PHASE: ${{ inputs.phase }}
+          HOLD_SECONDS: ${{ inputs.hold_seconds }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          test "$HOLD_SECONDS" = 0 || test "$HOLD_SECONDS" = 660
+          if [ "$HOLD_SECONDS" = 660 ]; then test "$PHASE" = seed; fi
+          commit=$(git rev-parse HEAD)
+          if [ "$PHASE" = interrupt ]; then
+            set +e
+            timeout --signal=TERM 30s python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase interrupt --allow-test-writes
+            outcome=$?
+            set -e
+            test "$outcome" = 124
+            set +e
+            python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase inspect --allow-test-writes > "$RUNNER_TEMP/recovery.json"
+            inspected=$?
+            set -e
+            test "$inspected" = 2
+            python3 -c 'import json,os; r=json.load(open(os.environ["RUNNER_TEMP"]+"/recovery.json")); assert r["status"]=="manual_reconciliation_required" and r["synthetic_submissions"]==1 and r["inference_calls"]==0'
+          else
+            python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase "$PHASE" --allow-test-writes
+            if [ "$HOLD_SECONDS" = 660 ]; then sleep 660; fi
+          fi
