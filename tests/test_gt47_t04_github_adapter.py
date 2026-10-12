@@ -89,6 +89,30 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(provenance["first_id"], 7)
         self.assertTrue(provenance["complete"])
 
+    def test_empty_comment_rejected(self):
+        def get(url, params):
+            return [{"id": 5, "body": "  ", "html_url":
+                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-5"}]
+        with self.assertRaises(ContextRejected):
+            fetch_issue_comments(get)
+
+    def test_insertion_between_pages_rejected_when_overlap(self):
+        def get(url, params):
+            if params["page"] == 1:
+                return [{"id": 10, "body": "before", "html_url":
+                         "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-10"}]
+            return [{"id": 10, "body": "shifted", "html_url":
+                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-10"}]
+        with self.assertRaises(ContextRejected):
+            fetch_issue_comments(get)
+
+    def test_incomplete_page_stream_rejected(self):
+        def get(url, params):
+            return [{"id": params["page"], "body": "data", "html_url":
+                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(params["page"])}]
+        with self.assertRaises(ContextRejected):
+            fetch_issue_comments(get)
+
     def test_comments_malformed(self):
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(lambda url, params: {"error": "not found"})
