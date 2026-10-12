@@ -1,1 +1,2 @@
 Missão #47: avaliar a passagem Engenharia -> QA após checks locais. O piloto usa Groq gpt-oss-120b, reserva 4.000 tokens antes de cada chamada, limita 40 chamadas/160.000 tokens por janela móvel de 24h, aguarda 5 minutos e bloqueia replay por SHA/papel/contexto. Proponha melhorias e riscos; não executar mudanças, aprovar, fazer merge ou deploy. Aceite: recomendações delimitadas para revisão humana, sem alegar execução de correções.
+tste
