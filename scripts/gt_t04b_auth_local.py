@@ -6,6 +6,7 @@ are ephemeral synthetic fixtures. No network, IAM, secrets, or cloud APIs.
 import base64
 import hashlib
 import json
+import re
 import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -16,6 +17,9 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ed25519, padding
 
 DOMAIN = b'GT-T04B-AUTH-v1\x00'
+ALLOWED_OFFLINE_SCOPES = frozenset({'synthetic-only'})
+EVENT_FIELDS = ('mission', 'stage', 'generation', 'corpus_sha', 'scope', 'repository_id')
+DECIMAL_ID = re.compile(r'(?:0|[1-9][0-9]*)\Z', re.ASCII)
 FIELDS = {'contract_version', 'decision_id', 'operation_type', 'issuer_key_id',
           'issuer_human_id', 'repository_id', 'issue', 'mission', 'stage',
           'generation', 'corpus_sha', 'approved_workflow_sha', 'approved_gateway_sha',
@@ -61,7 +65,9 @@ def validated_decision(d, now):
         return False
     if d['contract_version'] != 1 or d['max_calls'] != 1 or d['max_incremental_cost_brl'] != 0 or d['revocation_epoch'] < 0 or d['repository_id'] <= 0 or d['issue'] <= 0 or d['generation'] <= 0 or d['max_tokens'] <= 0 or d['max_units'] <= 0:
         return False
-    if d['synthetic_only'] is not True or d['no_paid_fallback'] is not True or d['operation_type'] not in ('authorize','revoke'):
+    if (d['synthetic_only'] is not True or d['no_paid_fallback'] is not True
+            or d['operation_type'] not in ('authorize','revoke')
+            or d['scope'] not in ALLOWED_OFFLINE_SCOPES):
         return False
     for field in FIELDS - {'contract_version','repository_id','issue','generation','not_before','expires_at','max_calls','max_tokens','max_units','max_incremental_cost_brl','revocation_epoch','synthetic_only','no_paid_fallback'}:
         if type(d[field]) is not str or not d[field] or any(ord(c) > 127 for c in d[field]):
@@ -99,6 +105,8 @@ class OfflineGateway:
         self.repo_id, self.actor_id = repo_id, actor_id
         self.auth_ref, self.auth_sha = auth_workflow_ref, auth_workflow_sha
         self.invoke_ref, self.invoke_sha = invoke_workflow_ref, invoke_workflow_sha
+        # Repository identity is pinned from the approved workflow reference.
+        self.expected_sub = 'repo:' + invoke_workflow_ref.split('/.github/workflows/', 1)[0] + ':ref:refs/heads/main'
         self.gateway_sha = gateway_sha
         self.oidc_public_key_pem = oidc_public_key_pem
         with self.db() as db:
@@ -129,7 +137,9 @@ class OfflineGateway:
                 and claims.get('ref') == 'refs/heads/main' and claims.get('event_name') == 'workflow_dispatch'
                 and type(claims.get('actor_id')) is str
                 and (route != 'authorize' or claims.get('actor_id') == str(self.actor_id))
-                and all(type(claims.get(k)) is str and claims[k] for k in ('run_id','run_attempt','sub'))
+                and claims.get('sub') == self.expected_sub
+                and all(type(claims.get(k)) is str and claims[k] for k in ('run_id','run_attempt'))
+                and all(DECIMAL_ID.fullmatch(claims[k]) for k in ('run_id','run_attempt'))
                 and type(claims.get('exp')) is int and claims['exp'] > now)
 
     def authorize(self, decision, signature, jwt, now):
@@ -179,9 +189,21 @@ class OfflineGateway:
             if not validated_decision(decision,now):
                 return {'state':'blocked','reason':'expired','retry':False}
             expected = {k:decision[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
-            if event != expected:
+            if (set(event) != set(expected)
+                    or any(type(event[k]) is not type(expected[k]) or event[k] != expected[k]
+                           for k in expected)
+                    or decision['scope'] not in ALLOWED_OFFLINE_SCOPES):
                 return {'state':'blocked','reason':'scope','retry':False}
-            runkey = '|'.join((claims['run_id'],claims['run_attempt']))
+            # An OIDC-signed synthetic token is explicitly bound to this decision;
+            # a valid token for decision A cannot reserve decision B.
+            context = {'decision_id': decision_id, 'issue': str(decision['issue']),
+                       'approved_resource': decision['approved_resource'],
+                       'mission': decision['mission'], 'stage': decision['stage'],
+                       'generation': str(decision['generation']),
+                       'corpus_sha': decision['corpus_sha']}
+            if any(type(claims.get(k)) is not str or claims[k] != v for k,v in context.items()):
+                return {'state':'blocked','reason':'jwt_context','retry':False}
+            runkey = canonical([claims['run_id'],claims['run_attempt']]).decode('ascii')
             if db.execute('SELECT 1 FROM runs WHERE runkey=?',(runkey,)).fetchone():
                 return {'state':'blocked','reason':'replay_run','retry':False}
             db.execute('INSERT INTO runs VALUES(?)',(runkey,))
