@@ -154,6 +154,9 @@ def main():
     args=p.parse_args()
     try:
         request=json.loads(args.fixture.read_text(encoding='utf-8'))
+        if type(request) is not dict:
+            print(encoded({'state':'blocked','reason':'invalid_fields','retry':False}))
+            return 2
         result=execute(args.db,request,fail_at=args.fail_at)
         print(encoded({'execution':result,'evidence':evidence(args.db,request.get('run_id',''))}))
         return 0 if result['state']=='done' else 2
