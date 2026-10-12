@@ -9,6 +9,7 @@ import hashlib
 import json
 import re
 from typing import Mapping
+from scripts.gt47_t04_blob_verify import require_blob_sha
 
 AGENT_IDS = frozenset({
     "AGT-ORQ", "AGT-PROD", "AGT-UXUI", "AGT-ENG", "AGT-INFRA",
@@ -57,6 +58,10 @@ def build_envelope(
     if not re.search(r"(?m)^id:\s*" + re.escape(agent_id) + r"\s*$", contract_text):
         raise ContextRejected("contract ID mismatch")
     _sha(contract_blob_sha, "contract sha")
+    try:
+        require_blob_sha(contract_text, contract_blob_sha)
+    except ValueError as exc:
+        raise ContextRejected("contract blob integrity mismatch") from exc
     if type(policy_sources) is not dict or set(policy_sources) != {"SEC-AI-001", "POL-003", "GT-HANDOFF-001"}:
         raise ContextRejected("missing policy sources")
     policies = []
@@ -64,6 +69,10 @@ def build_envelope(
         source = policy_sources[key]
         if type(source) is not dict or set(source) != {"path", "sha", "text"}:
             raise ContextRejected("invalid policy source")
+        try:
+            require_blob_sha(source["text"], source["sha"])
+        except ValueError as exc:
+            raise ContextRejected("policy blob integrity mismatch") from exc
         policies.append({"id": key, "path": _text(source["path"], "policy path"),
                          "sha": _sha(source["sha"], "policy sha"),
                          "text": _text(source["text"], "policy text")})
