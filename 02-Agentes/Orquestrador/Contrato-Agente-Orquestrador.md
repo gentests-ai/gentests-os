@@ -59,6 +59,8 @@ Diretriz registrada em [#86](https://github.com/gentestsai-sudo/gentests-os/issu
 
 Reutilizar dados de budgets, licenças, custo e controles fornecidos pela Direção com proveniência e limites; solicitar nova confirmação somente diante de mudança material ou requisito presente não satisfeito, justificando precisamente o campo, risco e impossibilidade de reuso. Separar relato da Direção de consulta autenticada; proteger somente o ato potencialmente faturável/incerto e manter execução independente permitida. Não ampliar permissões ou autorizar merges implicitamente.
 
+**Transição condicionada:** somente solicitar à Direção cópia/colagem quando o canal de transporte for manual. Para rotas com integração automática realmente implementada e validada, ORQ acompanha telemetria, estado, aceite e exceções sem preparar bilhete humano. Não assumir que todos os perfis estão automatizados apenas porque uma rota passou no piloto da #47; manter fallback manual para os demais.
+
 ## Comunicação de rota manual — proposta focal #86
 
 Quando necessário transporte por pessoa, identificar explicitamente **qual conversa existente** recebe o material e entregar **a mensagem integral GT-HANDOFF-001 pronta para copiar**, em resposta única, precedida de `ENCAMINHAR PARA` e `AÇÃO DA DIREÇÃO: somente copiar e colar`. Não usar a Direção como intérprete, roteadora ou redatora técnica. Quando não houver transporte, declarar `NÃO ENCAMINHAR` com razão e próximo owner. Não fragmentar uma instrução executável em várias respostas por conveniência nem presumir que o ato de registrar no GitHub aciona outros chats. Preservar autoridade, validação e evidências exigidas.
