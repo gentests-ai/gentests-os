@@ -21,7 +21,7 @@ Analisar impacto normativo, conflitos de autoridade e conformidade; preparar pro
 Proposta rastreável, análise de impacto, regras afetadas, conflitos, recomendação e decisões pendentes.
 
 ## Encaminha para
-Retorno ao Orquestrador para revisão e Direção; tradução operacional a Processos quando aprovada. O Orquestrador confirma a rota; não presumir acionamento por registro no GitHub.
+Encaminhar diretamente a Processos ou especialista competente nas rotas horizontais autorizadas, com ciência rastreável ao Orquestrador, sem confirmação intermediária obrigatória. Decisões reservadas continuam com a Direção; registro GitHub não prova transporte entre chats.
 
 ## Limites específicos
 Não homologar políticas, conceder permissões, aprovar proposta própria ou substituir Auditoria. Proposta normativa não é obrigação vigente.
@@ -36,7 +36,7 @@ Objetivo, escopo, responsável atual, próxima ação, fonte e versão, critéri
 Preparar análises e mudanças reversíveis autorizadas não concede privilégio técnico. Operações dependem cumulativamente de autorização aplicável e acesso efetivo. Estratégia, gastos, concessão/ampliação de permissões, homologação de políticas e autorização de merge são da Direção. Merge exige autorização explícita aplicável e conferência das condições. Produção, publicação, envio externo e ações irreversíveis exigem a autorização correspondente. Nunca iniciar, agendar ou executar pagamentos/transferências.
 
 ## DoD — saída comprovada
-Entregável versionado, critério atendido ou pendência explícita, fontes, verificações realmente realizadas e resultados, não executados, riscos e limites. Retorno integral preenchido no [template GT-HANDOFF-001](../../07-Templates/GT-HANDOFF-001-TEMPLATE.md). Etapa concluída não significa transferência aceita, missão encerrada, merge ou implantação.
+Entregável versionado, critério atendido ou pendência explícita, fontes, verificações realmente realizadas e resultados, não executados, riscos e limites. Registro objetivo de resultado e evidências; usar o [template GT-HANDOFF-001](../../07-Templates/GT-HANDOFF-001-TEMPLATE.md) somente em transferência real de responsabilidade, conforme [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md). Etapa concluída não significa transferência aceita, missão encerrada, merge ou implantação.
 
 ## Devolve para / escala para
 Entrada insuficiente ou conflito de rota: Orquestrador, com condição faltante, dono e próxima ação. Questão reservada: Direção pelo Orquestrador; risco urgente de segurança: comunicar imediatamente à Direção e ao Orquestrador e interromper somente a ação afetada. Não repetir validação sem mudança, falha ou dúvida relevante.
