@@ -37,6 +37,11 @@ class AuthContractTests(unittest.TestCase):
          actor_id='456',workflow_ref=self.g.auth_ref if route=='authorize' else self.g.invoke_ref,
          workflow_sha=self.g.auth_sha if route=='authorize' else self.g.invoke_sha,
          ref='refs/heads/main',event_name='workflow_dispatch',run_id='101',run_attempt='1',sub='repo:owner/repo:ref:refs/heads/main')
+        if route == 'invoke':
+            payload.update(decision_id=self.d['decision_id'],issue=str(self.d['issue']),
+                approved_resource=self.d['approved_resource'],mission=self.d['mission'],
+                stage=self.d['stage'],generation=str(self.d['generation']),
+                corpus_sha=self.d['corpus_sha'])
         payload.update(changes)
         h=compact(json.dumps({'alg':'RS256','typ':'JWT'}).encode()); p=compact(json.dumps(payload).encode()); data=(h+'.'+p).encode()
         sig=compact(self.rsa.sign(data,padding.PKCS1v15(),hashes.SHA256()))
@@ -118,5 +123,72 @@ class AuthContractTests(unittest.TestCase):
     def test_kill_switch(self):
         with self.g.db() as db: db.execute('UPDATE control SET killed=1 WHERE id=1')
         self.assertEqual(self.authorize()['reason'],'kill_switch')
+
+
+    def test_qa09_a01_generation_bool_and_type_mismatch(self):
+        self.authorize()
+        expected={k:self.d[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
+        for change in (True,1.0,'1',None):
+            with self.subTest(value=change):
+                event={**expected,'generation':change}
+                r=self.g.invoke('test-1',event,self.jwt('invoke'),NOW)
+                self.assertEqual(r['state'],'blocked')
+                self.assertIs(r['retry'],False)
+        self.assertEqual(self.g.invoke('test-1',expected,self.jwt('invoke'),NOW)['state'],'reserved_offline')
+
+    def test_qa09_a01_missing_or_extra_event_keys(self):
+        self.authorize()
+        event={k:self.d[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
+        for sample in ({k:v for k,v in event.items() if k!='stage'}, {**event,'extra':'x'},
+                       {**event,'repository_id':True}, {**event,'scope':None}):
+            with self.subTest(event=sample):
+                self.assertEqual(self.g.invoke('test-1',sample,self.jwt('invoke'),NOW)['state'],'blocked')
+
+    def test_qa09_a02_disallowed_signed_decisions(self):
+        for forbidden in ('merge','publish','contents:write','synthetic-only;merge',''):
+            with self.subTest(scope=forbidden):
+                d={**self.d,'scope':forbidden}
+                r=self.g.authorize(d,self.signature(d),self.jwt(),NOW)
+                self.assertEqual(r['state'],'blocked')
+                self.assertEqual(r['reason'],'signature_or_schema')
+
+    def test_qa09_a03_invoke_jwt_decision_context_mismatch(self):
+        self.authorize()
+        event={k:self.d[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
+        for change in ({'decision_id':'another'}, {'issue':'48'}, {'approved_resource':'another-worker'},
+                       {'mission':'unrelated'}, {'generation':'2'}, {'corpus_sha':'b'*40},
+                       {'stage':'T05'}, {'decision_id':None}):
+            with self.subTest(change=change):
+                r=self.g.invoke('test-1',event,self.jwt('invoke',**change),NOW)
+                self.assertEqual(r['state'],'blocked')
+                self.assertEqual(r['reason'],'jwt_context')
+        self.assertEqual(self.g.invoke('test-1',event,self.jwt('invoke'),NOW)['state'],'reserved_offline')
+
+    def test_qa09_a03_subject_and_repo_rejected(self):
+        self.authorize()
+        event={k:self.d[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
+        for changes in ({'sub':'repo:another/repo:ref:refs/heads/main'},
+                        {'sub':'repo:owner/repo:ref:refs/heads/other'},
+                        {'repository_id':'999'}):
+            with self.subTest(claims=changes):
+                self.assertEqual(self.g.invoke('test-1',event,self.jwt('invoke',**changes),NOW)['reason'],'oidc')
+
+    def test_qa09_a04_run_fields_canonical_and_no_delimiter_collision(self):
+        self.authorize()
+        event={k:self.d[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
+        for claims in ({'run_id':'1|2','run_attempt':'3'}, {'run_id':'1','run_attempt':'2|3'},
+                       {'run_id':'01'}, {'run_attempt':'0x2'}, {'run_attempt':''}):
+            with self.subTest(claims=claims):
+                self.assertEqual(self.g.invoke('test-1',event,self.jwt('invoke',**claims),NOW)['reason'],'oidc')
+        self.assertEqual(self.g.invoke('test-1',event,self.jwt('invoke',run_id='12',run_attempt='3'),NOW)['state'],'reserved_offline')
+
+    def test_qa09_a03_other_authorized_decision_cannot_reuse_token(self):
+        self.authorize()
+        d2={**self.d,'decision_id':'test-2','nonce':'n2','issue':48,'approved_resource':'synthetic-worker-B'}
+        self.assertEqual(self.g.authorize(d2,self.signature(d2),self.jwt(),NOW)['state'],'recorded')
+        ev2={k:d2[k] for k in ('mission','stage','generation','corpus_sha','scope','repository_id')}
+        self.assertEqual(self.g.invoke('test-2',ev2,self.jwt('invoke'),NOW)['reason'],'jwt_context')
+        claims=dict(decision_id='test-2',issue='48',approved_resource='synthetic-worker-B')
+        self.assertEqual(self.g.invoke('test-2',ev2,self.jwt('invoke',**claims),NOW)['state'],'reserved_offline')
 
 if __name__ == '__main__': unittest.main()
