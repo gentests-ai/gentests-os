@@ -107,3 +107,19 @@ missao: GT-GOV-CHANGE-001
 **Regra horizontal:** remetente e destinatário seguem diretamente conforme autoridade vigente; ORQ acompanha pareceres pela issue e intervém por exceção. Novo despacho do ORQ é exigido apenas quando ele assume efetivamente o encaminhamento. **Exceção justificada:** quando não houver próxima especialidade, a mensagem integral pode limitar-se à prestação de contas/endereço Orquestrador, explicitando por que não há despacho operacional seguinte. Na fase manual, Direção só transporta o texto, não redige nem escolhe destino.
 
 **Referências:** [[03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001]] · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55).
+
+## Modelo enxuto de transferência operacional — proposta #53
+
+Para rotas simples já autorizadas, preferir **uma mensagem única**, sem preencher todos os campos do modelo extensivo. O formato abaixo substitui a obrigatoriedade operacional de reproduzir o formulário completo; utilizar campos adicionais apenas por risco ou gate aplicável. Até homologação, esta é proposta de simplificação, não dispensa de controle vigente.
+
+```markdown
+**Destino:** [agente competente] | **Missão:** [issue canônica]
+**Objetivo e ação:** [entrega concreta solicitada]
+**Autorização vigente:** [referência, escopo e limites]
+**Evidências:** [PR/SHA/testes e ressalvas pertinentes]
+**Responsável e próximo passo:** [dono, critério de aceite]
+**Transporte/aceite:** [comprovado com evidência ou pendente; nunca presumido]
+**Risco/gate:** [bloqueio material ou nenhum identificado]
+```
+
+A ciência do Orquestrador ocorre pelo registro canônico; não requer novo despacho. Ação ordinária já coberta não exige reaprovação. Revisões independentes e operações protegidas mantêm seus gates.
