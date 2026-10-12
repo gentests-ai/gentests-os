@@ -174,6 +174,8 @@ def advance(store, *, now, api_key, enabled, free_plan_confirmed, transport=None
     updated.pop('diagnostic', None)
     updated['engineering' if agent == 'AGT-ENG' else 'qa'] = result
     updated['status'] = 'qa_pending' if agent == 'AGT-ENG' else 'completed'
+    if agent == 'AGT-QA':
+        updated['demand_outcome'] = demand_outcome(updated)
     try:
         stored = store.put('gt47-current.json', updated, version)
     except (ValueError, OSError, KeyError, TypeError):
@@ -245,6 +247,30 @@ def run_once(store, **kwargs):
         return {'status': 'manual_reconciliation_required', 'reason': 'diagnostic_storage_failure'}
     return result
 
+def demand_outcome(value):
+    """Automatic demand decision, separate from code/deploy authorization.
+
+    Historical recommendations remain readable; old records are not rewritten.
+    Adjustments stop this bounded pilot until the return flow is implemented.
+    """
+    if type(value) is not dict or value.get('status') != 'completed':
+        return 'in_progress'
+    for key, agent in [('engineering', 'AGT-ENG'), ('qa', 'AGT-QA')]:
+        entry = value.get(key)
+        if (type(entry) is not dict or entry.get('agent') != agent
+                or entry.get('commit') != value.get('commit')
+                or entry.get('status') != 'advisory_completed'):
+            return 'unverified'
+    review = value['qa'].get('review')
+    if type(review) is not dict:
+        return 'unverified'
+    recommendation = review.get('recommendation')
+    if recommendation == 'needs_changes':
+        return 'adjustments_required'
+    if recommendation in ('ready_for_finalization', 'ready_for_human_review'):
+        return 'finalized'
+    return 'unverified'
+
 def queue_summary(value, result):
     """Render only bounded metadata; model prose never becomes UI authority."""
     value = value if type(value) is dict else {}
@@ -266,7 +292,8 @@ def queue_summary(value, result):
              '| Agente | Parecer salvo | Recomendacao | Tokens consumidos |',
              '| --- | --- | --- | --- |']
     recommendations = {'needs_changes': 'Requer ajustes',
-                       'ready_for_human_review': 'Pronto para revisao humana'}
+                       'ready_for_finalization': 'Favoravel a finalizacao',
+                       'ready_for_human_review': 'Favoravel (registro anterior)'}
     total = 0
     for key, agent in [('engineering', 'Engenharia'), ('qa', 'QA')]:
         entry = value.get(key)
@@ -282,12 +309,15 @@ def queue_summary(value, result):
         recommendation = recommendations.get(review.get('recommendation'), 'Indisponivel') if valid else 'Pendente'
         lines.append('| ' + agent + ' | ' + ('Sim' if valid else 'Nao') + ' | '
                      + recommendation + ' | ' + (str(tokens) if tokens is not None else '—') + ' |')
-    lines += ['', 'Tokens informados nos pareceres: **' + str(total) + '**. Reservas de quota nao sao cobranca.', '',
-              '**Aprovacao humana: pendente.** Parecer de modelo nao aprova merge ou deploy.']
+    outcomes = {'in_progress': 'Em andamento', 'finalized': 'Finalizada automaticamente',
+                'adjustments_required': 'Ajustes necessarios', 'unverified': 'Resultado nao verificado'}
+    lines += ['', '**Demanda: ' + outcomes[demand_outcome(value)] + '.**', '',
+              'Tokens informados nos pareceres: **' + str(total) + '**. Reservas de quota nao sao cobranca.', '',
+              'Finalizacao da demanda nao concede permissao para executar codigo, merge ou deploy.']
     if result.get('status') == 'manual_reconciliation_required':
         lines += ['', 'Proximo passo: pausar e reconciliar; nao reenviar chamadas incertas.']
     elif value.get('status') == 'completed':
-        lines += ['', 'Proximo passo: pausar o piloto e revisar os pareceres.']
+        lines += ['', 'Proximo passo: pausar o piloto limitado. Ajustes, quando solicitados, aguardam o fluxo de retorno entre agentes.']
     elif value.get('status') == 'qa_pending':
         lines += ['', 'Proximo passo: QA consome Engenharia apos o intervalo minimo de 5 minutos.']
     else:
