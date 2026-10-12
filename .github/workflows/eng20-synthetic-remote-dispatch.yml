@@ -1,0 +1,62 @@
+# GT-AI-DISPATCH-001 / ENG-REMOTE-01
+# PREPARED ONLY. Running this workflow requires a separate Direction authorization.
+name: ENG-20 Synthetic Remote Dispatch (manual, gated)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eng20-synthetic-remote
+  cancel-in-progress: false
+
+jobs:
+  two-stage-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read authorized repository snapshot
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Run synthetic ENG-20 dispatcher and verify trace
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m scripts.gt_dispatch_two_stage_offline \
+            --fixture tests/fixture_eng20.json \
+            --db "${RUNNER_TEMP}/eng20-synthetic.sqlite" \
+            > "${RUNNER_TEMP}/eng20-result.json"
+
+          python3 - "${RUNNER_TEMP}/eng20-result.json" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          result = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+          execution, evidence = result["execution"], result["evidence"]
+          stages = evidence["stages"]
+          if (execution.get("state") != "done"
+                  or execution.get("run_id") != "run-0001"
+                  or execution.get("demand_id") != "SYN-ENG20-001"
+                  or execution.get("stages") != ["AGT-ORQ", "AGT-ENG"]
+                  or evidence.get("request", {}).get("state") != "done"
+                  or len(stages) != 2
+                  or [s.get("contract") for s in stages] != ["AGT-ORQ", "AGT-ENG"]
+                  or [s.get("status") for s in stages] != ["done", "done"]
+                  or stages[0].get("output_hash") != stages[1].get("input_hash")
+                  or not stages[0].get("output_hash")):
+              raise SystemExit("BLOCKED: synthetic two-stage trace failed validation")
+          print(json.dumps({
+              "synthetic": True,
+              "demand_id": execution["demand_id"],
+              "run_id": execution["run_id"],
+              "steps": ["AGT-ORQ:done", "AGT-ENG:done"],
+              "orq_output_hash": stages[0]["output_hash"],
+              "eng_input_hash": stages[1]["input_hash"],
+              "status": "done"
+          }, sort_keys=True))
+          PY
