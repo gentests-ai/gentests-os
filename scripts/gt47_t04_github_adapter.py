@@ -5,6 +5,7 @@ agent actions, dispatches workflows, writes comments, or infers authorization.
 """
 from __future__ import annotations
 import base64
+import binascii
 from scripts.gt47_t04_context_loader import ContextRejected, POLICY_PATHS, build_envelope
 from scripts.gt47_t04_blob_verify import require_blob_sha
 from scripts.gt47_t04_event_selection import select_issue_events
@@ -30,9 +31,9 @@ def fetch_file(get, path: str, commit_sha: str) -> dict:
     if type(result) is not dict or result.get("type") != "file" or result.get("encoding") != "base64":
         raise ContextRejected("unexpected content response")
     try:
-        raw = base64.b64decode(result["content"], validate=False)
+        raw = base64.b64decode(result["content"], validate=True)
         content = raw.decode("utf-8")
-    except (KeyError, TypeError, ValueError, UnicodeError) as exc:
+    except (KeyError, TypeError, ValueError, UnicodeError, binascii.Error) as exc:
         raise ContextRejected("invalid content encoding") from exc
     if result.get("path") != path:
         raise ContextRejected("unexpected file path")
