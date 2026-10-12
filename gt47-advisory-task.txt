@@ -1,0 +1,11 @@
+GTS-47 — piloto Engenharia → QA.
+
+Objetivo: propor três critérios de aceite para a troca de tarefas entre agentes.
+
+Engenharia: apresentar proposta curta considerando persistência, prevenção de duplicatas e recuperação após interrupção.
+
+QA: revisar a proposta recebida, apontar lacunas e recomendar revisão humana.
+
+Escopo: somente pareceres. Sem ferramentas, alterações de código, mensagens externas, merge ou deploy.
+
+Aceite: entrega de Engenharia persistida e consumida pelo QA; ambos vinculados ao mesmo commit; aprovação humana pendente.
