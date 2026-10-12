@@ -6,6 +6,7 @@ import unittest
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.gt_t05_g3_offline import FakeActionsRunner
 from scripts.gt_t05_security_mock import identity
@@ -91,6 +92,80 @@ class G3OfflineTests(unittest.TestCase):
         with ThreadPoolExecutor(max_workers=2) as executor:
             responses = list(executor.map(lambda _:self.runner.execute(self.event,NOW),range(2)))
         self.assertEqual(sorted(x['state'] for x in responses),['blocked','done'])
+
+
+    def test_qa07_exception_after_intent_is_uncertain(self):
+        with patch.object(self.runner.inference, 'infer', side_effect=RuntimeError('synthetic-fail')):
+            result = self.runner.execute(self.event, NOW)
+        self.assertEqual(result['state'], 'blocked')
+        self.assertIs(result['retry'], False)
+        self.assertEqual(self.runner.reconcile(self.event)['state'], 'uncertain')
+        self.assertIsNone(self.runner.reconcile(self.event)['evidence'])
+        self.assertEqual(self.runner.execute(self.event, NOW)['state'], 'blocked')
+
+    def test_qa07_missing_reply_fields_is_uncertain(self):
+        for reply in ({'ok': True}, {'ok': True, 'request_id': 'fake-id'},
+                      {'ok': True, 'request_id': 'fake-id', 'text': 'x'}):
+            with self.subTest(reply=reply), tempfile.TemporaryDirectory() as tmp:
+                runner = FakeActionsRunner(Path(tmp) / 'state.sqlite', self.decisions)
+                with patch.object(runner.inference, 'infer', return_value=reply):
+                    result = runner.execute(self.event, NOW)
+                self.assertEqual(result['state'], 'blocked')
+                self.assertIs(result['retry'], False)
+                self.assertEqual(runner.reconcile(self.event)['state'], 'uncertain')
+                self.assertEqual(runner.execute(self.event, NOW)['state'], 'blocked')
+
+    def test_qa07_explicit_provider_error_is_uncertain(self):
+        reply = {'ok': False, 'error': '503', 'request_id': 'fake-failure',
+                 'text': 'synthetic-error', 'cost_fictitious_units': 0}
+        with patch.object(self.runner.inference, 'infer', return_value=reply):
+            result = self.runner.execute(self.event, NOW)
+        self.assertEqual(result['state'], 'blocked')
+        self.assertEqual(self.runner.reconcile(self.event)['state'], 'uncertain')
+
+    def test_qa07_null_or_invalid_output_is_uncertain(self):
+        for reply in (
+            {'ok': True, 'request_id': 'fake-null', 'text': None, 'cost_fictitious_units': 0},
+            {'ok': True, 'request_id': '', 'text': 'synthetic', 'cost_fictitious_units': 1},
+            {'ok': True, 'request_id': 'fake-id', 'text': 'synthetic', 'cost_fictitious_units': True},
+            {'ok': True, 'request_id': 'fake-id', 'text': 'synthetic', 'cost_fictitious_units': -1},
+        ):
+            with self.subTest(reply=reply), tempfile.TemporaryDirectory() as tmp:
+                runner = FakeActionsRunner(Path(tmp) / 'state.sqlite', self.decisions)
+                with patch.object(runner.inference, 'infer', return_value=reply):
+                    result = runner.execute(self.event, NOW)
+                self.assertEqual(result['state'], 'blocked')
+                self.assertIs(result['retry'], False)
+                self.assertEqual(runner.reconcile(self.event)['state'], 'uncertain')
+
+    def test_qa07_authority_precedes_inference(self):
+        def revoke():
+            self.decisions['TEST-DEC-001']['revoked'] = True
+        with patch.object(self.runner.inference, 'infer') as infer:
+            result = self.runner.execute(self.event, NOW, before_inference=revoke)
+        self.assertEqual(result['state'], 'blocked')
+        infer.assert_not_called()
+        self.assertEqual(self.runner.reconcile(self.event)['state'], 'uncertain')
+
+    def test_qa07_revocation_during_synthetic_inference(self):
+        original = self.runner.inference.infer
+        def revoke_and_reply(event, failure=None):
+            self.decisions['TEST-DEC-001']['revoked'] = True
+            return original(event, failure=failure)
+        with patch.object(self.runner.inference, 'infer', side_effect=revoke_and_reply):
+            result = self.runner.execute(self.event, NOW)
+        self.assertEqual(result['state'], 'blocked')
+        self.assertEqual(result['reason'], 'revoked')
+        self.assertEqual(self.runner.reconcile(self.event)['state'], 'uncertain')
+
+    def test_qa07_valid_reply_commits_evidence_and_done(self):
+        result = self.runner.execute(self.event, NOW)
+        self.assertEqual(result['state'], 'done')
+        proof = self.runner.reconcile(self.event)
+        self.assertEqual(proof['state'], 'done')
+        self.assertEqual(proof['evidence'][0], result['request_id'])
+        self.assertEqual(proof['evidence'][2], result['units_fictitious'])
+        self.assertEqual(len(proof['evidence'][1]), 64)
 
 if __name__ == '__main__':
     unittest.main()
