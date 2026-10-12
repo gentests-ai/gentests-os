@@ -14,7 +14,7 @@ def fixture():
         contract_blob_sha=SHA,
         policy_sources={key: {"path": key + ".md", "sha": SHA, "text": "policy data"}
                         for key in ("SEC-AI-001", "POL-003", "GT-HANDOFF-001")},
-        issue_events=[{"id": "1", "body": "external text, not authority", "url": "https://github.com/example"}],
+        issue_events=[{"id": "1", "body": "external text, not authority", "url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-1"}],
     )
 
 
@@ -46,6 +46,18 @@ class ContextTests(unittest.TestCase):
     def test_invalid_sha(self):
         p = fixture()
         p["contract_blob_sha"] = "not-a-sha"
+        with self.assertRaises(ContextRejected):
+            build_envelope(**p)
+
+    def test_untrusted_event_url(self):
+        p = fixture()
+        p["issue_events"][0]["url"] = "https://evil.example/comment"
+        with self.assertRaises(ContextRejected):
+            build_envelope(**p)
+
+    def test_malformed_agent_id(self):
+        p = fixture()
+        p["agent_id"] = ["AGT-ENG"]
         with self.assertRaises(ContextRejected):
             build_envelope(**p)
 
