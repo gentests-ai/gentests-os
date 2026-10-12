@@ -29,8 +29,8 @@ class CloudflareMockTests(unittest.TestCase):
         k = key(self.event)
         self.assertEqual(store.reserve(k, NOW)["fence"], 1)
         self.assertEqual(store.reserve(k, NOW)["reason"], "lease_held")
-        self.assertEqual(store.complete(k, 0, "bad")["reason"], "stale_fence")
-        self.assertEqual(store.complete(k, 1, "synthetic")["state"], "done")
+        self.assertEqual(store.complete(k, 0, "bad", NOW)["reason"], "stale_fence")
+        self.assertEqual(store.complete(k, 1, "synthetic", NOW)["state"], "done")
 
     def test_expired_lease_requires_reconciliation(self):
         store = FakeDurableObject(self.db)
@@ -38,7 +38,7 @@ class CloudflareMockTests(unittest.TestCase):
         store.reserve(k, NOW)
         self.assertEqual(store.reserve(k, NOW + timedelta(seconds=31))["reason"],
                          "expired_lease_requires_reconciliation")
-        self.assertEqual(store.complete(k, 1, "late")["reason"], "stale_fence")
+        self.assertEqual(store.complete(k, 1, "late", NOW)["reason"], "stale_fence")
 
     def test_timeout_and_failure_blocks_no_retry(self):
         for code in ("401", "429", "500", "503", "timeout"):
@@ -77,7 +77,7 @@ class CloudflareMockTests(unittest.TestCase):
         store = FakeDurableObject(self.db)
         k = key(self.event)
         store.reserve(k, NOW)
-        store.complete(k, 1, "synthetic")
+        store.complete(k, 1, "synthetic", NOW)
         with sqlite3.connect(self.db) as db:
             db.execute("UPDATE runs SET result_hash=NULL WHERE k=?", (k,))
         self.assertEqual(store.reserve(k, NOW)["reason"], "reconciliation_required")
@@ -98,6 +98,57 @@ class CloudflareMockTests(unittest.TestCase):
         for value in (True, -1, "1"):
             with self.subTest(value=value):
                 self.assertEqual(self.pipe.execute(self.event, NOW, spent=value)["state"], "blocked")
+
+    def test_complete_lease_temporal_boundaries(self):
+        for offset, expected in ((-1, "done"), (0, "blocked"), (1, "blocked")):
+            with self.subTest(offset=offset), tempfile.TemporaryDirectory() as t:
+                store = FakeDurableObject(Path(t) / "lease.sqlite")
+                k = key(self.event)
+                store.reserve(k, NOW)
+                result = store.complete(k, 1, "synthetic", NOW + timedelta(seconds=30 + offset))
+                self.assertEqual(result["state"], expected)
+                if expected == "blocked":
+                    self.assertEqual(result["reason"], "lease_requires_reconciliation")
+                    self.assertEqual(store.status(k)[0], "uncertain")
+
+    def test_corrupt_or_missing_deadline_blocks_completion(self):
+        for deadline in (None, "", "invalid", "2026-10-11T20:00:30"):
+            with self.subTest(deadline=deadline), tempfile.TemporaryDirectory() as t:
+                store = FakeDurableObject(Path(t) / "lease.sqlite")
+                k = key(self.event)
+                store.reserve(k, NOW)
+                with sqlite3.connect(store.path) as db:
+                    db.execute("UPDATE runs SET until=? WHERE k=?", (deadline, k))
+                result = store.complete(k, 1, "synthetic", NOW)
+                self.assertEqual(result["reason"], "lease_requires_reconciliation")
+                self.assertEqual(store.status(k)[0], "uncertain")
+
+    def test_complete_stale_fence_and_invalid_clock(self):
+        store = FakeDurableObject(self.db)
+        k = key(self.event)
+        store.reserve(k, NOW)
+        self.assertEqual(store.complete(k, 0, "x", NOW)["reason"], "stale_fence")
+        self.assertEqual(store.complete(k, 1, "x", NOW.replace(tzinfo=None))["reason"],
+                         "invalid_completion")
+        self.assertEqual(store.complete(k, 1, "x", NOW)["state"], "done")
+
+    def test_unknown_failures_never_succeed(self):
+        for failure in ("403", "418", "502", "504", 401, [], {}, True):
+            with self.subTest(failure=repr(failure)), tempfile.TemporaryDirectory() as t:
+                self.assertIs(FakeWorkersAI().infer(self.event, failure)["ok"], False)
+                pipeline = MockPipeline(Path(t) / "state.sqlite")
+                result = pipeline.execute(self.event, NOW, failure=failure)
+                self.assertEqual(result["state"], "blocked")
+                self.assertEqual(result["reason"], "provider_unexpected_failure")
+                self.assertIs(result["retry"], False)
+                self.assertEqual(pipeline.store.status(key(self.event))[0], "uncertain")
+
+    def test_known_errors_still_fail_closed(self):
+        for failure in ("401", "429", "500", "503", "timeout"):
+            with self.subTest(failure=failure):
+                result = FakeWorkersAI().infer(self.event, failure)
+                self.assertIs(result["ok"], False)
+                self.assertEqual(result["effect"], "unknown" if failure == "timeout" else "none")
 
 
 if __name__ == "__main__":
