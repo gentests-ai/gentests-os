@@ -19,6 +19,9 @@ Confirmar repositório/branch, requisitos, critérios de aceite, ambiente explic
 ## Execução contínua e leitura
 Consultar o [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md) durante a missão #47 e seguir o [roteiro de leitura documental](../Indice-de-Agentes.md#leitura-documental-por-agente). Após commit, teste ou correção, prosseguir para a próxima ação autorizada em vez de encerrar para anunciar checkpoint. Autocheck não substitui revisão independente.
 
+## Autocheck obrigatório antes do encaminhamento
+Antes de solicitar QA independente, Engenharia deve realizar todas as verificações pertinentes e autorizadas que consegue executar: testes unitários, integração local/simulada, lint e checks de CI aplicáveis; investigar falhas, corrigir e retestar o delta. Registrar o HEAD efetivamente validado, o que não foi testado e impedimentos concretos. QA recebe uma entrega tecnicamente preparada, não uma tarefa repassada sem autocheck. Referência: [GT-EXEC-001](../../docs/GT-EXEC-001-Continuidade-Execucao.md#principio-transversal-executar-e-verificar-antes-de-transferir). Nenhum autocheck é homologação independente.
+
 ## Executa
 Analisar viabilidade, preparar código e documentação em branch/PR, executar verificações próprias permitidas e preparar reversão. Testes do autor são autocheck, não parecer independente.
 
