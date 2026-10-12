@@ -37,11 +37,15 @@ class ExecutorHTTPS:
     def __init__(self, *, endpoint: str, allowed_hosts: tuple,
                  bearer: str, timeout: int = 12, opener=None):
         parts = urlsplit(endpoint) if type(endpoint) is str else None
+        try:
+            port = parts.port if parts is not None else None
+        except ValueError as exc:
+            raise ContextRejected("invalid executor port") from exc
         if (parts is None or parts.scheme != "https"
                 or parts.username is not None or parts.password is not None
                 or parts.query or parts.fragment
                 or parts.path != "/v1/gt47/dispatch"
-                or parts.port not in (None, 443)
+                or port not in (None, 443)
                 or type(allowed_hosts) is not tuple
                 or not allowed_hosts):
             raise ContextRejected("invalid approved executor endpoint")
@@ -56,7 +60,8 @@ class ExecutorHTTPS:
                 or host.endswith(".internal") or host not in allowed_hosts
                 or any(type(x) is not str for x in allowed_hosts)):
             raise ContextRejected("executor endpoint not allowlisted")
-        if type(bearer) is not str or len(bearer.strip()) < 24:
+        if (type(bearer) is not str or len(bearer.strip()) < 24
+                or any(ord(ch) < 33 or ord(ch) > 126 for ch in bearer)):
             raise ContextRejected("executor credential missing")
         if type(timeout) is not int or not 1 <= timeout <= 30:
             raise ContextRejected("executor timeout out of bounds")
