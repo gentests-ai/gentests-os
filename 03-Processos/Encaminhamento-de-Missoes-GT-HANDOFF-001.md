@@ -11,6 +11,18 @@ issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 
 > **Não homologado.** Este desenho não concede acessos, não altera POL-003, contratos ou hierarquia, não autoriza merge, publicação, piloto, GT-WIP-001, Agile Coach ou automação #47. Base: [Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) e [REV-GOV-CHANGE-002](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
+## Proposta focal #86 — roteamento federado e reuso de evidências (pendente de homologação)
+
+**Decisão da Direção registrada na [issue #86](https://github.com/gentestsai-sudo/gentests-os/issues/86):** dentro da missão, autorização e permissões efetivas já vigentes, especialistas podem **encaminhar diretamente** ao próximo especialista competente, com GT-HANDOFF-001 e evento rastreável na issue canônica. Não necessitam do Orquestrador como intermediário rotineiro. Esta cláusula é **proposta de conciliação** com a regra central abaixo e com POL-003; não cria privilégios e não entra em vigor por simples texto.
+
+O Orquestrador mantém **ownership global**, prioridades e supervisão de exceções, acesso ao histórico integral e **síntese incremental** por missão (estado, dono, próxima ação, evidências, bloqueios e decisões), sem reler nem retranscrever todo o histórico a cada etapa. Escalar ao Orquestrador só para conflito de rota/prioridade/escopo, dependência, falha de entrega/aceite ou autoridade incerta. Decisões reservadas permanecem com a Direção.
+
+**Transições distintas:** preparar, registrar, entregar de fato, receber, ACEITAR, executar, validar, autorizar, integrar e encerrar. GitHub não entrega mensagem automaticamente a outro chat ChatGPT; sem canal operacional efetivo, fornecer mensagem integral copiável e registrar entrega/aceite como PENDENTE até prova.
+
+**Memória de evidências, sem sistema paralelo:** reutilizar na issue evidências existentes com fonte, natureza (relato da Direção, captura/transcrição, leitura autenticada, execução técnica), data/período, escopo, limites e gatilho de rechecagem. Novo pedido só quando houver mudança material, período de uso diferente, contradição, novo risco ou gate que exija estado live; apontar campo faltante e por quê. Falta de acesso à UI não invalida relato existente nem prova condição técnica ainda não observada. **Bloquear apenas a ação de risco**, liberando trabalhos independentes autorizados; um budget US$0 com Stop usage não garante isoladamente custo futuro zero.
+
+**Reconciliação necessária antes da vigência:** adaptar na seção 2 as transições que exigem confirmação de destino pelo Orquestrador, na seção 3 a regra de WIP, e na seção 7 o retorno obrigatório para permitir encaminhamento direto, preservando confirmação de ACEITO e prestação de contas sintética ao ORQ. Aplicar leitura compatível com matriz de permissões, hierarquia, segurança e gates sem inferir delegação de merge.
+
 ## 1. Regra central e fonte da autoridade
 
 **Orquestrador Central único** mantém ownership da missão, triagem e lacunas de rota, confirma destino e registra transferências; **não se autodespacha**. Especialista só assume execução após **ACEITO explícito**; o parecer de QA, Validação, Auditoria ou Revisor Independente não concede autorização para merge, gastos, publicação ou deploy. Direção decide os atos reservados e, no transporte manual, apenas copia a mensagem pronta, sem escolher rota. A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) trata de automação futura, não implantada.

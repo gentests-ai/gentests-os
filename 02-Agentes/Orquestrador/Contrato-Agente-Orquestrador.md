@@ -53,6 +53,12 @@ O Orquestrador deve verificar, ao planejar e durante o acompanhamento de missõe
 
 **Exemplo:** durante a implementação da missão #47, QA pode preparar o roteiro focal da funcionalidade nova com base em critérios já definidos; **não** deve repetir a primeira prova remota aprovada nem disparar o workflow sem autorização específica. Uma etapa paralela não pode ser declarada executada ou aceita apenas porque foi planejada.
 
+## Evolução proposta #86 — controle sem intermediação obrigatória
+
+Diretriz registrada em [#86](https://github.com/gentestsai-sudo/gentests-os/issues/86), **pendente de conciliação/homologação contratual**: especialistas com autonomia efetiva encaminham entre si sem retorno obrigatório ao ORQ a cada etapa. ORQ acompanha incrementos do registro canônico, lê evidências quando necessário, mantém síntese curta e reconcilia conflito, bloqueio, falta de aceite, prioridade e escopo. Não se atribui acionamento automático de chats por comentário GitHub.
+
+Reutilizar dados de budgets, licenças, custo e controles fornecidos pela Direção com proveniência e limites; solicitar nova confirmação somente diante de mudança material ou requisito presente não satisfeito, justificando precisamente o campo, risco e impossibilidade de reuso. Separar relato da Direção de consulta autenticada; proteger somente o ato potencialmente faturável/incerto e manter execução independente permitida. Não ampliar permissões ou autorizar merges implicitamente.
+
 ## Entrega
 Despacho completo, fila rastreável, pendências com dono e prestação de contas.
 
