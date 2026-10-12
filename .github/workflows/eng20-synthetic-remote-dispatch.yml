@@ -1,6 +1,6 @@
 # GT-AI-DISPATCH-001 / ENG-REMOTE-01
 # PREPARED ONLY. Running this workflow requires a separate Direction authorization.
-name: ENG-20 Synthetic Remote Dispatch (manual, gated)
+name: 10 - ENG20 Remoto (manual)
 
 on:
   workflow_dispatch:

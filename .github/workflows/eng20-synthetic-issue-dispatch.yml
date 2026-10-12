@@ -9,7 +9,7 @@
 # Never substitute preparation authority for execution authority.
 # concurrency serializes runs; it does NOT deduplicate label reapplication.
 # RUNNER_TEMP SQLite only protects replay inside one runner; no cross-run ledger.
-name: ENG-20 Synthetic Issue Dispatch (authorized window, gated)
+name: 11 - ENG20 Issue (janela)
 
 on:
   issues:

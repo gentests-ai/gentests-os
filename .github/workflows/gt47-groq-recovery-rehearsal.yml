@@ -1,4 +1,4 @@
-name: GT47 isolated recovery rehearsal (no AI)
+name: 08 - GTS47 Recuperacao (sem IA)
 on:
   workflow_call:
     inputs:

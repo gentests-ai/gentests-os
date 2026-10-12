@@ -1,4 +1,4 @@
-name: Piloto QG Email Comercial
+name: 02 - QG Email
 on:
   pull_request:
   push:
