@@ -8,9 +8,11 @@ from scripts.gt47_t04_context_loader import ContextRejected
 PREFIX = "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-"
 
 
-def select_issue_events(records: list[dict], limit: int = 50) -> list[dict]:
+def select_issue_events(records: list[dict], limit: int = 50, *, complete: bool = False) -> list[dict]:
     if type(records) is not list or type(limit) is not int or not 1 <= limit <= 50:
         raise ContextRejected("invalid event collection")
+    if complete is not True:
+        raise ContextRejected("event pagination not confirmed complete")
     if len(records) > limit:
         raise ContextRejected("event limit exceeded; pagination required")
     selected = []
