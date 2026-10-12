@@ -1,7 +1,7 @@
 name: GT47 T06 Event Route Dry Run
 on:
   issues:
-    types: [labeled, opened, reopened]
+    types: [labeled]
 permissions:
   contents: read
   issues: read
