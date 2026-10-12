@@ -36,3 +36,7 @@
 ## Resposta ao parecer QA/GOV da PR #92
 
 A leitura completa agora rejeita IDs repetidos ou fora de ordem entre páginas, e retorna proveniência (quantidade consultada, primeiro/último ID, páginas e completude). O `fetch_context` incorpora a proveniência e o commit de referência no hash final do envelope. Testes negativos cobrem duplicidade entre páginas. A coleta por offset **não é snapshot transacional**; inclusões concorrentes no GitHub podem escapar à leitura, mesmo com páginas ordenadas. Antes do uso em produção, é necessário mecanismo de consistência/snapshot verificável ou aceitar formalmente janela eventual sem usar comentários como fonte de autorização. O parecer `ADEQUADO COM AJUSTES` não é aprovação de merge.
+
+## Estratégia de consistência do contexto offline
+
+A seleção é **eventualmente consistente**, não um snapshot transacional: lê todas as páginas, exige término observado, IDs estritamente crescentes e únicos, rejeita comentários vazios e mantém apenas os 50 mais recentes. Inserções que deslocam páginas e geram sobreposição são detectadas; inserções concorrentes sem sobreposição podem passar despercebidas. Portanto, `complete=True` significa somente exaustão observada da leitura. Nenhuma decisão normativa, autorização de merge ou comando operacional pode depender desse recorte. Para execução externa, obter decisões canônicas diretamente de fonte autorizada com versão/identidade verificadas e política de revalidação, não dos comentários selecionados.
