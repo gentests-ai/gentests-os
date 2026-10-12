@@ -109,10 +109,10 @@ class GateTests(unittest.TestCase):
         self.event['issue']['number']=True
         self.assertNotEqual(self.run_gate(),0)
 
-    def test_workflow_remains_blocked_and_rechecks_before_dispatch(self):
+    def test_workflow_pending_operator_window_remains_blocked(self):
         self.assertIn('github.event.issue.number == 81',TEXT)
         self.assertIn('if: >-\n      false &&',TEXT)
-        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: ''", "EXECUTION_AUTHORIZATION_ID: ''", "WINDOW_START_UTC: ''", "WINDOW_END_UTC: ''"):
+        for entry in ("AUTHORIZED_ISSUE_NUMBER: '81'", "EXECUTION_AUTHORIZATION_REF: 'https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-6120900019'", "EXECUTION_AUTHORIZATION_ID: 'GT-AI-DISPATCH-001-AUTO-EVENT-RUN-01'", "WINDOW_START_UTC: ''", "WINDOW_END_UTC: ''"):
             self.assertIn(entry,TEXT)
         self.assertEqual(TEXT.count('python3 "${RUNNER_TEMP}/eng20-event-gate.py"'),2)
         self.assertNotIn('${{',GATE)
