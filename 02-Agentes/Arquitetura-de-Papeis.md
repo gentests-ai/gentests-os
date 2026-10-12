@@ -1,7 +1,7 @@
 ---
 tipo: proposta-organizacional
 id: GT-ORG-REFORM-001
-versao: 0.1.2
+versao: 0.1.3
 status: proposta
 ---
 # Reformulação da estrutura de agentes
@@ -10,12 +10,12 @@ status: proposta
 Reformular funções por responsabilidade futura, independentemente da distribuição histórica de atividades, conforme instrução direta da Direção em 11/10/2026. Preservar registros anteriores. Este pacote é proposta documental: não ativa agentes, não altera permissões e não autoriza merge.
 
 ## Estrutura
-Direção decide estratégia e atos reservados. Um Orquestrador Central coordena as missões. Especialistas respondem por entregas do domínio. Governança e Processos têm funções transversais distintas. QA, Validador, Auditor e X9 mantêm fronteiras de controle próprias. Revisão Independente é função atribuída a especialista por missão (Modelo A), não agente permanente.
+Direção decide estratégia e atos reservados. Um Scrum Master (AGT-ORQ, nome anterior: Orquestrador Central) facilita o fluxo das missões sem chefiar especialistas nem aprovar encaminhamentos horizontais. Especialistas respondem por entregas do domínio. Governança e Processos têm funções transversais distintas. QA, Validador, Auditor e X9 mantêm fronteiras de controle próprias. Revisão Independente é função atribuída a especialista por missão (Modelo A), não agente permanente.
 
 ## Fronteiras e roteamento
 | Pergunta ou objeto | Responsável primário | Limite |
 |---|---|---|
-| Quem recebe a próxima etapa e qual a prioridade autorizada? | Orquestrador | Não decide mérito especializado |
+| Quem facilita dependências, bloqueios e transparência da prioridade autorizada? | Scrum Master (AGT-ORQ) | Não decide mérito especializado nem aprova rota horizontal |
 | O que o produto deve fazer? | Produto | Não autoriza implantação |
 | Como a pessoa usa e entende a interface? | UX/UI | Não redefine negócio unilateralmente |
 | Como implementar/corrigir software? | Engenharia | Não homologa a própria entrega |
@@ -35,7 +35,7 @@ QA não precisa ser repetido pelo Validador: este reaproveita evidências sufici
 |---|---|
 | Executor Técnico, Executor de Software, Executor do Site | Engenharia (AGT-ENG), com site/software como escopo da missão |
 | Infra, DevOps, Infraestrutura e DevOps | Infraestrutura (AGT-INFRA) |
-| Orquestrador, Orquestrador Central | Orquestrador Central (AGT-ORQ), único |
+| Orquestrador, Orquestrador Central | Scrum Master (AGT-ORQ), mesmo ID; aliases históricos preservados |
 | Auditoria, Auditor | Auditor (AGT-AUD) |
 | Validação, Validador | Validador (AGT-VAL) |
 | Governança, agente de governança | Governança (AGT-GOV) |
