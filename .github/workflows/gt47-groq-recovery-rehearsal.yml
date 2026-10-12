@@ -1,0 +1,69 @@
+name: GT47 isolated recovery rehearsal (no AI)
+on:
+  workflow_dispatch:
+    inputs:
+      enable_test_writes:
+        description: Allow state writes ONLY to the gt47-recovery trial branch (no AI)
+        type: boolean
+        default: false
+        required: true
+      trial:
+        description: Reuse trial ID across runs; 8-40 lowercase letters/digits/hyphens
+        type: string
+        required: true
+      phase:
+        description: Seed, resume, inspect, or terminate after synthetic submission
+        type: choice
+        options: [seed, advance, inspect, interrupt]
+        required: true
+      hold_seconds:
+        description: Optional concurrency-slot occupancy after seed (0 or 660 seconds)
+        type: number
+        default: 0
+        required: true
+permissions:
+  contents: read
+# Separate from production; replacement can be exercised using SAME trial ID.
+concurrency:
+  group: gt47-recovery-${{ inputs.trial }}
+  cancel-in-progress: false
+jobs:
+  rehearsal:
+    if: inputs.enable_test_writes == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - name: Isolated branch rehearsal, fixed synthetic provider
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TRIAL: ${{ inputs.trial }}
+          PHASE: ${{ inputs.phase }}
+          HOLD_SECONDS: ${{ inputs.hold_seconds }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          test "$HOLD_SECONDS" = 0 || test "$HOLD_SECONDS" = 660
+          if [ "$HOLD_SECONDS" = 660 ]; then test "$PHASE" = seed; fi
+          commit=$(git rev-parse HEAD)
+          if [ "$PHASE" = interrupt ]; then
+            set +e
+            timeout --signal=TERM 30s python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase interrupt --allow-test-writes
+            outcome=$?
+            set -e
+            test "$outcome" = 124
+            set +e
+            python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase inspect --allow-test-writes > "$RUNNER_TEMP/recovery.json"
+            inspected=$?
+            set -e
+            test "$inspected" = 2
+            python3 -c 'import json,os; r=json.load(open(os.environ["RUNNER_TEMP"]+"/recovery.json")); assert r["status"]=="manual_reconciliation_required" and r["synthetic_submissions"]==1 and r["inference_calls"]==0'
+          else
+            python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase "$PHASE" --allow-test-writes
+            if [ "$HOLD_SECONDS" = 660 ]; then sleep 660; fi
+          fi

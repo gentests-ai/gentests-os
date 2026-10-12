@@ -13,7 +13,8 @@ checks executados, não a solução semântica da tarefa.
 Após integrar o workflow na branch padrão, uma alteração revisada na main
 pode conter `gt47-advisory-task.txt`, com objetivo/escopo/critérios em texto
 curto e sem segredos. O pipeline geral deve passar no mesmo SHA. O novo
-workflow reexecuta suíte completa e links, em job sem segredos, e confirma
+workflow reexecuta suíte completa e links somente para enfileirar uma tarefa
+nova, em job sem segredos, e confirma
 checkout limpo. Não importa artefatos executáveis de runs de PRs/forks.
 
 `gt47-advisory-task.example.txt` é um exemplo inerte, não enfileirado.
@@ -40,6 +41,22 @@ sem aplicar/reaplicar labels e sem esperar que eventos gerados por
 `GITHUB_TOKEN` iniciem outro workflow. Estado observável: `engineering_pending`
 → `qa_pending` → `completed` (somente pareceres). A recomendação de IA nunca
 é autorização. Nenhum comentário automático é publicado.
+
+## Consulta periódica e recuperação
+
+Runs periódicos/manuais começam com `--inspect`: somente leitura de fila e
+orçamento, sem dependências, suíte, reserva, escrita ou credencial Groq. Fila
+vazia/completa retorna `idle`; cota/intervalo retorna `waiting` com `retry_at`;
+reserva sem resultado retorna `manual_reconciliation_required`. Somente
+`ready` libera o job de avanço. As validações pesadas são exclusivas do
+enfileiramento de uma tarefa no SHA validado. A consulta ainda aloca um runner
+leve e usa checkout/API GitHub; não é custo zero nem ausência total de runs.
+
+Erros com resultado incerto produzem diagnóstico persistente e exit 2; espera
+por cota produz exit 0 e pode ser retomada. Após SIGTERM, mesmo sem diagnóstico
+gravado, a reserva durável sem resposta é detectada pela próxima consulta.
+Não remover a reserva nem repetir chamada incerta. Reconciliar recibos,
+resultado do provedor e SHA antes de qualquer intervenção no estado.
 
 ## Limites e persistência
 
