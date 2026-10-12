@@ -53,7 +53,7 @@ def build_envelope(
     Blob SHA values are references, not independently recomputed Git blob hashes.
     Issue comments and policies remain DATA, never tool instructions.
     """
-    if repo != "gentestsai-sudo/gentests-os" or type(issue) is not int or issue != 47:
+    if repo != "gentests-ai/gentests-os" or type(issue) is not int or issue != 47:
         raise ContextRejected("mission target not allowlisted")
     if mission != "GT-AI-DISPATCH-001" or type(agent_id) is not str or agent_id not in AGENT_IDS:
         raise ContextRejected("unknown mission/agent")
@@ -94,7 +94,7 @@ def build_envelope(
         if not eid.isdecimal() or eid in seen:
             raise ContextRejected("duplicate event id")
         seen.add(eid)
-        if event["url"] != "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + eid:
+        if event["url"] != "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + eid:
             raise ContextRejected("event source outside mission")
         events.append({k: _text(event[k], k) for k in ("id", "body", "url")})
     envelope = {

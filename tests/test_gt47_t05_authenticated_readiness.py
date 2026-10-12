@@ -71,7 +71,7 @@ class T05ReadinessTests(unittest.TestCase):
     def test_valid_verified_envelope_returns_readonly_summary(self):
         import hashlib
         import json
-        envelope = {"target": {"agent_id": "AGT-QA", "repo": "gentestsai-sudo/gentests-os",
+        envelope = {"target": {"agent_id": "AGT-QA", "repo": "gentests-ai/gentests-os",
                                "issue": 47, "mission": "GT-AI-DISPATCH-001"}, "execution_allowed": False,
                     "source_provenance": {"commit_sha": "a" * 40,
                                           "comments": {"complete": True, "total": 1}}}
@@ -93,7 +93,7 @@ class T05ReadinessTests(unittest.TestCase):
     def test_wrong_mission_fails_closed_with_valid_digest(self):
         import hashlib
         import json
-        envelope = {"target": {"agent_id": "AGT-QA", "repo": "gentestsai-sudo/gentests-os",
+        envelope = {"target": {"agent_id": "AGT-QA", "repo": "gentests-ai/gentests-os",
                                "issue": 48, "mission": "GT-AI-DISPATCH-001"},
                     "execution_allowed": False,
                     "source_provenance": {"commit_sha": "a" * 40,

@@ -4,7 +4,7 @@ from urllib.error import HTTPError, URLError
 from scripts.gt47_t04_context_loader import ContextRejected
 from scripts.gt47_t04_transport import github_readonly_get
 
-URL = "https://api.github.com/repos/gentestsai-sudo/gentests-os/contents/02-Agentes/QA/Contrato-Agente-QA.md"
+URL = "https://api.github.com/repos/gentests-ai/gentests-os/contents/02-Agentes/QA/Contrato-Agente-QA.md"
 PARAMS = {"ref": "a" * 40}
 
 class SafeHttpDiagnosticTests(unittest.TestCase):

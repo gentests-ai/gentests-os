@@ -28,7 +28,7 @@ def github_readonly_get(url: str, params: dict, *, token: str):
     parsed = urlparse(url)
     if parsed.scheme != "https" or parsed.hostname != API_HOST or parsed.port is not None or parsed.username or parsed.password or parsed.query or parsed.fragment:
         raise ContextRejected("GitHub API host mismatch")
-    root = "/repos/gentestsai-sudo/gentests-os/"
+    root = "/repos/gentests-ai/gentests-os/"
     tail = parsed.path[len(root):] if parsed.path.startswith(root) else ""
     if not (tail.startswith("contents/02-Agentes/") or tail.startswith("contents/00-Constituicao/") or tail.startswith("contents/03-Processos/") or tail == "issues/47/comments"):
         raise ContextRejected("GitHub repository mismatch")

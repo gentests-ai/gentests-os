@@ -39,7 +39,7 @@ class AdapterTests(unittest.TestCase):
             calls.append(params["page"])
             if params["page"] == 1:
                 return [{"id": 8, "body": "data",
-                         "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-8"}]
+                         "html_url": "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-8"}]
             return []
         self.assertEqual(fetch_issue_comments(get)[0]["id"], "8")
         self.assertEqual(calls, [1, 2])
@@ -51,7 +51,7 @@ class AdapterTests(unittest.TestCase):
                 return []
             start = (page - 1) * 10
             return [{"id": i, "body": "data",
-                     "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i)}
+                     "html_url": "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + str(i)}
                     for i in range(start + 1, start + 11)]
         selected = fetch_issue_comments(get)
         self.assertEqual(len(selected), 50)
@@ -63,7 +63,7 @@ class AdapterTests(unittest.TestCase):
             if params["page"] > 1:
                 return []
             return [{"id": i + 1, "body": "data",
-                     "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i + 1)}
+                     "html_url": "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + str(i + 1)}
                     for i in range(10)]
         self.assertEqual(len(fetch_issue_comments(get)), 10)
 
@@ -71,9 +71,9 @@ class AdapterTests(unittest.TestCase):
         def get(url, params):
             if params["page"] == 1:
                 return [{"id": 9, "body": "first", "html_url":
-                         "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-9"}]
+                         "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-9"}]
             return [{"id": 9, "body": "duplicate", "html_url":
-                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-9"}]
+                     "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-9"}]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
@@ -82,7 +82,7 @@ class AdapterTests(unittest.TestCase):
             if params["page"] > 1:
                 return []
             return [{"id": 7, "body": "text", "html_url":
-                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-7"}]
+                     "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-7"}]
         events, provenance = fetch_issue_comments(get, with_metadata=True)
         self.assertEqual(len(events), 1)
         self.assertEqual(provenance["total"], 1)
@@ -92,7 +92,7 @@ class AdapterTests(unittest.TestCase):
     def test_empty_comment_rejected(self):
         def get(url, params):
             return [{"id": 5, "body": "  ", "html_url":
-                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-5"}]
+                     "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-5"}]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
@@ -100,16 +100,16 @@ class AdapterTests(unittest.TestCase):
         def get(url, params):
             if params["page"] == 1:
                 return [{"id": 10, "body": "before", "html_url":
-                         "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-10"}]
+                         "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-10"}]
             return [{"id": 10, "body": "shifted", "html_url":
-                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-10"}]
+                     "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-10"}]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
     def test_incomplete_page_stream_rejected(self):
         def get(url, params):
             return [{"id": params["page"], "body": "data", "html_url":
-                     "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(params["page"])}]
+                     "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + str(params["page"])}]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
@@ -119,7 +119,7 @@ class AdapterTests(unittest.TestCase):
                 return []
             return [{"id": i, "body": "data", "html_url":
                      ("https://attacker.invalid/comment" if i == 1 else
-                      "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i))}
+                      "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + str(i))}
                     for i in range(1, 11)]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
@@ -129,7 +129,7 @@ class AdapterTests(unittest.TestCase):
             if params["page"] > 1:
                 return []
             return [{"id": i, "body": ("x" * 100001 if i == 1 else "data"),
-                     "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i)}
+                     "html_url": "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-" + str(i)}
                     for i in range(1, 11)]
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)

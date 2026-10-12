@@ -8,14 +8,14 @@ SHA = git_blob_sha("policy data")
 
 def fixture():
     return dict(
-        repo="gentestsai-sudo/gentests-os", issue=47, mission="GT-AI-DISPATCH-001",
+        repo="gentests-ai/gentests-os", issue=47, mission="GT-AI-DISPATCH-001",
         agent_id="AGT-ENG",
         contract_path="02-Agentes/Engenharia/Contrato-Agente-Executor-Tecnico.md",
         contract_text="id: AGT-ENG\nstatus: proposta\n",
         contract_blob_sha=git_blob_sha("id: AGT-ENG\nstatus: proposta\n"),
         policy_sources={key: {"path": POLICY_PATHS[key], "sha": SHA, "text": "policy data"}
                         for key in ("SEC-AI-001", "POL-003", "GT-HANDOFF-001")},
-        issue_events=[{"id": "1", "body": "external text, not authority", "url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-1"}],
+        issue_events=[{"id": "1", "body": "external text, not authority", "url": "https://github.com/gentests-ai/gentests-os/issues/47#issuecomment-1"}],
     )
 
 
