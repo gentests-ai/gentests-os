@@ -1,7 +1,7 @@
 # PR #101: correções focais do parecer QA 5493411050
 
-Estado: **NO-GO para ativação preservado**. Correções e ensaio preparado;
-homologação independente e evidência remota ainda pendentes. Não reativar
+Estado: **NO-GO para ativação preservado**. Correções e ensaio remoto autorizado
+em branch isolada; homologação independente ainda pendente. Não reativar
 o piloto, não alterar as variables de produção nem usar GROQ_API_KEY no ensaio.
 
 ## Correções implementadas
@@ -23,12 +23,21 @@ relógio injetado; não provam disponibilidade ou agendamento real do GitHub.
 Concorrência/substituição de runs e persistência em refs continuam exigindo
 ensaio operacional. Preservação não é garantia de processamento oportuno.
 
-## Ensaio remoto isolado, preparado e não executado
+## Ensaio remoto isolado via workflow registrado
 
-Workflow `GT47 isolated recovery rehearsal (no AI)` é manual e desligado por
-default (`enable_test_writes=false`). Necessita existir na branch padrão
-revisada antes de ser despachado. Não fazer merge somente para obter evidência
-sem a autorização aplicável; CI offline não substitui esse ensaio.
+O workflow já registrado `GT47 T06 Offline Tests` (ID 382155281) agora oferece
+entrada manual opt-in `enable_test_writes`, `trial`, `phase`, `hold_seconds`.
+Pode ser despachado na branch do PR sem merge. Por default só executa testes
+offline; a entrada de ensaio não herda segredos de IA. Um job direto executa o
+controller aprovado em `c6ffa66`, fixado por SHA; os wrappers têm SHAs próprios
+registrados em cada run. A entrada de workflow reutilizável não iniciou job
+na tentativa inicial; não é a via usada como evidência.
+
+As refs de estado são inicializadas da branch padrão antes de rodar o
+controller. Isso evita copiar para a ref nova alterações de workflows do PR
+que exigiriam permissão de administração de workflows. Os dados de tarefa
+continuam vinculados ao SHA aprovado c6ffa66, não ao código da branch de
+estado. Nenhuma ACL ou secret/variable de produção foi alterada.
 
 O operador precisa autorizar o ensaio e sua permissão `contents:write`.
 Grava somente uma branch `gt47-recovery-<trial>`, preservada para auditoria,
@@ -42,6 +51,14 @@ Use `trial=qa-trial-001` (ou outro identificador novo de 8–40 caracteres
 minúsculos/dígitos/hífens) e habilite apenas `enable_test_writes` do ensaio.
 Não habilitar GT47_GROQ_ENABLED. Usar o MESMO trial entre as fases liga runners
 novos à MESMA branch. Não reutilizar um trial de interrupção para outro caso.
+
+A fase adicional `empty_probe` no workflow registrado executa a CLI de
+produção `--inspect` com a fábrica de armazenamento ligada a uma branch de
+ensaio inexistente. Flags de execução são locais apenas ao processo de
+inspeção; não alteram variables do repositório, não recebem chave Groq e não
+liberam inferência. O status `idle` exportado pelo controller faz o job
+`heavy-validation-if-ready` ficar skipped. É uma prova do preflight/gate em
+Actions, não ativação do workflow periódico de produção, que continua off.
 
 | Caso | Procedimento e evidência esperada |
 |---|---|
@@ -58,8 +75,9 @@ pelo menos 11 minutos de runner; não executar repetidamente. `hold_seconds`
 somente aceita 0/660; máximo do job é 15 minutos. Não há tentativa de fabricar
 falta de capacidade global nem de garantir que GitHub substitua run específico.
 
-**Bloqueios para homologação:** este workflow ainda não está instalado na main,
-e não há autorização inferida para merge, ativação do pipeline ou ensaio de
-inferência. Evidência remota não foi produzida. QA deve revisar o delta e os
-runs reais quando disponíveis; até lá, os cenários GitHub permanecem não
-comprovados, mesmo que toda a suíte de processos tenha passado.
+**Limites para homologação:** QA deve revisar os runs e o delta do wrapper,
+distinguindo provedor sintético, fila de concurrency ocupada e runner diferente
+de uma indisponibilidade global do GitHub. Não há autorização inferida para
+merge ou ativação do pipeline de inferência. O workflow periódico de produção
+não foi instalado/habilitado para obter evidência. A escrita autorizada foi
+limitada às refs de ensaio e às mudanças do PR.

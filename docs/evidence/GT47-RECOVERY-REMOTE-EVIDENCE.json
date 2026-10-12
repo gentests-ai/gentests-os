@@ -1,0 +1,903 @@
+{
+  "inference_calls": 0,
+  "controller_sha": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+  "runs": [
+    {
+      "id": 38280312871,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38280312871",
+      "title": "GT47 T06 Offline Tests",
+      "wrapper_sha": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T16:51:37Z",
+      "run_duration_ms": 13000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 1,
+          "job_runs": [
+            {
+              "job_id": 114915744741,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114915744741,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T16:51:41Z",
+          "completed_at": "2026-10-12T16:51:49Z",
+          "runner_id": 1000000677,
+          "runner_name": "GitHub Actions 1000000677"
+        }
+      ]
+    },
+    {
+      "id": 38280503794,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38280503794",
+      "title": "GT47 seed qa-20261012-001",
+      "wrapper_sha": "f64faebb4a0a91d6ca5703f6183d1fbdb3a26a97",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-12T16:53:16Z",
+      "run_duration_ms": 3000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 1,
+          "job_runs": [
+            {
+              "job_id": 114916362642,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114916362642,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T16:53:18Z",
+          "completed_at": "2026-10-12T16:53:18Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38280771663,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38280771663",
+      "title": "GT47 seed qa-20261012-001",
+      "wrapper_sha": "6ed7723b4e143f41bcf5377315ceb8e5bb2adb1c",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-12T16:55:35Z",
+      "run_duration_ms": 12000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114917237887,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114917238944,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114917237887,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-12T16:55:40Z",
+          "completed_at": "2026-10-12T16:55:46Z",
+          "runner_id": 1000000684,
+          "runner_name": "GitHub Actions 1000000684"
+        },
+        {
+          "id": 114917238944,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T16:55:37Z",
+          "completed_at": "2026-10-12T16:55:37Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281135415,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281135415",
+      "title": "GT47 seed qa-20261012-001",
+      "wrapper_sha": "93f84f3bd653f1fa015274a02fcf9d2cef2cd819",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-12T16:58:49Z",
+      "run_duration_ms": 10000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114918429040,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114918431135,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114918429040,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-12T16:58:52Z",
+          "completed_at": "2026-10-12T16:58:59Z",
+          "runner_id": 1000000688,
+          "runner_name": "GitHub Actions 1000000688"
+        },
+        {
+          "id": 114918431135,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T16:58:51Z",
+          "completed_at": "2026-10-12T16:58:50Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281387793,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281387793",
+      "title": "GT47 seed qa-20261012-001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:00:59Z",
+      "run_duration_ms": 14000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114919237350,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114919238544,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114919237350,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:01:02Z",
+          "completed_at": "2026-10-12T17:01:12Z",
+          "runner_id": 1000000692,
+          "runner_name": "GitHub Actions 1000000692"
+        },
+        {
+          "id": 114919238544,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:01:00Z",
+          "completed_at": "2026-10-12T17:01:00Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281515152,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281515152",
+      "title": "GT47 seed qa-20261012-busy001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:02:05Z",
+      "run_duration_ms": 675000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114919664332,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114919665622,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114919664332,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:02:10Z",
+          "completed_at": "2026-10-12T17:13:19Z",
+          "runner_id": 1000000693,
+          "runner_name": "GitHub Actions 1000000693"
+        },
+        {
+          "id": 114919665622,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:02:09Z",
+          "completed_at": "2026-10-12T17:02:08Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281576660,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281576660",
+      "title": "GT47 advance qa-20261012-busy001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "created_at": "2026-10-12T17:02:36Z",
+      "run_duration_ms": 13000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114919850170,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114919851437,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114919850170,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "cancelled",
+          "started_at": "2026-10-12T17:02:38Z",
+          "completed_at": "2026-10-12T17:02:48Z",
+          "runner_id": 0,
+          "runner_name": ""
+        },
+        {
+          "id": 114919851437,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:02:38Z",
+          "completed_at": "2026-10-12T17:02:38Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281595335,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281595335",
+      "title": "GT47 advance qa-20261012-busy001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:02:46Z",
+      "run_duration_ms": 646000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114919912354,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114919913269,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114919912354,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:13:21Z",
+          "completed_at": "2026-10-12T17:13:32Z",
+          "runner_id": 1000000701,
+          "runner_name": "GitHub Actions 1000000701"
+        },
+        {
+          "id": 114919913269,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:02:48Z",
+          "completed_at": "2026-10-12T17:02:48Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281519913,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281519913",
+      "title": "GT47 seed qa-20261012-kill001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:02:07Z",
+      "run_duration_ms": 13000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114919665398,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114919666591,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114919665398,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:02:10Z",
+          "completed_at": "2026-10-12T17:02:19Z",
+          "runner_id": 1000000694,
+          "runner_name": "GitHub Actions 1000000694"
+        },
+        {
+          "id": 114919666591,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:02:09Z",
+          "completed_at": "2026-10-12T17:02:08Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281599849,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281599849",
+      "title": "GT47 interrupt qa-20261012-kill001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:02:49Z",
+      "run_duration_ms": 43000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114919927394,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114919929167,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114919927394,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:02:52Z",
+          "completed_at": "2026-10-12T17:03:31Z",
+          "runner_id": 1000000695,
+          "runner_name": "GitHub Actions 1000000695"
+        },
+        {
+          "id": 114919929167,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:02:51Z",
+          "completed_at": "2026-10-12T17:02:50Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281815134,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281815134",
+      "title": "GT47 advance qa-20261012-kill001",
+      "wrapper_sha": "50744af63d5f803b3e45d35e9b37b0e15a48676d",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-12T17:04:45Z",
+      "run_duration_ms": 12000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 2,
+          "job_runs": [
+            {
+              "job_id": 114920648033,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114920649850,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114920648033,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "failure",
+          "started_at": "2026-10-12T17:04:49Z",
+          "completed_at": "2026-10-12T17:04:56Z",
+          "runner_id": 1000000696,
+          "runner_name": "GitHub Actions 1000000696"
+        },
+        {
+          "id": 114920649850,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:04:48Z",
+          "completed_at": "2026-10-12T17:04:47Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38281980099,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38281980099",
+      "title": "GT47 empty_probe qa-20261012-empty001",
+      "wrapper_sha": "7617f6ad21021d25fa3b3966be60ff3895743a50",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:06:13Z",
+      "run_duration_ms": 8000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 3,
+          "job_runs": [
+            {
+              "job_id": 114921182929,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114921184019,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114921223002,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114921182929,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:06:16Z",
+          "completed_at": "2026-10-12T17:06:20Z",
+          "runner_id": 1000000700,
+          "runner_name": "GitHub Actions 1000000700"
+        },
+        {
+          "id": 114921184019,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:06:15Z",
+          "completed_at": "2026-10-12T17:06:14Z",
+          "runner_id": null,
+          "runner_name": null
+        },
+        {
+          "id": 114921223002,
+          "name": "heavy-validation-if-ready",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:06:21Z",
+          "completed_at": "2026-10-12T17:06:21Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38282812796,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38282812796",
+      "title": "GT47 advance qa-20261012-busy001",
+      "wrapper_sha": "7617f6ad21021d25fa3b3966be60ff3895743a50",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:13:44Z",
+      "run_duration_ms": 15000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 3,
+          "job_runs": [
+            {
+              "job_id": 114923940005,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114923941554,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114924016830,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114923940005,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:13:48Z",
+          "completed_at": "2026-10-12T17:13:57Z",
+          "runner_id": 1000000702,
+          "runner_name": "GitHub Actions 1000000702"
+        },
+        {
+          "id": 114923941554,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:13:46Z",
+          "completed_at": "2026-10-12T17:13:46Z",
+          "runner_id": null,
+          "runner_name": null
+        },
+        {
+          "id": 114924016830,
+          "name": "heavy-validation-if-ready",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:13:58Z",
+          "completed_at": "2026-10-12T17:13:58Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38283325197,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38283325197",
+      "title": "GT47 advance qa-20261012-busy001",
+      "wrapper_sha": "7617f6ad21021d25fa3b3966be60ff3895743a50",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:18:27Z",
+      "run_duration_ms": 42000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 3,
+          "job_runs": [
+            {
+              "job_id": 114925621704,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114925623353,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114925866312,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114925621704,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:18:55Z",
+          "completed_at": "2026-10-12T17:19:08Z",
+          "runner_id": 1000000703,
+          "runner_name": "GitHub Actions 1000000703"
+        },
+        {
+          "id": 114925623353,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:18:29Z",
+          "completed_at": "2026-10-12T17:18:28Z",
+          "runner_id": null,
+          "runner_name": null
+        },
+        {
+          "id": 114925866312,
+          "name": "heavy-validation-if-ready",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:19:09Z",
+          "completed_at": "2026-10-12T17:19:08Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    },
+    {
+      "id": 38283435410,
+      "url": "https://github.com/gentestsai-sudo/gentests-os/actions/runs/38283435410",
+      "title": "GT47 advance qa-20261012-busy001",
+      "wrapper_sha": "7617f6ad21021d25fa3b3966be60ff3895743a50",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T17:19:27Z",
+      "run_duration_ms": 10000,
+      "reported_billable": {
+        "UBUNTU": {
+          "total_ms": 0,
+          "jobs": 3,
+          "job_runs": [
+            {
+              "job_id": 114925992915,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114925994074,
+              "duration_ms": 0
+            },
+            {
+              "job_id": 114926037089,
+              "duration_ms": 0
+            }
+          ]
+        }
+      },
+      "jobs": [
+        {
+          "id": 114925992915,
+          "name": "recovery-rehearsal",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-12T17:19:31Z",
+          "completed_at": "2026-10-12T17:19:36Z",
+          "runner_id": 1000000704,
+          "runner_name": "GitHub Actions 1000000704"
+        },
+        {
+          "id": 114925994074,
+          "name": "offline-tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:19:29Z",
+          "completed_at": "2026-10-12T17:19:29Z",
+          "runner_id": null,
+          "runner_name": null
+        },
+        {
+          "id": 114926037089,
+          "name": "heavy-validation-if-ready",
+          "status": "completed",
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T17:19:36Z",
+          "completed_at": "2026-10-12T17:19:36Z",
+          "runner_id": null,
+          "runner_name": null
+        }
+      ]
+    }
+  ],
+  "trials": {
+    "gt47-recovery-qa-20261012-001": {
+      "gt47-current.json": {
+        "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+        "evidence": {
+          "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+          "links_passed": true,
+          "tests_passed": true
+        },
+        "id": "99ec7fedd7b908556f989d366161cc3f205c890f7160a9e08789da2c8ecf6e28",
+        "status": "engineering_pending",
+        "task": "Synthetic runner recovery rehearsal. No inference."
+      },
+      "gt47-test-seed.json": {
+        "at": 1791824467,
+        "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7"
+      }
+    },
+    "gt47-recovery-qa-20261012-busy001": {
+      "gt47-current.json": {
+        "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+        "engineering": {
+          "agent": "AGT-ENG",
+          "approval_granted": false,
+          "code_executed": false,
+          "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+          "dispatch_id": "8cb4a29a243cfa2b19d5ce4b08bf8b79fa44f3d5ddf4625a31f94c11f1e5c1fb",
+          "model": "openai/gpt-oss-120b",
+          "review": {
+            "findings": [],
+            "recommendation": "ready_for_human_review",
+            "summary": "Synthetic remote state rehearsal, no model invoked."
+          },
+          "status": "advisory_completed",
+          "usage": {
+            "completion_tokens": 100,
+            "prompt_tokens": 400,
+            "total_tokens": 500
+          }
+        },
+        "evidence": {
+          "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+          "links_passed": true,
+          "tests_passed": true
+        },
+        "id": "99ec7fedd7b908556f989d366161cc3f205c890f7160a9e08789da2c8ecf6e28",
+        "qa": {
+          "agent": "AGT-QA",
+          "approval_granted": false,
+          "code_executed": false,
+          "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+          "dispatch_id": "15c3e00f17e37e3f3ca2703ca8f431824fc1aa3d31efa17a6e73f80ab911f09a",
+          "model": "openai/gpt-oss-120b",
+          "review": {
+            "findings": [],
+            "recommendation": "ready_for_human_review",
+            "summary": "Synthetic remote state rehearsal, no model invoked."
+          },
+          "status": "advisory_completed",
+          "usage": {
+            "completion_tokens": 100,
+            "prompt_tokens": 400,
+            "total_tokens": 500
+          }
+        },
+        "status": "completed",
+        "task": "Synthetic runner recovery rehearsal. No inference."
+      },
+      "gt47-test-seed.json": {
+        "at": 1791824534,
+        "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7"
+      },
+      "gt47-budget.json": {
+        "claims": {
+          "15c3e00f17e37e3f3ca2703ca8f431824fc1aa3d31efa17a6e73f80ab911f09a": {
+            "at": 1791825540,
+            "tokens": 4000
+          },
+          "8cb4a29a243cfa2b19d5ce4b08bf8b79fa44f3d5ddf4625a31f94c11f1e5c1fb": {
+            "at": 1791825204,
+            "tokens": 4000
+          }
+        },
+        "schema": 1
+      },
+      "gt47-test-submissions.json": [
+        {
+          "agent": "AGT-ENG",
+          "at": 1791825206,
+          "synthetic": true
+        },
+        {
+          "agent": "AGT-QA",
+          "at": 1791825542,
+          "synthetic": true
+        }
+      ]
+    },
+    "gt47-recovery-qa-20261012-kill001": {
+      "gt47-current.json": {
+        "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+        "diagnostic": {
+          "reason": "reserved_without_matching_result",
+          "status": "manual_reconciliation_required"
+        },
+        "evidence": {
+          "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7",
+          "links_passed": true,
+          "tests_passed": true
+        },
+        "id": "99ec7fedd7b908556f989d366161cc3f205c890f7160a9e08789da2c8ecf6e28",
+        "status": "engineering_pending",
+        "task": "Synthetic runner recovery rehearsal. No inference."
+      },
+      "gt47-test-seed.json": {
+        "at": 1791824534,
+        "commit": "c6ffa661be39a793bcdd43ab226fd4770453cba7"
+      },
+      "gt47-budget.json": {
+        "claims": {
+          "8cb4a29a243cfa2b19d5ce4b08bf8b79fa44f3d5ddf4625a31f94c11f1e5c1fb": {
+            "at": 1791824577,
+            "tokens": 4000
+          }
+        },
+        "schema": 1
+      },
+      "gt47-test-submissions.json": [
+        {
+          "agent": "AGT-ENG",
+          "at": 1791824579,
+          "synthetic": true
+        }
+      ]
+    }
+  },
+  "provider_mode": "synthetic_no_ai",
+  "captured_at_utc": "2026-10-12T17:24:32.951682+00:00",
+  "observed_intervals_seconds": {
+    "seed_to_eng": 672,
+    "eng_to_qa": 336
+  },
+  "assertions": {
+    "pending_run_replaced": true,
+    "manual_reconciliation_prevents_resubmission": true,
+    "empty_probe_heavy_jobs_skipped": true,
+    "eng_qa_distinct_runners": true,
+    "completed_task_no_replay": true
+  }
+}
