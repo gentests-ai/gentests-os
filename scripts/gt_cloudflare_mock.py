@@ -14,8 +14,10 @@ _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 class FakeWorkersAI:
     """Fully deterministic response. Errors injected without real HTTP."""
     def infer(self, event, failure=None):
-        if failure in ("401", "429", "500", "503", "timeout"):
-            return {"ok": False, "error": failure, "effect": "unknown" if failure == "timeout" else "none"}
+        if failure is not None:
+            known = type(failure) is str and failure in ("401", "429", "500", "503", "timeout")
+            return {"ok": False, "error": failure if known else "unexpected_failure",
+                    "effect": "unknown" if (not known or failure == "timeout") else "none"}
         message = {"mission": event["mission"], "text": "synthetic_ok", "corpus_sha": event["corpus_sha"]}
         raw = json.dumps(message, sort_keys=True, separators=(",", ":"))
         return {"ok": True, "text": raw, "request_id": "fake-" + hashlib.sha256(raw.encode()).hexdigest()[:16],
@@ -60,16 +62,33 @@ class FakeDurableObject:
                 return {"state": "blocked", "reason": "expired_lease_requires_reconciliation"}
             return {"state": "blocked", "reason": "reconciliation_required"}
 
-    def complete(self, k, fence, text):
-        if type(fence) is not int or not text:
+    def complete(self, k, fence, text, now):
+        # Deterministic caller-supplied clock is ONLY for the offline mock.
+        if (type(fence) is not int or type(text) is not str or not text
+                or not isinstance(now, datetime) or now.tzinfo is None
+                or now.utcoffset() is None):
             return {"state": "blocked", "reason": "invalid_completion"}
         digest = hashlib.sha256(text.encode()).hexdigest()
         with self._connect() as db:
             db.execute("BEGIN IMMEDIATE")
-            row = db.execute("SELECT state,fence FROM runs WHERE k=?", (k,)).fetchone()
-            if row != ("leased", fence):
+            row = db.execute("SELECT state,fence,until FROM runs WHERE k=?", (k,)).fetchone()
+            if row is None or row[0] != "leased" or type(row[1]) is not int or row[1] != fence:
                 return {"state": "blocked", "reason": "stale_fence"}
-            db.execute("UPDATE runs SET state='done',result_hash=?,until=NULL WHERE k=?", (digest, k))
+            deadline = None
+            if type(row[2]) is str:
+                try:
+                    deadline = datetime.fromisoformat(row[2])
+                except ValueError:
+                    pass
+            if (deadline is None or deadline.tzinfo is None
+                    or deadline.utcoffset() is None or now >= deadline):
+                # Expired or untrusted deadline cannot be completed even when
+                # no subsequent reservation has observed the expiration.
+                db.execute("UPDATE runs SET state='uncertain',until=NULL WHERE k=? AND state='leased' AND fence=?",
+                           (k, fence))
+                return {"state": "blocked", "reason": "lease_requires_reconciliation"}
+            db.execute("UPDATE runs SET state='done',result_hash=?,until=NULL WHERE k=? AND state='leased' AND fence=?",
+                       (digest, k, fence))
         return {"state": "done", "result_hash": digest}
 
     def uncertain(self, k, fence):
@@ -116,4 +135,4 @@ class MockPipeline:
             self.store.uncertain(k, reservation["fence"])
             return {"state": "blocked", "reason": "provider_" + reply["error"],
                     "effect": reply["effect"], "retry": False}
-        return self.store.complete(k, reservation["fence"], reply["text"])
+        return self.store.complete(k, reservation["fence"], reply["text"], now)
