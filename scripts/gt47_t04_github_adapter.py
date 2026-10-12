@@ -45,20 +45,24 @@ def fetch_file(get, path: str, commit_sha: str) -> dict:
 
 
 def fetch_issue_comments(get) -> list[dict]:
-    """Requires an empty final page to prove pagination completeness."""
+    """Read all pages and select the newest 50 comments, preserving IDs.
+
+    Older comments remain in GitHub's canonical history. This bounded context
+    is not evidence of a human authorization or complete mission history.
+    """
     records = []
-    for page in range(1, 12):
+    for page in range(1, 102):
         batch = _response(get, "/issues/47/comments", {"per_page": 100, "page": page})
-        if type(batch) is not list:
+        if type(batch) is not list or len(batch) > 100:
             raise ContextRejected("invalid comments page")
         if not batch:
-            return select_issue_events(records, complete=True)
-        if len(batch) > 100 or len(records) + len(batch) > 50:
-            raise ContextRejected("comment volume exceeds T04 bound")
+            return select_issue_events(records[-50:], complete=True)
         for item in batch:
             if type(item) is not dict:
                 raise ContextRejected("invalid comment item")
             records.append({key: item.get(key) for key in ("id", "body", "html_url")})
+        if len(records) > 10000:
+            raise ContextRejected("comment history exceeds safe bound")
     raise ContextRejected("pagination incomplete")
 
 
