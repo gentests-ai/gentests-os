@@ -20,7 +20,7 @@ on:
       phase:
         description: Recovery rehearsal phase
         type: choice
-        options: [seed, advance, inspect, interrupt]
+        options: [seed, advance, inspect, interrupt, empty_probe]
         default: inspect
       hold_seconds:
         description: Optional seed concurrency occupancy (0 or 660 seconds)
@@ -46,6 +46,8 @@ jobs:
       cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      queue_status: ${{ steps.phase.outputs.status }}
     permissions:
       contents: write
     steps:
@@ -54,6 +56,7 @@ jobs:
           ref: c6ffa661be39a793bcdd43ab226fd4770453cba7 # QA-reviewed controller; no merge needed
           persist-credentials: false
       - name: Isolated branch rehearsal, fixed synthetic provider
+        id: phase
         env:
           GH_TOKEN: ${{ github.token }}
           TRIAL: ${{ inputs.trial }}
@@ -80,7 +83,20 @@ jobs:
           store.initialize(ref['object']['sha'])
           PY
           fi
-          if [ "$PHASE" = interrupt ]; then
+          if [ "$PHASE" = empty_probe ]; then
+            # Execute the production CLI preflight against a NONEXISTENT test
+            # branch, with no provider key and no production variable changes.
+            python3 - <<'PY'
+          import os, sys
+          from scripts import gt47_t06_groq_runner as runner
+          from scripts.gt47_t06_recovery_rehearsal import test_branch
+          factory = runner.GitHubStore
+          runner.GitHubStore = lambda token: factory(token, branch=test_branch(os.environ['TRIAL']))
+          os.environ.update(GT47_GROQ_ENABLED='true', GROQ_FREE_PLAN_CONFIRMED='true')
+          sys.argv = ['gt47-runner', '--inspect']
+          runner.main()
+          PY
+          elif [ "$PHASE" = interrupt ]; then
             set +e
             timeout --signal=TERM 30s python3 -m scripts.gt47_t06_recovery_rehearsal --trial "$TRIAL" --commit "$commit" --phase interrupt --allow-test-writes
             outcome=$?
@@ -103,3 +119,9 @@ jobs:
             fi
             if [ "$HOLD_SECONDS" = 660 ]; then sleep 660; fi
           fi
+  heavy-validation-if-ready:
+    needs: recovery-rehearsal
+    if: inputs.phase == 'empty_probe' && needs.recovery-rehearsal.outputs.queue_status == 'ready'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo '::error::Empty-queue probe incorrectly released a heavy validation job'; exit 1
