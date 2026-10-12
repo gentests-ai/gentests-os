@@ -49,7 +49,7 @@ def build_envelope(
     """
     if repo != "gentestsai-sudo/gentests-os" or type(issue) is not int or issue != 47:
         raise ContextRejected("mission target not allowlisted")
-    if mission != "GT-AI-DISPATCH-001" or agent_id not in AGENT_IDS:
+    if mission != "GT-AI-DISPATCH-001" or type(agent_id) is not str or agent_id not in AGENT_IDS:
         raise ContextRejected("unknown mission/agent")
     if type(contract_path) is not str or not contract_path.startswith("02-Agentes/") or ".." in contract_path:
         raise ContextRejected("invalid contract path")
@@ -57,12 +57,12 @@ def build_envelope(
     if not re.search(r"(?m)^id:\s*" + re.escape(agent_id) + r"\s*$", contract_text):
         raise ContextRejected("contract ID mismatch")
     _sha(contract_blob_sha, "contract sha")
-    if not isinstance(policy_sources, dict) or set(policy_sources) != {"SEC-AI-001", "POL-003", "GT-HANDOFF-001"}:
+    if type(policy_sources) is not dict or set(policy_sources) != {"SEC-AI-001", "POL-003", "GT-HANDOFF-001"}:
         raise ContextRejected("missing policy sources")
     policies = []
     for key in sorted(policy_sources):
         source = policy_sources[key]
-        if not isinstance(source, dict) or set(source) != {"path", "sha", "text"}:
+        if type(source) is not dict or set(source) != {"path", "sha", "text"}:
             raise ContextRejected("invalid policy source")
         policies.append({"id": key, "path": _text(source["path"], "policy path"),
                          "sha": _sha(source["sha"], "policy sha"),
@@ -72,13 +72,13 @@ def build_envelope(
     events = []
     seen = set()
     for event in issue_events:
-        if not isinstance(event, dict) or set(event) != {"id", "body", "url"}:
+        if type(event) is not dict or set(event) != {"id", "body", "url"}:
             raise ContextRejected("invalid event")
         eid = _text(event["id"], "event id")
-        if eid in seen:
+        if not eid.isdecimal() or eid in seen:
             raise ContextRejected("duplicate event id")
         seen.add(eid)
-        events.append({k: _text(event[k], k) for k in ("id", "body", "url")})
+        if not event["url"].startswith("https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-"):\n            raise ContextRejected("event source outside mission")\n        events.append({k: _text(event[k], k) for k in ("id", "body", "url")})
     envelope = {
         "schema": "gt47-t04-context-v0",
         "target": {"repo": repo, "issue": issue, "mission": mission, "agent_id": agent_id},
