@@ -104,6 +104,44 @@ def enqueue(store, *, commit, task):
         raise EnqueueRejected('queue conflict; task not accepted', reason='queue_contention')
     return value
 
+def start_new_round(store, *, commit, task, round_id, expected_id, now):
+    """Archive a blocked attempt without resolving it or refunding any claim.
+
+    Caller validates trusted main offline and serializes with the pilot workflow.
+    No provider submission is performed. Archive precedes queue CAS.
+    """
+    if (type(round_id) is not str or not re.fullmatch('[a-z0-9-]{8,40}', round_id)
+            or type(expected_id) is not str or not re.fullmatch('[0-9a-f]{64}', expected_id)):
+        raise EnqueueRejected('invalid round or expected task', reason='invalid_round')
+    current, version = store.get('gt47-current.json')
+    if (type(current) is not dict or current.get('id') != expected_id
+            or current.get('status') not in ('engineering_pending', 'qa_pending')
+            or type(current.get('diagnostic')) is not dict
+            or current['diagnostic'].get('status') != 'manual_reconciliation_required'
+            or current.get('commit') == commit):
+        raise EnqueueRejected('blocked task changed or commit not new', reason='round_precondition_failed')
+    evidence = {'commit': commit, 'tests_passed': True, 'links_passed': True}
+    scoped_task = 'Round ' + round_id + '\n' + task
+    _, digest = prepare(agent='AGT-ENG', commit=commit, task=scoped_task, evidence=evidence)
+    budget, _ = store.read()
+    eligibility(budget, dispatch_id=digest, now=now)
+    archive_path = 'gt47-archive/' + expected_id + '.json'
+    archived, _ = store.get(archive_path)
+    if archived is None:
+        if not store.put(archive_path, current, None):
+            raise EnqueueRejected('archive write uncertain; inspect before retry', reason='archive_storage_uncertain')
+        archived, _ = store.get(archive_path)
+    if archived != current:
+        raise EnqueueRejected('archive mismatch; queue untouched', reason='archive_mismatch')
+    value = {'id': hashlib.sha256((commit + scoped_task).encode()).hexdigest(),
+             'commit': commit, 'task': scoped_task, 'round_id': round_id,
+             'previous_task_id': expected_id, 'evidence': evidence,
+             'status': 'engineering_pending'}
+    if not store.put('gt47-current.json', value, version):
+        raise EnqueueRejected('queue write uncertain; inspect before retry', reason='queue_contention')
+    return {'status': 'round_prepared', 'id': value['id'], 'round_id': round_id,
+            'previous_task_id': expected_id, 'provider_calls': 0}
+
 def advance(store, *, now, api_key, enabled, free_plan_confirmed, transport=None):
     value, version = store.get('gt47-current.json')
     if value is None:
@@ -212,7 +250,27 @@ def main():
     parser.add_argument('--enqueue', type=Path)
     parser.add_argument('--commit')
     parser.add_argument('--inspect', action='store_true')
+    parser.add_argument('--new-round', type=Path)
+    parser.add_argument('--round-id')
+    parser.add_argument('--expected-id')
     args = parser.parse_args()
+    if args.new_round:
+        if (os.environ.get('GT47_GROQ_ENABLED') != 'false'
+                or not args.commit or args.enqueue or args.inspect
+                or os.environ.get('GROQ_API_KEY')):
+            parser.exit(2, 'New round requires paused pilot, commit and no provider key\n')
+        try:
+            result = start_new_round(GitHubStore(os.environ.get('GH_TOKEN', '')),
+                commit=args.commit, task=args.new_round.read_text(encoding='utf-8'),
+                round_id=args.round_id, expected_id=args.expected_id, now=int(time.time()))
+        except BudgetBlocked as exc:
+            result = diagnostic(exc)
+        except (ValueError, OSError, KeyError, TypeError):
+            result = {'status': 'manual_reconciliation_required', 'reason': 'round_storage_uncertain'}
+        print(json.dumps(result))
+        if result['status'] != 'round_prepared':
+            parser.exit(2)
+        return
     if (os.environ.get('GT47_GROQ_ENABLED') != 'true'
             or os.environ.get('GROQ_FREE_PLAN_CONFIRMED') != 'true'):
         parser.exit(0, 'GT47 advisory integration disabled\n')
