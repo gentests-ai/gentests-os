@@ -55,7 +55,7 @@ Cada evento na **issue canônica** deve conter `event_id`, `mission_id`, `handof
 |---|---|---|
 | Nova demanda | inexistente → registrada | Orquestrador assume triagem/DoR |
 | Entrada insuficiente | registrada/refinamento → aguardando refinamento | Orquestrador indica requisito, dono e retorno; sem despacho |
-| DoR satisfeito | registrada/refinamento → pronta | Orquestrador aponta evidência e rota |
+| DoR satisfeito | registrada/refinamento → pronta | Responsável pela etapa/remetente aponta evidência e rota autorizada; ORQ atua na triagem inicial ou por exceção. |
 | Mensagem redigida | pronta → handoff preparado | Ainda **não** registrada ou entregue |
 | Registro GitHub | preparado → registrado; acionamento pendente | Comentário/issue **não é** acionamento efetivo |
 | Entrega comprovada | acionamento pendente → aguardando aceite | Remetente registra prova de entrega; ORQ acompanha pela issue sem aprovar cada rota |
