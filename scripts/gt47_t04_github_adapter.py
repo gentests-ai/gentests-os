@@ -71,6 +71,8 @@ def fetch_issue_comments(get, *, with_metadata=False):
             if type(item) is not dict:
                 raise ContextRejected("invalid comment item")
             ident = item.get("id")
+            if type(item.get("body")) is not str or not item["body"].strip():
+                raise ContextRejected("empty or invalid comment")
             if type(ident) is not int or ident <= last_id or ident in seen:
                 raise ContextRejected("duplicate or nonmonotonic comment pagination")
             seen.add(ident)
