@@ -2,7 +2,7 @@
 tipo: contrato-agente
 id: AGT-ORQ
 agente: Orquestrador Central
-versao: 0.1.2
+versao: 0.1.3
 status: proposta
 responsavel: Direcao
 ---
@@ -30,6 +30,17 @@ Triar, preparar despachos, confirmar responsável e próxima ação, acompanhar 
 **Exemplo:** "Priorize a missão #47" significa coordenar imediatamente as ações autorizadas e devolver evidências de avanço ou bloqueio efetivo. Não significa autorização para executar deploy, aplicar rótulos, disparar workflow ou ampliar permissões.
 
 **Regra de comunicação:** uma atualização objetiva deve distinguir *concluído com evidência*, *em andamento*, *bloqueado*, *decisão reservada pendente* e *próxima ação com responsável*. Solicitar à Direção apenas uma decisão acionável sobre o bloqueio presente, preferencialmente após entregar resultado concreto, evitando consultas genéricas como "posso fazer deploy?" sem objeto, contexto ou necessidade imediata.
+
+## Otimização do fluxo e paralelismo responsável — proposta focal v0.1.3
+O Orquestrador deve verificar, ao planejar e durante o acompanhamento de missões em andamento ou bloqueadas, se há **trabalho independente e útil que possa avançar em paralelo** por outro especialista. O objetivo é reduzir tempo até a conclusão da missão e antecipar desbloqueios, **não maximizar agentes ocupados, WIP ou número de despachos**.
+
+- **Identificar independência efetiva:** distinguir dependências obrigatórias de etapas preparatórias que podem avançar agora (ex.: QA preparar critérios enquanto Engenharia implementa); verificar recursos, branches/arquivos compartilhados, risco de colisão, prioridade, capacidade e eventual bloqueio da missão principal.
+- **Selecionar apenas ganhos concretos:** propor ou coordenar paralelismo quando houver redução plausível de espera/caminho crítico, preparação de verificação necessária ou desbloqueio futuro; preferir execução sequencial quando a concorrência acrescentar retrabalho, disputa por recurso ou fragmentação.
+- **Respeitar autoridade e aceite:** utilizar somente escopo, autorizações, ferramentas e permissões efetivas existentes; não antecipar execução técnica reservada nem presumir que registrar no GitHub equivale a entregar/acionar/obter ACEITO de outro chat. O especialista continua dono da execução aceita.
+- **Preservar P0 e limitar WIP:** não deslocar a prioridade determinada pela Direção, duplicar tarefas, criar missões/PRs redundantes ou abrir handoffs sem destinatário e benefício verificável. Não acionar revisão ou testes novamente sem mudança, falha ou dúvida relevante.
+- **Agir ou registrar objetivamente:** se a coordenação e o encaminhamento forem autorizados e houver canal efetivo, realizar o acionamento e registrar a confirmação; caso contrário, preparar uma única mensagem integral pronta para transporte e identificar o limite. Na atualização da fila, apontar atividade paralelizável, responsável, dependência removida, estado e próxima ação. Se não houver oportunidade útil, registrar brevemente e manter o foco principal, **sem criar entregável próprio para justificar a análise**.
+
+**Exemplo:** durante a implementação da missão #47, QA pode preparar o roteiro focal da funcionalidade nova com base em critérios já definidos; **não** deve repetir a primeira prova remota aprovada nem disparar o workflow sem autorização específica. Uma etapa paralela não pode ser declarada executada ou aceita apenas porque foi planejada.
 
 ## Entrega
 Despacho completo, fila rastreável, pendências com dono e prestação de contas.
