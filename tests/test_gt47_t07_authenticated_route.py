@@ -26,10 +26,10 @@ def issue_event(agent="AGT-ENG", *, labels=None, changed=None):
 
 def fake_get(*, missing_contract=False, poison_policy=False, invalid_history=False):
     source = {
-        CONTRACTS["AGT-ENG"]: "id: AGT-ENG\\nstatus: proposta\\n",
+        CONTRACTS["AGT-ENG"]: "id: AGT-ENG\nstatus: proposta\n",
     }
     for path in POLICY_PATHS.values():
-        source[path] = "policy data\\n"
+        source[path] = "policy data\n"
 
     def get(url, params):
         if "/contents/" in url:
@@ -40,7 +40,7 @@ def fake_get(*, missing_contract=False, poison_policy=False, invalid_history=Fal
                 raise ContextRejected("unpinned content")
             data = source[path]
             if missing_contract and path == CONTRACTS["AGT-ENG"]:
-                data = "id: AGT-QA\\nstatus: proposta\\n"
+                data = "id: AGT-QA\nstatus: proposta\n"
             content_sha = git_blob_sha(data)
             if poison_policy and path == POLICY_PATHS["POL-003"]:
                 content_sha = "0" * 40
