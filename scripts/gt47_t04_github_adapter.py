@@ -55,9 +55,11 @@ def fetch_issue_comments(get, *, with_metadata=False):
     records = []
     seen = set()
     last_id = 0
-    for page in range(1, 102):
-        batch = _response(get, "/issues/47/comments", {"per_page": 100, "page": page})
-        if type(batch) is not list or len(batch) > 100:
+    # Small pages bound each HTTP response; aggregate history remains capped.
+    per_page = 10
+    for page in range(1, 1002):
+        batch = _response(get, "/issues/47/comments", {"per_page": per_page, "page": page})
+        if type(batch) is not list or len(batch) > per_page:
             raise ContextRejected("invalid comments page")
         if not batch:
             selected = select_issue_events(records[-50:], complete=True)
