@@ -1,0 +1,54 @@
+name: GT47 T05 Read-only Authenticated Check
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: "40-character pinned commit containing contracts"
+        required: true
+        type: string
+      agent_id:
+        description: "Agent contract ID (e.g. AGT-QA)"
+        required: true
+        type: string
+      contract_path:
+        description: "Repository path under 02-Agentes/"
+        required: true
+        type: string
+permissions:
+  contents: read
+  issues: read
+jobs:
+  authenticated-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout trusted runner code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run authenticated read-only validation
+        env:
+          GT47_TOKEN: ${{ secrets.GT47_T05_READONLY_TOKEN }}
+          GT47_SHA: ${{ inputs.commit_sha }}
+          GT47_AGENT: ${{ inputs.agent_id }}
+          GT47_CONTRACT: ${{ inputs.contract_path }}
+        run: |
+          python - <<'PY'
+          import os
+          from scripts.gt47_t05_authenticated_readiness import authenticated_readiness
+          result = authenticated_readiness(
+              token=os.environ["GT47_TOKEN"],
+              commit_sha=os.environ["GT47_SHA"],
+              agent_id=os.environ["GT47_AGENT"],
+              contract_path=os.environ["GT47_CONTRACT"],
+          )
+          assert result["status"] == "read_only_e2e_pass"
+          assert result["execution_allowed"] is False
+          assert result["external_agent_invoked"] is False
+          assert result["authorization_granted"] is False
+          print("GT47 T05 authenticated read-only E2E: PASS")
+          print("Commit:", result["commit_sha"])
+          print("Agent:", result["agent_id"])
+          print("Envelope SHA256:", result["envelope_sha256"])
+          print("Comments complete:", result["source_provenance"]["comments"]["complete"])
+          PY
