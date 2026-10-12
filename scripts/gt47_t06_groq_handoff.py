@@ -60,6 +60,9 @@ def invoke(*, store, now, agent, commit, task, evidence, engineering=None,
         raise ValueError('external AI disabled or free plan not confirmed')
     if not isinstance(api_key, str) or not api_key.strip():
         raise ValueError('GROQ_API_KEY required')
+    if agent == 'AGT-QA':
+        validate_saved_result(engineering, agent='AGT-ENG', commit=commit,
+                              task=task, evidence=evidence)
     payload, digest = prepare(agent=agent, commit=commit, task=task,
                               evidence=evidence, engineering=engineering)
     reserve(store, dispatch_id=digest, now=now)
@@ -94,7 +97,7 @@ def invoke(*, store, now, agent, commit, task, evidence, engineering=None,
     except (ValueError, KeyError, TypeError):
         raise ReconciliationRequired('invalid provider response; reservation retained', reason='provider_response_invalid') from None
 
-def validate_response(response, *, agent, commit, digest):
+def validate_response(response, *, agent, commit, digest, allow_legacy=False):
     if type(response) is not dict or response.get('model') != MODEL:
         raise ValueError('invalid provider response')
     usage = response.get('usage')
@@ -116,8 +119,32 @@ def validate_response(response, *, agent, commit, digest):
             or type(review['summary']) is not str or not review['summary'].strip() or len(review['summary']) > 240
             or type(review['findings']) is not list or len(review['findings']) > 3
             or any(type(v) is not str or len(v) > 100 for v in review['findings'])
-            or review['recommendation'] not in ('needs_changes', 'ready_for_finalization', 'ready_for_human_review')):
+            or review['recommendation'] not in (('needs_changes', 'ready_for_finalization', 'ready_for_human_review')
+                                               if allow_legacy else ('needs_changes', 'ready_for_finalization'))):
         raise ValueError('invalid advisory result')
     return {'status': 'advisory_completed', 'agent': agent, 'commit': commit,
             'dispatch_id': digest, 'model': MODEL, 'usage': usage, 'review': review,
             'code_executed': False, 'approval_granted': False}
+
+def validate_saved_result(result, *, agent, commit, task, evidence, engineering=None):
+    """Validate persisted contract and semantic binding, not provider authenticity.
+
+    Legacy recommendations are allowed only on this historical read path.
+    GitHub write access remains the trust boundary for stored evidence.
+    """
+    required = {'status', 'agent', 'commit', 'dispatch_id', 'model', 'usage',
+                'review', 'code_executed', 'approval_granted'}
+    if (type(result) is not dict or set(result) != required
+            or result['status'] != 'advisory_completed' or result['agent'] != agent
+            or result['commit'] != commit or result['model'] != MODEL
+            or result['code_executed'] is not False or result['approval_granted'] is not False):
+        raise ValueError('invalid saved advisory contract')
+    _, digest = prepare(agent=agent, commit=commit, task=task,
+                        evidence=evidence, engineering=engineering)
+    if result['dispatch_id'] != digest:
+        raise ValueError('saved advisory context mismatch')
+    # Reuse the exact review/token contract; this does not reconstruct a receipt.
+    response = {'model': result['model'], 'usage': result['usage'],
+                'choices': [{'finish_reason': 'stop', 'message': {
+                    'content': json.dumps(result['review'])}}]}
+    validate_response(response, agent=agent, commit=commit, digest=digest, allow_legacy=True)

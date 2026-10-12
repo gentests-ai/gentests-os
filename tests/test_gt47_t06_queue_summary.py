@@ -35,9 +35,17 @@ class QueueSummaryTests(unittest.TestCase):
             write_queue_summary(Store(),{'status':'ready'})
 
     def completed(self, recommendation):
+        from scripts.gt47_t06_groq_handoff import prepare, validate_response
+        from tests.test_gt47_t06_groq_handoff import response
         value=self.value(); value['status']='completed'
-        value['qa']={'agent':'AGT-QA','commit':value['commit'],'status':'advisory_completed',
-                     'review':{'recommendation':recommendation}}
+        value['task']='Synthetic scope'
+        value['evidence']={'commit':value['commit'],'tests_passed':True,'links_passed':True}
+        for key,agent in [('engineering','AGT-ENG'),('qa','AGT-QA')]:
+            payload,digest=prepare(agent=agent,commit=value['commit'],task=value['task'],
+                evidence=value['evidence'],engineering=value.get('engineering') if key=='qa' else None)
+            result=response(payload)
+            value[key]=validate_response(result,agent=agent,commit=value['commit'],digest=digest)
+        value['qa']['review']['recommendation']=recommendation
         return value
     def test_favorable_qa_finalizes_without_human_gate(self):
         for recommendation in ('ready_for_finalization','ready_for_human_review'):

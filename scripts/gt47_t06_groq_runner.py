@@ -15,7 +15,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, build_opener, HTTPRedirectHandler
 
 from scripts.gt47_t06_groq_budget import BudgetBlocked, BudgetWaiting, ReconciliationRequired, eligibility
-from scripts.gt47_t06_groq_handoff import invoke, prepare
+from scripts.gt47_t06_groq_handoff import invoke, prepare, validate_saved_result
 
 REPO = 'gentests-ai/gentests-os'
 BRANCH = 'gt47-advisory-state'
@@ -255,12 +255,13 @@ def demand_outcome(value):
     """
     if type(value) is not dict or value.get('status') != 'completed':
         return 'in_progress'
-    for key, agent in [('engineering', 'AGT-ENG'), ('qa', 'AGT-QA')]:
-        entry = value.get(key)
-        if (type(entry) is not dict or entry.get('agent') != agent
-                or entry.get('commit') != value.get('commit')
-                or entry.get('status') != 'advisory_completed'):
-            return 'unverified'
+    try:
+        for key, agent in [('engineering', 'AGT-ENG'), ('qa', 'AGT-QA')]:
+            validate_saved_result(value.get(key), agent=agent, commit=value['commit'],
+                task=value['task'], evidence=value['evidence'],
+                engineering=value['engineering'] if key == 'qa' else None)
+    except (ValueError, KeyError, TypeError):
+        return 'unverified'
     review = value['qa'].get('review')
     if type(review) is not dict:
         return 'unverified'

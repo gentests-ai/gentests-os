@@ -48,7 +48,7 @@ def fake_transport(store, *, marker=None):
         return {'model':MODEL,'usage':{'prompt_tokens':400,'completion_tokens':100,'total_tokens':500},
                 'choices':[{'finish_reason':'stop','message':{'content':json.dumps({
                     'summary':'Scoped offline fixture.', 'findings':[],
-                    'recommendation':'ready_for_human_review'})}}]}
+                    'recommendation':'ready_for_finalization'})}}]}
     return call
 
 def main():

@@ -34,7 +34,7 @@ def synthetic_provider(store, *, interrupt=False):
                 'usage': {'prompt_tokens': 400, 'completion_tokens': 100, 'total_tokens': 500},
                 'choices': [{'finish_reason': 'stop', 'message': {'content': json.dumps({
                     'summary': 'Synthetic remote state rehearsal, no model invoked.',
-                    'findings': [], 'recommendation': 'ready_for_human_review'})}}]}
+                    'findings': [], 'recommendation': 'ready_for_finalization'})}}]}
     return submit
 
 def main():
