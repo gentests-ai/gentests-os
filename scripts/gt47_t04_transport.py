@@ -35,7 +35,7 @@ def github_readonly_get(url: str, params: dict, *, token: str):
     if type(params) is not dict:
         raise ContextRejected("invalid query parameters")
     if tail == "issues/47/comments":
-        if set(params) != {"per_page", "page"} or type(params["per_page"]) is not int or params["per_page"] != 100 or type(params["page"]) is not int or not 1 <= params["page"] <= 11:
+        if set(params) != {"per_page", "page"} or type(params["per_page"]) is not int or params["per_page"] != 100 or type(params["page"]) is not int or not 1 <= params["page"] <= 101:
             raise ContextRejected("invalid comments pagination")
     else:
         if set(params) != {"ref"} or type(params["ref"]) is not str or len(params["ref"]) != 40 or any(c not in "0123456789abcdef" for c in params["ref"]):
