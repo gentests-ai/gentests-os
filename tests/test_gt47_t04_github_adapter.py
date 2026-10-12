@@ -113,6 +113,27 @@ class AdapterTests(unittest.TestCase):
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(get)
 
+    def test_old_comment_spoofed_url_rejected(self):
+        def get(url, params):
+            if params["page"] > 1:
+                return []
+            return [{"id": i, "body": "data", "html_url":
+                     ("https://attacker.invalid/comment" if i == 1 else
+                      "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i))}
+                    for i in range(1, 101)]
+        with self.assertRaises(ContextRejected):
+            fetch_issue_comments(get)
+
+    def test_old_comment_oversize_rejected(self):
+        def get(url, params):
+            if params["page"] > 1:
+                return []
+            return [{"id": i, "body": ("x" * 100001 if i == 1 else "data"),
+                     "html_url": "https://github.com/gentestsai-sudo/gentests-os/issues/47#issuecomment-" + str(i)}
+                    for i in range(1, 101)]
+        with self.assertRaises(ContextRejected):
+            fetch_issue_comments(get)
+
     def test_comments_malformed(self):
         with self.assertRaises(ContextRejected):
             fetch_issue_comments(lambda url, params: {"error": "not found"})
