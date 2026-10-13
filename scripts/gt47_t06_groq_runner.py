@@ -105,7 +105,7 @@ def enqueue(store, *, commit, task):
     return value
 
 def start_new_round(store, *, commit, task, round_id, expected_id, now):
-    """Archive a blocked attempt without resolving it or refunding any claim.
+    """Archive a blocked or verified completed attempt without refunding claims.
 
     Caller validates trusted main offline and serializes with the pilot workflow.
     No provider submission is performed. Archive precedes queue CAS.
@@ -115,11 +115,15 @@ def start_new_round(store, *, commit, task, round_id, expected_id, now):
         raise EnqueueRejected('invalid round or expected task', reason='invalid_round')
     current, version = store.get('gt47-current.json')
     if (type(current) is not dict or current.get('id') != expected_id
-            or current.get('status') not in ('engineering_pending', 'qa_pending')
-            or type(current.get('diagnostic')) is not dict
-            or current['diagnostic'].get('status') != 'manual_reconciliation_required'
             or current.get('commit') == commit):
-        raise EnqueueRejected('blocked task changed or commit not new', reason='round_precondition_failed')
+        raise EnqueueRejected('previous task changed or commit not new', reason='round_precondition_failed')
+    blocked = (current.get('status') in ('engineering_pending', 'qa_pending')
+               and type(current.get('diagnostic')) is dict
+               and current['diagnostic'].get('status') == 'manual_reconciliation_required')
+    completed = (current.get('status') == 'completed'
+                 and demand_outcome(current) in ('finalized', 'adjustments_required'))
+    if not blocked and not completed:
+        raise EnqueueRejected('active or unverified task cannot be replaced', reason='round_precondition_failed')
     evidence = {'commit': commit, 'tests_passed': True, 'links_passed': True}
     scoped_task = 'Round ' + round_id + '\n' + task
     _, digest = prepare(agent='AGT-ENG', commit=commit, task=scoped_task, evidence=evidence)
