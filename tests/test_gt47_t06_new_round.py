@@ -52,3 +52,69 @@ class NewRoundTests(unittest.TestCase):
         with self.assertRaises(ReconciliationRequired):
             start_new_round(self.store, **self.args)
         self.assertEqual(self.store.get('gt47-current.json')[0], self.old)
+
+    def completed_queue(self, recommendation='ready_for_finalization'):
+        from tests.test_gt47_t06_queue_summary import QueueSummaryTests
+        value=QueueSummaryTests().completed(recommendation)
+        value['id']='1'*64
+        self.store.put('gt47-current.json', value, 2)
+        self.args['expected_id']=value['id']
+        return value
+    def test_verified_completed_round_can_be_archived_without_refund(self):
+        for recommendation in ('ready_for_finalization', 'needs_changes'):
+            with self.subTest(recommendation=recommendation):
+                self.setUp()
+                old=self.completed_queue(recommendation)
+                result=start_new_round(self.store, **self.args)
+                self.assertEqual(result['provider_calls'],0)
+                self.assertEqual(self.store.get('gt47-archive/'+old['id']+'.json')[0],old)
+                self.assertEqual(self.store.read()[0],self.budget)
+    def test_corrupt_completed_round_is_not_replaced(self):
+        old=self.completed_queue();old['qa']['dispatch_id']='0'*64
+        self.store.put('gt47-current.json',old,3)
+        with self.assertRaises(EnqueueRejected):
+            start_new_round(self.store, **self.args)
+        self.assertEqual(self.store.get('gt47-current.json')[0],old)
+        self.assertEqual(self.store.get('gt47-archive/'+old['id']+'.json')[0],None)
+    def test_active_round_is_not_replaced(self):
+        old=dict(self.old);old.pop('diagnostic')
+        self.store.put('gt47-current.json',old,2)
+        with self.assertRaises(EnqueueRejected):
+            start_new_round(self.store, **self.args)
+        self.assertEqual(self.store.get('gt47-current.json')[0],old)
+    def test_checklist_handoff_fits_full_review_context_limit(self):
+        task='Round pilot-round-04\n'+self.args['task']
+        evidence={'commit':self.args['commit'],'tests_passed':True,'links_passed':True}
+        engineering={'agent':'AGT-ENG','commit':self.args['commit'],'status':'advisory_completed',
+                     'review':{'summary':'s'*240,'findings':['f'*100]*3,'recommendation':'ready_for_finalization'}}
+        prepare(agent='AGT-QA',commit=self.args['commit'],task=task,evidence=evidence,engineering=engineering)
+    def test_new_checklist_round_completes_once_with_verified_qa(self):
+        from scripts.gt47_t06_groq_runner import run_once, demand_outcome
+        from tests.test_gt47_t06_groq_handoff import response
+        import json
+        old=self.completed_queue('needs_changes')
+        start_new_round(self.store, **self.args)
+        calls=[]
+        def provider(payload):
+            calls.append(payload)
+            result=response(payload)
+            review={'summary':'Checklist de aceite proposto.',
+                    'findings':['JSON versionado persistido por CAS e leitura confirmada.',
+                                'dispatch_id reservado antes da chamada; duplicata bloqueada.',
+                                'Etapa salva retomada; efeito incerto preserva reserva e impede reenvio.'],
+                    'recommendation':'ready_for_finalization'}
+            result['choices'][0]['message']['content']=json.dumps(review)
+            return result
+        args=dict(api_key='synthetic-only',enabled=True,free_plan_confirmed=True,transport=provider)
+        self.assertEqual(run_once(self.store,now=NOW,**args)['status'],'qa_pending')
+        self.assertEqual(run_once(self.store,now=NOW+299,**args)['status'],'waiting')
+        self.assertEqual(len(calls),1)
+        self.assertEqual(run_once(self.store,now=NOW+300,**args)['status'],'completed')
+        current=self.store.get('gt47-current.json')[0]
+        self.assertEqual(current['demand_outcome'],'finalized')
+        self.assertEqual(demand_outcome(current),'finalized')
+        self.assertEqual(current['engineering']['commit'],current['qa']['commit'])
+        self.assertEqual(self.store.get('gt47-archive/'+old['id']+'.json')[0],old)
+        self.assertEqual(len(self.store.read()[0]['claims']),3)
+        self.assertEqual(run_once(self.store,now=NOW+86401,**args)['status'],'idle')
+        self.assertEqual(len(calls),2)

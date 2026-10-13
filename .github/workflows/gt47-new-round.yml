@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       expected_id:
-        description: Exact blocked task ID to archive (64 hex characters)
+        description: Exact previous task ID (blocked or verified completed, 64 hex)
         required: true
         type: string
 permissions:
@@ -38,7 +38,7 @@ jobs:
           "$RUNNER_TEMP/gt47-venv/bin/python" -m unittest discover -s tests -p 'test_*.py'
           "$RUNNER_TEMP/gt47-venv/bin/python" scripts/check_links.py
           test -z "$(git status --porcelain)"
-      - name: Archive blocked attempt and prepare new queue (zero inference)
+      - name: Archive previous attempt and prepare new queue (zero inference)
         env:
           GH_TOKEN: ${{ github.token }}
           GT47_GROQ_ENABLED: ${{ vars.GT47_GROQ_ENABLED }}

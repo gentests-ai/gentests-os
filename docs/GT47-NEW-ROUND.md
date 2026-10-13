@@ -1,6 +1,7 @@
 # GTS-47: preparar uma nova rodada
 
-Este procedimento não resolve a tentativa anterior. Arquiva sua fila exatamente
+Este procedimento não resolve a tentativa anterior. Aceita uma tentativa bloqueada
+ou uma troca concluída cujos pareceres passaram na validação de integridade. Arquiva sua fila exatamente
 como está, preserva `gt47-budget.json` e cria uma tarefa identificada por rodada
 em um commit diferente. Não apagar claims ou reexecutar o run antigo.
 
@@ -15,7 +16,8 @@ Abrir **12 - GTS47 Nova rodada (sem IA)** e executar **Run workflow** na main:
 
 O ID acima é o observado na tentativa antiga: se a fila mudou, o workflow
 recusa a substituição. Não alterar o ID para contornar um erro sem inspecionar
-qual tarefa está ativa. O workflow valida main offline, usa a mesma concorrência
+qual tarefa está ativa. Uma tarefa em andamento sem bloqueio e um resultado
+concluído não verificável são recusados. O workflow valida main offline, usa a mesma concorrência
 do piloto e não recebe chave de provedor. Apenas arquiva e prepara a fila.
 Uma execução bem-sucedida retorna `round_prepared` e `provider_calls=0`.
 

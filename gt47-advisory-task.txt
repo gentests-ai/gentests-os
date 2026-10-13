@@ -1,11 +1,7 @@
-GTS-47 — piloto Engenharia → QA.
-
-Objetivo: propor três critérios de aceite para a troca de tarefas entre agentes.
-
-Engenharia: apresentar proposta curta considerando persistência, prevenção de duplicatas e recuperação após interrupção.
-
-QA: revisar a proposta recebida, apontar lacunas e recomendar revisão humana.
-
-Escopo: somente pareceres. Sem ferramentas, alterações de código, mensagens externas, merge ou deploy.
-
-Aceite: entrega de Engenharia persistida e consumida pelo QA; ambos vinculados ao mesmo commit; aprovação humana pendente.
+Demanda: redigir checklist de aceite, sem implementar ou executar ferramentas.
+Engenharia: findings deve conter estes 3 criterios verificaveis, em suas palavras:
+1. Persistir JSON schema=1, id, commit, etapa e resultado por CAS; confirmar leitura.
+2. Reservar dispatch_id unico antes da chamada; duplicata nao chama o provedor.
+3. Retomar etapa salva; efeito incerto bloqueia sem apagar reserva nem reenviar.
+QA: avaliar o checklist recebido; favoravel apenas se os 3 criterios estiverem completos. Se faltar algo, needs_changes.
+Escopo: somente pareceres, sem codigo, merge, deploy ou gasto adicional.
