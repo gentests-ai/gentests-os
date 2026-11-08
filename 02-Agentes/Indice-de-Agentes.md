@@ -5,11 +5,11 @@ versao: 0.2.2
 ---
 # Diretório canônico de agentes — proposta de reformulação
 
-Fonte de nomes e fronteiras: [Arquitetura de papéis](Arquitetura-de-Papeis.md). Esta proposta organiza responsabilidades futuras e não comprova implantação, homologação ou concessão de acessos.
+Fonte de nomes e fronteiras: [Arquitetura de papéis](Arquitetura-de-Papeis.md). O papel AGT-ORQ foi sucedido por AGT-SM; o contrato antigo permanece apenas para rastreabilidade histórica. Esta proposta organiza responsabilidades futuras e não comprova implantação, homologação ou concessão de acessos.
 
 | Nome canônico / chat principal | ID | Contrato | Responsabilidade |
 |---|---|---|---|
-| 🧭 Orquestrador Central | AGT-ORQ | [Contrato](Orquestrador/Contrato-Agente-Orquestrador.md) | Coordenação de missões |
+| 🧭 Scrum Master (antigo AirCaster) | AGT-SM | [Contrato](Scrum-Master/Contrato-Agente-Scrum-Master.md) | Supervisão do fluxo, identificação, encaminhamento e escalonamento de impedimentos |
 | 📦 Produto | AGT-PROD | [Contrato](Produto/Contrato-Agente-Produto.md) | Necessidades e requisitos |
 | 🎨 UX/UI | AGT-UXUI | [Contrato](UX-UI/Contrato-Agente-UX-UI.md) | Jornadas e interfaces |
 | 💻 Engenharia | AGT-ENG | [Contrato](Engenharia/Contrato-Agente-Executor-Tecnico.md) | Software e integrações |
@@ -53,3 +53,10 @@ Chat principal identifica especialidade; chat de atividade não cria novo agente
 **Interface financeira:** [PRC-FIN-001](../03-Processos/PRC-FIN-001-Gestao-Financeira.md), proposta já presente na main, relaciona Comercial, área técnica, Financeiro e Direção, sem ampliar permissões. O contrato AGT-FIN v1.1.1 da main e POL-003 v1.2.1 preservam FIN-54-01: Financeiro não inicia, agenda ou executa pagamentos/transferências. Proposta integrada não equivale a homologação.
 
 **Interface Comercial/Marketing:** conforme [proposta #50](https://github.com/gentestsai-sudo/gentests-os/pull/50), Marketing fornece origem/contexto; Comercial verifica duplicidade, autorização, qualifica e controla registro/seguimento no CRM, sem pipeline paralelo. Fonte única de CRM permanece proposta dependente de acesso comprovado e ratificação da Direção. Esta fronteira não autoriza contato externo.
+
+
+## Decisão de papel — AGT-SM
+
+O Scrum Master não é um orquestrador central. Não recebe toda demanda nem intermedeia cada handoff. Identifica, classifica, encaminha e escala impedimentos; acompanha o desfecho pelo registro canônico. Os agentes especialistas preservam comunicação direta e autonomia dentro de seus contratos e permissões. Ver [Contrato do Scrum Master](Scrum-Master/Contrato-Agente-Scrum-Master.md).
+
+**Merge:** AGT-SM pode monitorar prontidão, conferir evidências/gates e encaminhar pendências. Autoridade para aceitar/autorizar/executar merge depende de decisão normativa específica e conciliação com POL-003; este índice não concede privilégios.
