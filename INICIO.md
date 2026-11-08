@@ -1,7 +1,7 @@
 ---
 tipo: indice
 status: aprovado-para-uso-inicial
-versao: 1.2.0
+versao: 1.2.1
 ---
 # GenTests OS — Centro de comando
 
@@ -19,6 +19,7 @@ versao: 1.2.0
 - [[02-Agentes/Indice-de-Agentes|Equipe de agentes]]
 - [[02-Agentes/Arquitetura-de-Agentes-Runtime-e-Governanca|Arquitetura de agentes, runtime e governança]]
 - [[docs/GT-EVAL-CORE-001-Matriz-de-Evals|Matriz de Evals do motor]]
+- [[docs/GT-ARCH-DOC-DRIFT-001-Divergencias-Arquiteturais|Divergências documentais a reconciliar]]
 - [[docs/GT-EXEC-001-Continuidade-Execucao|GT-EXEC-001 — Continuidade de execução]]
 - [[03-Processos/Prospeccao-Comercial|Processo comercial]]
 - [[03-Processos/Gestao-de-Incidentes-IA|Falhas e alucinações]]
