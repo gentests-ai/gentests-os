@@ -14,7 +14,7 @@ Fonte de nomes e fronteiras: [Arquitetura de papéis](Arquitetura-de-Papeis.md) 
 | 📦 Produto | AGT-PROD | [Contrato](Produto/Contrato-Agente-Produto.md) | Necessidades e requisitos |
 | 🎨 UX/UI | AGT-UXUI | [Contrato](UX-UI/Contrato-Agente-UX-UI.md) | Jornadas e interfaces |
 | 💻 Engenharia | AGT-ENG | [Contrato](Engenharia/Contrato-Agente-Executor-Tecnico.md) | Software e integrações |
-| 🧠 Tech Lead (proposto) | AGT-TL | [Contrato](Tech-Lead/Contrato-Agente-Tech-Lead.md) | Review de PR, robustez, conflitos, integração e apoio técnico especializado |
+| 🧠 Tech Lead / Head Técnico (proposto) | AGT-TL | [Contrato](Tech-Lead/Contrato-Agente-Tech-Lead.md) | Direção técnica, arquitetura, padrões de engenharia, risco sistêmico, mentoria, review de PR, conflitos e integração |
 | 🛠️ Infraestrutura | AGT-INFRA | [Contrato](Infraestrutura/Contrato-Agente-Infraestrutura.md) | Ambientes e operação |
 | 🤝 Comercial | AGT-COM | [Contrato](Comercial/Contrato-Agente-Comercial.md) | Oportunidades e relacionamento autorizado |
 | 📣 Marketing | AGT-MKT | [Contrato](Marketing/Contrato-Agente-Marketing.md) | Conteúdo e comunicação |
@@ -44,4 +44,4 @@ Consultar contratos, políticas e registros atuais antes de agir. Usar [GT-HANDO
 
 **Arquitetura e Evals:** [GT-ARCH-AGENTS-001](Arquitetura-de-Agentes-Runtime-e-Governanca.md) e [GT-EVAL-CORE-001](../docs/GT-EVAL-CORE-001-Matriz-de-Evals.md) são propostas para auditoria, não comprovação de implementação.
 
-**Merge:** Tech Lead é o responsável técnico proposto por review e preparação da integração. A execução de merge permanece condicionada à POL-003 vigente e à autorização nela exigida; este índice não concede privilégios.
+**Head Técnico:** [Contrato](Tech-Lead/Contrato-Agente-Tech-Lead.md) · [Contexto operacional](Tech-Lead/Contexto-Operacional-AGT-TL.md) · [Matriz de autoridade e escalonamento](Tech-Lead/Matriz-Autoridade-e-Escalonamento-AGT-TL.md). Os três artefatos são propostas complementares: mandato, contexto de continuidade e limites de decisão. A delegação para executar merges elegíveis sem autorização individual da Direção depende de alteração formal e homologação da POL-003, branch protection, checks, segregação de funções, permissões efetivas e Evals. Nenhum desses documentos concede privilégios.

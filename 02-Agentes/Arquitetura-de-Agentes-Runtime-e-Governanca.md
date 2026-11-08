@@ -17,7 +17,7 @@ data: 2026-11-08
 2. **Handoffs são horizontais.** Agentes especializados encaminham tarefas diretamente ao próximo agente competente, conforme contratos, Actions, permissões e gates.
 3. **Agentes são definidos por especialidade.** Não há classes fixas de “executor” e “revisor”. Cada agente possui perfil, competência, escopo e contrato; pode executar etapas diferentes conforme sua especialização.
 4. **Scrum Master atua por exceção.** Monitora saúde operacional, detecta atrasos, violações de contrato, ping-pong e impedimentos. Não intermedeia o fluxo normal.
-5. **Tech Lead é especialista técnico.** Atua em revisão de PR, robustez de código, conflitos e integração, sem coordenar centralmente a equipe.
+5. **Tech Lead é o Head Técnico.** É a referência de alto nível para direção técnica, arquitetura, padrões de engenharia, risco sistêmico, qualidade estrutural, mentoria técnica, review de PR e integração. Atua por competência e criticidade, sem coordenar centralmente a equipe.
 6. **Escala não pode ser codificada como número fixo.** Os 14 agentes atuais são a configuração inicial. A plataforma deve permitir organizações com 100+ agentes, especialidades e hierarquias configuráveis.
 7. **Concorrência legítima é permitida.** Agentes podem executar tarefas distintas ao mesmo tempo. A exclusividade protege apenas a tarefa/recurso que não pode ser disputado.
 
@@ -112,22 +112,25 @@ O Scrum Master (AGT-SM):
 
 O Scrum Master não deve insistir indefinidamente, criar ciclos de encaminhamento ou manter uma tarefa em retry infinito. O limite de tentativas e tempos por severidade será definido por política operacional. Bloquear apenas o ramo afetado; atividades independentes autorizadas podem continuar.
 
-## 6. Tech Lead — especialidade técnica
+## 6. Tech Lead — Head Técnico
 
-O Tech Lead (proposto AGT-TL) é responsável por:
-- review de Pull Requests;
-- inspeção de robustez, legibilidade, manutenibilidade, segurança e desempenho;
-- identificação de bugs, regressões, falhas arquiteturais e riscos;
-- resolução de conflitos de merge sem perda de alterações;
-- análise de compatibilidade e impacto;
-- solicitação/execução de testes técnicos pertinentes;
-- recomendação de refatorações e melhorias;
-- apoio técnico aos agentes especializados;
-- execução do merge após aprovação dos gates e autorização aplicável.
+O Tech Lead (proposto AGT-TL) exerce o papel de **Head Técnico de alto nível**, autoridade técnica delegada para orientar a engenharia e proteger a coerência técnica do ecossistema. Combina visão estratégica e atuação hands-on nos pontos de maior risco.
 
-Tech Lead não é orquestrador, não distribui o trabalho normal e não substitui QA, Validador, Auditor ou controles de segurança.
+Responsabilidades:
+- definir e evoluir padrões de engenharia, critérios técnicos e práticas de revisão dentro das decisões aprovadas;
+- avaliar arquitetura, stack, integrações, persistência, observabilidade, desempenho, segurança e manutenibilidade;
+- manter visão de dívida técnica, dependências críticas, riscos sistêmicos e saúde dos componentes;
+- revisar PRs e diffs reais, emitir parecer ligado ao HEAD exato e bloquear recomendação de merge diante de achados impeditivos;
+- resolver conflitos preservando alterações válidas e executando testes do resultado combinado;
+- orientar e desenvolver a capacidade técnica dos agentes especializados;
+- recomendar refatorações, modernizações e mitigação de riscos;
+- preparar e, após conciliação normativa e gates, executar merges dentro da alçada delegada.
 
-**Conflito normativo a resolver:** a POL-003 consultada reserva à Direção a autorização de merge em PRs. A responsabilidade operacional do Tech Lead por realizar merges exige conciliação explícita da matriz de permissões, segregação de funções e permissões técnicas antes de habilitar merge autônomo. Até essa decisão, Tech Lead pode revisar, preparar e resolver conflitos em branch autorizada, mas não contornar a autorização vigente.
+Sua autoridade é técnica, não executiva: não altera prioridades de negócio unilateralmente, não concede permissões, não substitui especialistas de domínio e escala à Direção decisões estratégicas, irreversíveis, de alto impacto ou fora da alçada.
+
+Tech Lead não é orquestrador, não distribui o trabalho normal e não é passagem obrigatória para toda tarefa. Não substitui QA, Validador, Auditor ou controles de segurança.
+
+**Conflito normativo a resolver:** a POL-003 consultada reserva à Direção a autorização de merge em PRs. O objetivo é delegar ao Head Técnico a execução dos merges elegíveis sem autorização individual da Direção a cada PR, mantendo controles e escalonamento para exceções. Isso exige conciliação formal da POL-003/matriz de permissões, segregação de funções, branch protection, checks obrigatórios e permissões técnicas mínimas. Até essa decisão, o Tech Lead pode revisar, preparar e resolver conflitos em branch autorizada, mas não contornar a autorização vigente.
 
 ## 7. Gates e Actions
 
@@ -219,7 +222,7 @@ Referências: [Issue #47](https://github.com/gentests-ai/gentests-os/issues/47) 
 - Inspecionar a implementação real de claim/ledger e resolver A01/A02.
 - Definir runtime e armazenamento transacional.
 - Definir limites de tentativas, timeouts e severidades do Scrum Master.
-- Criar contrato e identidade AGT-TL; conciliar POL-003 para merge.
+- Aprovar contrato e identidade AGT-TL como Head Técnico; conciliar POL-003/matriz de permissões para delegação controlada de merges.
 - Definir catálogo versionado de Evals e thresholds de aprovação.
 - Projetar isolamento multiempresa e configuração de hierarquias.
 - Realizar auditoria independente antes de consolidar arquitetura como aprovada.
