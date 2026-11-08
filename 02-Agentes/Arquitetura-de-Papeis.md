@@ -10,12 +10,12 @@ status: proposta
 Reformular funções por responsabilidade futura, independentemente da distribuição histórica de atividades, conforme instrução direta da Direção em 11/10/2026. Preservar registros anteriores. Este pacote é proposta documental: não ativa agentes, não altera permissões e não autoriza merge.
 
 ## Estrutura
-Direção decide estratégia e atos reservados. Um Orquestrador Central coordena as missões. Especialistas respondem por entregas do domínio. Governança e Processos têm funções transversais distintas. QA, Validador, Auditor e X9 mantêm fronteiras de controle próprias. Revisão Independente é função atribuída a especialista por missão (Modelo A), não agente permanente.
+Direção decide estratégia e atos reservados. O Scrum Master (antigo AirCaster/Orquestrador Central) supervisiona a saúde operacional, identifica impedimentos e gargalos, classifica, encaminha e escala; não distribui obrigatoriamente todas as tarefas nem executa o trabalho dos especialistas. Especialistas mantêm comunicação horizontal e autonomia dentro de suas alçadas. Governança e Processos têm funções transversais distintas. QA, Validador, Auditor e X9 mantêm fronteiras de controle próprias. Revisão Independente é função atribuída a especialista por missão (Modelo A), não agente permanente.
 
 ## Fronteiras e roteamento
 | Pergunta ou objeto | Responsável primário | Limite |
 |---|---|---|
-| Quem recebe a próxima etapa e qual a prioridade autorizada? | Orquestrador | Não decide mérito especializado |
+| Quem identifica impedimentos, acompanha fluxo e encaminha exceções? | Scrum Master (AGT-SM) | Não é roteador obrigatório, executor ou solucionador técnico |
 | O que o produto deve fazer? | Produto | Não autoriza implantação |
 | Como a pessoa usa e entende a interface? | UX/UI | Não redefine negócio unilateralmente |
 | Como implementar/corrigir software? | Engenharia | Não homologa a própria entrega |
@@ -35,7 +35,7 @@ QA não precisa ser repetido pelo Validador: este reaproveita evidências sufici
 |---|---|
 | Executor Técnico, Executor de Software, Executor do Site | Engenharia (AGT-ENG), com site/software como escopo da missão |
 | Infra, DevOps, Infraestrutura e DevOps | Infraestrutura (AGT-INFRA) |
-| Orquestrador, Orquestrador Central | Orquestrador Central (AGT-ORQ), único |
+| Orquestrador, Orquestrador Central, AirCaster | Scrum Master (AGT-SM); nomes anteriores preservados como aliases históricos |
 | Auditoria, Auditor | Auditor (AGT-AUD) |
 | Validação, Validador | Validador (AGT-VAL) |
 | Governança, agente de governança | Governança (AGT-GOV) |
@@ -104,3 +104,17 @@ DoD documental da correção depende do commit confirmado, autocheck e retorno; 
 ## Delta GOV-04 — compatibilização de branches
 PRC-ENG-001 v0.1.1/proposta incorporado nesta branch com os controles anteriores preservados e nome Engenharia canônico; qualquer merge exige autorização explícita da Direção. Contratos AGT-ENG/AGT-INFRA v0.1.2 e índice v0.2.2 agora usam referência local ao procedimento proposto. O delta correspondente de #52 usa os mesmos contratos e 14 papéis; destinos ainda ausentes em sua base são referências explícitas à proposta #61, sem criar contratos duplicados ou alegar integração.
 A sequência anterior é substituída por: conferir compatibilidade do delta GOV-04 nas duas branches; responsável por #53 reconciliar separadamente POL-003 preexistente de #52/#54; responsáveis por #50/#54 tratar interfaces e FIN-54-01; Orquestrador encaminhar validação focal e confirmar sequência de integração; Direção decidir eventual merge/homologação. Não integrar #52 enquanto sua parcela de permissões não estiver reconciliada. ORG-VAL-01/02/04 preservados; ORG-VAL-03 permanece dependente das entregas externas nomeadas.
+
+
+## Decisão arquitetural posterior — Scrum Master (AGT-SM)
+
+**Decisão da Direção registrada nesta atualização:** o papel anteriormente chamado Orquestrador Central/AirCaster passa a ser Scrum Master. A mudança não é apenas nominal: elimina a centralização do fluxo.
+
+- **Missão:** observar a saúde operacional da equipe de agentes e manter visibilidade sobre fluxo, bloqueios, gargalos e exceções.
+- **Faz:** identificar sinais de impedimento; classificar natureza, impacto e urgência; encaminhar ao agente/responsável competente; escalar conflitos, riscos, ausência de autoridade ou bloqueios não resolvidos; acompanhar o estado até haver desfecho registrado.
+- **Não faz:** não recebe obrigatoriamente todas as tarefas; não autoriza cada handoff; não executa trabalho especializado; não corrige código/processos; não decide mérito técnico no lugar do especialista; não se torna ponte obrigatória entre agentes.
+- **Comunicação:** agentes podem encaminhar diretamente etapas entre si quando a rota, o contrato e as permissões efetivas permitirem. O Scrum Master acompanha por eventos e registros canônicos, sem retransmitir cada mensagem.
+- **IA e custo:** monitoramento de filas, prazos, estados, regras e alertas deve ser determinístico sempre que possível. API/LLM somente quando houver necessidade real de interpretação ou decisão contextual, sujeito a cotas.
+- **Integração/merge:** o Scrum Master pode acompanhar a prontidão do PR, conferir se os gates e pareceres exigidos estão registrados e encaminhar pendências. A possibilidade de aceitar/autorizar ou executar o merge como ato delegado permanece **pendente de reconciliação com POL-003 e autorização da Direção**; esta decisão de papel não concede permissão técnica nem revoga a regra vigente que reserva a autorização de merge à Direção.
+
+Esta decisão substitui, para a arquitetura-alvo, as descrições anteriores que atribuem ao AGT-ORQ coordenação de fila única, roteamento obrigatório, despacho de todas as etapas e encerramento central. O contrato antigo é preservado como histórico e marcado como supersedido. A adoção operacional depende da reconciliação dos contratos, matriz de permissões e automações; este registro não comprova implantação.
