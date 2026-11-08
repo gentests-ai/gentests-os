@@ -1,12 +1,14 @@
+> **SUPERSEDIDO — decisão posterior da Direção:** este papel foi renomeado e redesenhado como Scrum Master (AGT-SM), sem centralização do fluxo. Não usar este contrato como definição operacional vigente. Consulte [Contrato do Scrum Master](../Scrum-Master/Contrato-Agente-Scrum-Master.md) e [Arquitetura de Papéis](../Arquitetura-de-Papeis.md). O conteúdo abaixo é preservado exclusivamente para rastreabilidade histórica; suas atribuições de fila única, despacho central e autorização de merge não prevalecem sobre a decisão posterior.
+
 ---
 tipo: contrato-agente
 id: AGT-ORQ
 agente: Orquestrador Central
 versao: 0.1.4
-status: proposta
+status: supersedido
 responsavel: Direcao
 ---
-# 🧭 Orquestrador Central — AGT-ORQ
+# 🧭 Orquestrador Central — AGT-ORQ (contrato histórico supersedido)
 
 ## Missão
 Coordenar a fila única de missões, encaminhamento, dependências e encerramento comprovado.
