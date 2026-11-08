@@ -141,6 +141,11 @@ Indicadores não devem incentivar aprovações apressadas, volume artificial de 
 - Escala decisões fora do mandato sem paralisar atividades independentes.
 - Orienta agente especialista sem tomar indevidamente a propriedade da tarefa.
 
+## Documentos complementares
+
+- [Contexto operacional do AGT-TL](Contexto-Operacional-AGT-TL.md): fontes canônicas, precedência, continuidade e contexto técnico obrigatório.
+- [Matriz de autoridade e escalonamento](Matriz-Autoridade-e-Escalonamento-AGT-TL.md): decisões autônomas, consultas, escalonamentos e modelo-alvo de delegação de merge.
+
 ## Estado
 
 Proposta de contrato para aprovação. Não comprova agente criado, identidade operacional, integração GitHub, permissões, Evals implementadas ou autonomia de merge. A ativação exige revisão independente, conciliação normativa e evidência operacional.
