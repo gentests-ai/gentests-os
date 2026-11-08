@@ -142,3 +142,18 @@ Estados distintos: `PREPARADO`, `REGISTRADO`, `ENTREGA_PENDENTE`, `ENTREGUE`, `A
 - [Arquitetura de repositórios proposta](GT-PROD-REPOS-001-Arquitetura-Repositorios.md)
 
 **Handoff solicitado:** Governança (conformidade de autoridade), Processos (semântica de transições), Engenharia/Infra (viabilidade), QA/Validador (testabilidade e gates), Direção (deliberação). Documento de Produto em proposta, sem modificação dos contratos existentes, políticas, código ou runtime.
+
+
+## 11. Decisão posterior da Direção — Scrum Master sem centralização (AGT-SM)
+
+Esta seção substitui as referências anteriores a AGT-ORQ como coordenador central, triador obrigatório, intermediário de handoffs e responsável por encaminhar toda etapa.
+
+- **Papel:** Scrum Master (AGT-SM), anteriormente denominado Orquestrador Central/AirCaster.
+- **Responsabilidade:** monitorar saúde do fluxo; detectar tarefas paradas, impedimentos, gargalos, falhas de transporte/aceite e conflitos; classificar impacto e urgência; encaminhar ao especialista ou responsável competente; escalar o que exceder a alçada; acompanhar o desfecho registrado.
+- **Não é executor nem solucionador:** não corrige, não implementa, não decide pelo especialista e não assume a tarefa bloqueada. Sua ação termina no encaminhamento/escalonamento e acompanhamento.
+- **Handoffs horizontais:** agentes podem se comunicar e transferir etapas diretamente, quando a rota estiver definida e a autorização/permissão efetiva existir. O registro canônico dá visibilidade ao Scrum Master, mas não exige sua intermediação.
+- **Entrada de demandas:** pode existir um mecanismo determinístico de registro/classificação inicial, mas isso não transforma o Scrum Master em ponto obrigatório de passagem. Tarefas podem ser direcionadas ao especialista competente por regras de roteamento.
+- **Merge:** o Scrum Master pode acompanhar PRs, verificar presença dos pareceres e gates definidos e encaminhar pendências ao responsável. A ideia de ele aceitar/autorizar ou executar merges é registrada como **proposta pendente**: POL-003 vigente reserva autorização de merge à Direção e não pode ser alterada por este documento de fluxo. Qualquer delegação exige decisão explícita, revisão da matriz, segregação de funções e permissões técnicas compatíveis.
+- **Automação econômica:** estados, filas, timeouts, limites, detecção de bloqueios e encaminhamentos padronizados devem ser implementados em código determinístico. Chamar API/LLM somente quando a classificação exigir interpretação contextual que regras não resolvam, com orçamento/cota explícitos.
+
+O fluxo feliz não passa pelo Scrum Master. Ele atua por exceção, com visibilidade operacional e rastreabilidade, sem se tornar gargalo.
