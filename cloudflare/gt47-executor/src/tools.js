@@ -11,7 +11,9 @@ const TOOL_DEFINITIONS=[
 {name:"write_file",description:"Create or update one allowed source/test/documentation file on this dispatch's isolated branch. Never writes to main.",parameters:{type:"object",properties:{path:{type:"string"},content:{type:"string"},message:{type:"string"}},required:["path","content","message"]}},
 {name:"open_pull_request",description:"Open or return the single pull request from this dispatch branch to main. Never merges it.",parameters:{type:"object",properties:{title:{type:"string"},body:{type:"string"}},required:["title","body"]}}
 ];
+const READ_PATHS=["docs/","scripts/","tests/","cloudflare/","00-Constituicao/","02-Agentes/","03-Processos/"];
 const WRITE_PATHS=["scripts/","tests/","docs/","cloudflare/"];
+const SENSITIVE_PATH=/(?:secret|credential|token|private|\\.env|\\.pem|\\.key|\\.p12|\\.pfx|\\.crt|\\.tfstate)/i;
 const SECRET_PATTERNS=[
 /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
 /\bgh[pousr]_[A-Za-z0-9]{20,}\b/,
@@ -24,7 +26,9 @@ function safePath(value,write=false){
 if(typeof value!=="string"||!value||value.length>180||value.startsWith("/")||value.includes("\\")||value.includes("\0"))throw Error("invalid_path");
 const parts=value.split("/");
 if(parts.some(p=>!p||p==="."||p===".."||p.startsWith(".")))throw Error("invalid_path");
+if(SENSITIVE_PATH.test(value))throw Error("sensitive_path_not_allowed");
 if(write&&!WRITE_PATHS.some(prefix=>value.startsWith(prefix)))throw Error("write_path_not_allowed");
+if(!write&&value!=="README.md"&&!READ_PATHS.some(prefix=>value.startsWith(prefix)))throw Error("read_path_not_allowed");
 return value;
 }
 function validateToolCall(name,args,allowed){
