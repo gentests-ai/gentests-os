@@ -32,8 +32,75 @@ def _canonical(value: dict) -> bytes:
                       separators=(",", ":")).encode("utf-8")
 
 
+def _validate_ed25519_receipt(*, value: dict, key: bytes, intent: dict,
+                                receipt_id: str | None, allowed_states: tuple,
+                                nested: bool = False) -> dict:
+    from base64 import urlsafe_b64decode
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+
+    if type(value) is not dict:
+        raise ContextRejected("invalid Ed25519 receipt schema")
+    base = {"schema", "status", "mission", "issue", "agent_id", "commit_sha",
+            "dispatch_id", "receipt_id", "result_sha256", "updated_at",
+            "executor", "signature"}
+    expected = base | ({"accepted_receipt"} if "accepted_receipt" in value else set())
+    if set(value) != expected:
+        raise ContextRejected("invalid Ed25519 receipt schema")
+    if (value["schema"] != "gt47-executor-receipt-v2"
+            or value["status"] not in allowed_states
+            or value["mission"] != intent["mission"]
+            or value["issue"] != intent["issue"]
+            or value["agent_id"] != intent["agent_id"]
+            or value["commit_sha"] != intent["commit_sha"]
+            or value["dispatch_id"] != intent["dispatch_id"]):
+        raise ContextRejected("Ed25519 receipt binding mismatch")
+    if (type(value["updated_at"]) is not str or not value["updated_at"]
+            or value["executor"] != "gt47-cloudflare-worker-v1"):
+        raise ContextRejected("invalid Ed25519 receipt metadata")
+    rid = value["receipt_id"]
+    if type(rid) is not str or not _RECEIPT.fullmatch(rid):
+        raise ContextRejected("invalid Ed25519 receipt identifier")
+    if receipt_id is not None and rid != receipt_id:
+        raise ContextRejected("Ed25519 receipt identifier changed")
+    result = value["result_sha256"]
+    if value["status"] == "completed":
+        if type(result) is not str or not _HASH.fullmatch(result):
+            raise ContextRejected("missing completed result digest")
+    elif result is not None:
+        raise ContextRejected("premature result digest")
+    signature = value["signature"]
+    if type(signature) is not str or not re.fullmatch(r"[A-Za-z0-9_-]{86}", signature):
+        raise ContextRejected("invalid Ed25519 signature encoding")
+    try:
+        sig = urlsafe_b64decode(signature + "=" * (-len(signature) % 4))
+        unsigned = {k: v for k, v in value.items() if k != "signature"}
+        Ed25519PublicKey.from_public_bytes(key).verify(
+            sig, b"GT47-RECEIPT-v1\x00" + _canonical(unsigned))
+    except (ValueError, InvalidSignature) as exc:
+        raise ContextRejected("Ed25519 receipt authentication failed") from exc
+    accepted_attested = False
+    if "accepted_receipt" in value:
+        if nested or value["status"] not in ("completed", "failed", "uncertain"):
+            raise ContextRejected("unexpected nested acceptance receipt")
+        accepted = _validate_ed25519_receipt(
+            value=value["accepted_receipt"], key=key, intent=intent,
+            receipt_id=rid, allowed_states=("accepted",), nested=True)
+        accepted_attested = accepted["status"] == "accepted"
+    if value["status"] == "completed" and not accepted_attested:
+        raise ContextRejected("completed receipt lacks signed acceptance history")
+    return {"status": value["status"], "receipt_id": rid,
+            "result_sha256": result, "accepted_attested": accepted_attested}
+
+
 def validate_attestation(*, value: dict, key: bytes, intent: dict,
                          receipt_id: str | None, allowed_states: tuple) -> dict:
+    if type(value) is dict and value.get("schema") == "gt47-executor-receipt-v2":
+        if type(key) is not bytes or len(key) != 32:
+            raise ContextRejected("Ed25519 public key must be 32 raw bytes")
+        return _validate_ed25519_receipt(
+            value=value, key=key, intent=intent, receipt_id=receipt_id,
+            allowed_states=allowed_states)
     if type(value) is not dict or set(value) != _RECEIPT_KEYS:
         raise ContextRejected("invalid remote receipt schema")
     if type(key) is not bytes or len(key) < 32:
@@ -69,7 +136,7 @@ def validate_attestation(*, value: dict, key: bytes, intent: dict,
 def execute_reserved_intent(*, intent: dict, reservation: dict,
                             receipt_key: bytes, verify_authorization=None,
                             create_ref=None, get_ref=None,
-                            submit=None, lookup=None,
+                            submit=None, lookup=None, worker_request: dict | None = None,
                             enabled: bool = False, max_polls: int = 2) -> dict:
     """Transmit a reserved intent once, then collect signed states.
 
@@ -102,21 +169,42 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         raise ContextRejected("out-of-band authorization verification failed") from exc
     if permitted is not True:
         raise ContextRejected("no verified out-of-band authorization")
+    if worker_request is None:
+        payload = {
+            "schema": "gt47-executor-request-v1",
+            "mission": intent["mission"], "issue": intent["issue"],
+            "agent_id": intent["agent_id"],
+            "commit_sha": intent["commit_sha"],
+            "context_sha256": intent["context_sha256"],
+            "dispatch_id": intent["dispatch_id"],
+            "claim_ref": expected_ref,
+            # No executable command, issue body, credentials, policy, or tool output.
+        }
+    else:
+        if (type(worker_request) is not dict
+                or set(worker_request) != {"decision", "signature", "task", "context"}):
+            raise ContextRejected("invalid signed Worker request")
+        decision = worker_request["decision"]
+        task, context = worker_request["task"], worker_request["context"]
+        if (type(decision) is not dict or type(task) is not str
+                or not task.strip() or len(task) > 8192 or type(context) is not dict
+                or decision.get("mission") != intent["mission"]
+                or decision.get("issue") != intent["issue"]
+                or decision.get("agent_id") != intent["agent_id"]
+                or decision.get("commit_sha") != intent["commit_sha"]
+                or decision.get("dispatch_id") != intent["dispatch_id"]
+                or decision.get("claim_ref") != expected_ref
+                or decision.get("input_sha256") != hashlib.sha256(
+                    _canonical({"task": task, "context": context})).hexdigest()
+                or type(worker_request["signature"]) is not str):
+            raise ContextRejected("signed Worker request does not match reserved intent")
+        payload = worker_request
+    # Validate the complete request before consuming the one-shot side-effect fence.
     fence = begin_executor_invocation_on_github(
         intent=intent, reservation=reservation, enabled=True,
         create_ref=create_ref, get_ref=get_ref,
     )
     execution_ref = fence["execution_ref"]
-    payload = {
-        "schema": "gt47-executor-request-v1",
-        "mission": intent["mission"], "issue": intent["issue"],
-        "agent_id": intent["agent_id"],
-        "commit_sha": intent["commit_sha"],
-        "context_sha256": intent["context_sha256"],
-        "dispatch_id": intent["dispatch_id"],
-        "claim_ref": expected_ref,
-        # No executable command, issue body, credentials, policy, or tool output.
-    }
     try:
         code, initial = submit(payload)
     except Exception as exc:
@@ -135,24 +223,41 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
             raise ContextRejected("remote receipt lookup uncertain; reconcile") from exc
         if type(code) is not int or code != 200:
             raise ContextRejected("remote receipt lookup failed; reconcile")
+        result_text = None
+        receipt_value = response
+        if type(response) is dict and "receipt" in response:
+            receipt_value = response["receipt"]
+            result_text = response.get("result")
         value = validate_attestation(
-            value=response, key=receipt_key, intent=intent,
+            value=receipt_value, key=receipt_key, intent=intent,
             receipt_id=rid,
-            allowed_states=("received", "accepted", "completed", "failed"),
+            allowed_states=("received", "accepted", "completed", "failed", "uncertain"),
         )
         state = value["status"]
         if state == "failed":
             raise ContextRejected("remote executor reported failed")
+        if state == "uncertain":
+            raise ContextRejected("remote execution uncertain; manual reconciliation required")
         if state == "accepted":
             accepted = True
         elif state == "completed":
+            if value.get("accepted_attested") is True:
+                accepted = True
             if not accepted:
                 raise ContextRejected("executor completed without verified acceptance")
+            result_info = {}
+            if receipt_value.get("schema") == "gt47-executor-receipt-v2":
+                if (type(result_text) is not str or not result_text
+                        or hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+                        != value["result_sha256"]):
+                    raise ContextRejected("remote result missing or digest mismatch")
+                result_info["result"] = result_text
             return {"status": "remote_completed_attested",
                     "dispatch_id": intent["dispatch_id"],
                     "receipt_id": rid,
                     "execution_ref": execution_ref,
                     "result_sha256": value["result_sha256"],
+                    **result_info,
                     "agent_id": intent["agent_id"],
                     "agent_mission_executed": "attested_by_remote_only",
                     "independently_verified": False}
@@ -160,3 +265,69 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
             "receipt_id": rid, "execution_ref": execution_ref,
             "agent_id": intent["agent_id"],
             "agent_mission_executed": False, "independently_verified": False}
+
+
+def reconcile_executor_receipt(*, intent: dict, receipt_id: str,
+                               receipt_key: bytes, lookup) -> dict:
+    """Read-only reconciliation; never submits or retries an uncertain dispatch."""
+    if not callable(lookup):
+        raise ContextRejected("remote receipt lookup is not configured")
+    if type(receipt_key) is not bytes or len(receipt_key) < 32:
+        raise ContextRejected("receipt verifier not configured")
+    try:
+        code, response = lookup(receipt_id)
+    except Exception as exc:
+        raise ContextRejected("receipt reconciliation outcome uncertain") from exc
+    if type(code) is not int or code != 200 or type(response) is not dict:
+        raise ContextRejected("remote receipt unavailable; manual reconciliation required")
+    receipt_value = response.get("receipt", response)
+    result_text = response.get("result") if "receipt" in response else None
+    value = validate_attestation(
+        value=receipt_value, key=receipt_key, intent=intent,
+        receipt_id=receipt_id,
+        allowed_states=("received", "accepted", "completed", "failed", "uncertain"),
+    )
+    state = value["status"]
+    if state == "failed":
+        raise ContextRejected("remote executor reported failed")
+    if state == "uncertain":
+        return {"status": "manual_reconciliation_required",
+                "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
+                "agent_mission_executed": "uncertain",
+                "independently_verified": False}
+    if state != "completed":
+        return {"status": "remote_pending_attested",
+                "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
+                "agent_mission_executed": False, "independently_verified": False}
+    result_info = {}
+    if receipt_value.get("schema") == "gt47-executor-receipt-v2":
+        if (type(result_text) is not str or not result_text
+                or hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+                != value["result_sha256"]):
+            raise ContextRejected("remote result missing or digest mismatch")
+        result_info["result"] = result_text
+    return {"status": "remote_completed_attested",
+            "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
+            "result_sha256": value["result_sha256"], **result_info,
+            "agent_id": intent["agent_id"],
+            "agent_mission_executed": "attested_by_remote_only",
+            "independently_verified": False}
+
+
+def reconcile_executor_dispatch(*, intent: dict, receipt_key: bytes, status) -> dict:
+    """Reconcile by stable dispatch ID when the original POST response was lost."""
+    if not callable(status):
+        raise ContextRejected("remote status lookup is not configured")
+    try:
+        code, response = status(intent["dispatch_id"])
+    except Exception as exc:
+        raise ContextRejected("dispatch status outcome uncertain") from exc
+    if (type(code) is not int or code != 200 or type(response) is not dict
+            or type(response.get("receipt")) is not dict):
+        raise ContextRejected("dispatch status unavailable; manual reconciliation required")
+    receipt_id = response["receipt"].get("receipt_id")
+    if type(receipt_id) is not str or not _RECEIPT.fullmatch(receipt_id):
+        raise ContextRejected("dispatch status has no valid receipt identifier")
+    return reconcile_executor_receipt(
+        intent=intent, receipt_id=receipt_id, receipt_key=receipt_key,
+        lookup=lambda _receipt_id: (code, response))
