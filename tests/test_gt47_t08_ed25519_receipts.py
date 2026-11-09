@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from scripts.gt47_t04_context_loader import ContextRejected
 from scripts.gt47_t06_dispatch_intent import prepare_dispatch
 from scripts.gt47_t08_executor_bridge import (
-    _canonical, _claim_ref, execute_reserved_intent, validate_attestation,
+    _canonical, _claim_ref, execute_reserved_intent, reconcile_executor_receipt, validate_attestation,
 )
 from tests.test_gt47_t06_dispatch_intent import fixture
 
@@ -135,6 +135,40 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
                 value=received, key=wrong, intent=self.intent,
                 receipt_id=None, allowed_states=("received",))
 
+
+    def test_read_only_reconciliation_returns_verified_result_without_post(self):
+        result_text = "Recovered signed result"
+        digest = hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+        accepted = self.receipt("accepted")
+        completed = self.receipt("completed", digest=digest, accepted=accepted)
+        calls = []
+
+        def lookup(receipt_id):
+            calls.append(receipt_id)
+            return 200, {"state": "completed", "receipt": completed,
+                         "result": result_text, "result_sha256": digest}
+
+        result = reconcile_executor_receipt(
+            intent=self.intent, receipt_id=self.receipt_id,
+            receipt_key=self.public, lookup=lookup)
+        self.assertEqual(result["status"], "remote_completed_attested")
+        self.assertEqual(result["result"], result_text)
+        self.assertEqual(calls, [self.receipt_id])
+
+    def test_uncertain_reconciliation_never_resubmits(self):
+        accepted = self.receipt("accepted")
+        uncertain = self.receipt("uncertain", accepted=accepted)
+        calls = []
+
+        def lookup(receipt_id):
+            calls.append(receipt_id)
+            return 200, {"state": "uncertain", "receipt": uncertain, "result": None}
+
+        result = reconcile_executor_receipt(
+            intent=self.intent, receipt_id=self.receipt_id,
+            receipt_key=self.public, lookup=lookup)
+        self.assertEqual(result["status"], "manual_reconciliation_required")
+        self.assertEqual(calls, [self.receipt_id])
 
     def test_existing_t08_bridge_accepts_completed_v2_with_signed_acceptance_chain(self):
         claim = _claim_ref(self.intent)
