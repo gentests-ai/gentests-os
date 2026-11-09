@@ -4,9 +4,9 @@ import threading
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 
-from scripts.gt47_t06_groq_budget import reserve, BudgetBlocked
+from scripts.gt47_t06_groq_budget import reserve, BudgetBlocked, ReconciliationRequired
 from scripts.gt47_t06_groq_handoff import invoke, prepare, MODEL
-from scripts.gt47_t06_groq_runner import enqueue, advance, GitHubStore
+from scripts.gt47_t06_groq_runner import enqueue, advance, GitHubStore, run_once
 
 SHA = 'a' * 40
 NOW = 1_000_000
@@ -14,7 +14,7 @@ EVIDENCE = {'commit': SHA, 'tests_passed': True, 'links_passed': True}
 
 class MemoryStore:
     def __init__(self):
-        self.files = {}
+        self.files = {'gt47-budget.json': ({'schema': 1, 'claims': {}}, 0)}
         self.lock = threading.Lock()
     def get(self, path):
         with self.lock:
@@ -29,7 +29,9 @@ class MemoryStore:
             return True
     def read(self):
         value, version = self.get('gt47-budget.json')
-        return ({'schema': 1, 'claims': {}} if value is None else value), version
+        if value is None:
+            raise ReconciliationRequired('budget ledger missing', reason='budget_ledger_missing')
+        return value, version
     def cas(self, version, value):
         return self.put('gt47-budget.json', value, version)
 
@@ -77,7 +79,8 @@ class BudgetTests(unittest.TestCase):
         for value in ([], {'schema':1, 'claims': {'a'*64: {'at':NOW+1,'tokens':4000}}},
                       {'schema':1, 'claims': {'a'*64: {'at':NOW,'tokens':True}}}):
             store = MemoryStore()
-            store.put('gt47-budget.json', value, None)
+            _, version = store.get('gt47-budget.json')
+            store.put('gt47-budget.json', value, version)
             with self.assertRaises(BudgetBlocked):
                 reserve(store, dispatch_id='b'*64, now=NOW)
 
@@ -85,6 +88,12 @@ class BudgetTests(unittest.TestCase):
         store = MemoryStore()
         store.cas = lambda version, value: False
         with self.assertRaisesRegex(BudgetBlocked, 'contention'):
+            reserve(store, dispatch_id='a'*64, now=NOW)
+
+    def test_missing_ledger_fails_closed_instead_of_resetting_quota(self):
+        store = MemoryStore()
+        del store.files['gt47-budget.json']
+        with self.assertRaisesRegex(ReconciliationRequired, 'ledger missing'):
             reserve(store, dispatch_id='a'*64, now=NOW)
 
 class HandoffTests(unittest.TestCase):
@@ -193,6 +202,20 @@ class QueueTests(unittest.TestCase):
             advance(store,now=NOW,**args)
         with self.assertRaises(BudgetBlocked):
             advance(store,now=NOW+300,**args)
+
+    def test_uncertain_provider_timeout_is_not_retried_by_new_run(self):
+        store=MemoryStore()
+        enqueue(store,commit=SHA,task='Timeout recovery test.')
+        calls=[]
+        def timeout(payload):
+            calls.append(payload)
+            raise TimeoutError('simulated uncertain outcome')
+        args=dict(api_key='offline-test',enabled=True,free_plan_confirmed=True)
+        first=run_once(store,now=NOW,transport=timeout,**args)
+        self.assertEqual(first['status'],'manual_reconciliation_required')
+        second=run_once(store,now=NOW+300,transport=response,**args)
+        self.assertEqual(second['status'],'manual_reconciliation_required')
+        self.assertEqual(len(calls),1)
 
     def test_github_cas_conflict_does_not_claim_success(self):
         store=GitHubStore('offline-test')
