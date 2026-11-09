@@ -69,3 +69,16 @@ A URL https://pgw13.com/?a=uq6igjhx foi aberta publicamente e retornou título P
 
 ## 9. Parecer da etapa
 **EM ANDAMENTO.** A especificação secundária orienta a coleta, mas não basta para congelar regras matemáticas ou identificar o RTP implantado na PGW. Frente A segue independente da Frente B. Auditoria final deve ser feita por agente distinto do autor da implementação.
+
+## 10. Adendo — extração estruturada da captura secundária (09/11/2026)
+A leitura detalhada da página iGaming Tools revelou dados mais específicos, ainda **secundários e não oficiais**:
+- A página declara 33 telas capturadas manualmente, 10 símbolos catalogados, 7 grupos de acessibilidade e 6 modos de jogo não capturados; paytable de 7 páginas submetida a OCR.
+- A especificação da captura lista uma configuração RTP 96,74%, volatilidade alta, máximo 5.000×, grade 5×3, 243 ways e campo bonus_buy = No. Isso diverge da fonte North Island Casinos, que afirma Feature Buy documentado na referência. Não resolver a divergência por preferência de uma fonte: registrar como conflito de evidência e buscar o documento primário.
+- A captura informa que RTP e volatilidade não aparecem no build; portanto 96,74% é metadado externo à tela do jogo, não valor lido do próprio cliente.
+- Símbolos identificados: Wild, Scatter, King, Queen, Red Team knight, Blue Team knight, Spade, Heart, Club, Diamond. Wild substitui todos exceto Scatter; Scatter 3+ em qualquer posição inicia Free Spins, ausente durante o recurso, segundo a captura.
+- Paytable OCR secundária: King 3/4/5 = 20/30/50; Queen = 15/20/30; cada cavaleiro = 10/15/20; Spade, Heart, Club e Diamond = 5/7/10. Esses coeficientes são multiplicados por bet size × bet level × quantidade de ways. A fonte dá exemplo: 7 × 0,03 × 1 × 1 = 0,21 para 1 way e total bet 0,60. A unidade de aposta-base usada na captura é 20; a normalização por total bet é derivada, não texto do fornecedor.
+- Free Spins: 3 Scatters acionam 8 giros e cada Scatter adicional acrescenta 2; posições Multiplier-Ways nos rolos 2–4 persistem até o fim; Scatter não aparece no recurso; ímpares se transformam após cada free spin. A captura declara que a regra de retrigger não está descrita nos painéis, embora a ausência de Scatter sugira que não ocorre nessa versão.
+
+**Fontes com evidência de página:** [iGaming Tools — especificação e símbolos, linhas 311–500](https://i-gaming.tools/slot-games/poker-kingdom-win-b30/); [proveniência e limites, linhas 592–611](https://i-gaming.tools/slot-games/poker-kingdom-win-b30/); [unidade de pagamento e paytable, linhas 710–790](https://i-gaming.tools/slot-games/poker-kingdom-win-b30/).
+
+Esses números podem orientar uma tabela de parâmetros provisória marcada como secundária, mas não devem ser promovidos a parâmetros oficiais até obter o PDF PG Soft. Probabilidades por rolo/símbolo continuam ausentes; RTP não pode ser recalculado a partir de paytable isolada.
