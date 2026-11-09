@@ -96,6 +96,30 @@ class BudgetTests(unittest.TestCase):
         with self.assertRaisesRegex(ReconciliationRequired, 'ledger missing'):
             reserve(store, dispatch_id='a'*64, now=NOW)
 
+    def test_new_state_branch_seeds_and_verifies_empty_ledger_once(self):
+        store = GitHubStore('offline-test')
+        files = {}
+        def request(method, path, body=None):
+            if method == 'GET' and path == '/git/ref/heads/gt47-advisory-state':
+                return 404, None
+            if method == 'POST' and path == '/git/refs':
+                return 201, {}
+            raise AssertionError((method, path))
+        store.request = request
+        store.put = lambda path, value, version: files.setdefault(path, copy.deepcopy(value)) is not None
+        store.get = lambda path: (copy.deepcopy(files.get(path)), 'blob-sha' if path in files else None)
+        store.initialize(SHA)
+        self.assertEqual(store.read()[0], {'schema': 1, 'claims': {}})
+
+    def test_existing_state_branch_does_not_recreate_missing_ledger(self):
+        store = GitHubStore('offline-test')
+        store.request = lambda method, path, body=None: (200, {}) if method == 'GET' else (201, {})
+        store.get = lambda path: (None, None)
+        store.put = lambda path, value, version: (_ for _ in ()).throw(AssertionError('must not recreate ledger'))
+        store.initialize(SHA)
+        with self.assertRaisesRegex(ReconciliationRequired, 'ledger missing'):
+            store.read()
+
 class HandoffTests(unittest.TestCase):
     def setUp(self):
         self.store = MemoryStore()
