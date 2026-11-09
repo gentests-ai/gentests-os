@@ -94,11 +94,16 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
             or len(set(allowed_tools)) != len(allowed_tools)):
         raise ValueError("invalid allowed tool list")
     allowed_tools = sorted(allowed_tools)
+    write_pair = {"write_file", "open_pull_request"}
+    has_write_pair = write_pair.issubset(allowed_tools)
+    if (bool(write_pair.intersection(allowed_tools)) != has_write_pair):
+        raise ValueError("write_file and open_pull_request must be authorized together")
     if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 4
             or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 3
             or max_tool_calls > max_model_calls - 1
             or (not allowed_tools and (max_model_calls != 1 or max_tool_calls != 0))
-            or (allowed_tools and max_tool_calls < 1)):
+            or (allowed_tools and max_tool_calls < 1)
+            or (has_write_pair and max_tool_calls < 2)):
         raise ValueError("invalid bounded agent/tool call limits")
     per_call_budget = int(__import__("math").ceil(
         MAX_PROMPT_BYTES * INPUT_MICROUSD_PER_TOKEN
