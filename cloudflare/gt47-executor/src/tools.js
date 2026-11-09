@@ -125,7 +125,9 @@ const body={message:args.message,content:b64utf8(args.content),branch:branch.nam
 if(fileSha)body.sha=fileSha;
 const saved=await github(env,"PUT","/contents/"+p,body,true);
 const commitSha=saved.data.commit?.sha;
-if(typeof commitSha!=="string"||!/^[0-9a-f]{40}$/.test(commitSha))throw Error("write_commit_sha_missing");
+if(typeof commitSha!=="string"||!/^[0-9a-f]{40}$/.test(commitSha)){const e=Error("write_commit_sha_missing");e.code="uncertain";throw e}
+const commit=await github(env,"GET","/git/commits/"+commitSha);
+if(commit.data.parents?.[0]?.sha!==branch.head_sha){const e=Error("write_parent_mismatch");e.code="uncertain";throw e}
 await advanceBranch(env,job,branch.head_sha,commitSha);
 return {path:args.path,branch:branch.name,changed:true,commit_sha:commitSha};
 }
@@ -136,13 +138,14 @@ const query="?state=all&head="+encodeURIComponent(OWNER+":"+branch.name)+"&base=
 const existing=await github(env,"GET","/pulls"+query);
 const found=existing.data.find(p=>p.head?.ref===branch.name&&p.base?.ref==="main");
 if(found){
-if(found.state!=="open")throw Error("existing_pull_request_closed");
+if(found.state!=="open")throw Error("existing_pull_request_closed");if(found.head?.sha!==branch.head_sha){const e=Error("existing_pull_request_head_mismatch");e.code="uncertain";throw e}
 const saved=await env.LEDGER.get(env.LEDGER.idFromName("gt47-global-ledger")).fetch(new Request("https://ledger/pr",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({dispatch_id:job.dispatch_id,pr_number:found.number})}));
 if(!saved.ok)throw Error("pr_ledger_failed");
 let checks={state:"unavailable"};try{checks=await commitStatus(env,branch.head_sha)}catch(_){}return {number:found.number,url:found.html_url,state:found.state,head:branch.name,existing:true,checks};
 }
 const created=await github(env,"POST","/pulls",{title:args.title,head:branch.name,base:"main",body:args.body},true);
 const pr=created.data;
+if(pr.head?.sha!==branch.head_sha){const e=Error("created_pull_request_head_mismatch");e.code="uncertain";throw e}
 const saved=await env.LEDGER.get(env.LEDGER.idFromName("gt47-global-ledger")).fetch(new Request("https://ledger/pr",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({dispatch_id:job.dispatch_id,pr_number:pr.number})}));
 if(!saved.ok)throw Error("pr_ledger_failed");
 let checks={state:"unavailable"};try{checks=await commitStatus(env,branch.head_sha)}catch(_){}return {number:pr.number,url:pr.html_url,state:pr.state,head:branch.name,existing:false,checks};
