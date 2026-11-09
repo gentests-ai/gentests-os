@@ -37,6 +37,8 @@ def canonical(value: object, depth: int = 0) -> bytes:
     if depth > 12:
         raise ValueError("JSON nesting too deep")
     if value is None or type(value) in (str, bool):
+        if type(value) is str and len(value.encode("utf-8")) > 20000:
+            raise ValueError("JSON string too large")
         return json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     if type(value) is int:
         if not -(2**53 - 1) <= value <= 2**53 - 1:
