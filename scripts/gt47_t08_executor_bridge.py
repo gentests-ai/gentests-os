@@ -115,10 +115,10 @@ def _validate_worker_request(worker_request, intent, expected_ref):
             or decision["scope"] != "gt47:execute:AGT-ENG"
             or not _RECEIPT.fullmatch(decision["decision_id"])
             or not _RECEIPT.fullmatch(decision["nonce"])
-            or type(decision["issuer_key_id"]) is not str or not decision["issuer_key_id"]
-            or type(decision["issuer_human_id"]) is not str or not decision["issuer_human_id"]
-            or type(decision["not_before"]) is not int or decision["not_before"] < 0
-            or type(decision["expires_at"]) is not int or decision["expires_at"] < 1
+            or type(decision["issuer_key_id"]) is not str or not decision["issuer_key_id"] or len(decision["issuer_key_id"]) > 128
+            or type(decision["issuer_human_id"]) is not str or not decision["issuer_human_id"] or len(decision["issuer_human_id"]) > 256
+            or type(decision["not_before"]) is not int or not 0 <= decision["not_before"] <= 2**53 - 1
+            or type(decision["expires_at"]) is not int or not 1 <= decision["expires_at"] <= 2**53 - 1
             or decision["expires_at"] <= decision["not_before"]
             or decision["expires_at"] - decision["not_before"] > 900
             or decision["no_paid_fallback"] is not True):
