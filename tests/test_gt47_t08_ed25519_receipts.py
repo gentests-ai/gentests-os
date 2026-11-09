@@ -73,6 +73,16 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         self.assertTrue(result["accepted_attested"])
         self.assertEqual(result["result_sha256"], "a" * 64)
 
+    def test_uncertain_state_can_carry_verified_prior_acceptance(self):
+        accepted = self.receipt("accepted")
+        uncertain = self.receipt("uncertain", accepted=accepted)
+        result = validate_attestation(
+            value=uncertain, key=self.public, intent=self.intent,
+            receipt_id=self.receipt_id,
+            allowed_states=("received", "accepted", "uncertain"))
+        self.assertEqual(result["status"], "uncertain")
+        self.assertTrue(result["accepted_attested"])
+
     def test_completed_without_acceptance_is_rejected(self):
         completed = self.receipt("completed", digest="a" * 64)
         with self.assertRaisesRegex(ContextRejected, "acceptance history"):
