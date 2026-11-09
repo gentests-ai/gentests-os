@@ -65,9 +65,13 @@ class GithubClaimLedgerTests(unittest.TestCase):
 
     def test_fence_conflict_requires_matching_readback(self):
         reservation = self.reserve()
+        def read_claim_but_not_fence(ref):
+            if ref == reservation["claim_ref"]:
+                return self.read(ref)
+            return 404, {}
         with self.assertRaisesRegex(ContextRejected, "conflict not verified"):
             self.begin(reservation, create=lambda ref, sha: (422, {}),
-                       read=lambda ref: (404, {}))
+                       read=read_claim_but_not_fence)
 
     def test_disabled_is_no_write(self):
         with self.assertRaisesRegex(ContextRejected, "disabled"):
