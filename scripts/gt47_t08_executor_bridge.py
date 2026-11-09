@@ -242,16 +242,19 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
                 accepted = True
             if not accepted:
                 raise ContextRejected("executor completed without verified acceptance")
-            if (type(result_text) is not str or not result_text
-                    or hashlib.sha256(result_text.encode("utf-8")).hexdigest()
-                    != value["result_sha256"]):
-                raise ContextRejected("remote result missing or digest mismatch")
+            result_info = {}
+            if receipt_value.get("schema") == "gt47-executor-receipt-v2":
+                if (type(result_text) is not str or not result_text
+                        or hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+                        != value["result_sha256"]):
+                    raise ContextRejected("remote result missing or digest mismatch")
+                result_info["result"] = result_text
             return {"status": "remote_completed_attested",
                     "dispatch_id": intent["dispatch_id"],
                     "receipt_id": rid,
                     "execution_ref": execution_ref,
                     "result_sha256": value["result_sha256"],
-                    "result": result_text,
+                    **result_info,
                     "agent_id": intent["agent_id"],
                     "agent_mission_executed": "attested_by_remote_only",
                     "independently_verified": False}
