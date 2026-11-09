@@ -19,11 +19,15 @@ const SECRET_PATTERNS=[
 /\bgh[pousr]_[A-Za-z0-9]{20,}\b/,
 /\bgithub_pat_[A-Za-z0-9_]{20,}\b/,
 /\b(?:CLOUDFLARE|CF)_API_TOKEN\s*[:=]/i,
-/\b(?:AWS_SECRET_ACCESS_KEY|SUPABASE_SERVICE_ROLE_KEY)\s*[:=]/i
+/\b(?:AWS_SECRET_ACCESS_KEY|SUPABASE_SERVICE_ROLE_KEY)\s*[:=]/i,
+/\bAKIA[0-9A-Z]{16}\b/,
+/\bsk-[A-Za-z0-9]{20,}\b/,
+/\bxox[baprs]-[A-Za-z0-9-]{20,}\b/,
+/\bBearer\s+[A-Za-z0-9._-]{24,}\b/i
 ];
 function toolDefinitions(allowed){return TOOL_DEFINITIONS.filter(t=>allowed.includes(t.name))}
 function safePath(value,write=false){
-if(typeof value!=="string"||!value||value.length>180||value.startsWith("/")||value.includes("\\")||value.includes("\0"))throw Error("invalid_path");
+if(typeof value!=="string"||!value||value.length>180||value.startsWith("/")||value.includes("\\")||/[\u0000-\u001f\u007f]/.test(value))throw Error("invalid_path");
 const parts=value.split("/");
 if(parts.some(p=>!p||p==="."||p===".."||p.startsWith(".")))throw Error("invalid_path");
 if(SENSITIVE_PATH.test(value))throw Error("sensitive_path_not_allowed");
@@ -42,14 +46,14 @@ case "get_pull_request":exact(["number"]);if(!Number.isSafeInteger(args.number)|
 case "get_check_status":exact([]);break;
 case "write_file":
 exact(["path","content","message"]);safePath(args.path,true);
-if(typeof args.content!=="string"||!args.content||new TextEncoder().encode(args.content).length>20000)throw Error("invalid_file_content");
+if(typeof args.content!=="string"||!args.content||new TextEncoder().encode(args.content).length>20000||args.content.includes("\0"))throw Error("invalid_file_content");
 if(typeof args.message!=="string"||!args.message.trim()||args.message.length>160||/[\r\n]/.test(args.message))throw Error("invalid_commit_message");
 if(SECRET_PATTERNS.some(p=>p.test(args.content)))throw Error("possible_secret_in_content");
 break;
 case "open_pull_request":
 exact(["title","body"]);
 if(typeof args.title!=="string"||!args.title.trim()||args.title.length>200||/[\r\n]/.test(args.title))throw Error("invalid_pr_title");
-if(typeof args.body!=="string"||args.body.length>10000||SECRET_PATTERNS.some(p=>p.test(args.body)))throw Error("invalid_pr_body");
+if(typeof args.body!=="string"||args.body.length>10000||args.body.includes("\0")||SECRET_PATTERNS.some(p=>p.test(args.body)))throw Error("invalid_pr_body");
 break;
 default:throw Error("tool_not_allowed");
 }
