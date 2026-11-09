@@ -59,11 +59,12 @@ if(!token)throw Error(write?"github_write_token_unavailable":"github_read_token_
 let response;
 try{response=await fetch(API+path,{method,redirect:"error",headers:{authorization:"Bearer "+token,accept:"application/vnd.github+json","x-github-api-version":"2022-11-28","user-agent":"GT47-AGT-ENG-Executor","content-type":"application/json"},body:body===null?undefined:JSON.stringify(body)})}
 catch(_){const e=Error(write?"github_write_outcome_uncertain":"github_read_failed");if(write)e.code="uncertain";throw e}
-const raw=await response.text();
+let raw;
+try{raw=await response.text()}catch(_){const e=Error(write?"github_write_response_uncertain":"github_read_response_failed");if(write)e.code="uncertain";throw e}
 if(raw.length>30000)throw Error("github_response_too_large");
 let data={};try{data=raw?JSON.parse(raw):{}}catch{throw Error("github_response_invalid")}
 if(response.status===404)return {status:404};
-if(!response.ok)throw Error("github_api_"+response.status);
+if(!response.ok){const e=Error("github_api_"+response.status);if(write&&response.status>=500)e.code="uncertain";throw e}
 return {status:response.status,data};
 }
 function branchName(job){return "agents/gt47/"+job.dispatch_id.slice(0,16)}
