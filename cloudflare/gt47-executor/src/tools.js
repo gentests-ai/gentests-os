@@ -111,8 +111,13 @@ if(new TextEncoder().encode(content).length>8192)throw Error("file_too_large_for
 return {path,sha:r.data.sha,content};
 }
 async function writeFile(env,job,decision,args){
-const branch=await ensureBranch(env,job,decision);
 const p=args.path.split("/").map(encodeURIComponent).join("/");
+const base=await github(env,"GET","/contents/"+p+"?ref="+encodeURIComponent(decision.commit_sha));
+if(base.status===200){
+if(!Number.isSafeInteger(base.data.size)||base.data.size>20000)throw Error("existing_file_too_large_to_edit");
+if(decodeContent(base.data.content||"")===args.content)return {path:args.path,branch:branchName(job),changed:false,head_sha:decision.commit_sha};
+}
+const branch=await ensureBranch(env,job,decision);
 let existing=await github(env,"GET","/contents/"+p+"?ref="+encodeURIComponent(branch.name));
 let fileSha=null;
 if(existing.status===200){
