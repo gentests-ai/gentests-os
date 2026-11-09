@@ -56,3 +56,10 @@ Cada inclusão deve indicar autor/frente, data/hora BRT, cenário PIX, fonte, ev
 
 ## 7. Estado atual
 Não há, neste registro inicial, evidência primária de depósito PIX, beneficiário, PSP, taxas, limites, validade de QR Code, confirmação, crédito ou estorno. Nenhuma vulnerabilidade foi confirmada.
+
+## 8. Governança documental — determinação Head Tech Lead (09/11/2026)
+- G1 / AGT-AUD é proprietária exclusiva das evidências funcionais e financeiras: 11-G1-evidencias-auditoria-financeira.md.
+- G2 / AGT-ENG é proprietária exclusiva das evidências técnicas: 11-G2-evidencias-tecnicas.md.
+- Os agentes não editam o arquivo de evidências da outra frente.
+- Este mapa 08 é documento de consolidação; não recebe evidência bruta nem interpretação unilateral durante a coleta independente.
+- A consolidação ocorre somente após ambas as entregas independentes. Divergências devem ser mantidas explicitamente e submetidas à revisão cruzada, sem sobrescrita.
