@@ -11,6 +11,16 @@ This implementation is deliberately inert until separately provisioned and autho
 - Workers AI uses a fixed model and has no tools. Task/context are untrusted data. No GitHub writes, filesystem, arbitrary commands, PR operations, merge or deploy are exposed.
 - Ed25519 receipt v2 binds status, mission, agent, commit, dispatch ID, receipt ID and result digest. A terminal receipt embeds the separately signed accepted receipt, allowing the existing T08 bridge to verify acceptance even if the first poll arrives after completion. The Python bridge retains v1 HMAC compatibility, adds v2 Ed25519 verification, verifies the signed acceptance chain and checks the returned result bytes against the signed digest. An OIDC-only HTTPS transport is available for the Worker endpoint. A signature authenticates the executor's assertion; it is not independent proof of work.
 
+## Offline authorization signer
+
+The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG decision with an already-existing Ed25519 PEM key. It never generates, writes, exports or uploads private keys. The caller prepares a local JSON input with task, context, commit_sha, contract_blob_sha, nonce, decision_id, issuer_key_id and issuer_human_id (max_tokens is optional), then runs:
+
+```sh
+python -m scripts.gt47_sign_worker_decision --input decision-input.json --private-key /offline/path/authority-ed25519.pem --output signed-worker-request.json
+```
+
+The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody.
+
 ## Routes
 
 - POST /v1/gt47/dispatch: authenticated dispatch; schedules one background execution and returns signed received receipt.
