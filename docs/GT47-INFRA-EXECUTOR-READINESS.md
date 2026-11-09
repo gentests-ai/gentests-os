@@ -36,4 +36,21 @@ Antes de submeter, o bridge:
 
 Uma repetição com o mesmo objeto de reserva encontra o fence existente e é recusada antes de novo POST. Timeout/resultado incerto durante a criação do fence ou após sua criação não autoriza retry; exige reconciliação manual. A garantia é **no máximo uma tentativa de submissão por identidade enquanto os refs permanecerem íntegros**, não exactly-once do efeito remoto nem prova independente de execução. A namespace de claims e de fences precisa de proteção operacional contra exclusão/reapontamento antes de qualquer ativação real.
 
-A implementação e os testes desta correção estão em PR Draft própria; ainda aguardam CI e revisão focal. Nenhum ref real foi criado nesta etapa.
+**Registro histórico pré-integração:** a correção foi desenvolvida e validada na PR #136. O status Draft descrito nas atualizações contemporâneas foi superado pela integração posterior à `main`; os checks offline T06/T07/T08 e Markdown passaram no HEAD revisado `8f9a185631c292b7f6f9b9825b7bae6d3d67b9b0`. A integração do código não criou refs reais nem configurou endpoint, secret ou ACL.
+
+
+## Estado consolidado após integração — 09/11/2026
+
+- PR #134 integrou a correção do checkout do controlador de recovery e a preservação das evidências históricas.
+- PR #135 integrou o fail-closed do ledger T06: ausência da branch/ledger de produção exige reconciliação; não há reinicialização silenciosa de orçamento nem reenvio automático após resultado incerto.
+- PR #136 integrou o fence persistente one-shot T08 e o endurecimento do transporte HTTPS. No HEAD validado, as suítes T06 (100), T07 (10) e T08 (30) passaram; Markdown também passou. O rehearsal pesado permaneceu SKIPPED.
+- O código continua opt-in e inerte por padrão. Não há endpoint de executor configurado, consumidor/runtime conectado, credenciais ou chave de recibo implantadas. Nenhuma execução ponta a ponta real foi demonstrada.
+- O gate de proteção operacional das namespaces `gt47-claims` e `gt47-executor-started` continua aberto. A consulta administrativa de branch protection/rulesets retornou 403; portanto, não é possível afirmar que as proteções estão ativas nem que estão ausentes.
+- A revisão focal registrada pelo Head Tech Lead não substitui revisão independente por identidade segregada. Não tratar CI verde como aprovação independente.
+- A consulta atual ao contexto de deploy Vercel retornou `teams: []`; não há projeto/time Vercel acessível nesta conexão para identificar ou inspecionar um executor existente. Nenhum projeto foi criado.
+
+## Próxima ação técnica
+
+O próximo avanço útil não é adicionar outro mock ou workflow sintético. É identificar um serviço executor real já disponível ou, após decisão de arquitetura e alçada, provisionar um serviço mínimo com endpoint HTTPS autenticado, autorização out-of-band, recibos assinados, persistência de estado e kill switch. Antes de qualquer invocação real, Infra deve confirmar plano/custo, IAM, secrets, proteção das refs e efeitos de triggers; QA independente deve testar dois runs distintos e os cenários de replay, timeout e revogação.
+
+**Estado da missão:** T04 concluída; T05 read-only homologada; T06–T08 têm preparação e correções offline integradas, mas o critério de recebimento → aceite → execução → resultado por executor realmente conectado continua **NÃO COMPROVADO**. Missão #47 permanece aberta.
