@@ -39,11 +39,13 @@ def _validate_ed25519_receipt(*, value: dict, key: bytes, intent: dict,
     from cryptography.exceptions import InvalidSignature
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
+    if type(value) is not dict:
+        raise ContextRejected("invalid Ed25519 receipt schema")
     base = {"schema", "status", "mission", "issue", "agent_id", "commit_sha",
             "dispatch_id", "receipt_id", "result_sha256", "updated_at",
             "executor", "signature"}
     expected = base | ({"accepted_receipt"} if "accepted_receipt" in value else set())
-    if type(value) is not dict or set(value) != expected:
+    if set(value) != expected:
         raise ContextRejected("invalid Ed25519 receipt schema")
     if (value["schema"] != "gt47-executor-receipt-v2"
             or value["status"] not in allowed_states
@@ -53,6 +55,9 @@ def _validate_ed25519_receipt(*, value: dict, key: bytes, intent: dict,
             or value["commit_sha"] != intent["commit_sha"]
             or value["dispatch_id"] != intent["dispatch_id"]):
         raise ContextRejected("Ed25519 receipt binding mismatch")
+    if (type(value["updated_at"]) is not str or not value["updated_at"]
+            or value["executor"] != "gt47-cloudflare-worker-v1"):
+        raise ContextRejected("invalid Ed25519 receipt metadata")
     rid = value["receipt_id"]
     if type(rid) is not str or not _RECEIPT.fullmatch(rid):
         raise ContextRejected("invalid Ed25519 receipt identifier")
