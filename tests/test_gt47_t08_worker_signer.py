@@ -37,6 +37,7 @@ class WorkerDecisionSignerTests(unittest.TestCase):
         envelope = self.sign()
         decision = envelope["decision"]
         self.assertEqual(set(envelope), {"decision", "signature", "task", "context"})
+        self.assertEqual(decision["version"], 2)
         self.assertEqual(decision["mission"], "GT-AI-DISPATCH-001")
         self.assertEqual(decision["agent_id"], "AGT-ENG")
         self.assertEqual(decision["max_calls"], 1)
