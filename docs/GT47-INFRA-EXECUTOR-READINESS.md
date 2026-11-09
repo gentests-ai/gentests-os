@@ -53,4 +53,42 @@ Uma repetição com o mesmo objeto de reserva encontra o fence existente e é re
 
 O próximo avanço útil não é adicionar outro mock ou workflow sintético. É identificar um serviço executor real já disponível ou, após decisão de arquitetura e alçada, provisionar um serviço mínimo com endpoint HTTPS autenticado, autorização out-of-band, recibos assinados, persistência de estado e kill switch. Antes de qualquer invocação real, Infra deve confirmar plano/custo, IAM, secrets, proteção das refs e efeitos de triggers; QA independente deve testar dois runs distintos e os cenários de replay, timeout e revogação.
 
+
+## Avaliação de candidato de runtime — Cloudflare Workers (09/11/2026)
+
+A pesquisa documental atualizada indica que Cloudflare é tecnicamente viável para um piloto pequeno, mas a conta e a elegibilidade desta organização ainda não foram verificadas. Portanto, isto é uma seleção de arquitetura candidata, não autorização de provisionamento.
+
+- **Gateway:** um Cloudflare Worker HTTPS, sem domínio/rota pública customizada inicialmente; validar token GitHub OIDC por JWKS com issuer, audience, repository_id, repository, workflow_ref, workflow_sha, ref, event_name, actor_id, run_id e run_attempt. Não confiar em claims de aplicação que o GitHub OIDC não emite; decision_id, issue, recurso e contexto devem ser dados do corpo vinculados à decisão Ed25519 assinada.
+- **Estado:** Durable Object com SQLite para serializar authorize, revoke, reserva, fence, recibos e kill switch. A documentação informa armazenamento transacional/fortemente consistente por objeto; cada missão deve ter chave/instância isolada e retenção explícita.
+- **Inferência:** Workers AI com modelo elegível ao Free e function calling. @cf/zai-org/glm-4.7-flash aparece como modelo ainda disponível no Free e o catálogo descreve suporte a tool calling; validar na conta/modelo real antes de uso. O Worker deve executar somente ferramentas allowlisted, com schemas fechados, limites de iteração/tokens e sem permissões de merge/deploy/produção.
+- **Orçamento de referência (não é leitura da conta):** Workers Free informa 100.000 requests/dia e 10 ms CPU por invocação; Workers AI informa 10.000 Neurons/dia sem custo no Free. Durable Objects com SQLite têm alocações Free documentadas, incluindo 100.000 requests/dia, 13.000 GB-s/dia, 5 milhões de rows lidas/dia, 100.000 rows gravadas/dia e 5 GB de armazenamento. Workers Paid começa em US$ 5/mês; alguns modelos exigem plano pago. Não configurar fallback pago. Os limites são compartilhados por conta e excedentes/erros dependem do plano e do modelo.
+- **Autenticação de deploy:** o guia Cloudflare para GitHub Actions atualmente documenta API token + account ID para deploy via Wrangler. Isso não é necessário para desenvolvimento local e não será adicionado ao GitHub. Deploy manual pela Direção continua gate separado; não criar secret nem token.
+- **Integração:** Actions pode continuar como iniciador finito e portador de OIDC de curta duração; o Worker é o gateway/executor remoto. O job de invocação deve ter somente contents:read e id-token:write, sem GITHUB_TOKEN com escrita entregue ao Worker. Se for necessária escrita GitHub, usar um fluxo separado, com escopo mínimo e revisão específica; nunca expor token amplo ao modelo.
+
+### Correção de evidência sobre workflows existentes
+
+A leitura direta dos YAMLs na main em 09/11/2026 corrige a afirmação antiga do ENG-16:
+- .github/workflows/email-quality-gate.yml tem somente workflow_dispatch; não dispara automaticamente em abertura de PR.
+- .github/workflows/markdown-check.yml tem pull_request e push para main; abrir/atualizar Draft PR aciona este check.
+- O workflow sintético eng20-synthetic-issue-dispatch.yml permanece desabilitado e não será reativado.
+
+A criação de branch/PR não equivale a deploy; o único efeito automático confirmado na PR documental #144 é o check de Markdown. A execução manual do quality gate segue limitada à autorização de testes seguros já registrada; não disparar workflow sintético.
+
+### Conclusão técnica desta avaliação
+
+**Candidato recomendado:** Cloudflare Worker + Durable Object SQLite + Workers AI (modelo Free com function calling), iniciado por GitHub Actions OIDC. É a opção de menor infraestrutura já alinhada ao desenho T04b, sem servidor sempre ligado e sem credencial de longa duração no runner.
+
+**Não está pronto para ativação:** faltam confirmação da conta/plano/limites reais, criação autorizada do Worker/DO, trust store com chave pública real, validação de JWKS/claims no runtime, endpoint e recibos assinados, testes de integração em ambiente sandbox e decisão específica para deploy/primeira inferência. Nenhum recurso foi criado, nenhuma chave/token foi gerada e nenhum custo foi incorrido.
+
+**Fontes oficiais consultadas (09/11/2026):**
+- Workers limits: https://developers.cloudflare.com/workers/platform/limits/
+- Workers pricing: https://developers.cloudflare.com/workers/platform/pricing/
+- Workers AI pricing: https://developers.cloudflare.com/workers-ai/platform/pricing/
+- Durable Objects pricing: https://developers.cloudflare.com/durable-objects/platform/pricing/
+- Durable Objects SQLite: https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/
+- Workers AI function calling: https://developers.cloudflare.com/workers-ai/features/function-calling/
+- Workers AI model catalog: https://developers.cloudflare.com/workers-ai/models/
+- GitHub Actions OIDC: https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-cloud-providers
+- Cloudflare GitHub Actions deploy: https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/
+
 **Estado da missão:** T04 concluída; T05 read-only homologada; T06–T08 têm preparação e correções offline integradas, mas o critério de recebimento → aceite → execução → resultado por executor realmente conectado continua **NÃO COMPROVADO**. Missão #47 permanece aberta.
