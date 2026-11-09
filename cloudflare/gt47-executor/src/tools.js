@@ -138,6 +138,7 @@ return {path:args.path,branch:branch.name,changed:true,commit_sha:commitSha};
 }
 async function commitStatus(env,sha){const r=await github(env,"GET","/commits/"+sha+"/status");return {sha,state:r.data.state,total_count:r.data.total_count,statuses:(r.data.statuses||[]).slice(0,20).map(s=>({context:s.context,state:s.state,description:s.description}))}}
 async function openPullRequest(env,job,decision,args){
+const before=await branchInfo(env,job);if(!before.branch_initialized)throw Error("pull_request_requires_committed_branch");
 const branch=await ensureBranch(env,job,decision);
 const query="?state=all&head="+encodeURIComponent(OWNER+":"+branch.name)+"&base=main&per_page=10";
 const existing=await github(env,"GET","/pulls"+query);
