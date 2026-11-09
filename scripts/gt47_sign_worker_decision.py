@@ -67,7 +67,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
                  private_key_pem: bytes, max_tokens: int = 1024,
                  max_incremental_cost_usd_micros: int | None = None,
                  allowed_tools: list | None = None,
-                 max_model_calls: int = 1, max_tool_calls: int = 0,
+                 max_model_calls: int = 2, max_tool_calls: int = 1,
                  now: int | None = None) -> dict:
     import time
 
@@ -87,9 +87,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
     if (type(max_incremental_cost_usd_micros) is not int
             or max_incremental_cost_usd_micros < 1):
         raise ValueError("an explicit positive USD-micros budget is required")
-    if allowed_tools is None:
-        allowed_tools = []
-    if (type(allowed_tools) is not list or len(allowed_tools) > len(TOOL_NAMES)
+    if (type(allowed_tools) is not list or not allowed_tools or len(allowed_tools) > len(TOOL_NAMES)
             or any(type(name) is not str or name not in TOOL_NAMES for name in allowed_tools)
             or len(set(allowed_tools)) != len(allowed_tools)):
         raise ValueError("invalid allowed tool list")
@@ -101,8 +99,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
     if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 4
             or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 3
             or max_tool_calls > max_model_calls - 1
-            or (not allowed_tools and (max_model_calls != 1 or max_tool_calls != 0))
-            or (allowed_tools and max_tool_calls < 1)
+            or max_model_calls < 2 or max_tool_calls < 1
             or (has_write_pair and max_tool_calls < 2)):
         raise ValueError("invalid bounded agent/tool call limits")
     per_call_budget = int(__import__("math").ceil(
@@ -166,7 +163,7 @@ def main() -> int:
             issuer_human_id=source["issuer_human_id"],
             private_key_pem=key, max_tokens=source.get("max_tokens", 1024),
             max_incremental_cost_usd_micros=source["max_incremental_cost_usd_micros"],
-            allowed_tools=source.get("allowed_tools", []),
+            allowed_tools=source["allowed_tools"],
             max_model_calls=source.get("max_model_calls", 1),
             max_tool_calls=source.get("max_tool_calls", 0),
         )
