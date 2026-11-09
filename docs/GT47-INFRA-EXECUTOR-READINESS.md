@@ -23,3 +23,17 @@ GitHub Models foi [descontinuado em **30/07/2026**](https://github.blog/changelo
 3. QA independente testar replay em dois runs distintos, token sem `contents:write`, payload malicioso, falha entre reserva/recibo, tempo esgotado, output não conforme e negação do executor. Somente Direção autoriza mudanças de ACL/segredos e operações externas reservadas.
 
 **Reversão preparada:** desativar integração pelo gate em workflow/configuração autorizada; preservar refs/logs para auditoria, não apagar ou retentar claims `uncertain` automaticamente. Nenhuma operação externa ou configuração foi feita neste delta de código.
+
+## Correção focal T08 — fencing persistente de invocação (09/11/2026)
+
+A reserva `refs/tags/gt47-claims/<sha256>`, isoladamente, não impede que um chamador reutilize o mesmo objeto de reserva em memória e execute novamente o POST remoto. A ponte T08 agora exige uma segunda transição atômica antes do efeito externo: criação de `refs/tags/gt47-executor-started/<sha256>`, derivada da mesma identidade estável de missão/agente/commit.
+
+Antes de submeter, o bridge:
+1. valida a estrutura e a identidade da reserva;
+2. relê e confirma a claim persistida no GitHub;
+3. cria o fence de início uma única vez;
+4. só então permite o POST ao executor.
+
+Uma repetição com o mesmo objeto de reserva encontra o fence existente e é recusada antes de novo POST. Timeout/resultado incerto durante a criação do fence ou após sua criação não autoriza retry; exige reconciliação manual. A garantia é **no máximo uma tentativa de submissão por identidade enquanto os refs permanecerem íntegros**, não exactly-once do efeito remoto nem prova independente de execução. A namespace de claims e de fences precisa de proteção operacional contra exclusão/reapontamento antes de qualquer ativação real.
+
+A implementação e os testes desta correção estão em PR Draft própria; ainda aguardam CI e revisão focal. Nenhum ref real foi criado nesta etapa.

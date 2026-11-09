@@ -14,7 +14,9 @@ import json
 import re
 
 from scripts.gt47_t04_context_loader import ContextRejected
-from scripts.gt47_t06_github_claim_ledger import _claim_ref
+from scripts.gt47_t06_github_claim_ledger import (
+    _claim_ref, begin_executor_invocation_on_github,
+)
 
 _HASH = re.compile(r"[0-9a-f]{64}\Z")
 _RECEIPT = re.compile(r"[a-zA-Z0-9_-]{16,64}\Z")
@@ -66,17 +68,20 @@ def validate_attestation(*, value: dict, key: bytes, intent: dict,
 
 def execute_reserved_intent(*, intent: dict, reservation: dict,
                             receipt_key: bytes, verify_authorization=None,
+                            create_ref=None, get_ref=None,
                             submit=None, lookup=None,
                             enabled: bool = False, max_polls: int = 2) -> dict:
     """Transmit a reserved intent once, then collect signed states.
 
     submit(payload) -> (202, signed_received_receipt)
     lookup(receipt_id) -> (200, signed_accepted_or_completed_receipt)
-    Both functions are injected: the caller controls the HTTPS/auth transport.
+    GitHub ref callbacks atomically consume a durable one-shot fence before
+    submit. Reusing the same reservation object cannot cause a second POST.
     On uncertainty no resubmission or automatic replay is permitted.
     """
     expected_ref = _claim_ref(intent)
     if (enabled is not True or not callable(verify_authorization)
+            or not callable(create_ref) or not callable(get_ref)
             or not callable(submit) or not callable(lookup)):
         raise ContextRejected("external dispatch disabled or unconfigured")
     if (type(reservation) is not dict
@@ -97,6 +102,11 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         raise ContextRejected("out-of-band authorization verification failed") from exc
     if permitted is not True:
         raise ContextRejected("no verified out-of-band authorization")
+    fence = begin_executor_invocation_on_github(
+        intent=intent, reservation=reservation, enabled=True,
+        create_ref=create_ref, get_ref=get_ref,
+    )
+    execution_ref = fence["execution_ref"]
     payload = {
         "schema": "gt47-executor-request-v1",
         "mission": intent["mission"], "issue": intent["issue"],
@@ -141,10 +151,12 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
             return {"status": "remote_completed_attested",
                     "dispatch_id": intent["dispatch_id"],
                     "receipt_id": rid,
+                    "execution_ref": execution_ref,
                     "result_sha256": value["result_sha256"],
                     "agent_id": intent["agent_id"],
                     "agent_mission_executed": "attested_by_remote_only",
                     "independently_verified": False}
     return {"status": "remote_pending_attested", "dispatch_id": intent["dispatch_id"],
-            "receipt_id": rid, "agent_id": intent["agent_id"],
+            "receipt_id": rid, "execution_ref": execution_ref,
+            "agent_id": intent["agent_id"],
             "agent_mission_executed": False, "independently_verified": False}

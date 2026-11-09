@@ -42,6 +42,20 @@ class ExecutorBridgeTests(unittest.TestCase):
         }
         self.posts = []
         self.polls = []
+        self.refs = {self.reservation["claim_ref"]: self.intent["commit_sha"]}
+        self.ref_posts = []
+
+    def create_ref(self, ref, sha):
+        self.ref_posts.append(ref)
+        if ref in self.refs:
+            return 422, {"message": "already exists"}
+        self.refs[ref] = sha
+        return 201, {"ref": ref, "object": {"type": "commit", "sha": sha}}
+
+    def get_ref(self, ref):
+        if ref not in self.refs:
+            return 404, {}
+        return 200, {"ref": ref, "object": {"type": "commit", "sha": self.refs[ref]}}
 
     def post(self, payload):
         self.posts.append(payload)
@@ -59,6 +73,7 @@ class ExecutorBridgeTests(unittest.TestCase):
             reservation=reservation or self.reservation,
             receipt_key=KEY,
             verify_authorization=authorization or (lambda _: True),
+            create_ref=self.create_ref, get_ref=self.get_ref,
             submit=submit or self.post, lookup=lookup or self.poll,
             enabled=enabled, max_polls=max_polls,
         )
@@ -73,10 +88,26 @@ class ExecutorBridgeTests(unittest.TestCase):
         self.assertNotIn("authorization", json.dumps(self.posts))
         self.assertNotIn("token", json.dumps(self.posts))
 
+    def test_same_reservation_cannot_be_reused_for_second_post(self):
+        first = self.execute()
+        self.assertEqual(first["status"], "remote_completed_attested")
+        with self.assertRaisesRegex(ContextRejected, "already consumed"):
+            self.execute()
+        self.assertEqual(len(self.posts), 1)
+        self.assertEqual(len(self.ref_posts), 2)
+
+    def test_missing_durable_claim_ref_fails_before_post(self):
+        self.refs.clear()
+        with self.assertRaisesRegex(ContextRejected, "reservation not verified"):
+            self.execute()
+        self.assertEqual(self.posts, [])
+        self.assertEqual(self.ref_posts, [])
+
     def test_disabled_refuses_to_call_remote(self):
         with self.assertRaises(ContextRejected):
             self.execute(enabled=False)
         self.assertEqual(self.posts, [])
+        self.assertEqual(self.ref_posts, [])
 
     def test_absent_verified_authorization_fails_before_post(self):
         with self.assertRaises(ContextRejected):
@@ -116,6 +147,18 @@ class ExecutorBridgeTests(unittest.TestCase):
         with self.assertRaisesRegex(ContextRejected, "uncertain"):
             self.execute(submit=timeout)
         self.assertEqual(len(attempts), 1)
+
+    def test_timeout_consumes_fence_and_blocks_second_post(self):
+        attempts = []
+        def timeout(payload):
+            attempts.append(payload)
+            raise TimeoutError("gateway outcome uncertain")
+        with self.assertRaisesRegex(ContextRejected, "outcome uncertain"):
+            self.execute(submit=timeout)
+        with self.assertRaisesRegex(ContextRejected, "already consumed"):
+            self.execute()
+        self.assertEqual(len(attempts), 1)
+        self.assertEqual(self.posts, [])
 
     def test_executor_error_does_not_become_success(self):
         with self.assertRaises(ContextRejected):

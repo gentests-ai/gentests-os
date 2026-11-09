@@ -16,7 +16,18 @@ from scripts.gt47_t04_context_loader import ContextRejected
 
 _MAX_BODY = 32768
 _RID = re.compile(r"[a-zA-Z0-9_-]{16,64}\Z")
-_HOST = re.compile(r"[a-z0-9-]+(?:\.[a-z0-9-]+)+\Z")
+_SHA40 = re.compile(r"[0-9a-f]{40}\Z")
+_SHA64 = re.compile(r"[0-9a-f]{64}\Z")
+_AGENT = re.compile(r"AGT-[A-Z][A-Z0-9-]{1,30}\Z")
+_CLAIM_REF = re.compile(r"refs/tags/gt47-claims/[0-9a-f]{64}\Z")
+_HOST = re.compile(
+    r"(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)"
+    r"(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+\Z"
+)
+_REQUEST_KEYS = frozenset({
+    "schema", "mission", "issue", "agent_id", "commit_sha",
+    "context_sha256", "dispatch_id", "claim_ref",
+})
 
 
 class _RejectRedirects(HTTPRedirectHandler):
@@ -36,11 +47,11 @@ def _unique_json_object(pairs):
 class ExecutorHTTPS:
     def __init__(self, *, endpoint: str, allowed_hosts: tuple,
                  bearer: str, timeout: int = 12, opener=None):
-        parts = urlsplit(endpoint) if type(endpoint) is str else None
         try:
+            parts = urlsplit(endpoint) if type(endpoint) is str else None
             port = parts.port if parts is not None else None
         except ValueError as exc:
-            raise ContextRejected("invalid executor port") from exc
+            raise ContextRejected("invalid executor endpoint") from exc
         if (parts is None or parts.scheme != "https"
                 or parts.username is not None or parts.password is not None
                 or parts.query or parts.fragment
@@ -56,16 +67,22 @@ class ExecutorHTTPS:
             pass
         else:
             raise ContextRejected("IP literal executor endpoint forbidden")
-        if (not _HOST.fullmatch(host) or host.endswith(".local")
-                or host.endswith(".internal") or host not in allowed_hosts
-                or any(type(x) is not str for x in allowed_hosts)):
+        valid_hosts = all(
+            type(value) is str and _HOST.fullmatch(value)
+            and not value.endswith((".local", ".internal"))
+            for value in allowed_hosts
+        )
+        if (not valid_hosts or not _HOST.fullmatch(host)
+                or host.endswith((".local", ".internal"))
+                or host not in allowed_hosts
+                or parts.netloc not in (host, host + ":443")):
             raise ContextRejected("executor endpoint not allowlisted")
         if (type(bearer) is not str or len(bearer.strip()) < 24
                 or any(ord(ch) < 33 or ord(ch) > 126 for ch in bearer)):
             raise ContextRejected("executor credential missing")
         if type(timeout) is not int or not 1 <= timeout <= 30:
             raise ContextRejected("executor timeout out of bounds")
-        self._base = "https://" + parts.netloc
+        self._base = "https://" + host
         self._bearer = bearer
         self._timeout = timeout
         self._opener = opener if opener is not None else build_opener(_RejectRedirects())
@@ -106,8 +123,21 @@ class ExecutorHTTPS:
         return code, payload
 
     def submit(self, payload: dict):
-        if type(payload) is not dict:
-            raise ContextRejected("invalid executor request")
+        if (type(payload) is not dict or set(payload) != _REQUEST_KEYS
+                or payload.get("schema") != "gt47-executor-request-v1"
+                or payload.get("mission") != "GT-AI-DISPATCH-001"
+                or type(payload.get("issue")) is not int or payload["issue"] != 47
+                or type(payload.get("agent_id")) is not str
+                or not _AGENT.fullmatch(payload["agent_id"])
+                or type(payload.get("commit_sha")) is not str
+                or not _SHA40.fullmatch(payload["commit_sha"])
+                or type(payload.get("context_sha256")) is not str
+                or not _SHA64.fullmatch(payload["context_sha256"])
+                or type(payload.get("dispatch_id")) is not str
+                or not _SHA64.fullmatch(payload["dispatch_id"])
+                or type(payload.get("claim_ref")) is not str
+                or not _CLAIM_REF.fullmatch(payload["claim_ref"])):
+            raise ContextRejected("invalid or unbounded executor request")
         return self._request("/v1/gt47/dispatch", payload)
 
     def lookup(self, receipt_id: str):
