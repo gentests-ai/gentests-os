@@ -94,7 +94,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
         "agent_id": AGENT, "commit_sha": commit_sha,
     })).hexdigest()
     decision = {
-        "version": 1, "decision_id": decision_id,
+        "version": 2, "decision_id": decision_id,
         "issuer_key_id": issuer_key_id, "issuer_human_id": issuer_human_id,
         "repository_id": REPO_ID, "issue": ISSUE, "mission": MISSION,
         "agent_id": AGENT, "commit_sha": commit_sha,
