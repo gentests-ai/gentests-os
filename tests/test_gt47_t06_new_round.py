@@ -14,7 +14,8 @@ class NewRoundTests(unittest.TestCase):
         self.old['diagnostic'] = {'status': 'manual_reconciliation_required', 'reason': 'provider_or_state_failure'}
         self.store.put('gt47-current.json', self.old, 1)
         self.budget = {'schema': 1, 'claims': {'f'*64: {'at': NOW-600, 'tokens': 4000}}}
-        self.store.cas(None, self.budget)
+        _, budget_version = self.store.get('gt47-budget.json')
+        self.store.cas(budget_version, self.budget)
         self.args = dict(commit='b'*40, task=Path('gt47-advisory-task.txt').read_text(),
                          round_id='pilot-round-02', expected_id=self.old['id'], now=NOW)
     def test_archive_exact_and_budget_unchanged(self):
