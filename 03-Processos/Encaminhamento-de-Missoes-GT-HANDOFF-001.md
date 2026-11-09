@@ -77,7 +77,7 @@ Cada evento na **issue canônica** deve conter `event_id`, `mission_id`, `handof
 
 ## 3. WIP e capacidade — regra candidata não ativada
 
-Não impor WIP 1 agora. Slot do remetente pode ser liberado quando: (a) evidências e retorno estão completos; (b) o próximo especialista recebeu e **ACEITOU** expressamente; e (c) não subsiste correção ativa com o remetente. Não há assunção excepcional de fila pelo Scrum Master nem liberação de responsabilidade por silêncio ou registro isolado. Registro ou transporte sem aceite não libera responsabilidade por presunção. Assumir fila **não** equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
+Não impor WIP 1 agora. Slot do remetente pode ser liberado quando: (a) evidências e retorno estão completos; (b) o próximo especialista recebeu e **ACEITOU** expressamente; e (c) não subsiste correção ativa com o remetente. Não há assunção excepcional de fila pelo Scrum Master nem liberação de responsabilidade por silêncio ou registro isolado. Registro ou transporte sem aceite não libera responsabilidade por presunção. A designação de um responsável por bloqueio não equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
 
 ## 4. DoR/DoD e devolução por interface
 
