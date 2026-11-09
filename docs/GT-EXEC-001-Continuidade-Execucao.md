@@ -22,7 +22,7 @@
 
 - Engenharia implementa, executa testes unitários/de integração permitidos, analisa falhas, corrige e repete os testes relevantes **antes** de encaminhar ao QA independente.
 - QA pode investigar, reproduzir, preparar dados autorizados, rodar verificações e sugerir correções, mas não assume mudanças protegidas sem alçada.
-- Orquestração consulta estado real, concilia pendências, prepara próximos passos e executa atos de coordenação já autorizados, sem multiplicar despachos.
+- Scrum Master acompanha sinais disponíveis de fluxo, detecta impedimentos e gargalos e atua por exceção dentro de sua alçada; cada especialista mantém ownership da própria tarefa e encaminha diretamente ao próximo especialista competente quando autorizado. Não existe coordenação central obrigatória nem despacho universal.
 - Qualquer especialista prepara e confere sua própria entrega, evidências, links e integridade dentro da sua competência; **autocheck não se declara revisão independente**.
 - Não usar papéis como desculpa para parar trabalho auxiliar autorizado; não usar a regra para invadir alçadas, dispensar segregação, aprovar próprio merge ou executar produção/gastos/acessos sem autorização.
 - Antes de um handoff, entregar artefato reproduzível, testes feitos/não feitos, resultado, falhas corrigidas, risco remanescente e motivo concreto da transferência. Não exigir perfeição técnica quando o próprio impedimento justifica a transferência.
