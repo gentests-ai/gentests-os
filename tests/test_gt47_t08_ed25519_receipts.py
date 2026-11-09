@@ -146,7 +146,9 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         def lookup(receipt_id):
             calls.append(receipt_id)
             return 200, {"state": "completed", "receipt": completed,
-                         "result": result_text, "result_sha256": digest}
+                         "result": result_text, "result_sha256": digest,
+                         "branch_name": "agents/gt47/" + self.intent["dispatch_id"][:16],
+                         "pr_number": 148}
 
         result = reconcile_executor_receipt(
             intent=self.intent, receipt_id=self.receipt_id,
@@ -171,6 +173,7 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             intent=self.intent, receipt_key=self.public, status=status)
         self.assertEqual(result["status"], "remote_completed_attested")
         self.assertEqual(result["result"], result_text)
+        self.assertEqual(result["pr_number"], 148)
         self.assertEqual(calls, [self.intent["dispatch_id"]])
 
     def test_uncertain_reconciliation_never_resubmits(self):
@@ -233,7 +236,9 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             accepted = self.receipt("accepted")
             completed = self.receipt(
                 "completed", digest=result_digest, accepted=accepted)
-            return 200, {"receipt": completed, "result": result_text}
+            return 200, {"receipt": completed, "result": result_text,
+                         "branch_name": "agents/gt47/" + self.intent["dispatch_id"][:16],
+                         "pr_number": 147}
 
         result = execute_reserved_intent(
             intent=self.intent, reservation=reservation, receipt_key=self.public,
@@ -242,6 +247,8 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             worker_request=worker_request, enabled=True, max_polls=1)
         self.assertEqual(result["status"], "remote_completed_attested")
         self.assertEqual(result["result"], "AGT-ENG remote result: bounded and verified")
+        self.assertEqual(result["branch_name"], "agents/gt47/" + self.intent["dispatch_id"][:16])
+        self.assertEqual(result["pr_number"], 147)
         self.assertEqual(len(posts), 1)
         self.assertEqual(posts[0], worker_request)
 
