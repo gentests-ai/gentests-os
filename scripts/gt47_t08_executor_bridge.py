@@ -264,3 +264,50 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
             "receipt_id": rid, "execution_ref": execution_ref,
             "agent_id": intent["agent_id"],
             "agent_mission_executed": False, "independently_verified": False}
+
+
+def reconcile_executor_receipt(*, intent: dict, receipt_id: str,
+                               receipt_key: bytes, lookup) -> dict:
+    """Read-only reconciliation; never submits or retries an uncertain dispatch."""
+    if not callable(lookup):
+        raise ContextRejected("remote receipt lookup is not configured")
+    if type(receipt_key) is not bytes or len(receipt_key) < 32:
+        raise ContextRejected("receipt verifier not configured")
+    try:
+        code, response = lookup(receipt_id)
+    except Exception as exc:
+        raise ContextRejected("receipt reconciliation outcome uncertain") from exc
+    if type(code) is not int or code != 200 or type(response) is not dict:
+        raise ContextRejected("remote receipt unavailable; manual reconciliation required")
+    receipt_value = response.get("receipt", response)
+    result_text = response.get("result") if "receipt" in response else None
+    value = validate_attestation(
+        value=receipt_value, key=receipt_key, intent=intent,
+        receipt_id=receipt_id,
+        allowed_states=("received", "accepted", "completed", "failed", "uncertain"),
+    )
+    state = value["status"]
+    if state == "failed":
+        raise ContextRejected("remote executor reported failed")
+    if state == "uncertain":
+        return {"status": "manual_reconciliation_required",
+                "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
+                "agent_mission_executed": "uncertain",
+                "independently_verified": False}
+    if state != "completed":
+        return {"status": "remote_pending_attested",
+                "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
+                "agent_mission_executed": False, "independently_verified": False}
+    result_info = {}
+    if receipt_value.get("schema") == "gt47-executor-receipt-v2":
+        if (type(result_text) is not str or not result_text
+                or hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+                != value["result_sha256"]):
+            raise ContextRejected("remote result missing or digest mismatch")
+        result_info["result"] = result_text
+    return {"status": "remote_completed_attested",
+            "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
+            "result_sha256": value["result_sha256"], **result_info,
+            "agent_id": intent["agent_id"],
+            "agent_mission_executed": "attested_by_remote_only",
+            "independently_verified": False}
