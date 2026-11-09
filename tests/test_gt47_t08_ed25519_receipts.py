@@ -280,7 +280,7 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             completed = self.receipt(
                 "completed", digest=result_digest, accepted=accepted)
             return 200, {"receipt": completed, "result": result_text,
-                         "branch_name": "agents/gt47/" + self.intent["dispatch_id"][:16],
+                         "branch_name": "agents/gt47/" + self.intent["dispatch_id"],
                          "pr_number": 147}
 
         result = execute_reserved_intent(
