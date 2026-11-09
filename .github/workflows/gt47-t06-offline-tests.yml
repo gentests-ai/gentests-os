@@ -9,6 +9,7 @@ on:
       - "tests/test_gt47_t07_*.py"
       - "scripts/gt47_t08_*.py"
       - "tests/test_gt47_t08_*.py"
+      - "cloudflare/gt47-executor/**"
       - ".github/workflows/gt47-t06-offline-tests.yml"
       - ".github/workflows/gt47-groq-advisory.yml"
   workflow_dispatch:
@@ -41,6 +42,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Validate Cloudflare Worker without deployment or secrets
+        run: |
+          set -euo pipefail
+          node --check cloudflare/gt47-executor/src/index.js
+          cd cloudflare/gt47-executor
+          npm test
       - name: Validate T06 without API credentials
         run: |
           set -euo pipefail
