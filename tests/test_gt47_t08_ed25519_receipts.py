@@ -290,7 +290,7 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             worker_request=worker_request, enabled=True, max_polls=1)
         self.assertEqual(result["status"], "remote_completed_attested")
         self.assertEqual(result["result"], "AGT-ENG remote result: bounded and verified")
-        self.assertEqual(result["branch_name"], "agents/gt47/" + self.intent["dispatch_id"][:16])
+        self.assertEqual(result["branch_name"], "agents/gt47/" + self.intent["dispatch_id"])
         self.assertEqual(result["pr_number"], 147)
         self.assertEqual(len(posts), 1)
         self.assertEqual(posts[0], worker_request)
