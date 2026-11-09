@@ -1,7 +1,7 @@
 import {toolDefinitions,executeGitHubTool,__tools} from "./tools.js";
 const REPO="gentests-ai/gentests-os", REPO_ID="1412714626", ISSUE=47, MISSION="GT-AI-DISPATCH-001", AGENT="AGT-ENG";
 const CONTRACT_PATH="02-Agentes/Engenharia/Contrato-Agente-Executor-Tecnico.md", CLAIM_REPO="gentestsai-sudo/gentests-os";
-const MODEL="@cf/zai-org/glm-4.7-flash", INPUT_MICROUSD_PER_TOKEN=0.0605, OUTPUT_MICROUSD_PER_TOKEN=0.4, MAX_PROMPT_BYTES=160000, ISSUER="https://token.actions.githubusercontent.com";
+const MODEL="@cf/zai-org/glm-4.7-flash", INPUT_MICROUSD_PER_TOKEN=0.0605, OUTPUT_MICROUSD_PER_TOKEN=0.4, MAX_PROMPT_BYTES=128000, ISSUER="https://token.actions.githubusercontent.com";
 const JWKS="https://token.actions.githubusercontent.com/.well-known/jwks";
 const DECISION_DOMAIN=new TextEncoder().encode("GT47-DECISION-v1\0"), RECEIPT_DOMAIN=new TextEncoder().encode("GT47-RECEIPT-v1\0");
 const MAX_BODY=49152, MAX_TASK=8192, MAX_RESULT=24576, SHA40=/^[0-9a-f]{40}$/, SHA64=/^[0-9a-f]{64}$/, ID=/^[A-Za-z0-9_-]{16,64}$/, DECIMAL=/^(0|[1-9][0-9]*)$/, CLAIM_REF=/^refs\/tags\/gt47-claims\/[0-9a-f]{64}$/;
