@@ -1,21 +1,19 @@
 ---
 tipo: processo
 id: GT-HANDOFF-001
-versao: 0.2.1
+versao: 0.2.2
 status: proposta
 responsavel: Governança
 missao: GT-GOV-CHANGE-001
 issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 ---
-# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.1)
+# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.2)
 
 > **Não homologado.** Este desenho não concede acessos, não altera POL-003, contratos ou hierarquia, não autoriza merge, publicação, piloto, GT-WIP-001, Agile Coach ou automação #47. Base: [Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) e [REV-GOV-CHANGE-002](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
 ## Proposta focal #86 — roteamento federado e reuso de evidências (pendente de homologação)
 
-**Decisão da Direção registrada na [issue #86](https://github.com/gentestsai-sudo/gentests-os/issues/86):** dentro da missão, autorização e permissões efetivas já vigentes, especialistas podem **encaminhar diretamente** ao próximo especialista competente, com GT-HANDOFF-001 e evento rastreável na issue canônica. Não necessitam do Orquestrador como intermediário rotineiro. Esta cláusula é **proposta de conciliação** com a regra central abaixo e com POL-003; não cria privilégios e não entra em vigor por simples texto.
-
-O Orquestrador mantém **ownership global**, prioridades e supervisão de exceções, acesso ao histórico integral e **síntese incremental** por missão (estado, dono, próxima ação, evidências, bloqueios e decisões), sem reler nem retranscrever todo o histórico a cada etapa. Escalar ao Orquestrador só para conflito de rota/prioridade/escopo, dependência, falha de entrega/aceite ou autoridade incerta. Decisões reservadas permanecem com a Direção.
+**Diretriz arquitetural da Direção:** não existe Orquestrador Central. Dentro da missão, do escopo autorizado e das permissões efetivas, especialistas encaminham diretamente ao próximo especialista competente e registram o evento na issue canônica. O responsável atual conserva a responsabilidade até a entrega ser comprovada e o destinatário aceitar explicitamente. O Scrum Master observa o fluxo e atua somente por exceção — impedimento, atraso, falha, ping-pong, conflito ou ausência de progresso — sem ownership global, fila central, triagem universal ou despacho obrigatório. Esta proposta documental não cria privilégios nem altera POL-003.
 
 **Transições distintas:** preparar, registrar, entregar de fato, receber, ACEITAR, executar, validar, autorizar, integrar e encerrar. GitHub não entrega mensagem automaticamente a outro chat ChatGPT; sem canal operacional efetivo, fornecer mensagem integral copiável e registrar entrega/aceite como PENDENTE até prova.
 
@@ -25,14 +23,14 @@ O Orquestrador mantém **ownership global**, prioridades e supervisão de exceç
 
 ## 1. Regra central e fonte da autoridade
 
-**Orquestrador Central único** mantém ownership da missão, triagem e lacunas de rota, acompanha as transferências registradas, sem confirmar rotineiramente destinos já autorizados; **não se autodespacha**. Especialista só assume execução após **ACEITO explícito**; o parecer de QA, Validação, Auditoria ou Revisor Independente não concede autorização para merge, gastos, publicação ou deploy. Direção decide os atos reservados e, no transporte manual, apenas copia a mensagem pronta, sem escolher rota. A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) trata de automação futura, não implantada.
+Não há agente central responsável por todas as missões, ownership global, fila universal ou despacho obrigatório. O ownership pertence ao responsável explicitamente designado para cada tarefa/etapa. O remetente mantém a responsabilidade até comprovar a entrega e o destinatário registrar **ACEITO**; após o aceite, o destinatário assume a execução delimitada. O Scrum Master acompanha sinais do fluxo e intervém por exceção, sem substituir o responsável nem escolher rotineiramente a rota. Especialista só executa após aceite explícito e dentro de sua autorização. Parecer de QA, Validação, Auditoria ou Revisor Independente não autoriza merge, gastos, publicação ou deploy. A Direção decide atos reservados. A [issue #47](https://github.com/gentestsai-sudo/gentests-os/issues/47) trata de automação futura, não implantada.
 
 **Roteamento não é autorização.** O catálogo de papéis/rotas abaixo é candidato. Fonte de autoridade: [[00-Constituicao/Matriz-de-Permissoes|POL-003]], delegação formal vigente, permissão efetiva da ferramenta e aprovação específica para cada ato protegido; reconciliação pendente na [issue #53](https://github.com/gentestsai-sudo/gentests-os/issues/53). Quando a autoridade é ausente/ambígua: **BLOQUEADA POR AUTORIDADE**, com dono e próxima decisão. RACI ou texto de despacho não cria permissão.
 
 | Função | Competência da rota candidata | Limite / segregação |
 |---|---|---|
 | Direção | Deliberação reservada, autorização por objeto | Decisão não substitui QA ou parecer técnico |
-| Orquestrador | Triagem, preparo, despacho, acompanhamento e fechamento condicionado | Não executa ação técnica por presunção nem homologa sua própria proposta |
+| Scrum Master | Monitoramento da saúde do fluxo e atuação operacional por exceção | Não recebe todas as tarefas, não mantém fila/ownership global, não despacha rotineiramente, não substitui especialistas nem autoriza atos reservados |
 | Comercial | Prospecção e CRM autorizado | Contato externo sob autorização; sem gasto autônomo |
 | Marketing | Conteúdo e campanhas | Publicação/autoria sem autoaprovação |
 | Produto | Requisitos e critério funcional | Não autoriza deploy/gasto |
@@ -53,33 +51,33 @@ Cada evento na **issue canônica** deve conter `event_id`, `mission_id`, `handof
 
 | Evento/condição | Transição | Ownership e gate |
 |---|---|---|
-| Nova demanda | inexistente → registrada | Orquestrador assume triagem/DoR |
-| Entrada insuficiente | registrada/refinamento → aguardando refinamento | Orquestrador indica requisito, dono e retorno; sem despacho |
-| DoR satisfeito | registrada/refinamento → pronta | Responsável pela etapa/remetente aponta evidência e rota autorizada; ORQ atua na triagem inicial ou por exceção. |
+| Nova demanda | inexistente → registrada | Solicitante/responsável da missão registra objetivo, responsável inicial competente, DoR, fonte e autorização aplicável; não há triagem central obrigatória |
+| Entrada insuficiente | registrada/refinamento → aguardando refinamento | Responsável atual solicita diretamente ao dono da informação faltante, registrando lacuna, dono e próxima ação |
+| DoR satisfeito | registrada/refinamento → pronta | Responsável atual identifica diretamente o especialista competente conforme contrato, escopo, autorização e acesso efetivo |
 | Mensagem redigida | pronta → handoff preparado | Ainda **não** registrada ou entregue |
 | Registro GitHub | preparado → registrado; acionamento pendente | Comentário/issue **não é** acionamento efetivo |
-| Entrega comprovada | acionamento pendente → aguardando aceite | Remetente registra prova de entrega; ORQ acompanha pela issue sem aprovar cada rota |
+| Entrega comprovada | acionamento pendente → aguardando aceite | Remetente registra prova de transporte; permanece responsável até o aceite explícito do destinatário |
 | ACEITO explícito | aguardando aceite → etapa aceita/em execução | Destinatário assume execução; aceite não aprova mérito |
 | DEVOLVIDO explícito | aguardando aceite → devolvida/refinamento | Motivo, requisito, dono, próxima ação; sem loop infinito |
-| Erro de transporte | preparado/pendente → erro de entrega | Remetente registra erro e recupera dentro da autonomia; escala ao ORQ se persistente; sem aceite fictício |
-| Sem resposta | aguardando aceite → aguardando aceite escalonada | Remetente monitora e escala ORQ quando necessário; silêncio nunca é aceite |
-| Impedimento do executor | em execução → bloqueada | Executor registra dono e ação; ORQ intervém em dependência ou conflito não resolvido diretamente |
+| Erro de transporte | preparado/pendente → erro de entrega | Remetente registra erro e recupera dentro da autonomia; aciona o Scrum Master por exceção se houver impedimento persistente ou conflito; sem aceite fictício |
+| Sem resposta | aguardando aceite → aguardando aceite escalonada | Remetente mantém ownership e registra a pendência; aciona o Scrum Master por exceção se o atraso/impedimento exigir intervenção; silêncio nunca é aceite |
+| Impedimento do executor | em execução → bloqueada | Executor registra causa, impacto, responsável e próxima ação; solicita apoio ao Scrum Master por exceção ou encaminha diretamente ao especialista competente |
 | Desbloqueio | bloqueada → em execução/pronta | Rechecar DoR e autoridade |
 | Entrega com evidência | em execução → etapa concluída/aguardando transferência | Remetente informa realizado/não realizado e riscos; missão continua |
-| Transferência registrada | concluída → handoff pendente | Remetente identifica destinatário competente e registra evento; ORQ acompanha pela issue; destinatário ainda não aceitou |
+| Transferência registrada | concluída → handoff pendente | Remetente identifica destinatário competente e registra evento; responsabilidade não muda até o aceite explícito do destinatário |
 | Verificações paralelas | em verificação → verificações parciais | QA, Validação, Auditoria e Revisão Independente, se exigidas, têm donos e pareceres próprios; gate só fecha com todos ou dispensa expressa autorizada |
 | Não conformidade | em verificação → correção focal | Achados e condição de rechecagem; retorna ao executor |
 | Mérito verificado | em verificação → aguardando decisão/entrega | Aprovação técnica não autoriza atos reservados |
 | Decisão reservada | aguardando decisão → autorizada/devolvida/cancelada | Direção registra objeto, escopo e decisão |
 | Integração real | autorizada → conferência final | Executor/Infra habilitado registra commit, publicação/deploy e evidência |
-| DoD da missão | conferência final → encerrada | Orquestrador/encarregado autorizado verifica todos os gates |
+| DoD da missão | conferência final → encerrada | Responsável pela missão ou autoridade expressamente designada confere os gates aplicáveis e registra encerramento; não há encerramento central presumido |
 | Cancelamento fundamentado | estado não final → cancelada | Autoridade competente documenta motivo, impactos e comunicação |
 
-**Ownership:** missão, prioridades e exceções = Orquestrador; encaminhamento horizontal da etapa e comprovação do transporte = remetente; execução aceita = destinatário; parecer = verificador nomeado; decisão reservada = Direção. Todo parecer relevante deve informar objeto, HEAD/versão, resultado, evidências e responsável na issue canônica. ORQ consulta e incorpora os pareceres à síntese incremental: registro, notificação, leitura e incorporação são eventos diferentes. Toda devolução, pendência e bloqueio exige dono atual, próximo dono e próxima ação. Envio do retorno não equivale à transferência aceita.
+**Ownership:** cada tarefa/etapa tem um responsável atual explicitamente registrado; o remetente responde pela entrega até o aceite; o destinatário assume a execução após ACEITO explícito; o verificador responde pelo próprio parecer; decisões reservadas pertencem à Direção. O Scrum Master não possui ownership global e acompanha somente exceções que demandem sua atuação. Todo parecer relevante informa objeto, HEAD/versão, resultado, evidências e responsável na issue canônica. Registro, notificação, leitura, entrega e aceite são eventos distintos. Toda devolução, pendência e bloqueio exige dono atual, próximo dono e próxima ação.
 
 ## 3. WIP e capacidade — regra candidata não ativada
 
-Não impor WIP 1 agora. Slot do remetente pode ser liberado quando: (a) evidências e retorno estão completos; (b) próximo especialista recebeu e **ACEITOU** expressamente, ou ORQ assumiu fila excepcional com dono explícito sem simular aceite do executor; e (c) não subsiste correção ativa com o remetente. Registro ou transporte sem aceite não libera responsabilidade por presunção. Assumir fila **não** equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
+Não impor WIP 1 agora. Slot do remetente pode ser liberado quando: (a) evidências e retorno estão completos; (b) o próximo especialista recebeu e **ACEITOU** expressamente; e (c) não subsiste correção ativa com o remetente. Não há assunção excepcional de fila pelo Scrum Master nem liberação de responsabilidade por silêncio ou registro isolado. Registro ou transporte sem aceite não libera responsabilidade por presunção. A designação de um responsável por bloqueio não equivale ao aceite do próximo executor/revisor. Registrar exceções P0, bloqueio externo e paralelismo independente com motivos. Sem revisor independente apto, registrar **BLOQUEADA**, nunca autoaprovação. Preservar trabalhos comerciais P0, sem bypass de gates de segurança.
 
 ## 4. DoR/DoD e devolução por interface
 
@@ -111,17 +109,17 @@ Inventariar, antes da edição: arquivos e IDs canônicos, PRs abertos, versões
 
 ## 7. Encaminhamento proporcional — registro único e transporte verificável
 
-**Regra operacional proposta de simplificação (#53/#86):** registrar uma vez na issue canônica o resultado, evidência, responsável, próxima ação, risco e autorização já aplicável. Para continuidade dentro da mesma especialidade, não criar handoff, evento ou pedido de aprovação adicional. Na transferência horizontal, o remetente encaminha diretamente ao destinatário competente e o Orquestrador acompanha por ciência incremental, sem aprovar cada troca.
+**Regra operacional proposta de simplificação (#53/#86):** registrar uma vez na issue canônica o resultado, evidência, responsável, próxima ação, risco e autorização já aplicável. Para continuidade dentro da mesma especialidade, não criar handoff, evento ou pedido de aprovação adicional. Na transferência horizontal, o remetente encaminha diretamente ao destinatário competente; não há ciência ou aprovação central obrigatória.
 
 **Transporte proporcional:** com canal conectado e autorizado, utilizar payload estruturado e prova de entrega/ACEITO. Sem canal conectado, disponibilizar **uma única mensagem copiável suficiente para executar**, contendo destino, objetivo, escopo, fonte de autoridade existente, links de evidências, próximo passo e condição de aceite. O template extenso é opcional para casos simples; campos adicionais são exigidos somente quando o risco/gate material os demandar. Nunca presumir entrega ou aceite por comentário no GitHub.
 
 **Reuso de autorização:** consultar decisão válida para o objeto e escopo; não pedir novamente aprovação de atividade ordinária já coberta. Atos protegidos continuam sujeitos à autorização expressa aplicável e permissão técnica efetiva. Bloquear somente o ato sem autoridade e avançar trabalho independente autorizado.
 
-**DoD proporcional:** resultado verificável, testes realizados/não realizados relevantes, risco residual, próximo dono e próximo passo. QA e revisão independente permanecem separados quando obrigatórios. Evitar reproduzir a mesma evidência em múltiplos documentos ou devoluções sem alteração material. Pareceres são visíveis ao ORQ pela issue; ciência não significa aceite do destinatário.
+**DoD proporcional:** resultado verificável, testes realizados/não realizados relevantes, risco residual, próximo dono e próximo passo. QA e revisão independente permanecem separados quando obrigatórios. Evitar reproduzir a mesma evidência em múltiplos documentos ou devoluções sem alteração material. Pareceres ficam registrados na issue canônica para os responsáveis e verificadores pertinentes; visibilidade não significa aceite do destinatário.
 
 ## 8. Piloto e indicadores — apenas planejamento
 
-Candidato: missão #55, somente após autorização própria. Orquestrador coleta timestamps de despacho/acionamento/aceite/execução/verificações/decisão, WIP, idade por estado, bloqueios, devoluções, lead time, throughput e colisões. **Baseline N/D (não apurada)**; piloto não executado. Uma única amostra não comprova melhoria geral. Automação, GT-WIP-001 e Agile Coach seguem não ativados.
+Candidato: missão #55, somente após autorização própria. O responsável pela missão e os participantes registram timestamps de acionamento/aceite/execução/verificações/decisão, WIP, idade por estado, bloqueios, devoluções, lead time, throughput e colisões. **Baseline N/D (não apurada)**; piloto não executado. Uma única amostra não comprova melhoria geral. Automação, GT-WIP-001 e Agile Coach seguem não ativados.
 
 ## Referências
 - [Issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) · [Proposta Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) · [Parecer REV-02](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108)

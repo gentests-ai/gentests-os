@@ -30,9 +30,9 @@ false. Nenhum retry, reset de claim ou retorno automático foi introduzido.
 
 A fonte de papéis é [o índice canônico](../02-Agentes/Indice-de-Agentes.md).
 Há 14 papéis documentados; isso não comprova implementação de todos os agentes.
-Engenharia e QA são apenas a dupla operacional deste piloto. Orquestrador,
-Produto, UX/UI, Infraestrutura, Comercial, Marketing, Financeiro, Validador,
-Auditor, X9, Governança e Processos mantêm as fronteiras de seus contratos.
+Engenharia e QA são apenas a dupla operacional deste piloto. Scrum Master (atuação por exceção), Produto, UX/UI, Infraestrutura, Comercial,
+Marketing, Financeiro, Validador, Auditor, X9, Governança e Processos mantêm
+as fronteiras de seus contratos. Não há Orquestrador Central como papel ativo.
 A evolução do caminho feliz completo deve distinguir recebimento, aceite,
 encaminhamento, retorno, validação pelos papéis pertinentes e encerramento.
 Não transformar QA em aprovador universal ou duplicar o papel do Validador.
