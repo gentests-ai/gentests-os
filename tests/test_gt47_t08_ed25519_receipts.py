@@ -53,6 +53,29 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             value["accepted_receipt"] = accepted
         return self.sign(value)
 
+    def worker_request(self, task, context, claim, dispatch_id=None):
+        return {
+            "decision": {
+                "version": 3, "decision_id": "decision_1234567890123456",
+                "issuer_key_id": "direction-key-v1",
+                "issuer_human_id": "director-123456",
+                "repository_id": 1412714626, "issue": 47,
+                "mission": self.intent["mission"], "agent_id": self.intent["agent_id"],
+                "commit_sha": self.intent["commit_sha"], "contract_blob_sha": "b" * 40,
+                "input_sha256": hashlib.sha256(_canonical(
+                    {"task": task, "context": context})).hexdigest(),
+                "dispatch_id": dispatch_id or self.intent["dispatch_id"],
+                "claim_ref": claim, "scope": "gt47:execute:AGT-ENG",
+                "not_before": 1794268800, "expires_at": 1794269400,
+                "nonce": "nonce_worker_123456",
+                "max_tokens": 512, "max_model_calls": 2, "max_tool_calls": 1,
+                "allowed_tools": ["read_file"],
+                "max_incremental_cost_usd_micros": 15000,
+                "no_paid_fallback": True,
+            },
+            "signature": "z" * 86, "task": task, "context": context,
+        }
+
     def test_received_receipt_verifies_with_public_key(self):
         received = self.receipt("received")
         result = validate_attestation(
@@ -199,17 +222,8 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             "execution_allowed": False, "agent_mission_executed": False,
         }
         task, context = "Approved task", {"source": "signed"}
-        worker_request = {
-            "decision": {
-                "mission": self.intent["mission"], "issue": self.intent["issue"],
-                "agent_id": self.intent["agent_id"],
-                "commit_sha": self.intent["commit_sha"],
-                "dispatch_id": "f" * 64, "claim_ref": claim,
-                "input_sha256": hashlib.sha256(_canonical(
-                    {"task": task, "context": context})).hexdigest(),
-            },
-            "signature": "x" * 86, "task": task, "context": context,
-        }
+        worker_request = self.worker_request(
+            task, context, claim, dispatch_id="f" * 64)
         writes, posts = [], []
 
         def get_ref(ref):
@@ -257,17 +271,7 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         result_text = "AGT-ENG remote result: bounded and verified"
         result_digest = hashlib.sha256(result_text.encode("utf-8")).hexdigest()
         task, context = "Execute the approved engineering task", {"source": "signed"}
-        worker_request = {
-            "decision": {
-                "mission": self.intent["mission"], "issue": self.intent["issue"],
-                "agent_id": self.intent["agent_id"],
-                "commit_sha": self.intent["commit_sha"],
-                "dispatch_id": self.intent["dispatch_id"], "claim_ref": claim,
-                "input_sha256": hashlib.sha256(_canonical(
-                    {"task": task, "context": context})).hexdigest(),
-            },
-            "signature": "z" * 86, "task": task, "context": context,
-        }
+        worker_request = self.worker_request(task, context, claim)
 
         def lookup(receipt_id):
             accepted = self.receipt("accepted")
