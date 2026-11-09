@@ -10,6 +10,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -104,7 +105,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
             or max_model_calls < 2 or max_tool_calls < 1
             or (has_write_pair and max_tool_calls < 2)):
         raise ValueError("invalid bounded agent/tool call limits")
-    per_call_budget = int(__import__("math").ceil(
+    per_call_budget = int(math.ceil(
         MAX_PROMPT_BYTES * INPUT_MICROUSD_PER_TOKEN
         + max_tokens * OUTPUT_MICROUSD_PER_TOKEN))
     required_budget = max_model_calls * per_call_budget
