@@ -228,3 +228,19 @@ Referências: [Issue #47](https://github.com/gentests-ai/gentests-os/issues/47) 
 - Realizar auditoria independente antes de consolidar arquitetura como aprovada.
 
 **Status final:** proposta de arquitetura para auditoria. Não representa implementação concluída nem autorização operacional.
+
+## 13. Diretrizes iniciais do MVP
+
+Decisões registradas pela Direção em 2026-11-08. Não alteram o status geral deste documento nem comprovam implementação.
+
+### API própria
+
+**Decisão para o MVP:** não construir uma API pública própria nem adicionar uma camada/serviço de API separado sem necessidade concreta demonstrada.
+
+- Utilizar as interfaces internas estritamente necessárias entre painel, runtime, agentes e persistência.
+- Preservar contratos claros, autenticação, autorização, isolamento, segurança, observabilidade e desempenho; a ausência de uma API pública não elimina esses requisitos.
+- Diferenciar APIs de provedores externos de IA, que podem ser necessárias para consumir modelos, de uma API própria do produto.
+- Reavaliar a decisão quando houver requisito real de integração externa, consumidores independentes, acesso de terceiros ou distribuição do serviço.
+- Se a necessidade surgir, introduzir a interface com a menor complexidade possível, sem reconstruir o motor.
+
+**Princípio:** não criar uma camada, serviço ou dependência apenas por convenção. A solução mais simples que atenda aos requisitos de segurança, desempenho, escala e manutenção é a preferida.
