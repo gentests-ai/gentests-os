@@ -1,7 +1,9 @@
 import unittest
 from scripts.gt47_t04_context_loader import ContextRejected
 from scripts.gt47_t06_dispatch_intent import prepare_dispatch
-from scripts.gt47_t06_github_claim_ledger import reserve_dispatch_on_github, _claim_ref
+from scripts.gt47_t06_github_claim_ledger import (
+    reserve_dispatch_on_github, begin_executor_invocation_on_github, _claim_ref,
+)
 from tests.test_gt47_t06_dispatch_intent import fixture
 
 
@@ -28,6 +30,44 @@ class GithubClaimLedgerTests(unittest.TestCase):
         return reserve_dispatch_on_github(intent=intent or self.intent,
             enabled=enabled, create_ref=create or self.create,
             get_ref=read or self.read)
+
+    def begin(self, reservation, intent=None, enabled=True, create=None, read=None):
+        return begin_executor_invocation_on_github(
+            intent=intent or self.intent, reservation=reservation, enabled=enabled,
+            create_ref=create or self.create, get_ref=read or self.read,
+        )
+
+    def test_invocation_fence_is_consumed_once(self):
+        reservation = self.reserve()
+        result = self.begin(reservation)
+        self.assertEqual(result["status"], "invocation_started_remote")
+        self.assertTrue(result["execution_ref"].startswith("refs/tags/gt47-executor-started/"))
+        with self.assertRaisesRegex(ContextRejected, "replay rejected"):
+            self.begin(reservation)
+        self.assertEqual(len(self.posts), 3)
+
+    def test_invocation_requires_matching_durable_claim(self):
+        reservation = self.reserve()
+        self.refs.clear()
+        with self.assertRaisesRegex(ContextRejected, "reservation not verified"):
+            self.begin(reservation)
+        self.assertEqual(len(self.posts), 1)
+
+    def test_uncertain_fence_creation_is_not_retried(self):
+        reservation = self.reserve()
+        attempts = []
+        def timeout(ref, sha):
+            attempts.append(ref)
+            raise TimeoutError("uncertain")
+        with self.assertRaisesRegex(ContextRejected, "do not resubmit"):
+            self.begin(reservation, create=timeout)
+        self.assertEqual(len(attempts), 1)
+
+    def test_fence_conflict_requires_matching_readback(self):
+        reservation = self.reserve()
+        with self.assertRaisesRegex(ContextRejected, "conflict not verified"):
+            self.begin(reservation, create=lambda ref, sha: (422, {}),
+                       read=lambda ref: (404, {}))
 
     def test_disabled_is_no_write(self):
         with self.assertRaisesRegex(ContextRejected, "disabled"):
