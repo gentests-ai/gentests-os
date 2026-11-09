@@ -19,7 +19,13 @@ The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG de
 python -m scripts.gt47_sign_worker_decision --input decision-input.json --private-key /offline/path/authority-ed25519.pem --output signed-worker-request.json
 ```
 
-The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody.
+The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody. The signer requires an explicit positive max_incremental_cost_usd_micros value; there is no default budget.
+
+## Paid inference cost gate
+
+Cloudflare currently lists GLM-4.7-Flash at **$0.0605 per million input tokens** and **$0.40 per million output tokens** (official model page: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/). This is a paid model; no free-tier assumption is made. Prices and account entitlements can change.
+
+Before inference, the Worker estimates an upper bound from UTF-8 prompt bytes (plus fixed framing overhead) and max completion tokens, using the published per-token rates. The signed decision must carry a positive max_incremental_cost_usd_micros, and it must be within the separately configured MAX_EXECUTION_COST_USD_MICROS ceiling with AI_COST_AUTHORIZED=true. These settings are false/zero by default. The estimate is a preflight guard, not an invoice guarantee; account quotas, billing, model price and actual usage still require operator verification. No inference can run with the defaults in this repository.
 
 ## Routes
 
