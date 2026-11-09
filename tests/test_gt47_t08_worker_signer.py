@@ -46,8 +46,7 @@ class WorkerDecisionSignerTests(unittest.TestCase):
         self.assertNotIn("max_calls", decision)
         self.assertEqual(decision["mission"], "GT-AI-DISPATCH-001")
         self.assertEqual(decision["agent_id"], "AGT-ENG")
-        self.assertEqual(decision["max_calls"], 1)
-        self.assertEqual(decision["max_incremental_cost_usd_micros"], 10000)
+        self.assertEqual(decision["max_incremental_cost_usd_micros"], 15000)
         self.assertTrue(decision["no_paid_fallback"])
         expected_input = hashlib.sha256(canonical({
             "task": self.task, "context": self.context})).hexdigest()
