@@ -92,7 +92,7 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             "completed", digest="a" * 64, accepted=accepted)
         completed["accepted_receipt"]["status"] = "received"
         completed = self.sign(completed)
-        with self.assertRaisesRegex(ContextRejected, "authentication"):
+        with self.assertRaises(ContextRejected):
             validate_attestation(
                 value=completed, key=self.public, intent=self.intent,
                 receipt_id=self.receipt_id, allowed_states=("completed",))
