@@ -96,11 +96,12 @@ class BudgetTests(unittest.TestCase):
         with self.assertRaisesRegex(ReconciliationRequired, 'ledger missing'):
             reserve(store, dispatch_id='a'*64, now=NOW)
 
-    def test_new_state_branch_seeds_and_verifies_empty_ledger_once(self):
-        store = GitHubStore('offline-test')
+    def test_new_recovery_branch_seeds_and_verifies_empty_ledger_once(self):
+        branch = 'gt47-recovery-test-init001'
+        store = GitHubStore('offline-test', branch=branch)
         files = {}
         def request(method, path, body=None):
-            if method == 'GET' and path == '/git/ref/heads/gt47-advisory-state':
+            if method == 'GET' and path == '/git/ref/heads/' + branch:
                 return 404, None
             if method == 'POST' and path == '/git/refs':
                 return 201, {}
@@ -110,6 +111,19 @@ class BudgetTests(unittest.TestCase):
         store.get = lambda path: (copy.deepcopy(files.get(path)), 'blob-sha' if path in files else None)
         store.initialize(SHA)
         self.assertEqual(store.read()[0], {'schema': 1, 'claims': {}})
+
+    def test_missing_production_state_branch_requires_reconciliation(self):
+        store = GitHubStore('offline-test')
+        seen = []
+        def request(method, path, body=None):
+            seen.append((method, path))
+            if method == 'GET' and path == '/git/ref/heads/gt47-advisory-state':
+                return 404, None
+            raise AssertionError('production branch must never be recreated')
+        store.request = request
+        with self.assertRaisesRegex(ReconciliationRequired, 'production state branch missing'):
+            store.initialize(SHA)
+        self.assertEqual(seen, [('GET', '/git/ref/heads/gt47-advisory-state')])
 
     def test_existing_state_branch_does_not_recreate_missing_ledger(self):
         store = GitHubStore('offline-test')
