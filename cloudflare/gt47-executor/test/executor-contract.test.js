@@ -18,3 +18,5 @@ test("writes are restricted to code/test/docs paths and secret-like content is b
 test("pull-request tool cannot merge and dispatch branch name is deterministic",()=>{assert.throws(()=>__tools.validateToolCall("merge_pull_request",{},["write_file","open_pull_request"]));assert.equal(__tools.branchName({dispatch_id:"a".repeat(64)}),"agents/gt47/aaaaaaaaaaaaaaaa")});
 
 test("durable ledger fences agent branch heads and records PR handoff",()=>{assert.match(source,/branch_head_sha/);assert.match(source,/branch_initialized/);assert.match(source,/advanceBranch/);assert.match(source,/recordPR/);assert.match(source,/mark-uncertain/);assert.match(source,/branch_without_pull_request/)});
+
+test("repository read tool excludes secrets and paths outside approved context roots",()=>{assert.throws(()=>__tools.safePath("config/credentials.json"));assert.throws(()=>__tools.safePath("docs/secrets.md"));assert.throws(()=>__tools.safePath(".github/workflows/ci.yml"));assert.doesNotThrow(()=>__tools.safePath("00-Constituicao/Matriz-de-Permissoes.md"));assert.doesNotThrow(()=>__tools.safePath("docs/GT47-INFRA-EXECUTOR-READINESS.md"))});
