@@ -70,7 +70,7 @@ spent+=callCost;
 if(spent>decision.max_incremental_cost_usd_micros)throw Error("cost_cap_exceeded");
 inferenceStarted=true;
 const out=await env.AI.run(MODEL,{messages,tools,tool_choice:tools.length?"auto":"none",parallel_tool_calls:false,max_completion_tokens:decision.max_tokens});
-const toolCalls=Array.isArray(out?.tool_calls)&&out.tool_calls.length?out.tool_calls:Array.isArray(out?.choices?.[0]?.message?.tool_calls)?out.choices[0].message.tool_calls:Array.isArray(out?.response?.tool_calls)?out.response.tool_calls:[];
+const toolCalls=[out?.tool_calls,out?.choices?.[0]?.message?.tool_calls,out?.response?.tool_calls].find(x=>Array.isArray(x)&&x.length)||[];
 if(toolCalls.length===0){
 finalText=typeof out?.response==="string"?out.response:typeof out?.response?.content==="string"?out.response.content:typeof out?.choices?.[0]?.message?.content==="string"?out.choices[0].message.content:typeof out?.choices?.[0]?.text==="string"?out.choices[0].text:JSON.stringify(out);
 break;
