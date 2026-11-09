@@ -44,7 +44,7 @@ if(data.state==="uncertain"&&data.receipt?.status!=="uncertain"){
 const accepted=data.receipt?.status==="accepted"?data.receipt:null;
 const signed=await receipt("uncertain",data.receipt,env,null,accepted);
 const saved=await ledger.fetch(doReq("/uncertain",{dispatch_id:data.receipt.dispatch_id,receipt:signed}));
-if(saved.ok)data.receipt=signed;
+if(!saved.ok)return fail(503,"uncertainty_receipt_persist_failed");data.receipt=signed;
 }
 return json(data);
 }
