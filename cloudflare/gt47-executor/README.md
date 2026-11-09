@@ -13,7 +13,7 @@ This implementation is deliberately inert until separately provisioned and autho
 
 ## Offline authorization signer
 
-The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG decision with an already-existing Ed25519 PEM key. It never generates, writes, exports or uploads private keys. The caller prepares a local JSON input with task, context, commit_sha, contract_blob_sha, nonce, decision_id, issuer_key_id and issuer_human_id (max_tokens is optional), then runs:
+The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG decision with an already-existing Ed25519 PEM key. It never generates, writes, exports or uploads private keys. The caller prepares a local JSON input with task, context, commit_sha, contract_blob_sha, nonce, decision_id, issuer_key_id, issuer_human_id and max_incremental_cost_usd_micros (max_tokens is optional), then runs:
 
 ```sh
 python -m scripts.gt47_sign_worker_decision --input decision-input.json --private-key /offline/path/authority-ed25519.pem --output signed-worker-request.json
