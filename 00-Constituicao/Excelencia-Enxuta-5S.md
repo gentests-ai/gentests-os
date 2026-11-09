@@ -31,6 +31,19 @@ Executor: utilizar modelos e fontes oficiais; registrar entregas de forma organi
 Validador: observar redundâncias e complexidade injustificada no parecer contextual do [[00-Constituicao/Quality-Gates/QG-001-Politica|QG-001]], sem criar cinco gates extras ou reprovar automaticamente conteúdo extenso.
 Auditor: avaliar amostras de desperdícios, inconsistências e exceções, sem atuar como autocertificador.
 
+## Engenharia e documentação
+
+O 5S também orienta a construção do produto e do próprio sistema:
+
+- **Clareza:** nomes, contratos, interfaces e decisões devem ser compreensíveis sem explicações paralelas.
+- **Objetividade:** cada componente, regra, documento e etapa deve ter finalidade identificável.
+- **Simplicidade:** escolher a menor solução que satisfaça os requisitos, sem camadas, abstrações, agentes ou dependências desnecessárias.
+- **Robustez:** simplicidade não significa fragilidade; preservar segurança, tratamento de falhas, testes, observabilidade e recuperação.
+- **Eficácia:** medir o resultado e remover trabalho que não melhora qualidade, confiabilidade ou valor entregue.
+- **Documentação:** uma fonte canônica por assunto; texto curto, direto e suficiente para construir, operar e manter. Evitar duplicação, burocracia e documentação que apenas repete código ou outra fonte.
+
+A qualidade esperada é de alto nível de engenharia com o mínimo de complexidade necessária — não o mínimo de controles. Controles devem ser proporcionais ao risco e nunca removidos quando forem essenciais à segurança, integridade ou conformidade.
+
 ## Implementação enxuta
 Revisar durante os processos e retrospectivas já existentes; **não criar cerimônia exclusiva do 5S**. Priorizar uma única fonte canônica por regra e versionamento pelo GitHub.
 
