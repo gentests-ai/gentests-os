@@ -43,7 +43,8 @@ def canonical(value: object, depth: int = 0) -> bytes:
         return b"[" + b",".join(canonical(item, depth + 1) for item in value) + b"]"
     if type(value) is dict:
         if len(value) > 200 or any(
-            type(k) is not str or k in {"__proto__", "constructor", "prototype"}
+            type(k) is not str or not k.isascii()
+            or k in {"__proto__", "constructor", "prototype"}
             for k in value
         ):
             raise ValueError("invalid JSON object")
