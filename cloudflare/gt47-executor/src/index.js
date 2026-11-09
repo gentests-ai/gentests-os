@@ -3,7 +3,7 @@ const CONTRACT_PATH="02-Agentes/Engenharia/Contrato-Agente-Executor-Tecnico.md";
 const MODEL="@cf/zai-org/glm-4.7-flash", ISSUER="https://token.actions.githubusercontent.com";
 const JWKS="https://token.actions.githubusercontent.com/.well-known/jwks";
 const DECISION_DOMAIN=new TextEncoder().encode("GT47-DECISION-v1\0"), RECEIPT_DOMAIN=new TextEncoder().encode("GT47-RECEIPT-v1\0");
-const MAX_BODY=49152, MAX_TASK=8192, MAX_RESULT=24576, SHA40=/^[0-9a-f]{40}$/, SHA64=/^[0-9a-f]{64}$/, ID=/^[A-Za-z0-9_-]{16,64}$/, DECIMAL=/^(0|[1-9][0-9]*)$/, CLAIM_REF=/^refs\\/tags\\/gt47-claims\\/[0-9a-f]{64}$/;
+const MAX_BODY=49152, MAX_TASK=8192, MAX_RESULT=24576, SHA40=/^[0-9a-f]{40}$/, SHA64=/^[0-9a-f]{64}$/, ID=/^[A-Za-z0-9_-]{16,64}$/, DECIMAL=/^(0|[1-9][0-9]*)$/, CLAIM_REF=/^refs\/tags\/gt47-claims\/[0-9a-f]{64}$/;
 const DECISION_FIELDS=["version","decision_id","issuer_key_id","issuer_human_id","repository_id","issue","mission","agent_id","commit_sha","contract_blob_sha","input_sha256","dispatch_id","claim_ref","scope","not_before","expires_at","nonce","max_calls","max_tokens","max_incremental_cost_brl","no_paid_fallback"].sort();
 function json(x,status=200){return new Response(JSON.stringify(x),{status,headers:{"content-type":"application/json; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff"}})}
 function fail(status,code){return json({error:code},status)}
