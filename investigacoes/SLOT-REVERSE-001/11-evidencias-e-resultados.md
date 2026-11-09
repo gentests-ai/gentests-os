@@ -49,3 +49,13 @@ G1 e G2 devem adicionar evidências de forma independente, identificando a autor
 
 ## 6. Estado atual
 Nenhuma conclusão sobre liquidação, confirmação, crédito, duplicidade, estorno ou vulnerabilidade foi estabelecida. Este registro inicial não representa coleta em produção nem confirma qualquer comportamento do PGW.bet.
+
+## 7. Tentativa inicial de observação pública (09/11/2026, BRT)
+- **Referência:** E-PIX-001
+- **Alvo:** `https://pgw13.com/?a=uq6igjhx` (URL previamente registrada na investigação).
+- **Método:** tentativa de abertura por ferramenta de consulta pública, sem autenticação ou interação.
+- **Resultado observado:** a ferramenta retornou erro interno de acesso e não disponibilizou conteúdo legível.
+- **Classificação:** limitação de observabilidade da ferramenta; não é evidência de indisponibilidade do site, falha do fluxo PIX ou vulnerabilidade.
+- **Dados de depósito:** nenhum; não houve login, solicitação de depósito, geração de QR Code ou operação financeira.
+- **Fontes secundárias encontradas em busca:** resultados para domínios e marcas semelhantes (por exemplo, “WG BET”, “PGWIN” e “PGBET”) não foram atribuídos à PGW.bet, pois não demonstram vínculo com o alvo.
+- **Conclusão:** coleta pública inicial inconclusiva. Para avançar, é necessária captura autorizada e sanitizada da interface correta, sem iniciar transação nem acessar endpoints privados.
