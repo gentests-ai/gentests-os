@@ -80,7 +80,7 @@ def _validate_worker_request(worker_request, intent, expected_ref):
     decision, task, context = (worker_request["decision"], worker_request["task"],
                                worker_request["context"])
     if (type(decision) is not dict or set(decision) != _WORKER_DECISION_FIELDS
-            or type(task) is not str or not task.strip() or len(task) > 8192
+            or type(task) is not str or not task.strip() or len(task.encode("utf-8")) > 8192
             or type(context) is not dict):
         raise ContextRejected("invalid signed Worker decision schema")
     _validate_worker_json(context)
