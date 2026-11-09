@@ -74,9 +74,22 @@ A leitura direta dos YAMLs na main em 09/11/2026 corrige a afirmação antiga do
 
 A criação de branch/PR não equivale a deploy; o único efeito automático confirmado na PR documental #144 é o check de Markdown. A execução manual do quality gate segue limitada à autorização de testes seguros já registrada; não disparar workflow sintético.
 
+### Correção posterior — preço e function calling do modelo (09/11/2026)
+
+A afirmação anterior de que `@cf/zai-org/glm-4.7-flash` estaria disponível sem custo no Free está **superada**. A página oficial atual do modelo lista cobrança de **US$ 0,0605 por milhão de tokens de entrada** e **US$ 0,40 por milhão de tokens de saída**. A quota geral de Neurons do plano Free não comprova que este modelo específico seja gratuito ou elegível nessa quota. Não presumir execução sem custo.
+
+O catálogo oficial confirma suporte a function calling para GLM-4.7-Flash, mas a funcionalidade é documentada como beta. A arquitetura pode usá-la com ferramentas fixas e allowlist assinada, porém a conta, o plano, a elegibilidade, os limites e o faturamento ainda precisam ser verificados antes de qualquer chamada.
+
+A implementação no repositório agora exige decisão Ed25519 v2/v3 com teto explícito em USD micros, `AI_COST_AUTHORIZED=true` e `MAX_EXECUTION_COST_USD_MICROS` configurado. Os valores permanecem false/zero por padrão. O cálculo prévio é uma estimativa conservadora, não uma garantia de fatura. Nenhuma inferência foi executada.
+
+Fontes oficiais:
+- Modelo e preço: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/
+- Function calling: https://developers.cloudflare.com/workers-ai/features/function-calling/
+- Preços Workers AI: https://developers.cloudflare.com/workers-ai/platform/pricing/
+
 ### Conclusão técnica desta avaliação
 
-**Candidato recomendado:** Cloudflare Worker + Durable Object SQLite + Workers AI (modelo Free com function calling), iniciado por GitHub Actions OIDC. É a opção de menor infraestrutura já alinhada ao desenho T04b, sem servidor sempre ligado e sem credencial de longa duração no runner.
+**Candidato recomendado:** Cloudflare Worker + Durable Object SQLite + Workers AI com function calling e orçamento explícito, iniciado por GitHub Actions OIDC. O modelo avaliado é tarifado; a escolha final depende de verificação de plano, quotas e custo. A arquitetura evita servidor sempre ligado e credencial de longa duração no runner.
 
 **Não está pronto para ativação:** faltam confirmação da conta/plano/limites reais, criação autorizada do Worker/DO, trust store com chave pública real, validação de JWKS/claims no runtime, endpoint e recibos assinados, testes de integração em ambiente sandbox e decisão específica para deploy/primeira inferência. Nenhum recurso foi criado, nenhuma chave/token foi gerada e nenhum custo foi incorrido.
 
