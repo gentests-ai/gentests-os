@@ -33,7 +33,7 @@ The selected model, GLM-4.7-Flash, is listed as supporting Workers AI function c
 
 - `read_file`: reads only from the signed base commit.
 - `list_open_prs`, `get_pull_request`, `get_check_status`: read-only repository metadata.
-- `write_file`: writes only under `scripts/`, `tests/`, `docs/` or `cloudflare/`, on the dispatch-specific branch. It rejects secret-like content and checks file size.
+- `write_file`: writes only under `scripts/`, `tests/`, `docs/`, `cloudflare/gt47-executor/src/` or `cloudflare/gt47-executor/test/`, on the dispatch-specific branch. It rejects secret-like content and checks file size.
 - `open_pull_request`: opens or returns the single PR from that dispatch branch to `main`; it never merges.
 
 Writes require the optional server-side `GITHUB_WRITE_TOKEN`; the model never receives the token. The token is not configured. If a write outcome is uncertain, the execution becomes uncertain and is never retried automatically. A write-enabled run cannot be marked completed until the PR number is durably recorded.
