@@ -39,6 +39,10 @@ Antes de iniciar ou retomar missão, consultar nesta ordem: (1) instruções e a
 ## Regra transversal de execução e autocheck
 Aplicar a seção “executar e verificar antes de transferir” do GT-EXEC-001. O agente deve esgotar atividades úteis, permitidas e executáveis no escopo antes de um handoff. Autocheck não substitui QA/parecer independente quando exigido e não amplia alçada.
 
+## Bloqueio localizado e continuidade global
+
+Aplicar [GT-EXEC-001 — Bloqueio localizado, continuidade global](../docs/GT-EXEC-001-Continuidade-Execucao.md#bloqueio-localizado-continuidade-global): revisão ou autorização pendente impede apenas a ação dependente. Após registrar dono, evidência e condição de desbloqueio, prosseguir nas demais atividades independentes autorizadas. Não confundir gate legítimo de merge com paralisação de toda a missão nem reabrir PR integrada sem razão material.
+
 ## Interfaces e regras comuns
 Consultar contratos, políticas e registros atuais antes de agir. Usar [GT-HANDOFF-001](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) somente considerando sua condição de proposta e as divergências registradas na arquitetura consolidada. A comunicação horizontal não depende de aprovação rotineira do Scrum Master.
 
