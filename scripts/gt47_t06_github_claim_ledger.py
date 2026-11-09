@@ -63,6 +63,71 @@ def _matches_ref(reply: object, ref: str, sha: str) -> bool:
             and reply["object"].get("sha") == sha)
 
 
+def _execution_ref(intent: dict) -> str:
+    """Stable one-shot fence for the external side effect, separate from reservation."""
+    claim = _claim_ref(intent)
+    digest = claim.rsplit("/", 1)[1]
+    return "refs/tags/gt47-executor-started/" + digest
+
+
+def begin_executor_invocation_on_github(*, intent: dict, reservation: dict,
+                                        enabled: bool = False,
+                                        create_ref=None, get_ref=None) -> dict:
+    """Atomically consume a durable reservation before the one external POST.
+
+    The reservation tag alone is not a one-shot execution fence: a caller could
+    reuse the same in-memory reservation object. This second immutable ref is
+    created immediately before submission. A repeated or uncertain attempt
+    fails closed and requires reconciliation; it is never automatically retried.
+    """
+    claim_ref = _claim_ref(intent)
+    fence_ref = _execution_ref(intent)
+    required_reservation = {
+        "status", "claim_ref", "dispatch_id", "execution_allowed",
+        "agent_mission_executed", "github_write",
+    }
+    if enabled is not True:
+        raise ContextRejected("executor invocation fence disabled")
+    if not callable(create_ref) or not callable(get_ref):
+        raise ContextRejected("authenticated GitHub fence transport required")
+    if (type(reservation) is not dict or set(reservation) != required_reservation
+            or reservation.get("status") != "reserved_remote"
+            or reservation.get("claim_ref") != claim_ref
+            or reservation.get("dispatch_id") != intent["dispatch_id"]
+            or reservation.get("execution_allowed") is not False
+            or reservation.get("agent_mission_executed") is not False
+            or reservation.get("github_write") is not True):
+        raise ContextRejected("missing matching durable reservation")
+    try:
+        claim_status, claim_payload = get_ref(claim_ref)
+    except Exception as exc:
+        raise ContextRejected("durable reservation lookup uncertain; reconcile") from exc
+    if (type(claim_status) is not int or claim_status != 200
+            or not _matches_ref(claim_payload, claim_ref, intent["commit_sha"])):
+        raise ContextRejected("durable reservation not verified; executor not invoked")
+    try:
+        status, payload = create_ref(fence_ref, intent["commit_sha"])
+    except Exception as exc:
+        raise ContextRejected("one-shot execution fence outcome uncertain; do not resubmit") from exc
+    if type(status) is not int or type(payload) is not dict:
+        raise ContextRejected("malformed execution fence response; do not resubmit")
+    if status == 201:
+        if not _matches_ref(payload, fence_ref, intent["commit_sha"]):
+            raise ContextRejected("execution fence not verifiable; do not resubmit")
+        return {"status": "invocation_started_remote", "execution_ref": fence_ref,
+                "dispatch_id": intent["dispatch_id"], "github_write": True}
+    if status == 422:
+        try:
+            read_status, read_payload = get_ref(fence_ref)
+        except Exception as exc:
+            raise ContextRejected("execution fence conflict unverified; reconcile") from exc
+        if (type(read_status) is int and read_status == 200
+                and _matches_ref(read_payload, fence_ref, intent["commit_sha"])):
+            raise ContextRejected("executor invocation already consumed; replay rejected")
+        raise ContextRejected("execution fence conflict not verified; fail closed")
+    raise ContextRejected("execution fence failed or uncertain; no executor POST permitted")
+
+
 def reserve_dispatch_on_github(*, intent: dict, enabled: bool = False,
                                create_ref=None, get_ref=None) -> dict:
     """Reserve once with POST /git/refs; verify 422 via GET /git/ref/{ref}.
