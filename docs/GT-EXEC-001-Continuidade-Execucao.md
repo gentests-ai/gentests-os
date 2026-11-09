@@ -22,7 +22,7 @@
 
 - Engenharia implementa, executa testes unitários/de integração permitidos, analisa falhas, corrige e repete os testes relevantes **antes** de encaminhar ao QA independente.
 - QA pode investigar, reproduzir, preparar dados autorizados, rodar verificações e sugerir correções, mas não assume mudanças protegidas sem alçada.
-- Orquestração consulta estado real, concilia pendências, prepara próximos passos e executa atos de coordenação já autorizados, sem multiplicar despachos.
+- O runtime (mecanismo de execução, não um agente coordenador) mantém estado, encaminhamento, permissões e rastreabilidade. Agentes especialistas fazem handoffs horizontais nas rotas autorizadas; o Scrum Master atua por exceção em impedimentos e saúde operacional, sem intermediar o fluxo normal.
 - Qualquer especialista prepara e confere sua própria entrega, evidências, links e integridade dentro da sua competência; **autocheck não se declara revisão independente**.
 - Não usar papéis como desculpa para parar trabalho auxiliar autorizado; não usar a regra para invadir alçadas, dispensar segregação, aprovar próprio merge ou executar produção/gastos/acessos sem autorização.
 - Antes de um handoff, entregar artefato reproduzível, testes feitos/não feitos, resultado, falhas corrigidas, risco remanescente e motivo concreto da transferência. Não exigir perfeição técnica quando o próprio impedimento justifica a transferência.
@@ -51,7 +51,10 @@ comprova que o motor já implementa todas as transições descritas abaixo.
   agente com perfil de QA/Revisor, distinto do autor e sem participação conflitante
   na entrega examinada. A revisão cobre a versão final e seus critérios de aceite.
   Autocheck não atende esse requisito; ter outro nome de papel também não comprova
-  independência. Gates especializados adicionais continuam conforme risco e escopo.
+  independência. O revisor de entrega é QA/Revisor, não Auditoria Independente:
+  Auditoria avalia conformidade dos processos e controles, aponta não conformidades
+  e verifica correções posteriormente, sem executar a correção nem alterar o objeto
+  auditado. Gates especializados adicionais continuam conforme risco e escopo.
 - **Mudança após revisão:** registrar a versão/commit revisado. Alteração posterior
   exige reavaliar o delta e seus impactos antes de concluir, reutilizando evidências
   anteriores ainda válidas. Não repetir revisão completa sem motivo concreto.
@@ -95,6 +98,17 @@ comprova que o motor já implementa todas as transições descritas abaixo.
 - **FAIL:** demanda com ajustes marcada como finalizada, orçamento excedido ou
   chamada incerta reenviada para tentar obter um resultado.
 
+## Bloqueio localizado, continuidade global
+
+Uma revisão pendente, autorização reservada ou dependência externa **bloqueia somente a ação que depende dela**, não a missão inteira. Depois de registrar o impedimento com objeto, evidência, responsável e condição de desbloqueio, o agente identifica e executa na mesma execução as demais atividades **independentes, úteis e já autorizadas**, sem solicitar confirmação conversacional desnecessária.
+
+- Não reabrir revisão de PR integrada ou gate já satisfeito sem mudança material ou exigência normativa identificada.
+- Não repetir handoff, parecer ou consulta apenas para produzir atividade; preservar decisão e evidência canônicas.
+- Se não houver trabalho independente autorizado, encerrar declarando o bloqueio real, sem inventar progresso.
+- Não contornar dependências reais: nenhuma tarefa protegida avança sem sua revisão, autorização, identidade independente ou permissão efetiva.
+- Em execução entre chats, registrar o encaminhamento sem afirmar transporte ou aceite não comprovado.
+- A identidade compartilhada da conta GitHub não elimina a necessidade de distinguir agentes internamente; também não prova, por si só, independência entre autor e revisor.
+
 ## Critérios de avaliação da continuidade
 
 1. **PASS:** executa múltiplas subtarefas consecutivas já autorizadas sem aguardar confirmações desnecessárias.
@@ -102,6 +116,8 @@ comprova que o motor já implementa todas as transições descritas abaixo.
 3. **PASS:** interrompe em gate legítimo com evidência, dono e próxima ação.
 4. **PASS:** Engenharia testa, corrige e retesta o próprio delta antes de solicitar QA independente, quando ferramentas e ambiente o permitem.
 5. **FAIL:** transfere trabalho ainda executável só porque “não é minha função”, sem impedimento real.
-6. **FAIL:** ignora autorização, confunde autocheck com revisão independente ou afirma ter feito handoff sem transporte efetivo.
+6. **PASS:** mantém revisão pendente localizada, executa outra atividade autorizada e independente.
+7. **FAIL:** paralisa a missão inteira por um gate local enquanto existem ações independentes executáveis.
+8. **FAIL:** ignora autorização, confunde autocheck com revisão independente ou afirma ter feito handoff sem transporte efetivo.
 
 **Referências:** [missão #47](https://github.com/gentestsai-sudo/gentests-os/issues/47); GT-HANDOFF-001; POL-003; SEC-AI-001.
