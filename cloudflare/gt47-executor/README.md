@@ -19,13 +19,24 @@ The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG de
 python -m scripts.gt47_sign_worker_decision --input decision-input.json --private-key /offline/path/authority-ed25519.pem --output signed-worker-request.json
 ```
 
-The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody. The signer requires an explicit positive max_incremental_cost_usd_micros value; there is no default budget.
+The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody. The signer requires an explicit positive max_incremental_cost_usd_micros value; there is no default budget. Optional allowed_tools, max_model_calls (1–4) and max_tool_calls (0–3) are signed; the default is no tools, one model call and zero tool calls.
+
+## AGT-ENG tool execution
+
+The model uses Workers AI function calling (documented as beta; supported-model list includes GLM-4.7-Flash): https://developers.cloudflare.com/workers-ai/features/function-calling/. Tool definitions are fixed in src/tools.js and filtered by the signed allowed_tools list. The runtime allows only:
+
+- read_file at the signed base commit;
+- list_open_prs, get_pull_request and get_check_status;
+- write_file on scripts/, tests/, docs/ or cloudflare/ only;
+- open_pull_request from the deterministic agents/gt47/<dispatch-prefix> branch to main.
+
+There is deliberately no merge, approval, deploy, issue/comment, shell, arbitrary URL, workflow-dispatch or policy/contract-write tool. Writes require the optional server-side GITHUB_WRITE_TOKEN; the model never receives the token. The token is not configured. If a write outcome is uncertain, the execution becomes uncertain and is never retried automatically. A write-enabled run cannot be marked completed until the PR number is durably recorded.
 
 ## Paid inference cost gate
 
 Cloudflare currently lists GLM-4.7-Flash at **$0.0605 per million input tokens** and **$0.40 per million output tokens** (official model page: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/). This is a paid model; no free-tier assumption is made. Prices and account entitlements can change.
 
-Before inference, the Worker estimates an upper bound from UTF-8 prompt bytes (plus fixed framing overhead) and max completion tokens, using the published per-token rates. The signed decision must carry a positive max_incremental_cost_usd_micros, and it must be within the separately configured MAX_EXECUTION_COST_USD_MICROS ceiling with AI_COST_AUTHORIZED=true. These settings are false/zero by default. The estimate is a preflight guard, not an invoice guarantee; account quotas, billing, model price and actual usage still require operator verification. No inference can run with the defaults in this repository.
+Before inference, the Worker estimates an upper bound from UTF-8 prompt bytes (plus fixed framing overhead) and max completion tokens, using the published per-token rates. The signed decision must carry a positive max_incremental_cost_usd_micros, and it must be within the separately configured MAX_EXECUTION_COST_USD_MICROS ceiling with AI_COST_AUTHORIZED=true. The signer and Worker require budget for the worst-case configured prompt bytes and all signed model calls (maximum four model calls, three tool calls). These settings are false/zero by default. The estimate is a preflight guard, not an invoice guarantee; account quotas, billing, model price and actual usage still require operator verification. No inference can run with the defaults in this repository.
 
 ## Routes
 
@@ -41,7 +52,7 @@ The caller-side T08 reservation/fence still requires an authorized GitHub Conten
 The historical claim hash intentionally preserves the pre-transfer repository identity gentestsai-sudo/gentests-os from T06. Do not change that namespace without a reviewed migration, or existing claims could be bypassed. Effective protection against deletion/repointing of these Git refs remains unverified; no protection is assumed.
 
 
-Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), GITHUB_READ_TOKEN (read-only for this private repo), AI_COST_AUTHORIZED, and MAX_EXECUTION_COST_USD_MICROS.
+Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), GITHUB_READ_TOKEN (read-only for this private repo), optional GITHUB_WRITE_TOKEN (Contents:write and Pull requests:write only; no Actions/admin/merge scope), AI_COST_AUTHORIZED, and MAX_EXECUTION_COST_USD_MICROS.
 
 AI_ENABLED remains false and KILL_SWITCH remains on until separate activation authorization, account/quota/cost verification, and QA of a deployed sandbox. Do not put private keys, tokens, endpoints or Cloudflare API credentials in source or issue text.
 
