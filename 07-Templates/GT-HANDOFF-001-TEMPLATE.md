@@ -21,7 +21,7 @@ missao: GT-GOV-CHANGE-001
 - **mission_id:** [ID]; **handoff_id:** [ID único]; **event_id:** [ID do evento]; **version:** [versão deste evento/handoff].
 - **Instante ISO8601/fuso:** [AAAA-MM-DDTHH:MM:SS-03:00]; **origem/ator:** [identidade real]; **tipo:** [execução/QA/etc.]; **prioridade:** [valor].
 - **Rota:** [horizontal autorizada / exceção operacional ao Scrum Master]; **destino definido pelo remetente:** [papel, competência e fundamento]; **intervenção do Scrum Master:** [N/A ou ocorrência comprovada].
-- **Responsável atual:** [identidade e função]; **próximo responsável:** [identidade/função ou PENDENTE]; **owner de bloqueio/fila:** [identidade ou N/A com motivo].
+- **Responsável atual:** [identidade e função]; **próximo responsável:** [identidade/função ou PENDENTE]; **responsável pelo bloqueio:** [identidade ou N/A com motivo].
 - **Estado da missão:** [estado]; **estado da etapa:** [estado]; **transição anterior → seguinte:** [estados ou PENDENTE].
 - **Issue canônica:** [URL]; **PR/commit/artefato/versão-base:** [links/SHA ou N/A justificado].
 
@@ -59,7 +59,7 @@ missao: GT-GOV-CHANGE-001
 ## 5. WIP, transferência e destino seguinte
 - **WIP do executor:** [ativo / candidato à liberação / liberado, com evidência].
 - **Critério de liberação:** evidências completas + entrega comprovada e ACEITO expresso do próximo especialista + nenhum retrabalho ativo; [provas]. Não há assunção de fila pelo Scrum Master nem aceite presumido.
-- **Atenção:** fila assumida não implica aceite do próximo especialista; regra GT-WIP-001 ainda é proposta.
+- **Atenção:** a atribuição de responsável por bloqueio não implica aceite do próximo especialista; regra GT-WIP-001 ainda é proposta.
 - **Próximo responsável e ação inequívoca:** [papel, entrega, critério de aceite].
 - **Destino alternativo:** [identidade habilitada e condição, ou BLOQUEADO].
 - **Atuação do Scrum Master:** [N/A ou exceção, evidência, tentativas e resultado].
