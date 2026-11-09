@@ -59,3 +59,11 @@ Nenhuma conclusão sobre liquidação, confirmação, crédito, duplicidade, est
 - **Dados de depósito:** nenhum; não houve login, solicitação de depósito, geração de QR Code ou operação financeira.
 - **Fontes secundárias encontradas em busca:** resultados para domínios e marcas semelhantes (por exemplo, “WG BET”, “PGWIN” e “PGBET”) não foram atribuídos à PGW.bet, pois não demonstram vínculo com o alvo.
 - **Conclusão:** coleta pública inicial inconclusiva. Para avançar, é necessária captura autorizada e sanitizada da interface correta, sem iniciar transação nem acessar endpoints privados.
+
+
+## 7. Governança documental — determinação Head Tech Lead (09/11/2026)
+Este documento passa a funcionar como índice/consolidação, não como espaço de escrita concorrente. Evidências primárias devem ser registradas nos arquivos separados:
+- G1 / AGT-AUD: 11-G1-evidencias-auditoria-financeira.md
+- G2 / AGT-ENG: 11-G2-evidencias-tecnicas.md
+
+Cada frente mantém autoria e interpretação independentes. Não editar o arquivo da outra frente. A consolidação e revisão cruzada serão feitas somente após as entregas independentes; divergências não podem ser apagadas nem harmonizadas sem justificativa documentada.
