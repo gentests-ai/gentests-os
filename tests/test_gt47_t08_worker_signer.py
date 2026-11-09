@@ -28,7 +28,7 @@ class WorkerDecisionSignerTests(unittest.TestCase):
             "nonce": "nonce_worker_123456", "decision_id": "decision_123456789",
             "issuer_key_id": "direction-key-v1",
             "issuer_human_id": "director-123", "private_key_pem": self.pem,
-            "max_tokens": 512, "now": 1794268800,
+            "max_tokens": 512, "max_incremental_cost_usd_micros": 10000, "now": 1794268800,
         }
         values.update(overrides)
         return sign_request(**values)
@@ -40,7 +40,7 @@ class WorkerDecisionSignerTests(unittest.TestCase):
         self.assertEqual(decision["mission"], "GT-AI-DISPATCH-001")
         self.assertEqual(decision["agent_id"], "AGT-ENG")
         self.assertEqual(decision["max_calls"], 1)
-        self.assertEqual(decision["max_incremental_cost_brl"], 0)
+        self.assertEqual(decision["max_incremental_cost_usd_micros"], 10000)
         self.assertTrue(decision["no_paid_fallback"])
         expected_input = hashlib.sha256(canonical({
             "task": self.task, "context": self.context})).hexdigest()
@@ -68,6 +68,8 @@ class WorkerDecisionSignerTests(unittest.TestCase):
     def test_signer_rejects_invalid_scope_and_key_type(self):
         with self.assertRaises(ValueError):
             self.sign(max_tokens=1025)
+        with self.assertRaises(ValueError):
+            self.sign(max_incremental_cost_usd_micros=0)
         with self.assertRaises(ValueError):
             self.sign(commit_sha="not-a-commit")
         with self.assertRaises(ValueError):
