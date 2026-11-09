@@ -6,10 +6,10 @@ This implementation is deliberately inert until separately provisioned and autho
 
 - HTTPS Worker validates GitHub Actions OIDC using the fixed GitHub JWKS URL, issuer, audience, repository ID, workflow ref/SHA allowlist, main ref, event and actor.
 - An independent Ed25519 decision authorizes exactly GT-AI-DISPATCH-001 / issue 47 / AGT-ENG, a pinned commit and contract blob, the task+context digest, nonce, 15-minute maximum validity, one call, <=1024 output tokens, zero incremental BRL and no paid fallback.
-- The Worker fetches only the fixed AGT-ENG contract path at the authorized commit, using a server-side read-only GitHub token.
+- The Worker fetches only the fixed AGT-ENG contract path at the authorized commit and verifies both pre-existing T06 claim and T08 one-shot fence refs using a server-side read-only GitHub token.
 - One SQLite Durable Object serializes the ledger. Dispatch, decision, nonce, workflow run/attempt and receipt IDs are unique. Duplicate requests return existing state and never schedule another model call.
 - Workers AI uses a fixed model and has no tools. Task/context are untrusted data. No GitHub writes, filesystem, arbitrary commands, PR operations, merge or deploy are exposed.
-- Ed25519 receipt v2 binds status, mission, agent, commit, dispatch ID, receipt ID and result digest. A terminal receipt embeds the separately signed accepted receipt, allowing the existing T08 bridge to verify acceptance even if the first poll arrives after completion. The Python bridge retains v1 HMAC compatibility and adds v2 Ed25519 verification. A signature authenticates the executor's assertion; it is not independent proof of work.
+- Ed25519 receipt v2 binds status, mission, agent, commit, dispatch ID, receipt ID and result digest. A terminal receipt embeds the separately signed accepted receipt, allowing the existing T08 bridge to verify acceptance even if the first poll arrives after completion. The Python bridge retains v1 HMAC compatibility, adds v2 Ed25519 verification, verifies the signed acceptance chain and checks the returned result bytes against the signed digest. An OIDC-only HTTPS transport is available for the Worker endpoint. A signature authenticates the executor's assertion; it is not independent proof of work.
 
 ## Routes
 
@@ -27,9 +27,9 @@ AI_ENABLED remains false and KILL_SWITCH remains on until separate activation au
 ## Limits
 
 1. The current AGT-ENG contract frontmatter says status: proposta. It is pinned as instruction data, not treated as permission or policy approval.
-2. This vertical invokes a bounded Workers AI text model; it is not a ChatGPT session or fully tool-enabled coding agent. It cannot edit repository files or perform GitHub actions.
+2. The T08 bridge can submit its existing reserved intent through the new OIDC transport using a separately signed Worker request. This vertical invokes a bounded Workers AI text model; it is not a ChatGPT session or fully tool-enabled coding agent. It cannot edit repository files or perform GitHub actions.
 3. The global ledger is intentionally serialized for the pilot. Sharding needs a separate uniqueness design.
 4. A stuck accepted run becomes uncertain; no automatic recovery or retry is allowed because inference may already have occurred.
-5. The v2 receipt wire format is now supported by the existing T08 Python bridge; the bridge and new cross-language signature tests still require CI validation. This code has not been run in Cloudflare, against live JWKS/OIDC, real keys, Workers AI or a deployed Durable Object.
+5. The v2 receipt wire format and OIDC transport are integrated into the T08 Python bridge without removing v1 HMAC compatibility. CI must validate the new cross-language signature, transport and bridge tests. This code has not been run in Cloudflare, against live JWKS/OIDC, real keys, Workers AI or a deployed Durable Object.
 
 Local test command: npm test. These source contract checks are not cloud integration tests.
