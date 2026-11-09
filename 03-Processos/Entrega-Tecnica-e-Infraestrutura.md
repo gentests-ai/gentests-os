@@ -1,7 +1,7 @@
 ---
 tipo: procedimento
 id: PRC-ENG-001
-versao: 0.1.2
+versao: 0.1.3
 status: proposta
 responsavel: Engenharia e Infraestrutura
 aprovador: Direcao
@@ -32,7 +32,7 @@ Estabelecer fluxo enxuto entre Produto, UX/UI, Engenharia, QA e Infraestrutura p
 
 **Anticírculo:** não exigir como pré-requisito para *autorizar a criação* uma medição que depende de *executar o recurso ainda inexistente*. Em contrapartida, não dispensar prova prévia sobre elegibilidade, não cobrança e segurança para a criação, nem liberar a chamada real sem controles efetivos e aprovação específica. Impossibilidade de provar trava obrigatória implica **NO-GO** ou alternativa offline; não autorização por omissão.
 
-**Reuso e comunicação:** referenciar parecer/QA já válidos pelo ID, versão, escopo e evidência; abrir nova análise somente com mudança material, falha ou dúvida relevante. Handoff integral GT-HANDOFF-001 apenas quando houver transferência real de responsabilidade ou retorno exigido; trabalho simples no mesmo escopo/owner pode registrar o resultado na issue/PR sem simular entrega entre chats. Registro, transporte, recebimento, ACEITO, execução, validação e autorização são eventos diferentes; o Orquestrador preserva a fila e o próximo dono. Etapa documental concluída não declara o sistema funcional.
+**Reuso e comunicação:** referenciar parecer/QA já válidos pelo ID, versão, escopo e evidência; abrir nova análise somente com mudança material, falha ou dúvida relevante. Handoff integral GT-HANDOFF-001 apenas quando houver transferência real de responsabilidade ou retorno exigido; trabalho simples no mesmo escopo/owner pode registrar o resultado na issue/PR sem simular entrega entre chats. Registro, transporte, recebimento, ACEITO, execução, validação e autorização são eventos diferentes. O responsável atual mantém ownership até o aceite explícito do destinatário; depois, o destinatário assume a execução. O Scrum Master atua por exceção em impedimentos e conflitos, sem preservar fila central ou designar o próximo dono. Etapa documental concluída não declara o sistema funcional.
 
 ### Aplicação focal, sem repetir testes
 
@@ -50,7 +50,7 @@ Estabelecer fluxo enxuto entre Produto, UX/UI, Engenharia, QA e Infraestrutura p
 | Risco, prevenção e testes | QA | Engenharia, Produto, Infra |
 | Ambiente, CI/CD e implantação autorizada | Infraestrutura | Engenharia, QA, Direção |
 | Parecer independente, quando exigido | Especialista designado sem conflito | Validador, executor |
-| Autorização sensível | Direção ou responsável formalmente autorizado | Orquestrador |
+| Autorização sensível | Direção ou responsável formalmente autorizado | Scrum Master apenas acompanha impedimentos por exceção; não autoriza nem despacha |
 
 ## Evidências mínimas
 Identificador e versão, PR/commit, ambiente e permissões, requisitos atendidos, testes realmente executados, resultados e logs seguros, risco residual, aprovação exigida, confirmação da implantação se houve e possível plano de reversão.
@@ -69,4 +69,4 @@ Falha ou ausência de evidência não equivale a aprovação. Corrigir apenas o 
 Documento em proposta; implantação dos controles e adoção obrigatória dependem de revisão e decisão da Direção.
 
 ## Reconciliação GOV-04
-AGT-ENG/AGT-INFRA e o índice seguem a proposta canônica de #61, preservando IDs e caminhos. Executor é função genérica; Engenharia é o nome canônico do domínio. Orquestrador mantém fila/rota, sem autohandoff. Os cinco contratos e os 14 papéis não concedem privilégios; Modelo A permanece função por missão. POL-003/#53 são dependência separada, não alterada nesta reconciliação. #50 preserva fronteiras Comercial/Marketing; FIN-54-01 permanece com o responsável por #54. Sem homologação ou merge.
+AGT-ENG/AGT-INFRA e o índice seguem a proposta canônica de #61, preservando IDs e caminhos. Executor é função genérica; Engenharia é o nome canônico do domínio. Não existe ownership global, fila central ou rota obrigatória por Orquestrador. O Scrum Master atua por exceção e não substitui especialistas. Os cinco contratos e os 14 papéis não concedem privilégios; Modelo A permanece função por missão. POL-003/#53 são dependência separada, não alterada nesta reconciliação. #50 preserva fronteiras Comercial/Marketing; FIN-54-01 permanece com o responsável por #54. Sem homologação ou merge.
