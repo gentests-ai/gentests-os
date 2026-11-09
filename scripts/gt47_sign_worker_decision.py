@@ -28,7 +28,7 @@ SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 ID = re.compile(r"[A-Za-z0-9_-]{16,64}\Z")
 TOOL_NAMES = ("get_check_status", "get_pull_request", "list_open_prs", "open_pull_request", "read_file", "write_file")
 WRITE_TOOLS = {"open_pull_request", "write_file"}
-MAX_PROMPT_BYTES = 160000
+MAX_PROMPT_BYTES = 128000
 INPUT_MICROUSD_PER_TOKEN = 0.0605
 OUTPUT_MICROUSD_PER_TOKEN = 0.4
 
