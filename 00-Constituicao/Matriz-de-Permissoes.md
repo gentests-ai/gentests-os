@@ -75,8 +75,9 @@ SM Scrum Master (AGT-SM; alias histórico ORQ/AGT-ORQ); PROD Produto (AGT-PROD);
 | Validar critérios/gate | VAL | Validação de evidência alheia; reaproveita testes; não altera objeto revisado |
 | Auditar controles | AUD | Verificação proporcional; vedada auditoria da própria produção |
 | Alertar anomalias documentais | X9 | Indício, não parecer independente nem homologação |
+| Integrar PRs tecnicamente elegíveis | Head Tech Lead, sob delegação operacional vigente da Direção | Integração por padrão; sem bypass de checks, segregação ou permissões; interromper somente diante de bloqueante material muito grave |
 | Revisar criticamente | Especialista designado Modelo A | Sem conflito na missão; revisão documental distinta de independência humana |
-| Autorizar/homologar/merge | Direção (humana) | Somente autorização expressa, por objeto/escopo; execução e registro separados |
+| Autorizar atos reservados e homologar | Direção (humana) | Decisão específica por objeto/escopo; execução e registro separados |
 
 ## Financeiro — detalhes restritivos
 - Simulações, estimativas, propostas e minutas são **P**, não aprovações.
