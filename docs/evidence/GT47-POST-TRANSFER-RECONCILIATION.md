@@ -1,13 +1,13 @@
 # GTS-47 post-transfer reconciliation
 
 Read-only observations on 2026-10-12, after PR #107 merged into `main`
-at `86ffb9f425cd05f34ec031d0e`.
+at `86ffb9f425cd05f34ec031e0deacfae41702cd42`.
 
 The owner-routing correction is already on main. The original run
 `38304173359` remains failed (attempt 1); it was not rerun in this session.
 Historical evidence and the immutable pre-transfer claim namespace remain intact.
 
-## Current production evidence
+## Historical production snapshot — 2026-10-12
 
 The previously absent `gt47-advisory-state` branch now exists. Its observed
 head is `af9f0a8d6af0b1b61d7dca20856e432d94ccc0d4`.
@@ -36,10 +36,12 @@ Reading repository Actions variables returned HTTP 403, so
 
 The T06 offline-tests workflow also contained an isolated recovery job pinned
 to pre-fix controller `c6ffa661be39a793bcdd43ab226fd4770453cba7`.
-Use trusted `refs/heads/main`, as in the dedicated recovery workflow corrected
-by PR #107. Preserve isolated recovery refs, synthetic transport, explicit
-write opt-in, no provider secret, concurrency and interruption controls.
-ENG20 authorization records are outside this pilot and remain unchanged.
+The duplicated recovery workflow still pinned the old controller at this
+snapshot. The correction is included in the follow-up PR that carries this
+evidence: it uses trusted `refs/heads/main` and preserves isolated recovery
+refs, synthetic transport, explicit write opt-in, no provider secret,
+concurrency and interruption controls. ENG20 authorization records remain
+unchanged.
 
 ## Validation and stop condition
 
@@ -53,3 +55,32 @@ USD 0 / Stop usage Yes and Groq Free. Confirm provider outcome using available
 receipts before deciding any recovery; an absent persisted result alone is
 not evidence that no request was accepted. Do not resume scheduling or advance
 QA until the Engineering result and its commit binding are verified.
+
+
+## Later read-only reconciliation — 2026-11-09
+
+A later read-only inspection found the durable queue has advanced; the 2026-10-12
+snapshot above must not be treated as the current queue state:
+
+- `gt47-current.json` now contains `pilot-round-04`, status `completed`,
+  with Engineering and QA advisory records bound to commit
+  `533aa602b880538ec1a90dff4e0cb4000b16c9f9`. Both records explicitly state
+  `code_executed=false` and `approval_granted=false`. This demonstrates a
+  bounded advisory exchange, not a connected agent executor or autonomous
+  mission dispatch.
+- The earlier blocked task `cc83d5def2d9a0c5f2f918964568e695467130ff9083062deca00157c4aadcc9`
+  is preserved under `gt47-archive/` with status `engineering_pending` and
+  diagnostic `manual_reconciliation_required / provider_or_state_failure`.
+  It contains no Engineering or QA result.
+- Its reservation
+  `7b7bc7a2a583a72ba4ed39db5cdaeaa3426718d712e2715a78e909d6c9a1aec0`
+  remains in `gt47-budget.json` with 4,000 reserved tokens. A reservation is
+  not proof of provider receipt, actual token usage or billing.
+- No state was modified and no provider call, workflow dispatch or rerun was
+  performed during this inspection.
+
+The archived uncertain task and its reservation must remain intact until a
+read-only provider-side reconciliation is available. The later completed
+advisory round does not resolve that earlier uncertain effect and does not
+satisfy the mission's final criterion: a real executor receiving, accepting,
+executing and recording a result without manual copying between chats.
