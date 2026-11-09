@@ -1,4 +1,5 @@
 import { __test } from "../src/index.js";
+import { __tools } from "../src/tools.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -10,3 +11,7 @@ test("model has no tools and request cannot select endpoint, model or credential
 
 test("cost estimate is bounded and deterministic in USD micros",()=>{assert.equal(__test.estimateCost(1000,512),266);assert.throws(()=>__test.estimateCost(110001,512));assert.throws(()=>__test.estimateCost(1000,0))});
 test("canonicalization rejects non-ASCII keys and floating point ambiguity",()=>{assert.equal(__test.canonical({b:2,a:1}),"{\"a\":1,\"b\":2}");assert.throws(()=>__test.canonical({"chave-é":1}));assert.throws(()=>__test.canonical({cost:0.1}))});
+
+test("tool registry exposes only the signed fixed allowlist",()=>{assert.deepEqual(__tools.toolDefinitions(["read_file"]).map(t=>t.name),["read_file"]);assert.throws(()=>__tools.validateToolCall("merge_pull_request",{},["merge_pull_request"]));assert.throws(()=>__tools.validateToolCall("write_file",{path:"../main.js",content:"x",message:"m"},["write_file"]))});
+test("writes are restricted to code/test/docs paths and secret-like content is blocked",()=>{assert.throws(()=>__tools.validateToolCall("write_file",{path:".github/workflows/x.yml",content:"x",message:"m"},["write_file"]));assert.throws(()=>__tools.validateToolCall("write_file",{path:"scripts/token.py",content:"ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",message:"m"},["write_file"]));assert.doesNotThrow(()=>__tools.validateToolCall("write_file",{path:"tests/new_test.py",content:"assert True",message:"test: add safe test"},["write_file"]))});
+test("pull-request tool cannot merge and dispatch branch name is deterministic",()=>{assert.throws(()=>__tools.validateToolCall("merge_pull_request",{},["write_file","open_pull_request"]));assert.equal(__tools.branchName({dispatch_id:"a".repeat(64)}),"agents/gt47/aaaaaaaaaaaaaaaa")});
