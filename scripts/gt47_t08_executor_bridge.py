@@ -222,8 +222,13 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
             raise ContextRejected("remote receipt lookup uncertain; reconcile") from exc
         if type(code) is not int or code != 200:
             raise ContextRejected("remote receipt lookup failed; reconcile")
+        result_text = None
+        receipt_value = response
+        if type(response) is dict and "receipt" in response:
+            receipt_value = response["receipt"]
+            result_text = response.get("result")
         value = validate_attestation(
-            value=response, key=receipt_key, intent=intent,
+            value=receipt_value, key=receipt_key, intent=intent,
             receipt_id=rid,
             allowed_states=("received", "accepted", "completed", "failed"),
         )
@@ -237,11 +242,16 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
                 accepted = True
             if not accepted:
                 raise ContextRejected("executor completed without verified acceptance")
+            if (type(result_text) is not str or not result_text
+                    or hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+                    != value["result_sha256"]):
+                raise ContextRejected("remote result missing or digest mismatch")
             return {"status": "remote_completed_attested",
                     "dispatch_id": intent["dispatch_id"],
                     "receipt_id": rid,
                     "execution_ref": execution_ref,
                     "result_sha256": value["result_sha256"],
+                    "result": result_text,
                     "agent_id": intent["agent_id"],
                     "agent_mission_executed": "attested_by_remote_only",
                     "independently_verified": False}
