@@ -1,8 +1,8 @@
 ---
 tipo: kanban
-versao: 1.2.1
+versao: 1.2.2
 status: acompanhamento
-revisado_em: 2026-10-12
+revisado_em: 2026-11-09
 ---
 # Kanban — GenTests OS
 
@@ -58,7 +58,7 @@ A v1.1 usava “Agora / Próxima / Depois” como ordem de prioridade; isso não
 
 Responsáveis originais permanecem nos cards. Próximos passos são pendências, não despachos enviados ou aceitos. Atualizar card e quadro juntos quando nova evidência mudar o estado. Critérios existentes sem comprovação permanecem desmarcados. Esta atualização não homologa políticas ou contratos, não concede acesso e não autoriza merge.
 
-**Inspeção:** conversa consultiva Agile Coach, solicitada pela Direção; não representa ativação de novo agente canônico. **Responsável pela coordenação futura:** Orquestrador Central, após encaminhamento e aceite comprovados.
+**Inspeção:** conversa consultiva Agile Coach, solicitada pela Direção; não representa ativação de novo agente canônico. **Acompanhamento de fluxo:** Scrum Master por exceção, diante de impedimentos, atrasos, falhas ou conflitos. Responsáveis dos cards mantêm ownership e encaminham diretamente aos especialistas competentes; não existe coordenação central obrigatória.
 
 [[INICIO|Centro de comando]] · [[CHANGELOG|Histórico do vault]]
 
