@@ -224,10 +224,21 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         if type(code) is not int or code != 200:
             raise ContextRejected("remote receipt lookup failed; reconcile")
         result_text = None
+        metadata_info = {}
         receipt_value = response
         if type(response) is dict and "receipt" in response:
             receipt_value = response["receipt"]
             result_text = response.get("result")
+            branch_name = response.get("branch_name")
+            pr_number = response.get("pr_number")
+            if branch_name is not None:
+                if type(branch_name) is not str or not re.fullmatch(r"agents/gt47/[0-9a-f]{16}", branch_name):
+                    raise ContextRejected("invalid remote branch metadata")
+                metadata_info["branch_name"] = branch_name
+            if pr_number is not None:
+                if type(pr_number) is not int or pr_number < 1:
+                    raise ContextRejected("invalid remote PR metadata")
+                metadata_info["pr_number"] = pr_number
         value = validate_attestation(
             value=receipt_value, key=receipt_key, intent=intent,
             receipt_id=rid,
@@ -258,6 +269,7 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
                     "execution_ref": execution_ref,
                     "result_sha256": value["result_sha256"],
                     **result_info,
+                    **metadata_info,
                     "agent_id": intent["agent_id"],
                     "agent_mission_executed": "attested_by_remote_only",
                     "independently_verified": False}
@@ -282,6 +294,17 @@ def reconcile_executor_receipt(*, intent: dict, receipt_id: str,
         raise ContextRejected("remote receipt unavailable; manual reconciliation required")
     receipt_value = response.get("receipt", response)
     result_text = response.get("result") if "receipt" in response else None
+    metadata_info = {}
+    if "receipt" in response:
+        branch_name, pr_number = response.get("branch_name"), response.get("pr_number")
+        if branch_name is not None:
+            if type(branch_name) is not str or not re.fullmatch(r"agents/gt47/[0-9a-f]{16}", branch_name):
+                raise ContextRejected("invalid remote branch metadata")
+            metadata_info["branch_name"] = branch_name
+        if pr_number is not None:
+            if type(pr_number) is not int or pr_number < 1:
+                raise ContextRejected("invalid remote PR metadata")
+            metadata_info["pr_number"] = pr_number
     value = validate_attestation(
         value=receipt_value, key=receipt_key, intent=intent,
         receipt_id=receipt_id,
@@ -308,7 +331,7 @@ def reconcile_executor_receipt(*, intent: dict, receipt_id: str,
         result_info["result"] = result_text
     return {"status": "remote_completed_attested",
             "dispatch_id": intent["dispatch_id"], "receipt_id": receipt_id,
-            "result_sha256": value["result_sha256"], **result_info,
+            "result_sha256": value["result_sha256"], **result_info, **metadata_info,
             "agent_id": intent["agent_id"],
             "agent_mission_executed": "attested_by_remote_only",
             "independently_verified": False}
