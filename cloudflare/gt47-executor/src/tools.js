@@ -125,6 +125,7 @@ if(typeof commitSha!=="string"||!/^[0-9a-f]{40}$/.test(commitSha))throw Error("w
 await advanceBranch(env,job,branch.head_sha,commitSha);
 return {path:args.path,branch:branch.name,changed:true,commit_sha:commitSha};
 }
+async function commitStatus(env,sha){const r=await github(env,"GET","/commits/"+sha+"/status");return {sha,state:r.data.state,total_count:r.data.total_count,statuses:(r.data.statuses||[]).slice(0,20).map(s=>({context:s.context,state:s.state,description:s.description}))}}
 async function openPullRequest(env,job,decision,args){
 const branch=await ensureBranch(env,job,decision);
 const query="?state=all&head="+encodeURIComponent(OWNER+":"+branch.name)+"&base=main&per_page=10";
@@ -134,13 +135,13 @@ if(found){
 if(found.state!=="open")throw Error("existing_pull_request_closed");
 const saved=await env.LEDGER.get(env.LEDGER.idFromName("gt47-global-ledger")).fetch(new Request("https://ledger/pr",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({dispatch_id:job.dispatch_id,pr_number:found.number})}));
 if(!saved.ok)throw Error("pr_ledger_failed");
-return {number:found.number,url:found.html_url,state:found.state,head:branch.name,existing:true};
+let checks={state:"unavailable"};try{checks=await commitStatus(env,branch.head_sha)}catch(_){}return {number:found.number,url:found.html_url,state:found.state,head:branch.name,existing:true,checks};
 }
 const created=await github(env,"POST","/pulls",{title:args.title,head:branch.name,base:"main",body:args.body},true);
 const pr=created.data;
 const saved=await env.LEDGER.get(env.LEDGER.idFromName("gt47-global-ledger")).fetch(new Request("https://ledger/pr",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({dispatch_id:job.dispatch_id,pr_number:pr.number})}));
 if(!saved.ok)throw Error("pr_ledger_failed");
-return {number:pr.number,url:pr.html_url,state:pr.state,head:branch.name,existing:false};
+let checks={state:"unavailable"};try{checks=await commitStatus(env,branch.head_sha)}catch(_){}return {number:pr.number,url:pr.html_url,state:pr.state,head:branch.name,existing:false,checks};
 }
 export async function executeGitHubTool({env,job,decision,name,args}){
 validateToolCall(name,args,decision.allowed_tools);
@@ -155,8 +156,7 @@ const p=r.data;return {number:p.number,title:p.title,state:p.state,head:p.head?.
 }
 if(name==="get_check_status"){
 const info=await branchInfo(env,job),sha=info.branch_initialized?info.branch_head_sha:decision.commit_sha;
-const r=await github(env,"GET","/commits/"+sha+"/status");
-return {sha,state:r.data.state,total_count:r.data.total_count,statuses:(r.data.statuses||[]).slice(0,20).map(s=>({context:s.context,state:s.state,description:s.description}))};
+return commitStatus(env,sha);
 }
 if(name==="write_file")return writeFile(env,job,decision,args);
 if(name==="open_pull_request")return openPullRequest(env,job,decision,args);
