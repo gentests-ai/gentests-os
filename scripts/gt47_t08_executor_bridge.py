@@ -32,8 +32,70 @@ def _canonical(value: dict) -> bytes:
                       separators=(",", ":")).encode("utf-8")
 
 
+def _validate_ed25519_receipt(*, value: dict, key: bytes, intent: dict,
+                                receipt_id: str | None, allowed_states: tuple,
+                                nested: bool = False) -> dict:
+    from base64 import urlsafe_b64decode
+    from cryptography.exceptions import InvalidSignature
+    from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+
+    base = {"schema", "status", "mission", "issue", "agent_id", "commit_sha",
+            "dispatch_id", "receipt_id", "result_sha256", "updated_at",
+            "executor", "signature"}
+    expected = base | ({"accepted_receipt"} if "accepted_receipt" in value else set())
+    if type(value) is not dict or set(value) != expected:
+        raise ContextRejected("invalid Ed25519 receipt schema")
+    if (value["schema"] != "gt47-executor-receipt-v2"
+            or value["status"] not in allowed_states
+            or value["mission"] != intent["mission"]
+            or value["issue"] != intent["issue"]
+            or value["agent_id"] != intent["agent_id"]
+            or value["commit_sha"] != intent["commit_sha"]
+            or value["dispatch_id"] != intent["dispatch_id"]):
+        raise ContextRejected("Ed25519 receipt binding mismatch")
+    rid = value["receipt_id"]
+    if type(rid) is not str or not _RECEIPT.fullmatch(rid):
+        raise ContextRejected("invalid Ed25519 receipt identifier")
+    if receipt_id is not None and rid != receipt_id:
+        raise ContextRejected("Ed25519 receipt identifier changed")
+    result = value["result_sha256"]
+    if value["status"] == "completed":
+        if type(result) is not str or not _HASH.fullmatch(result):
+            raise ContextRejected("missing completed result digest")
+    elif result is not None:
+        raise ContextRejected("premature result digest")
+    signature = value["signature"]
+    if type(signature) is not str or not re.fullmatch(r"[A-Za-z0-9_-]{86}", signature):
+        raise ContextRejected("invalid Ed25519 signature encoding")
+    try:
+        sig = urlsafe_b64decode(signature + "=" * (-len(signature) % 4))
+        unsigned = {k: v for k, v in value.items() if k != "signature"}
+        Ed25519PublicKey.from_public_bytes(key).verify(
+            sig, b"GT47-RECEIPT-v1\x00" + _canonical(unsigned))
+    except (ValueError, InvalidSignature) as exc:
+        raise ContextRejected("Ed25519 receipt authentication failed") from exc
+    accepted_attested = False
+    if "accepted_receipt" in value:
+        if nested or value["status"] not in ("completed", "failed"):
+            raise ContextRejected("unexpected nested acceptance receipt")
+        accepted = _validate_ed25519_receipt(
+            value=value["accepted_receipt"], key=key, intent=intent,
+            receipt_id=rid, allowed_states=("accepted",), nested=True)
+        accepted_attested = accepted["status"] == "accepted"
+    if value["status"] == "completed" and not accepted_attested:
+        raise ContextRejected("completed receipt lacks signed acceptance history")
+    return {"status": value["status"], "receipt_id": rid,
+            "result_sha256": result, "accepted_attested": accepted_attested}
+
+
 def validate_attestation(*, value: dict, key: bytes, intent: dict,
                          receipt_id: str | None, allowed_states: tuple) -> dict:
+    if type(value) is dict and value.get("schema") == "gt47-executor-receipt-v2":
+        if type(key) is not bytes or len(key) != 32:
+            raise ContextRejected("Ed25519 public key must be 32 raw bytes")
+        return _validate_ed25519_receipt(
+            value=value, key=key, intent=intent, receipt_id=receipt_id,
+            allowed_states=allowed_states)
     if type(value) is not dict or set(value) != _RECEIPT_KEYS:
         raise ContextRejected("invalid remote receipt schema")
     if type(key) is not bytes or len(key) < 32:
@@ -146,6 +208,8 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         if state == "accepted":
             accepted = True
         elif state == "completed":
+            if value.get("accepted_attested") is True:
+                accepted = True
             if not accepted:
                 raise ContextRejected("executor completed without verified acceptance")
             return {"status": "remote_completed_attested",
