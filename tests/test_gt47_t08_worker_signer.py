@@ -78,7 +78,6 @@ class WorkerDecisionSignerTests(unittest.TestCase):
         from scripts import gt47_sign_worker_decision
         source = inspect.getsource(gt47_sign_worker_decision)
         self.assertNotIn("Ed25519PrivateKey.generate", source)
-        self.assertNotIn("Ed25519PrivateKey.generate", source)
         self.assertNotIn("write_bytes(key", source)
         self.assertIn("os.O_EXCL", source)
         self.assertIn("os.O_WRONLY", source)
