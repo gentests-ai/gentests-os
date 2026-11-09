@@ -12,7 +12,7 @@ const TOOL_DEFINITIONS=[
 {name:"open_pull_request",description:"Open or return the single pull request from this dispatch branch to main. Never merges it.",parameters:{type:"object",properties:{title:{type:"string"},body:{type:"string"}},required:["title","body"]}}
 ];
 const READ_PATHS=["docs/","scripts/","tests/","cloudflare/","00-Constituicao/","02-Agentes/","03-Processos/"];
-const WRITE_PATHS=["scripts/","tests/","docs/","cloudflare/"];
+const WRITE_PATHS=["scripts/","tests/","docs/","cloudflare/gt47-executor/src/","cloudflare/gt47-executor/test/"];
 const SENSITIVE_PATH=/(?:secret|credential|token|private|\.env|\.pem|\.key|\.p12|\.pfx|\.crt|\.tfstate)/i;
 const SECRET_PATTERNS=[
 /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
