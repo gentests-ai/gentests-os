@@ -1,3 +1,4 @@
+import hashlib
 import unittest
 from datetime import datetime, timezone
 from cryptography.hazmat.primitives import serialization
@@ -152,8 +153,19 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             return 202, self.receipt("received")
 
         result_text = "AGT-ENG remote result: bounded and verified"
-        result_digest = __import__("hashlib").sha256(
-            result_text.encode("utf-8")).hexdigest()
+        result_digest = hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+        task, context = "Execute the approved engineering task", {"source": "signed"}
+        worker_request = {
+            "decision": {
+                "mission": self.intent["mission"], "issue": self.intent["issue"],
+                "agent_id": self.intent["agent_id"],
+                "commit_sha": self.intent["commit_sha"],
+                "dispatch_id": self.intent["dispatch_id"], "claim_ref": claim,
+                "input_sha256": hashlib.sha256(_canonical(
+                    {"task": task, "context": context})).hexdigest(),
+            },
+            "signature": "z" * 86, "task": task, "context": context,
+        }
 
         def lookup(receipt_id):
             accepted = self.receipt("accepted")
@@ -164,11 +176,12 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         result = execute_reserved_intent(
             intent=self.intent, reservation=reservation, receipt_key=self.public,
             verify_authorization=lambda _: True, create_ref=create_ref,
-            get_ref=get_ref, submit=submit, lookup=lookup, enabled=True,
-            max_polls=1)
+            get_ref=get_ref, submit=submit, lookup=lookup,
+            worker_request=worker_request, enabled=True, max_polls=1)
         self.assertEqual(result["status"], "remote_completed_attested")
         self.assertEqual(result["result"], "AGT-ENG remote result: bounded and verified")
         self.assertEqual(len(posts), 1)
+        self.assertEqual(posts[0], worker_request)
 
 
 if __name__ == "__main__":
