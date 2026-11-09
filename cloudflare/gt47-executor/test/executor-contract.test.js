@@ -1,3 +1,4 @@
+import { __test } from "../src/index.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -6,3 +7,6 @@ test("runtime is default-off and requires an explicit paid inference budget",()=
 test("authorization is independently Ed25519-signed and OIDC uses fixed JWKS",()=>{assert.match(source,/GT47-DECISION-v1\\0/);assert.match(source,/Ed25519/);assert.match(source,/token\.actions\.githubusercontent\.com\/\.well-known\/jwks/);assert.match(source,/workflow_sha/);assert.match(source,/AUTHORIZED_ISSUER_ID/)});
 test("durable idempotency, no retry and signed receipts are present",()=>{assert.match(source,/dispatch_id TEXT PRIMARY KEY/);assert.match(source,/decision_id TEXT NOT NULL UNIQUE/);assert.match(source,/nonce TEXT NOT NULL UNIQUE/);assert.match(source,/run_key TEXT NOT NULL UNIQUE/);assert.match(source,/GT47-RECEIPT-v1\\0/);assert.match(source,/gt47-executor-receipt-v2/);assert.match(source,/accepted_receipt/);assert.match(source,/gt47-executor-receipt-v2/);assert.match(source,/state==="uncertain"/);assert.match(source,/verifyClaimAndFence/);assert.match(source,/expectedDispatch/)});
 test("model has no tools and request cannot select endpoint, model or credential",()=>{assert.match(source,/No tools are available/);assert.doesNotMatch(source,/payload\.endpoint|payload\.credentials|body\.endpoint|body\.model/);assert.match(source,/const CONTRACT_PATH=/)});
+
+test("cost estimate is bounded and deterministic in USD micros",()=>{assert.equal(__test.estimateCost(1000,512),266);assert.throws(()=>__test.estimateCost(110001,512));assert.throws(()=>__test.estimateCost(1000,0))});
+test("canonicalization rejects non-ASCII keys and floating point ambiguity",()=>{assert.equal(__test.canonical({b:2,a:1}),"{\"a\":1,\"b\":2}");assert.throws(()=>__test.canonical({"chave-é":1}));assert.throws(()=>__test.canonical({cost:0.1}))});
