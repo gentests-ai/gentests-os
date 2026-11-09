@@ -5,7 +5,7 @@ This implementation is deliberately inert until separately provisioned and autho
 ## Runtime
 
 - HTTPS Worker validates GitHub Actions OIDC using the fixed GitHub JWKS URL, issuer, audience, repository ID, workflow ref/SHA allowlist, main ref, event and actor.
-- A version-3 Ed25519 decision authorizes exactly GT-AI-DISPATCH-001 / issue 47 / AGT-ENG, a pinned commit and contract blob, task+context digest, nonce, short validity, a positive USD-micros budget, a fixed tool allowlist, and hard limits of four model calls, three tool calls and 1,024 completion tokens.
+- A version-3 Ed25519 decision authorizes exactly GT-AI-DISPATCH-001 / issue 47 / AGT-ENG, a pinned commit and contract blob, task+context digest, nonce, short validity, a positive USD-micros budget, a fixed tool allowlist, and hard limits of four model calls, three tool calls and 4,096 completion tokens.
 - The Worker fetches only the fixed AGT-ENG contract path at the authorized commit and verifies the existing T06 claim and T08 one-shot fence refs using a server-side read-only GitHub token.
 - One SQLite Durable Object serializes the global dispatch ledger. Dispatch, decision, nonce, workflow run/attempt and receipt IDs are unique. Duplicate requests return existing state and never schedule a second agent run.
 - The model uses Workers AI function calling with fixed tools. The model receives only tools explicitly included in the signed decision; the Worker independently validates every tool name and argument.
