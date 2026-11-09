@@ -10,6 +10,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 import re
 import sys
@@ -26,12 +27,19 @@ AGENT = "AGT-ENG"
 CLAIM_REPO = "gentestsai-sudo/gentests-os"  # immutable T06 pre-transfer hash namespace
 SHA40 = re.compile(r"[0-9a-f]{40}\Z")
 ID = re.compile(r"[A-Za-z0-9_-]{16,64}\Z")
+TOOL_NAMES = ("get_check_status", "get_pull_request", "list_open_prs", "open_pull_request", "read_file", "write_file")
+WRITE_TOOLS = {"open_pull_request", "write_file"}
+MAX_PROMPT_BYTES = 120000
+INPUT_MICROUSD_PER_TOKEN = 0.0605
+OUTPUT_MICROUSD_PER_TOKEN = 0.4
 
 
 def canonical(value: object, depth: int = 0) -> bytes:
     if depth > 12:
         raise ValueError("JSON nesting too deep")
     if value is None or type(value) in (str, bool):
+        if type(value) is str and len(value.encode("utf-8")) > 20000:
+            raise ValueError("JSON string too large")
         return json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     if type(value) is int:
         if not -(2**53 - 1) <= value <= 2**53 - 1:
@@ -61,10 +69,12 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
                  issuer_key_id: str, issuer_human_id: str,
                  private_key_pem: bytes, max_tokens: int = 1024,
                  max_incremental_cost_usd_micros: int | None = None,
+                 allowed_tools: list | None = None,
+                 max_model_calls: int = 2, max_tool_calls: int = 1,
                  now: int | None = None) -> dict:
     import time
 
-    if type(task) is not str or not task.strip() or len(task) > 8192:
+    if type(task) is not str or not task.strip() or len(task.encode("utf-8")) > 8192:
         raise ValueError("invalid task")
     if type(context) is not dict:
         raise ValueError("context must be an object")
@@ -80,6 +90,27 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
     if (type(max_incremental_cost_usd_micros) is not int
             or max_incremental_cost_usd_micros < 1):
         raise ValueError("an explicit positive USD-micros budget is required")
+    if (type(allowed_tools) is not list or not allowed_tools or len(allowed_tools) > len(TOOL_NAMES)
+            or any(type(name) is not str or name not in TOOL_NAMES for name in allowed_tools)
+            or len(set(allowed_tools)) != len(allowed_tools)):
+        raise ValueError("invalid allowed tool list")
+    allowed_tools = sorted(allowed_tools)
+    write_pair = {"write_file", "open_pull_request"}
+    has_write_pair = write_pair.issubset(allowed_tools)
+    if (bool(write_pair.intersection(allowed_tools)) != has_write_pair):
+        raise ValueError("write_file and open_pull_request must be authorized together")
+    if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 6
+            or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 5
+            or max_tool_calls > max_model_calls - 1
+            or max_model_calls < 2 or max_tool_calls < 1
+            or (has_write_pair and max_tool_calls < 2)):
+        raise ValueError("invalid bounded agent/tool call limits")
+    per_call_budget = int(math.ceil(
+        MAX_PROMPT_BYTES * INPUT_MICROUSD_PER_TOKEN
+        + max_tokens * OUTPUT_MICROUSD_PER_TOKEN))
+    required_budget = max_model_calls * per_call_budget
+    if max_incremental_cost_usd_micros < required_budget:
+        raise ValueError("budget below the signed worst-case inference bound")
 
     current = int(time.time()) if now is None else now
     if type(current) is not int:
@@ -94,15 +125,17 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
         "agent_id": AGENT, "commit_sha": commit_sha,
     })).hexdigest()
     decision = {
-        "version": 2, "decision_id": decision_id,
+        "version": 3, "decision_id": decision_id,
         "issuer_key_id": issuer_key_id, "issuer_human_id": issuer_human_id,
         "repository_id": REPO_ID, "issue": ISSUE, "mission": MISSION,
         "agent_id": AGENT, "commit_sha": commit_sha,
         "contract_blob_sha": contract_blob_sha, "input_sha256": input_sha,
         "dispatch_id": dispatch_id, "claim_ref": claim_ref,
         "scope": "gt47:execute:AGT-ENG", "not_before": current,
-        "expires_at": current + 600, "nonce": nonce, "max_calls": 1,
-        "max_tokens": max_tokens, "max_incremental_cost_usd_micros": max_incremental_cost_usd_micros,
+        "expires_at": current + 600, "nonce": nonce,
+        "max_tokens": max_tokens, "max_model_calls": max_model_calls,
+        "max_tool_calls": max_tool_calls, "allowed_tools": allowed_tools,
+        "max_incremental_cost_usd_micros": max_incremental_cost_usd_micros,
         "no_paid_fallback": True,
     }
     key = serialization.load_pem_private_key(private_key_pem, password=None)
@@ -133,6 +166,9 @@ def main() -> int:
             issuer_human_id=source["issuer_human_id"],
             private_key_pem=key, max_tokens=source.get("max_tokens", 1024),
             max_incremental_cost_usd_micros=source["max_incremental_cost_usd_micros"],
+            allowed_tools=source["allowed_tools"],
+            max_model_calls=source.get("max_model_calls", 1),
+            max_tool_calls=source.get("max_tool_calls", 0),
         )
         target = Path(args.output)
         fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
