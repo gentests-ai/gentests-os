@@ -48,6 +48,8 @@ def _validate_worker_json(value, depth=0):
     if depth > 12:
         raise ContextRejected("Worker context nesting too deep")
     if value is None or type(value) in (str, bool):
+        if type(value) is str and len(value.encode("utf-8")) > 20000:
+            raise ContextRejected("Worker context string too large")
         return
     if type(value) is int:
         if not -(2**53 - 1) <= value <= 2**53 - 1:
@@ -115,8 +117,8 @@ def _validate_worker_request(worker_request, intent, expected_ref):
             or not _RECEIPT.fullmatch(decision["nonce"])
             or type(decision["issuer_key_id"]) is not str or not decision["issuer_key_id"]
             or type(decision["issuer_human_id"]) is not str or not decision["issuer_human_id"]
-            or type(decision["not_before"]) is not int
-            or type(decision["expires_at"]) is not int
+            or type(decision["not_before"]) is not int or decision["not_before"] < 0
+            or type(decision["expires_at"]) is not int or decision["expires_at"] < 1
             or decision["expires_at"] <= decision["not_before"]
             or decision["expires_at"] - decision["not_before"] > 900
             or decision["no_paid_fallback"] is not True):
