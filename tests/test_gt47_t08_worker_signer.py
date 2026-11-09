@@ -37,7 +37,10 @@ class WorkerDecisionSignerTests(unittest.TestCase):
         envelope = self.sign()
         decision = envelope["decision"]
         self.assertEqual(set(envelope), {"decision", "signature", "task", "context"})
-        self.assertEqual(decision["version"], 2)
+        self.assertEqual(decision["version"], 3)
+        self.assertEqual(decision["allowed_tools"], [])
+        self.assertEqual(decision["max_model_calls"], 1)
+        self.assertEqual(decision["max_tool_calls"], 0)
         self.assertEqual(decision["mission"], "GT-AI-DISPATCH-001")
         self.assertEqual(decision["agent_id"], "AGT-ENG")
         self.assertEqual(decision["max_calls"], 1)
@@ -55,6 +58,24 @@ class WorkerDecisionSignerTests(unittest.TestCase):
         signature = base64.urlsafe_b64decode(
             envelope["signature"] + "=" * (-len(envelope["signature"]) % 4))
         public.verify(signature, DOMAIN + canonical(decision))
+
+    def test_signer_requires_budget_for_bounded_tool_loop(self):
+        request = self.sign(
+            allowed_tools=["read_file", "write_file", "open_pull_request"],
+            max_model_calls=4, max_tool_calls=3,
+            max_incremental_cost_usd_micros=50000)
+        self.assertEqual(request["decision"]["allowed_tools"],
+                         ["open_pull_request", "read_file", "write_file"])
+        self.assertEqual(request["decision"]["max_model_calls"], 4)
+        self.assertEqual(request["decision"]["max_tool_calls"], 3)
+        with self.assertRaises(ValueError):
+            self.sign(allowed_tools=["merge_pull_request"],
+                      max_model_calls=2, max_tool_calls=1,
+                      max_incremental_cost_usd_micros=30000)
+        with self.assertRaises(ValueError):
+            self.sign(allowed_tools=["write_file"],
+                      max_model_calls=2, max_tool_calls=1,
+                      max_incremental_cost_usd_micros=10000)
 
     def test_claim_ref_preserves_historical_namespace(self):
         decision = self.sign()["decision"]
