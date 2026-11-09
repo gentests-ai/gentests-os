@@ -1,0 +1,19 @@
+name = "gt47-remote-executor"
+main = "src/index.js"
+compatibility_date = "2026-11-09"
+workers_dev = true
+
+[ai]
+binding = "AI"
+
+[[durable_objects.bindings]]
+name = "LEDGER"
+class_name = "GT47Ledger"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["GT47Ledger"]
+
+[vars]
+AI_ENABLED = "false"
+KILL_SWITCH = "on"
