@@ -20,9 +20,9 @@ This implementation is deliberately inert until separately provisioned and autho
 
 ## Bindings and secrets not configured
 
-The caller-side T08 reservation/fence still requires an authorized GitHub Contents:write transport to create two immutable refs. That permission is not granted by this package and has not been configured. The Worker receives only a short-lived GitHub Actions OIDC JWT; its GitHub API token is a separate read-only secret used only for contract/ref reads. No GitHub write token is sent to the Worker or model.
+The caller-side T08 reservation/fence still requires an authorized GitHub Contents:write transport to create two durable Git refs. That permission is not granted by this package and has not been configured. The Worker receives only a short-lived GitHub Actions OIDC JWT; its GitHub API token is a separate read-only secret used only for contract/ref reads. No GitHub write token is sent to the Worker or model.
 
-The historical claim hash intentionally preserves the pre-transfer repository identity gentestsai-sudo/gentests-os from T06. Do not change that namespace without a reviewed migration, or existing claims could be bypassed.
+The historical claim hash intentionally preserves the pre-transfer repository identity gentestsai-sudo/gentests-os from T06. Do not change that namespace without a reviewed migration, or existing claims could be bypassed. Effective protection against deletion/repointing of these Git refs remains unverified; no protection is assumed.
 
 
 Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), and GITHUB_READ_TOKEN (read-only for this private repo).
