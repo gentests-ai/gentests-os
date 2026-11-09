@@ -191,6 +191,43 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         self.assertEqual(result["status"], "manual_reconciliation_required")
         self.assertEqual(calls, [self.receipt_id])
 
+    def test_invalid_worker_envelope_is_rejected_before_consuming_fence(self):
+        claim = _claim_ref(self.intent)
+        reservation = {
+            "status": "reserved_remote", "claim_ref": claim,
+            "dispatch_id": self.intent["dispatch_id"], "github_write": True,
+            "execution_allowed": False, "agent_mission_executed": False,
+        }
+        task, context = "Approved task", {"source": "signed"}
+        worker_request = {
+            "decision": {
+                "mission": self.intent["mission"], "issue": self.intent["issue"],
+                "agent_id": self.intent["agent_id"],
+                "commit_sha": self.intent["commit_sha"],
+                "dispatch_id": "f" * 64, "claim_ref": claim,
+                "input_sha256": hashlib.sha256(_canonical(
+                    {"task": task, "context": context})).hexdigest(),
+            },
+            "signature": "x" * 86, "task": task, "context": context,
+        }
+        writes, posts = [], []
+
+        def get_ref(ref):
+            return (200, {"ref": ref, "object": {
+                "type": "commit", "sha": self.intent["commit_sha"]}})
+
+        with self.assertRaises(ContextRejected):
+            execute_reserved_intent(
+                intent=self.intent, reservation=reservation, receipt_key=self.public,
+                verify_authorization=lambda _: True,
+                create_ref=lambda ref, sha: writes.append((ref, sha)),
+                get_ref=get_ref,
+                submit=lambda payload: posts.append(payload),
+                lookup=lambda receipt_id: (404, {}),
+                worker_request=worker_request, enabled=True, max_polls=1)
+        self.assertEqual(writes, [])
+        self.assertEqual(posts, [])
+
     def test_existing_t08_bridge_accepts_completed_v2_with_signed_acceptance_chain(self):
         claim = _claim_ref(self.intent)
         reservation = {
