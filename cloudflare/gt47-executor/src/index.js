@@ -87,6 +87,7 @@ messages.push({role:"tool",content:JSON.stringify(toolResult)});
 toolCount++;
 }
 if(typeof finalText!=="string"||!finalText.trim()||finalText.length>MAX_RESULT)throw Error("model_output");
+if(sideEffects){const branchResponse=await ledger.fetch(new Request("https://ledger/branch/"+job.dispatch_id));const branchState=await branchResponse.json();if(!branchResponse.ok||!branchState.pr_number)throw Error("written_branch_without_pull_request")}
 const digest=await hash(finalText),done=await receipt("completed",job,env,digest,acceptedReceipt);
 const completed=await ledger.fetch(doReq("/complete",{dispatch_id:job.dispatch_id,result:finalText,result_sha256:digest,receipt:done}));
 if(!completed.ok)throw Error("completion_persist_uncertain");
