@@ -182,16 +182,30 @@ class RehearsalSafetyTests(unittest.TestCase):
 
     def test_test_branch_used_for_every_state_read_and_write(self):
         store=GitHubStore('offline-test',branch=test_branch('qa-trial-001'))
+        import base64
         seen=[]
+        files={}
         def request(method,path,body=None):
             seen.append((method,path,body))
-            return (404,None) if method=='GET' else (201,{})
+            if method=='GET' and path=='/git/ref/heads/gt47-recovery-qa-trial-001':
+                return 404,None
+            if method=='POST' and path=='/git/refs':
+                return 201,{}
+            if method=='PUT' and path.startswith('/contents/'):
+                files[path.split('/contents/',1)[1].split('?',1)[0]]=body['content']
+                return 201,{}
+            if method=='GET' and path.startswith('/contents/'):
+                name=path.split('/contents/',1)[1].split('?',1)[0]
+                if name not in files:
+                    return 404,None
+                return 200,{'encoding':'base64','content':files[name],'sha':'blob-sha'}
+            raise AssertionError((method,path))
         store.request=request
         store.initialize(SHA)
         store.get('gt47-current.json')
         store.put('gt47-current.json',{},None)
         self.assertTrue(all('gt47-advisory-state' not in json.dumps(v) for v in seen))
-        self.assertIn('?ref=gt47-recovery-qa-trial-001',seen[2][1])
+        self.assertTrue(any('?ref=gt47-recovery-qa-trial-001' in path for method,path,_ in seen if method=='GET'))
         self.assertEqual(seen[-1][2]['branch'],'gt47-recovery-qa-trial-001')
 
     def test_synthetic_provider_journals_without_inference(self):
