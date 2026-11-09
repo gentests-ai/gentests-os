@@ -99,8 +99,8 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
     has_write_pair = write_pair.issubset(allowed_tools)
     if (bool(write_pair.intersection(allowed_tools)) != has_write_pair):
         raise ValueError("write_file and open_pull_request must be authorized together")
-    if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 4
-            or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 3
+    if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 6
+            or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 5
             or max_tool_calls > max_model_calls - 1
             or max_model_calls < 2 or max_tool_calls < 1
             or (has_write_pair and max_tool_calls < 2)):
