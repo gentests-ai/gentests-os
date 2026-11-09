@@ -53,7 +53,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          ref: c6ffa661be39a793bcdd43ab226fd4770453cba7 # QA-reviewed controller; no merge needed
+          ref: refs/heads/main # Trusted controller includes canonical owner routing
           persist-credentials: false
       - name: Isolated branch rehearsal, fixed synthetic provider
         id: phase
