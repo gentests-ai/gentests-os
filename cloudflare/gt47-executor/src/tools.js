@@ -104,10 +104,10 @@ async function readFile(env,path,ref){
 const p=path.split("/").map(encodeURIComponent).join("/");
 const r=await github(env,"GET","/contents/"+p+"?ref="+encodeURIComponent(ref));
 if(r.status===404)throw Error("file_not_found");
-if(!Number.isSafeInteger(r.data.size)||r.data.size>8192)throw Error("file_too_large_for_context");
+if(!Number.isSafeInteger(r.data.size)||r.data.size>20000)throw Error("file_too_large_for_context");
 if(r.data.encoding!=="base64"||typeof r.data.content!=="string")throw Error("unsupported_file_encoding");
 const content=decodeContent(r.data.content);
-if(new TextEncoder().encode(content).length>8192)throw Error("file_too_large_for_context");
+if(new TextEncoder().encode(content).length>20000)throw Error("file_too_large_for_context");
 return {path,sha:r.data.sha,content};
 }
 async function writeFile(env,job,decision,args){
