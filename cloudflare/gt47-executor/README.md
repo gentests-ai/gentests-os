@@ -15,7 +15,7 @@ This implementation is deliberately inert until separately provisioned and autho
 
 - POST /v1/gt47/dispatch: authenticated dispatch; schedules one background execution and returns signed received receipt.
 - GET /v1/gt47/receipts/{receipt_id}: signed current state and result.
-- GET /v1/gt47/status?dispatch_id={sha256}: reconciliation. An accepted execution older than 2 minutes becomes uncertain; no retry occurs.
+- GET /v1/gt47/status?dispatch_id={sha256}: reconciliation. A received or accepted execution older than 2 minutes becomes uncertain; no retry occurs.
 - GET /health: static health-only response, not readiness or execution proof.
 
 ## Bindings and secrets not configured
@@ -30,6 +30,6 @@ AI_ENABLED remains false and KILL_SWITCH remains on until separate activation au
 2. The T08 bridge can submit its existing reserved intent through the new OIDC transport using a separately signed Worker request. This vertical invokes a bounded Workers AI text model; it is not a ChatGPT session or fully tool-enabled coding agent. It cannot edit repository files or perform GitHub actions.
 3. The global ledger is intentionally serialized for the pilot. Sharding needs a separate uniqueness design.
 4. A stuck accepted run becomes uncertain; no automatic recovery or retry is allowed because inference may already have occurred.
-5. The v2 receipt wire format and OIDC transport are integrated into the T08 Python bridge without removing v1 HMAC compatibility. CI must validate the new cross-language signature, transport and bridge tests. This code has not been run in Cloudflare, against live JWKS/OIDC, real keys, Workers AI or a deployed Durable Object.
+5. The v2 receipt wire format and OIDC transport are integrated into the T08 Python bridge without removing v1 HMAC compatibility. Received/accepted jobs that exceed the reconciliation window are marked uncertain with a signed receipt; no retry is issued. CI must validate the new cross-language signature, transport and bridge tests. This code has not been run in Cloudflare, against live JWKS/OIDC, real keys, Workers AI or a deployed Durable Object.
 
 Local test command: npm test. These source contract checks are not cloud integration tests.
