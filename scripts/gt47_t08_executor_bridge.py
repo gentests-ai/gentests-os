@@ -311,3 +311,22 @@ def reconcile_executor_receipt(*, intent: dict, receipt_id: str,
             "agent_id": intent["agent_id"],
             "agent_mission_executed": "attested_by_remote_only",
             "independently_verified": False}
+
+
+def reconcile_executor_dispatch(*, intent: dict, receipt_key: bytes, status) -> dict:
+    """Reconcile by stable dispatch ID when the original POST response was lost."""
+    if not callable(status):
+        raise ContextRejected("remote status lookup is not configured")
+    try:
+        code, response = status(intent["dispatch_id"])
+    except Exception as exc:
+        raise ContextRejected("dispatch status outcome uncertain") from exc
+    if (type(code) is not int or code != 200 or type(response) is not dict
+            or type(response.get("receipt")) is not dict):
+        raise ContextRejected("dispatch status unavailable; manual reconciliation required")
+    receipt_id = response["receipt"].get("receipt_id")
+    if type(receipt_id) is not str or not _RECEIPT.fullmatch(receipt_id):
+        raise ContextRejected("dispatch status has no valid receipt identifier")
+    return reconcile_executor_receipt(
+        intent=intent, receipt_id=receipt_id, receipt_key=receipt_key,
+        lookup=lambda _receipt_id: (code, response))
