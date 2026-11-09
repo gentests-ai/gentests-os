@@ -5,7 +5,9 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
 from scripts.gt47_t04_context_loader import ContextRejected
 from scripts.gt47_t06_dispatch_intent import prepare_dispatch
-from scripts.gt47_t08_executor_bridge import _canonical, validate_attestation
+from scripts.gt47_t08_executor_bridge import (
+    _canonical, _claim_ref, execute_reserved_intent, validate_attestation,
+)
 from tests.test_gt47_t06_dispatch_intent import fixture
 
 DOMAIN = b"GT47-RECEIPT-v1\x00"
@@ -121,6 +123,48 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             validate_attestation(
                 value=received, key=wrong, intent=self.intent,
                 receipt_id=None, allowed_states=("received",))
+
+
+    def test_existing_t08_bridge_accepts_completed_v2_with_signed_acceptance_chain(self):
+        claim = _claim_ref(self.intent)
+        reservation = {
+            "status": "reserved_remote", "claim_ref": claim,
+            "dispatch_id": self.intent["dispatch_id"], "github_write": True,
+            "execution_allowed": False, "agent_mission_executed": False,
+        }
+        refs = {claim: self.intent["commit_sha"]}
+        posts = []
+
+        def get_ref(ref):
+            if ref not in refs:
+                return 404, {}
+            return 200, {"ref": ref, "object": {
+                "type": "commit", "sha": refs[ref]}}
+
+        def create_ref(ref, sha):
+            if ref in refs:
+                return 422, {"message": "already exists"}
+            refs[ref] = sha
+            return 201, {"ref": ref, "object": {"type": "commit", "sha": sha}}
+
+        def submit(payload):
+            posts.append(payload)
+            return 202, self.receipt("received")
+
+        def lookup(receipt_id):
+            accepted = self.receipt("accepted")
+            completed = self.receipt(
+                "completed", digest="c" * 64, accepted=accepted)
+            return 200, completed
+
+        result = execute_reserved_intent(
+            intent=self.intent, reservation=reservation, receipt_key=self.public,
+            verify_authorization=lambda _: True, create_ref=create_ref,
+            get_ref=get_ref, submit=submit, lookup=lookup, enabled=True,
+            max_polls=1)
+        self.assertEqual(result["status"], "remote_completed_attested")
+        self.assertEqual(result["result_sha256"], "c" * 64)
+        self.assertEqual(len(posts), 1)
 
 
 if __name__ == "__main__":
