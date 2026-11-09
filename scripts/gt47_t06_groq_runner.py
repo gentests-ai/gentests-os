@@ -74,16 +74,23 @@ class GitHubStore:
         code, _ = self.request('GET', '/git/ref/heads/' + self.branch)
         created = False
         if code == 404:
+            # The production branch may contain prior reservations even if it
+            # was deleted. Never recreate it as a fresh budget automatically.
+            # Only isolated recovery branches may be initialized by this harness.
+            if self.branch == BRANCH:
+                raise ReconciliationRequired(
+                    'production state branch missing; manual reconciliation required',
+                    reason='state_branch_missing')
             code, _ = self.request('POST', '/git/refs', {'ref': 'refs/heads/' + self.branch, 'sha': commit})
             if code != 201:
-                raise ValueError('state branch initialization failed; reconcile')
+                raise ValueError('recovery branch initialization failed; reconcile')
             created = True
         elif code != 200:
             raise ValueError('state branch unavailable')
 
-        # Create the empty budget ledger only with the first creation of this
-        # state branch. If an existing branch has lost its ledger, never infer
-        # a fresh budget: a previous provider submission may be uncertain.
+        # Seed an empty ledger only when an isolated recovery branch is first
+        # created. Production state is never silently reinitialized. If an
+        # existing branch has lost its ledger, a previous submission may be uncertain.
         if created:
             initial = {'schema': 1, 'claims': {}}
             if not self.put('gt47-budget.json', initial, None):
