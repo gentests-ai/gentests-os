@@ -81,7 +81,7 @@ def _validate_ed25519_receipt(*, value: dict, key: bytes, intent: dict,
         raise ContextRejected("Ed25519 receipt authentication failed") from exc
     accepted_attested = False
     if "accepted_receipt" in value:
-        if nested or value["status"] not in ("completed", "failed"):
+        if nested or value["status"] not in ("completed", "failed", "uncertain"):
             raise ContextRejected("unexpected nested acceptance receipt")
         accepted = _validate_ed25519_receipt(
             value=value["accepted_receipt"], key=key, intent=intent,
@@ -230,11 +230,13 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         value = validate_attestation(
             value=receipt_value, key=receipt_key, intent=intent,
             receipt_id=rid,
-            allowed_states=("received", "accepted", "completed", "failed"),
+            allowed_states=("received", "accepted", "completed", "failed", "uncertain"),
         )
         state = value["status"]
         if state == "failed":
             raise ContextRejected("remote executor reported failed")
+        if state == "uncertain":
+            raise ContextRejected("remote execution uncertain; manual reconciliation required")
         if state == "accepted":
             accepted = True
         elif state == "completed":
