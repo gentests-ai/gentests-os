@@ -50,6 +50,7 @@ Links para registros existentes, sem criar missões ou cartões duplicados. Não
 | Mission Control | Especificação MVP em issue aberta; não representa produto implantado | [#58](https://github.com/gentestsai-sudo/gentests-os/issues/58) |
 | Guia Executivo — hiperlink | Bug registrado e issue aberta; resolução não inferida de inspeção documental | [#45](https://github.com/gentestsai-sudo/gentests-os/issues/45) |
 | Matriz de permissões | Proposta integrada, não homologada; reconciliação em issue aberta | [#53](https://github.com/gentestsai-sudo/gentests-os/issues/53) |
+| Handoffs horizontais / Processos | Correções documentais preparadas; PR #141 aberto, revisão e integração pendentes; contratos de outros domínios encaminhados | [#137](https://github.com/gentests-ai/gentests-os/issues/137) · [PR #141](https://github.com/gentests-ai/gentests-os/pull/141) · [#138 Governança](https://github.com/gentests-ai/gentests-os/issues/138) · [#139 Engenharia](https://github.com/gentests-ai/gentests-os/issues/139) · [#140 Infraestrutura](https://github.com/gentests-ai/gentests-os/issues/140) |
 | Quality Intelligence | Discovery v0.2 e plano técnico documentados; implementação não inferida | [[produtos/GT-QI-001/GT-QI-001-Discovery-Produto-v0.2]] · [[produtos/GT-QI-001/GT-QI-ENG-POC-01-Plano-Tecnico]] |
 
 ## Histórico e manutenção
