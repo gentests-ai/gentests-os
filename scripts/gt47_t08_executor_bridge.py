@@ -321,7 +321,7 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
             branch_name = response.get("branch_name")
             pr_number = response.get("pr_number")
             if branch_name is not None:
-                if type(branch_name) is not str or not re.fullmatch(r"agents/gt47/[0-9a-f]{16}", branch_name):
+                if type(branch_name) is not str or not re.fullmatch(r"agents/gt47/[0-9a-f]{64}", branch_name):
                     raise ContextRejected("invalid remote branch metadata")
                 metadata_info["branch_name"] = branch_name
             if pr_number is not None:
