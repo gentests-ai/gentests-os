@@ -29,7 +29,7 @@ The output file is created exclusively with restrictive permissions; it is not c
 
 ## AGT-ENG tool execution
 
-The selected model, GLM-4.7-Flash, is listed as supporting Workers AI function calling (feature documented as beta): https://developers.cloudflare.com/workers-ai/features/function-calling/. Tool definitions are fixed in `src/tools.js` and filtered by the signed `allowed_tools` list.
+The selected model, GLM-4.7-Flash, is listed as supporting Workers AI function calling (the current model catalog lists GLM-4.7-Flash as function-calling capable): https://developers.cloudflare.com/workers-ai/features/function-calling/. Tool definitions are fixed in `src/tools.js` and filtered by the signed `allowed_tools` list.
 
 - `read_file`: reads only from the signed base commit.
 - `list_open_prs`, `get_pull_request`, `get_check_status`: read-only repository metadata.
