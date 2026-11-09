@@ -130,6 +130,10 @@ def _validate_worker_request(worker_request, intent, expected_ref):
     signature = worker_request["signature"]
     if type(signature) is not str or not _WORKER_SIGNATURE.fullmatch(signature):
         raise ContextRejected("invalid Worker signature encoding")
+    encoded_size = len(json.dumps(
+        worker_request, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+    if encoded_size > 30000:
+        raise ContextRejected("signed Worker request exceeds safe transport size")
     return worker_request
 
 
