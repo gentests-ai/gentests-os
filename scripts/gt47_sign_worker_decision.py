@@ -74,7 +74,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
                  now: int | None = None) -> dict:
     import time
 
-    if type(task) is not str or not task.strip() or len(task) > 8192:
+    if type(task) is not str or not task.strip() or len(task.encode("utf-8")) > 8192:
         raise ValueError("invalid task")
     if type(context) is not dict:
         raise ValueError("context must be an object")
