@@ -56,7 +56,9 @@ function decodeContent(value){const binary=atob((value||"").replace(/\s/g,""));c
 async function github(env,method,path,body=null,write=false){
 const token=write?env.GITHUB_WRITE_TOKEN:env.GITHUB_READ_TOKEN;
 if(!token)throw Error(write?"github_write_token_unavailable":"github_read_token_unavailable");
-const response=await fetch(API+path,{method,redirect:"error",headers:{authorization:"Bearer "+token,accept:"application/vnd.github+json","x-github-api-version":"2022-11-28","user-agent":"GT47-AGT-ENG-Executor","content-type":"application/json"},body:body===null?undefined:JSON.stringify(body)});
+let response;
+try{response=await fetch(API+path,{method,redirect:"error",headers:{authorization:"Bearer "+token,accept:"application/vnd.github+json","x-github-api-version":"2022-11-28","user-agent":"GT47-AGT-ENG-Executor","content-type":"application/json"},body:body===null?undefined:JSON.stringify(body)})}
+catch(_){const e=Error(write?"github_write_outcome_uncertain":"github_read_failed");if(write)e.code="uncertain";throw e}
 const raw=await response.text();
 if(raw.length>30000)throw Error("github_response_too_large");
 let data={};try{data=raw?JSON.parse(raw):{}}catch{throw Error("github_response_invalid")}
@@ -136,7 +138,7 @@ export async function executeGitHubTool({env,job,decision,name,args}){
 validateToolCall(name,args,decision.allowed_tools);
 if(name==="read_file")return readFile(env,safePath(args.path),decision.commit_sha);
 if(name==="list_open_prs"){
-const r=await github(env,"GET","/pulls?state=open&base=main&per_page=50");
+const r=await github(env,"GET","/pulls?state=open&base=main&per_page=20");
 return r.data.map(p=>({number:p.number,title:p.title,head:p.head?.ref,head_sha:p.head?.sha,base:p.base?.ref,state:p.state,updated_at:p.updated_at}));
 }
 if(name==="get_pull_request"){
@@ -146,7 +148,7 @@ const p=r.data;return {number:p.number,title:p.title,state:p.state,head:p.head?.
 if(name==="get_check_status"){
 const info=await branchInfo(env,job),sha=info.branch_initialized?info.branch_head_sha:decision.commit_sha;
 const r=await github(env,"GET","/commits/"+sha+"/status");
-return {sha,state:r.data.state,total_count:r.data.total_count,statuses:(r.data.statuses||[]).map(s=>({context:s.context,state:s.state,description:s.description}))};
+return {sha,state:r.data.state,total_count:r.data.total_count,statuses:(r.data.statuses||[]).slice(0,20).map(s=>({context:s.context,state:s.state,description:s.description}))};
 }
 if(name==="write_file")return writeFile(env,job,decision,args);
 if(name==="open_pull_request")return openPullRequest(env,job,decision,args);
