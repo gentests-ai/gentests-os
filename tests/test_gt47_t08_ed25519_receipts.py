@@ -190,7 +190,9 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         def status(dispatch_id):
             calls.append(dispatch_id)
             return 200, {"state": "completed", "receipt": completed,
-                         "result": result_text, "result_sha256": digest}
+                         "result": result_text, "result_sha256": digest,
+                         "branch_name": "agents/gt47/" + self.intent["dispatch_id"],
+                         "pr_number": 148}
 
         result = reconcile_executor_dispatch(
             intent=self.intent, receipt_key=self.public, status=status)
