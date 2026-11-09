@@ -127,6 +127,7 @@ const query="?state=all&head="+encodeURIComponent(OWNER+":"+branch.name)+"&base=
 const existing=await github(env,"GET","/pulls"+query);
 const found=existing.data.find(p=>p.head?.ref===branch.name&&p.base?.ref==="main");
 if(found){
+if(found.state!=="open")throw Error("existing_pull_request_closed");
 const saved=await env.LEDGER.get(env.LEDGER.idFromName("gt47-global-ledger")).fetch(new Request("https://ledger/pr",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({dispatch_id:job.dispatch_id,pr_number:found.number})}));
 if(!saved.ok)throw Error("pr_ledger_failed");
 return {number:found.number,url:found.html_url,state:found.state,head:branch.name,existing:true};
