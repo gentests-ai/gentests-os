@@ -169,11 +169,6 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         raise ContextRejected("out-of-band authorization verification failed") from exc
     if permitted is not True:
         raise ContextRejected("no verified out-of-band authorization")
-    fence = begin_executor_invocation_on_github(
-        intent=intent, reservation=reservation, enabled=True,
-        create_ref=create_ref, get_ref=get_ref,
-    )
-    execution_ref = fence["execution_ref"]
     if worker_request is None:
         payload = {
             "schema": "gt47-executor-request-v1",
@@ -204,6 +199,12 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
                 or type(worker_request["signature"]) is not str):
             raise ContextRejected("signed Worker request does not match reserved intent")
         payload = worker_request
+    # Validate the complete request before consuming the one-shot side-effect fence.
+    fence = begin_executor_invocation_on_github(
+        intent=intent, reservation=reservation, enabled=True,
+        create_ref=create_ref, get_ref=get_ref,
+    )
+    execution_ref = fence["execution_ref"]
     try:
         code, initial = submit(payload)
     except Exception as exc:
