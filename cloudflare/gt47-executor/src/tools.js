@@ -71,7 +71,7 @@ if(response.status===404)return {status:404};
 if(!response.ok){const e=Error("github_api_"+response.status);if(write&&response.status>=500)e.code="uncertain";throw e}
 return {status:response.status,data};
 }
-function branchName(job){return "agents/gt47/"+job.dispatch_id.slice(0,16)}
+function branchName(job){return "agents/gt47/"+job.dispatch_id}
 async function branchInfo(env,job){
 const r=await env.LEDGER.get(env.LEDGER.idFromName("gt47-global-ledger")).fetch(new Request("https://ledger/branch/"+job.dispatch_id));
 if(!r.ok)throw Error("branch_ledger_unavailable");
