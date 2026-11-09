@@ -151,11 +151,15 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             posts.append(payload)
             return 202, self.receipt("received")
 
+        result_text = "AGT-ENG remote result: bounded and verified"
+        result_digest = __import__("hashlib").sha256(
+            result_text.encode("utf-8")).hexdigest()
+
         def lookup(receipt_id):
             accepted = self.receipt("accepted")
             completed = self.receipt(
-                "completed", digest="c" * 64, accepted=accepted)
-            return 200, completed
+                "completed", digest=result_digest, accepted=accepted)
+            return 200, {"receipt": completed, "result": result_text}
 
         result = execute_reserved_intent(
             intent=self.intent, reservation=reservation, receipt_key=self.public,
@@ -163,7 +167,7 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
             get_ref=get_ref, submit=submit, lookup=lookup, enabled=True,
             max_polls=1)
         self.assertEqual(result["status"], "remote_completed_attested")
-        self.assertEqual(result["result_sha256"], "c" * 64)
+        self.assertEqual(result["result"], "AGT-ENG remote result: bounded and verified")
         self.assertEqual(len(posts), 1)
 
 
