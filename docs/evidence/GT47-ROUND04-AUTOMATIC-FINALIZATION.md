@@ -49,3 +49,8 @@ cobrança; não houve nova consulta autenticada de billing nesta rodada.
 A integração retorna 403 para acesso às variables, portanto a pausa deve ser
 aplicada pelo usuário via GitHub ou gh. Este registro não declara pausa nova
 sem evidência. Fila completed é idle para novos avanços e não reenvia os pareceres.
+
+
+## Limite da verificação posterior
+
+A consulta posterior aos metadados dos três runs confirmou jobs `prepare`, `probe` e `advance` concluídos com `success`. Esses metadados, isoladamente, não identificam os agentes internos como Engenharia/QA nem comprovam transporte entre chats; essa atribuição permanece sustentada pelos registros de estado/parecer descritos acima, não pela API de Actions por si só. Não foram encontrados artifacts anexados aos runs. A evidência permanece limitada ao checklist documental e aos estados persistidos, sem inferir execução de código, operação autônoma geral ou billing.
