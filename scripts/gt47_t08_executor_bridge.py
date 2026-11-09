@@ -98,7 +98,7 @@ def _validate_worker_request(worker_request, intent, expected_ref):
     if (type(model_calls) is not int or not 2 <= model_calls <= 4
             or type(tool_calls) is not int or not 1 <= tool_calls <= 3
             or tool_calls > model_calls - 1 or (write_pair and tool_calls < 2)
-            or type(max_tokens) is not int or not 1 <= max_tokens <= 1024
+            or type(max_tokens) is not int or not 1 <= max_tokens <= 4096
             or type(budget) is not int or budget < 1):
         raise ContextRejected("invalid signed Worker execution limits")
     minimum = model_calls * math.ceil(120000 * 0.0605 + max_tokens * 0.4)
