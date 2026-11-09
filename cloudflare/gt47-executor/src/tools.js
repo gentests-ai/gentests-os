@@ -57,7 +57,7 @@ async function github(env,method,path,body=null,write=false){
 const token=write?env.GITHUB_WRITE_TOKEN:env.GITHUB_READ_TOKEN;
 if(!token)throw Error(write?"github_write_token_unavailable":"github_read_token_unavailable");
 let response;
-try{response=await fetch(API+path,{method,redirect:"error",headers:{authorization:"Bearer "+token,accept:"application/vnd.github+json","x-github-api-version":"2022-11-28","user-agent":"GT47-AGT-ENG-Executor","content-type":"application/json"},body:body===null?undefined:JSON.stringify(body)})}
+try{response=await fetch(API+path,{method,redirect:"error",headers:{authorization:"Bearer "+token,accept:"application/vnd.github+json","x-github-api-version":"2022-11-28","user-agent":"GT47-AGT-ENG-Executor","content-type":"application/json"},body:body===null?undefined:JSON.stringify(body),signal:AbortSignal.timeout(12000)})}
 catch(_){const e=Error(write?"github_write_outcome_uncertain":"github_read_failed");if(write)e.code="uncertain";throw e}
 let raw;
 try{raw=await response.text()}catch(_){const e=Error(write?"github_write_response_uncertain":"github_read_response_failed");if(write)e.code="uncertain";throw e}
