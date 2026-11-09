@@ -136,7 +136,7 @@ def validate_attestation(*, value: dict, key: bytes, intent: dict,
 def execute_reserved_intent(*, intent: dict, reservation: dict,
                             receipt_key: bytes, verify_authorization=None,
                             create_ref=None, get_ref=None,
-                            submit=None, lookup=None,
+                            submit=None, lookup=None, worker_request: dict | None = None,
                             enabled: bool = False, max_polls: int = 2) -> dict:
     """Transmit a reserved intent once, then collect signed states.
 
@@ -174,16 +174,36 @@ def execute_reserved_intent(*, intent: dict, reservation: dict,
         create_ref=create_ref, get_ref=get_ref,
     )
     execution_ref = fence["execution_ref"]
-    payload = {
-        "schema": "gt47-executor-request-v1",
-        "mission": intent["mission"], "issue": intent["issue"],
-        "agent_id": intent["agent_id"],
-        "commit_sha": intent["commit_sha"],
-        "context_sha256": intent["context_sha256"],
-        "dispatch_id": intent["dispatch_id"],
-        "claim_ref": expected_ref,
-        # No executable command, issue body, credentials, policy, or tool output.
-    }
+    if worker_request is None:
+        payload = {
+            "schema": "gt47-executor-request-v1",
+            "mission": intent["mission"], "issue": intent["issue"],
+            "agent_id": intent["agent_id"],
+            "commit_sha": intent["commit_sha"],
+            "context_sha256": intent["context_sha256"],
+            "dispatch_id": intent["dispatch_id"],
+            "claim_ref": expected_ref,
+            # No executable command, issue body, credentials, policy, or tool output.
+        }
+    else:
+        if (type(worker_request) is not dict
+                or set(worker_request) != {"decision", "signature", "task", "context"}):
+            raise ContextRejected("invalid signed Worker request")
+        decision = worker_request["decision"]
+        task, context = worker_request["task"], worker_request["context"]
+        if (type(decision) is not dict or type(task) is not str
+                or not task.strip() or len(task) > 8192 or type(context) is not dict
+                or decision.get("mission") != intent["mission"]
+                or decision.get("issue") != intent["issue"]
+                or decision.get("agent_id") != intent["agent_id"]
+                or decision.get("commit_sha") != intent["commit_sha"]
+                or decision.get("dispatch_id") != intent["dispatch_id"]
+                or decision.get("claim_ref") != expected_ref
+                or decision.get("input_sha256") != hashlib.sha256(
+                    _canonical({"task": task, "context": context})).hexdigest()
+                or type(worker_request["signature"]) is not str):
+            raise ContextRejected("signed Worker request does not match reserved intent")
+        payload = worker_request
     try:
         code, initial = submit(payload)
     except Exception as exc:
