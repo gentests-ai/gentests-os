@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 from scripts.gt47_t04_context_loader import ContextRejected
 from scripts.gt47_t06_dispatch_intent import prepare_dispatch
 from scripts.gt47_t08_executor_bridge import (
-    _canonical, _claim_ref, execute_reserved_intent, reconcile_executor_receipt, validate_attestation,
+    _canonical, _claim_ref, execute_reserved_intent, reconcile_executor_dispatch, reconcile_executor_receipt, validate_attestation,
 )
 from tests.test_gt47_t06_dispatch_intent import fixture
 
@@ -154,6 +154,24 @@ class Ed25519ReceiptV2Tests(unittest.TestCase):
         self.assertEqual(result["status"], "remote_completed_attested")
         self.assertEqual(result["result"], result_text)
         self.assertEqual(calls, [self.receipt_id])
+
+    def test_dispatch_id_reconciliation_recovers_lost_post_response(self):
+        result_text = "Recovered after lost POST response"
+        digest = hashlib.sha256(result_text.encode("utf-8")).hexdigest()
+        accepted = self.receipt("accepted")
+        completed = self.receipt("completed", digest=digest, accepted=accepted)
+        calls = []
+
+        def status(dispatch_id):
+            calls.append(dispatch_id)
+            return 200, {"state": "completed", "receipt": completed,
+                         "result": result_text, "result_sha256": digest}
+
+        result = reconcile_executor_dispatch(
+            intent=self.intent, receipt_key=self.public, status=status)
+        self.assertEqual(result["status"], "remote_completed_attested")
+        self.assertEqual(result["result"], result_text)
+        self.assertEqual(calls, [self.intent["dispatch_id"]])
 
     def test_uncertain_reconciliation_never_resubmits(self):
         accepted = self.receipt("accepted")
