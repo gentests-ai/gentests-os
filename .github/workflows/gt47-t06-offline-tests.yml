@@ -5,6 +5,10 @@ on:
     paths:
       - "scripts/gt47_t06_*.py"
       - "tests/test_gt47_t06_*.py"
+      - "scripts/gt47_t07_*.py"
+      - "tests/test_gt47_t07_*.py"
+      - "scripts/gt47_t08_*.py"
+      - "tests/test_gt47_t08_*.py"
       - ".github/workflows/gt47-t06-offline-tests.yml"
       - ".github/workflows/gt47-groq-advisory.yml"
   workflow_dispatch:
@@ -38,7 +42,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Validate T06 without API credentials
-        run: python -m unittest discover -s tests -p 'test_gt47_t06_*.py' -v
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests -p 'test_gt47_t06_*.py' -v
+          python -m unittest discover -s tests -p 'test_gt47_t07_*.py' -v
+          python -m unittest discover -s tests -p 'test_gt47_t08_*.py' -v
   recovery-rehearsal:
     if: github.event_name == 'workflow_dispatch' && inputs.enable_test_writes == true
     concurrency:
