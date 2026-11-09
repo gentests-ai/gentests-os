@@ -148,6 +148,18 @@ class ExecutorBridgeTests(unittest.TestCase):
             self.execute(submit=timeout)
         self.assertEqual(len(attempts), 1)
 
+    def test_timeout_consumes_fence_and_blocks_second_post(self):
+        attempts = []
+        def timeout(payload):
+            attempts.append(payload)
+            raise TimeoutError("gateway outcome uncertain")
+        with self.assertRaisesRegex(ContextRejected, "outcome uncertain"):
+            self.execute(submit=timeout)
+        with self.assertRaisesRegex(ContextRejected, "already consumed"):
+            self.execute()
+        self.assertEqual(len(attempts), 1)
+        self.assertEqual(self.posts, [])
+
     def test_executor_error_does_not_become_success(self):
         with self.assertRaises(ContextRejected):
             self.execute(submit=lambda _: (503, {}))
