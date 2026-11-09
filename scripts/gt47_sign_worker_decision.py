@@ -94,8 +94,8 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
             or len(set(allowed_tools)) != len(allowed_tools)):
         raise ValueError("invalid allowed tool list")
     allowed_tools = sorted(allowed_tools)
-    if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 8
-            or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 6
+    if (type(max_model_calls) is not int or not 1 <= max_model_calls <= 4
+            or type(max_tool_calls) is not int or not 0 <= max_tool_calls <= 3
             or max_tool_calls > max_model_calls - 1
             or (not allowed_tools and (max_model_calls != 1 or max_tool_calls != 0))
             or (allowed_tools and max_tool_calls < 1)):
