@@ -72,16 +72,35 @@ class GitHubStore:
 
     def initialize(self, commit):
         code, _ = self.request('GET', '/git/ref/heads/' + self.branch)
+        created = False
         if code == 404:
             code, _ = self.request('POST', '/git/refs', {'ref': 'refs/heads/' + self.branch, 'sha': commit})
             if code != 201:
                 raise ValueError('state branch initialization failed; reconcile')
+            created = True
         elif code != 200:
             raise ValueError('state branch unavailable')
 
+        # Create the empty budget ledger only with the first creation of this
+        # state branch. If an existing branch has lost its ledger, never infer
+        # a fresh budget: a previous provider submission may be uncertain.
+        if created:
+            initial = {'schema': 1, 'claims': {}}
+            if not self.put('gt47-budget.json', initial, None):
+                current, _ = self.get('gt47-budget.json')
+                if current != initial:
+                    raise ValueError('initial budget ledger write uncertain; reconcile')
+            current, _ = self.get('gt47-budget.json')
+            if current != initial:
+                raise ValueError('initial budget ledger verification failed; reconcile')
+
     def read(self):
         state, version = self.get('gt47-budget.json')
-        return ({'schema': 1, 'claims': {}} if state is None else state), version
+        if state is None:
+            raise ReconciliationRequired(
+                'budget ledger missing; manual reconciliation required',
+                reason='budget_ledger_missing')
+        return state, version
 
     def cas(self, version, state):
         return self.put('gt47-budget.json', state, version)
