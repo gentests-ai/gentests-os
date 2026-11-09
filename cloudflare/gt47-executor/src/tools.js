@@ -155,4 +155,4 @@ if(name==="write_file")return writeFile(env,job,decision,args);
 if(name==="open_pull_request")return openPullRequest(env,job,decision,args);
 throw Error("tool_not_allowed");
 }
-export const __tools={toolDefinitions,validateToolCall,safePath,WRITE_TOOLS,READ_TOOLS,branchName};
+export const __tools={toolDefinitions,validateToolCall,safePath,WRITE_TOOLS,READ_TOOLS,branchName,TOOL_NAMES:TOOL_DEFINITIONS.map(t=>t.name).sort()};
