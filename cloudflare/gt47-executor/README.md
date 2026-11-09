@@ -41,7 +41,7 @@ The caller-side T08 reservation/fence still requires an authorized GitHub Conten
 The historical claim hash intentionally preserves the pre-transfer repository identity gentestsai-sudo/gentests-os from T06. Do not change that namespace without a reviewed migration, or existing claims could be bypassed. Effective protection against deletion/repointing of these Git refs remains unverified; no protection is assumed.
 
 
-Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), and GITHUB_READ_TOKEN (read-only for this private repo).
+Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), GITHUB_READ_TOKEN (read-only for this private repo), AI_COST_AUTHORIZED, and MAX_EXECUTION_COST_USD_MICROS.
 
 AI_ENABLED remains false and KILL_SWITCH remains on until separate activation authorization, account/quota/cost verification, and QA of a deployed sandbox. Do not put private keys, tokens, endpoints or Cloudflare API credentials in source or issue text.
 
