@@ -25,7 +25,7 @@ const SECRET_PATTERNS=[
 /\bxox[baprs]-[A-Za-z0-9-]{20,}\b/,
 /\bBearer\s+[A-Za-z0-9._-]{24,}\b/i
 ];
-function toolDefinitions(allowed){return TOOL_DEFINITIONS.filter(t=>allowed.includes(t.name))}
+export function toolDefinitions(allowed){return TOOL_DEFINITIONS.filter(t=>allowed.includes(t.name))}
 function safePath(value,write=false){
 if(typeof value!=="string"||!value||value.length>180||value.startsWith("/")||value.includes("\\")||/[\u0000-\u001f\u007f]/.test(value))throw Error("invalid_path");
 const parts=value.split("/");
