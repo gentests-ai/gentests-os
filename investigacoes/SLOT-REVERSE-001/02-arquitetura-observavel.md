@@ -64,3 +64,8 @@ Próxima coleta autorizada, se disponível por navegação pública normal:
 
 ## 9. Parecer da etapa
 **EM ANDAMENTO / EVIDÊNCIA INSUFICIENTE PARA DIAGRAMA DE INTEGRAÇÃO.** A única observação direta registrada é o título público da página. Nenhum componente, versão, fluxo de rede ou dependência específica foi confirmado. Frente B segue independente da Frente A; novas conclusões exigem evidência pública direta e reproduzível.
+
+## 10. Adendo — captura externa de referência (não PGW)
+A página pública iGaming Tools informa que a demonstração independente é desenhada em canvas com uma camada de controles DOM; paytable e regras são texto DOM legível, enquanto o campo dos rolos não é texto. Também informa 33 telas capturadas e um caminho de demonstração próprio em domínio i-gaming.tools. Essa observação caracteriza **a demonstração de terceiro**, não a implementação PGW nem necessariamente o cliente oficial servido à PGW.
+
+Fonte: [iGaming Tools — acessibilidade e proveniência](https://i-gaming.tools/slot-games/poker-kingdom-win-b30/) (seções Accessibility e Data provenance). Não transferir esse fingerprint para o alvo investigado.
