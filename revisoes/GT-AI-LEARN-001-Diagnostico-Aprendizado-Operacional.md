@@ -5,7 +5,7 @@ versao: 0.2.0
 status: proposta
 estado_documental: em-correcao-para-revalidacao-focal
 data: 2026-10-10
-responsavel_elaboracao: Orquestrador GenTests.ai
+responsavel_elaboracao: Executor documental designado
 aprovador: Direcao
 revisao_independente: REV-AI-LEARN-001-aprovado-com-ressalvas
 implementacao_autorizada: nao
@@ -72,7 +72,7 @@ Oráculos determinísticos avaliam esquema, links, soma, status e permissões ob
 ## 6. Ciclo controlado
 
 1. **Capturar:** executor registra resultado e evidências de execução. Parecer, RNC e issue apontam falhas e sua severidade, sem promover conhecimento automaticamente.
-2. **Triar:** orquestrador agrupa por causa raiz, remove duplicatas e propõe novo caso, com dados sanitizados e fonte/commit.
+2. **Triar:** o agente responsável pela etapa ou especialista designado na missão agrupa achados por causa raiz, remove duplicatas e propõe novo caso, com dados sanitizados e fonte/commit. O Scrum Master não centraliza a triagem: acompanha o fluxo e intervém por exceção diante de impedimento, atraso, conflito ou ausência de progresso.
 3. **Curar:** revisor independente verifica que problema foi comprovado, define comportamento esperado e tenta invalidar o caso. Casos controversos permanecem candidatos.
 4. **Autorizar:** direção aprova inclusão/alteração de golden cases com implicações institucionais e qualquer mudança de políticas, permissões ou processos. Aprovar caso não autoriza publicar conteúdo externo.
 5. **Executar baseline:** runner local ou CI rodará apenas avaliações aprovadas, com reprodutibilidade de versão. Começar pelas determinísticas offline.
@@ -122,7 +122,7 @@ gentests-os/
 - Primeiro rodar localmente; GitHub Actions somente após examinar limites de minutos, armazenamento, retenção, segurança de workflows, runner e condições do plano vigente.
 - Sem chamada paga a API/modelos na fase determinística; avaliação semântica inicialmente manual e amostrada.
 - **Custo total não determinado:** uso de ferramentas existentes não elimina custo humano, CI, armazenamento, manutenção ou limites do plano; nenhuma gratuidade foi verificada. CI pode consumir cotas/cobrança conforme plano, repositório privado e runner. API/modelos e revisão humana têm custos variáveis, não estimados sem preço/cota e duração reais.
-- **Esforço humano exploratório (não compromisso):** curadoria inicial de 5–8 casos, algo como 4–10 horas distribuídas entre executor/revisor/orquestrador, mais validação da direção; medir no piloto. Implementação técnica futura pode exigir esforço adicional e não está autorizada.
+- **Esforço humano exploratório (não compromisso):** curadoria inicial de 5–8 casos, algo como 4–10 horas distribuídas entre executor e revisor, com eventual apoio do Scrum Master apenas em impedimentos operacionais; mais validação da Direção; medir no piloto. Implementação técnica futura pode exigir esforço adicional e não está autorizada.
 
 ## 9. Segurança, contaminação e antiaprendizado incorreto
 
@@ -274,7 +274,7 @@ A chave com valor `PREENCHER` ou `null` é **exemplo incompleto e não elegível
 
 **Tetos candidatos a decidir antes de F1:** até 8 casos, no máximo 20 horas humanas totais na primeira experiência local, nenhum gasto incremental em API sem orçamento específico, nenhuma execução em CI sem cotas e preços confirmados. Se atingir 80% do orçamento, revisar escopo; ao atingir teto ou ocorrer incidente, parar, registrar custo e solicitar nova decisão. Infraestrutura/armazenamento, GitHub Actions, API e tempo humano são rubricas separadas; custos de plano atual **não verificados**. Estimativas são hipóteses de planejamento, não compromisso nem gratuidade.
 
-**RACI enxuto:** executor prepara fixture/documentação e relata execução, mas não aprova o próprio oráculo; revisor independente valida evidência, esperado e regressão; Orquestrador triagem, deduplicação, registro e encaminhamento sem homologar; Direção decide normas, orçamento, exceções, autorização de piloto/CI/publicação/merge e arbitragem institucional. Infra fornece evidência de controle sem revelar segredos. Triagem candidata até 2 dias úteis após registro, sujeita à capacidade; alto/crítico implica suspensão imediata sem esperar SLA. Falha crítica/privacidade/permissão suspende; mudança técnica futura exige revert no PR próprio e baseline anterior verificado; golden contestado é **quarentenado** (não apagado), com motivo e SHA, e eventual retirada depende de parecer e decisão. Arquivar caso apenas com histórico preservado, nunca para melhorar indicador.
+**RACI enxuto:** executor responsável prepara fixture/documentação e relata execução, mas não aprova o próprio oráculo; revisor independente valida evidência, esperado e regressão; o agente responsável pela etapa mantém a triagem e o encaminhamento horizontal dentro de seu contrato; Scrum Master acompanha o fluxo e atua somente por exceção, sem fila central, despacho obrigatório ou ownership global; Direção decide normas, orçamento, exceções, autorização de piloto/CI/publicação/merge e arbitragem institucional. Infra fornece evidência de controle sem revelar segredos. Triagem candidata até 2 dias úteis após registro, sujeita à capacidade; alto/crítico implica suspensão imediata sem esperar SLA. Falha crítica/privacidade/permissão suspende; mudança técnica futura exige revert no PR próprio e baseline anterior verificado; golden contestado é **quarentenado** (não apagado), com motivo e SHA, e eventual retirada depende de parecer e decisão. Arquivar caso apenas com histórico preservado, nunca para melhorar indicador.
 
 ## 19. Pendências explícitas da Direção e decisão de encerramento documental
 
