@@ -96,6 +96,7 @@ async function readFile(env,path,ref){
 const p=path.split("/").map(encodeURIComponent).join("/");
 const r=await github(env,"GET","/contents/"+p+"?ref="+encodeURIComponent(ref));
 if(r.status===404)throw Error("file_not_found");
+if(!Number.isSafeInteger(r.data.size)||r.data.size>8192)throw Error("file_too_large_for_context");
 if(r.data.encoding!=="base64"||typeof r.data.content!=="string")throw Error("unsupported_file_encoding");
 const content=decodeContent(r.data.content);
 if(new TextEncoder().encode(content).length>8192)throw Error("file_too_large_for_context");
@@ -107,6 +108,7 @@ const p=args.path.split("/").map(encodeURIComponent).join("/");
 let existing=await github(env,"GET","/contents/"+p+"?ref="+encodeURIComponent(branch.name));
 let fileSha=null;
 if(existing.status===200){
+if(!Number.isSafeInteger(existing.data.size)||existing.data.size>20000)throw Error("existing_file_too_large_to_edit");
 const current=decodeContent(existing.data.content||"");
 if(current===args.content)return {path:args.path,branch:branch.name,changed:false,head_sha:branch.head_sha};
 fileSha=existing.data.sha;
