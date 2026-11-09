@@ -3,7 +3,7 @@ tipo: contrato-agente
 id: AGT-SM
 agente: Scrum Master
 alias_historico: [AirCaster, Orquestrador Central, AGT-ORQ]
-versao: 0.2.0
+versao: 0.2.1
 status: proposta
 responsavel: Direcao
 ---
@@ -55,7 +55,9 @@ Os limites numéricos de tentativas e prazos por severidade permanecem pendentes
 - Não interrompe tarefas independentes autorizadas por causa de um bloqueio localizado.
 
 ## Merge e integração — limite deliberado
-O Scrum Master pode monitorar PRs e estado de integração, conferir se pareceres, checks e gates requeridos estão registrados, apontar ausência de evidência e encaminhar a pendência ao Tech Lead ou responsável competente. Não é o responsável técnico por review ou merge. A POL-003 consultada reserva à Direção a autorização de merge em PRs; este contrato não delega nem cria permissão.
+O Scrum Master pode monitorar PRs e estado de integração, conferir se pareceres, checks e gates aplicáveis estão registrados, apontar ausência de evidência e encaminhar a pendência ao Head Tech Lead ou responsável competente. Não é o responsável técnico por review ou merge.
+
+**Delegação operacional da Direção (09/11/2026):** o Head Tech Lead integra à `main`, por padrão, PRs tecnicamente elegíveis, salvo bloqueante material muito grave. Deve verificar diff, contexto, dependências, autoria, checks e riscos; registrar SHA revisado e SHA integrado; e interromper a integração quando houver risco material grave. A delegação não permite contornar checks, segurança, segregação de funções, revisão independente quando aplicável, permissões efetivas ou atos reservados (produção, deploy, publicação, credenciais, gastos e operações externas). A diretriz operacional não comprova branch protection nem cria ACL/RBAC; a ferramenta precisa permitir a ação. POL-003 continua com o status documental que consta na fonte consultada e não é homologada por este texto.
 
 ## Entradas
 - Eventos/estados de Issues, PRs, workflows, handoffs e runtime/ledger.
