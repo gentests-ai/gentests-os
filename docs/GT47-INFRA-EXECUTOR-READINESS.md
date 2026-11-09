@@ -74,16 +74,17 @@ A leitura direta dos YAMLs na main em 09/11/2026 corrige a afirmação antiga do
 
 A criação de branch/PR não equivale a deploy; o único efeito automático confirmado na PR documental #144 é o check de Markdown. A execução manual do quality gate segue limitada à autorização de testes seguros já registrada; não disparar workflow sintético.
 
-### Correção posterior — preço e function calling do modelo (09/11/2026)
+### Correção posterior — preço, Free plan e function calling do modelo (09/11/2026)
 
-A afirmação anterior de que `@cf/zai-org/glm-4.7-flash` estaria disponível sem custo no Free está **superada**. A página oficial atual do modelo lista cobrança de **US$ 0,0605 por milhão de tokens de entrada** e **US$ 0,40 por milhão de tokens de saída**. A quota geral de Neurons do plano Free não comprova que este modelo específico seja gratuito ou elegível nessa quota. Não presumir execução sem custo.
+A página oficial do modelo lista GLM-4.7-Flash com preço unitário de **US$ 0,0605 por milhão de tokens de entrada** e **US$ 0,40 por milhão de tokens de saída**, além de confirmar contexto de 131.072 tokens e suporte a function calling. A funcionalidade não é rotulada como beta na página atual do modelo.
 
-O catálogo oficial confirma suporte a function calling para GLM-4.7-Flash, mas a funcionalidade é documentada como beta. A arquitetura pode usá-la com ferramentas fixas e allowlist assinada, porém a conta, o plano, a elegibilidade, os limites e o faturamento ainda precisam ser verificados antes de qualquer chamada.
+A changelog oficial de 28/07/2026 esclarece que GLM-4.7-Flash **permanece disponível no Workers Free plan**, que inclui uma alocação diária gratuita de Neurons. Portanto, não é correto afirmar que o modelo exige necessariamente o plano pago. Entretanto, existe preço unitário publicado e o uso além da alocação gratuita é faturável. Disponibilidade no Free não significa inferência ilimitada sem custo; plano da conta, saldo diário de Neurons e consumo faturável precisam ser verificados.
 
-A implementação no repositório agora exige decisão Ed25519 v2/v3 com teto explícito em USD micros, `AI_COST_AUTHORIZED=true` e `MAX_EXECUTION_COST_USD_MICROS` configurado. Os valores permanecem false/zero por padrão. O cálculo prévio é uma estimativa conservadora, não uma garantia de fatura. Nenhuma inferência foi executada.
+O código mantém uma postura deliberadamente conservadora: estima todas as chamadas pelo preço unitário, exige decisão Ed25519 com orçamento positivo em USD micros, `AI_COST_AUTHORIZED=true` e `MAX_EXECUTION_COST_USD_MICROS` configurado. Mesmo que a conta ainda tenha Neurons gratuitos, o gate atual não oferece modo de quota gratuita com orçamento zero. Uma futura modalidade limitada exclusivamente à quota Free exigiria política específica, observabilidade de saldo e revisão independente. Os valores permanecem false/zero por padrão; nenhuma inferência foi executada.
 
 Fontes oficiais:
-- Modelo e preço: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/
+- Modelo, contexto, function calling e preço: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/
+- Disponibilidade de GLM-4.7-Flash no Workers Free plan: https://developers.cloudflare.com/changelog/post/2026-07-28-models-require-workers-paid/
 - Function calling: https://developers.cloudflare.com/workers-ai/features/function-calling/
 - Preços Workers AI: https://developers.cloudflare.com/workers-ai/platform/pricing/
 
