@@ -1,11 +1,11 @@
 ---
 tipo: template
 id: GT-HANDOFF-001
-versao: 0.2.1
+versao: 0.2.2
 status: proposta
 missao: GT-GOV-CHANGE-001
 ---
-# GT-HANDOFF-001 — Modelo de despacho e retorno (PROPOSTA v0.2.1)
+# GT-HANDOFF-001 — Modelo de transferência e retorno (PROPOSTA v0.2.2)
 
 > Não homologado, não concede permissão, não cria acionamento e não autoriza merge. `tipo: template` diferencia este artefato do `tipo: processo` com o mesmo ID. [Processo proposto](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) · [REV-02](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
@@ -13,14 +13,14 @@ missao: GT-GOV-CHANGE-001
 
 ## Adaptação proposta #86 — handoff direto e evidência reutilizável
 
-**Pendente de homologação:** o remetente especialista poderá apontar como destino diretamente outro especialista competente, se a missão, o contrato, a autorização e o acesso efetivo permitirem; não declarar 'destino confirmado pelo Orquestrador' quando não ocorreu. Identificar **rota direta autorizada** ou **rota com ORQ por exceção**, com fundamento/link. ORQ mantém visão consolidada na issue, sem retransmissão obrigatória.
+**Diretriz de fluxo:** o remetente identifica diretamente o especialista competente conforme missão, contrato, autorização e acesso efetivo. Não existe confirmação por Orquestrador Central. O Scrum Master só é envolvido por exceção diante de impedimento, atraso, falha, conflito ou ping-pong; não recebe ciência rotineira nem mantém visão/ownership global.
 
 **Antes de pedir dados novamente**, referenciar evidência da própria issue (link, tipo: relato/captura/API/teste, data, alcance, validade e gatilho de rechecagem). Se insuficiente, declarar apenas o campo faltante, motivo e ato específico bloqueado, deixando outras etapas avançarem. Não equiparar budget US$0 a custo futuro garantido. Acionamento, entrega, aceite e execução exigem provas independentes mesmo em handoff direto.
 
 ## 1. Identidade e owners
 - **mission_id:** [ID]; **handoff_id:** [ID único]; **event_id:** [ID do evento]; **version:** [versão deste evento/handoff].
 - **Instante ISO8601/fuso:** [AAAA-MM-DDTHH:MM:SS-03:00]; **origem/ator:** [identidade real]; **tipo:** [execução/QA/etc.]; **prioridade:** [valor].
-- **Rota:** [horizontal autorizada / ORQ por exceção]; **destino definido pelo remetente:** [papel, competência e fundamento]; **confirmação pelo ORQ:** [N/A em rota horizontal / intervenção comprovada].
+- **Rota:** [horizontal autorizada / exceção operacional ao Scrum Master]; **destino definido pelo remetente:** [papel, competência e fundamento]; **intervenção do Scrum Master:** [N/A ou ocorrência comprovada].
 - **Responsável atual:** [identidade e função]; **próximo responsável:** [identidade/função ou PENDENTE]; **owner de bloqueio/fila:** [identidade ou N/A com motivo].
 - **Estado da missão:** [estado]; **estado da etapa:** [estado]; **transição anterior → seguinte:** [estados ou PENDENTE].
 - **Issue canônica:** [URL]; **PR/commit/artefato/versão-base:** [links/SHA ou N/A justificado].
@@ -58,23 +58,23 @@ missao: GT-GOV-CHANGE-001
 
 ## 5. WIP, transferência e destino seguinte
 - **WIP do executor:** [ativo / candidato à liberação / liberado, com evidência].
-- **Critério de liberação:** evidências completas + entrega e ACEITO expressos do próximo agente, ou assunção excepcional de fila pelo ORQ sem aceite fictício + nenhum retrabalho ativo; [provas].
+- **Critério de liberação:** evidências completas + entrega comprovada e ACEITO expresso do próximo especialista + nenhum retrabalho ativo; [provas]. Não há assunção de fila pelo Scrum Master nem aceite presumido.
 - **Atenção:** fila assumida não implica aceite do próximo especialista; regra GT-WIP-001 ainda é proposta.
 - **Próximo responsável e ação inequívoca:** [papel, entrega, critério de aceite].
 - **Destino alternativo:** [identidade habilitada e condição, ou BLOQUEADO].
-- **Ciência rastreável do ORQ:** [parecer/evento na issue; notificação, leitura e incorporação somente quando comprovadas]; sem retransmissão obrigatória por rotina.
-- **Ação solicitada à Direção:** [somente transporte manual / decisão especificada / N/A].
+- **Atuação do Scrum Master:** [N/A ou exceção, evidência, tentativas e resultado].
+- **Ação solicitada à Direção:** [decisão reservada especificada / N/A].
 - **Condição para avançar:** [evidência futura]; **condição para encerrar missão:** [todas as etapas e autorizações demonstradas].
 
 ## 6. Checklist de saída
 - [ ] Identidade de evento/handoff, versão, instante, owners, estados e links reais completos.
-- [ ] Rota direta autorizada ou exceção fundamentada; entrega e ACEITO comprovados ou PENDENTE, sem confirmação fictícia pelo ORQ.
+- [ ] Rota horizontal autorizada; entrega e ACEITO comprovados ou PENDENTE, sem confirmação fictícia por agente central.
 - [ ] DoR/DoD e cada autorização por ação conferidos; sem permissão inferida.
 - [ ] Resultados, comandos/exit codes e verificações não realizadas declarados.
 - [ ] QA, Validação, Auditoria e Revisão Independente tratados distintamente; conflito/substituto e dispensa registrados.
 - [ ] WIP e bloqueios com donos; etapa não confundida com missão encerrada.
 - [ ] **Mensagem final integral, endereçada, preenchida e copiável**, sem placeholders ou links isolados, incluída.
-- [ ] Parecer relevante disponível ao ORQ na issue; prestação de contas exclusiva ao ORQ somente quando não houver destinatário operacional seguinte.
+- [ ] Parecer relevante registrado na issue canônica para os responsáveis e verificadores pertinentes; sem destinatário central obrigatório.
 
 ## 7. GT-HANDOFF-001 — Mensagem final integral pronta para copiar (OBRIGATÓRIA)
 
@@ -86,7 +86,7 @@ missao: GT-GOV-CHANGE-001
 **AÇÃO:** [EXECUTAR OU ACEITAR/DEVOLVER ESTA SOLICITAÇÃO]
 **Missão:** [mission_id] | **Handoff:** [handoff_id] | **Evento/versão:** [event_id / version]
 **Origem:** [ator] | **Data/hora/fuso:** [timestamp]
-**Rota:** [direta autorizada / ORQ por exceção] | **Destino:** [especialista e competência]
+**Rota:** [horizontal autorizada / exceção operacional ao Scrum Master] | **Destino:** [especialista e competência]
 **Responsável atual/próximo:** [donos] | **Prioridade:** [prioridade]
 **Missão:** [estado] | **Etapa:** [estado e transição]
 **Preparado/registrado/acionado/recebido/aceito:** [cinco estados distintos, evidências ou PENDENTE]
@@ -104,7 +104,7 @@ missao: GT-GOV-CHANGE-001
 **Aceite requerido:** responder ACEITO ou DEVOLVIDO com motivo e evidência. Não presumir acionamento nem aceite.
 ```
 
-**Regra horizontal:** remetente e destinatário seguem diretamente conforme autoridade vigente; ORQ acompanha pareceres pela issue e intervém por exceção. Novo despacho do ORQ é exigido apenas quando ele assume efetivamente o encaminhamento. **Exceção justificada:** quando não houver próxima especialidade, a mensagem integral pode limitar-se à prestação de contas/endereço Orquestrador, explicitando por que não há despacho operacional seguinte. Na fase manual, Direção só transporta o texto, não redige nem escolhe destino.
+**Regra horizontal:** remetente e destinatário seguem diretamente conforme autoridade vigente. O Scrum Master intervém somente por exceção e não é destinatário obrigatório de registros, despachos ou prestações de contas. Quando não houver próximo especialista, o responsável pela missão registra o resultado ao owner/autoridade da missão. A Direção delibera atos reservados; não transporta nem escolhe rotas ordinárias.
 
 **Referências:** [[03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001]] · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55).
 
@@ -122,4 +122,4 @@ Para rotas simples já autorizadas, preferir **uma mensagem única**, sem preenc
 **Risco/gate:** [bloqueio material ou nenhum identificado]
 ```
 
-A ciência do Orquestrador ocorre pelo registro canônico; não requer novo despacho. Ação ordinária já coberta não exige reaprovação. Revisões independentes e operações protegidas mantêm seus gates.
+Os registros canônicos ficam disponíveis aos responsáveis e verificadores pertinentes; não há ciência ou despacho central obrigatório. Ação ordinária já coberta não exige reaprovação. Revisões independentes e operações protegidas mantêm seus gates.
