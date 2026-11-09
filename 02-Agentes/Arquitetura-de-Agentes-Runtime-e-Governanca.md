@@ -229,7 +229,7 @@ Referências: [Issue #47](https://github.com/gentests-ai/gentests-os/issues/47) 
 
 **Status final:** proposta de arquitetura para auditoria. Não representa implementação concluída nem autorização operacional.
 
-## 13. Diretrizes iniciais do MVP e identificadores provisórios
+## 13. Diretrizes iniciais do MVP
 
 Decisões registradas pela Direção em 2026-11-08. Não alteram o status geral deste documento nem comprovam implementação.
 
@@ -244,11 +244,3 @@ Decisões registradas pela Direção em 2026-11-08. Não alteram o status geral 
 - Se a necessidade surgir, introduzir a interface com a menor complexidade possível, sem reconstruir o motor.
 
 **Princípio:** não criar uma camada, serviço ou dependência apenas por convenção. A solução mais simples que atenda aos requisitos de segurança, desempenho, escala e manutenção é a preferida.
-
-### Identificadores provisórios
-
-- **Projeto Skynet:** codinome interno provisório da plataforma/produto.
-- **Nuclia:** codinome interno provisório do motor de execução.
-
-Os dois nomes são identificadores de trabalho, não marcas aprovadas nem declarações de disponibilidade jurídica. Não utilizar em divulgação, comercialização, registro de marca, domínio ou identidade visual definitiva. A escolha dos nomes comerciais deverá ocorrer após pesquisa de anterioridade, disponibilidade de domínio e avaliação de risco de confusão. Substituir os codinomes na documentação e nos artefatos pertinentes quando a marca definitiva for aprovada.
-
