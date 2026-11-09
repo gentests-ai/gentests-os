@@ -13,13 +13,19 @@ This implementation is deliberately inert until separately provisioned and autho
 
 ## Offline authorization signer
 
-The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG decision with an already-existing Ed25519 PEM key. It never generates, writes, exports or uploads private keys. The caller prepares a local JSON input with task, context, commit_sha, contract_blob_sha, nonce, decision_id, issuer_key_id and issuer_human_id (max_tokens is optional), then runs:
+The new scripts/gt47_sign_worker_decision.py helper signs exactly one AGT-ENG decision with an already-existing Ed25519 PEM key. It never generates, writes, exports or uploads private keys. The caller prepares a local JSON input with task, context, commit_sha, contract_blob_sha, nonce, decision_id, issuer_key_id, issuer_human_id and max_incremental_cost_usd_micros (max_tokens is optional), then runs:
 
 ```sh
 python -m scripts.gt47_sign_worker_decision --input decision-input.json --private-key /offline/path/authority-ed25519.pem --output signed-worker-request.json
 ```
 
-The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody.
+The output file is created exclusively with restrictive permissions; it is not committed or sent anywhere by the script. It contains the task/context and signed decision, so protect and delete it according to the data classification. The private key stays in its existing offline custody. The signer requires an explicit positive max_incremental_cost_usd_micros value; there is no default budget.
+
+## Paid inference cost gate
+
+Cloudflare currently lists GLM-4.7-Flash at **$0.0605 per million input tokens** and **$0.40 per million output tokens** (official model page: https://developers.cloudflare.com/workers-ai/models/glm-4.7-flash/). This is a paid model; no free-tier assumption is made. Prices and account entitlements can change.
+
+Before inference, the Worker estimates an upper bound from UTF-8 prompt bytes (plus fixed framing overhead) and max completion tokens, using the published per-token rates. The signed decision must carry a positive max_incremental_cost_usd_micros, and it must be within the separately configured MAX_EXECUTION_COST_USD_MICROS ceiling with AI_COST_AUTHORIZED=true. These settings are false/zero by default. The estimate is a preflight guard, not an invoice guarantee; account quotas, billing, model price and actual usage still require operator verification. No inference can run with the defaults in this repository.
 
 ## Routes
 
@@ -35,7 +41,7 @@ The caller-side T08 reservation/fence still requires an authorized GitHub Conten
 The historical claim hash intentionally preserves the pre-transfer repository identity gentestsai-sudo/gentests-os from T06. Do not change that namespace without a reviewed migration, or existing claims could be bypassed. Effective protection against deletion/repointing of these Git refs remains unverified; no protection is assumed.
 
 
-Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), and GITHUB_READ_TOKEN (read-only for this private repo).
+Durable Object LEDGER, Workers AI AI, OIDC_AUDIENCE, EXPECTED_WORKFLOW_REF, ALLOWED_WORKFLOW_SHAS, EXPECTED_ACTOR_ID, AUTHORIZED_ISSUER_ID, AUTHORITY_KEY_ID, AUTHORITY_PUBLIC_KEY_B64 (raw Ed25519 public key), RECEIPT_PRIVATE_KEY_PKCS8_B64 (PKCS#8 private key), GITHUB_READ_TOKEN (read-only for this private repo), AI_COST_AUTHORIZED, and MAX_EXECUTION_COST_USD_MICROS.
 
 AI_ENABLED remains false and KILL_SWITCH remains on until separate activation authorization, account/quota/cost verification, and QA of a deployed sandbox. Do not put private keys, tokens, endpoints or Cloudflare API credentials in source or issue text.
 

@@ -60,6 +60,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
                  contract_blob_sha: str, nonce: str, decision_id: str,
                  issuer_key_id: str, issuer_human_id: str,
                  private_key_pem: bytes, max_tokens: int = 1024,
+                 max_incremental_cost_usd_micros: int | None = None,
                  now: int | None = None) -> dict:
     import time
 
@@ -76,6 +77,9 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
         raise ValueError("issuer identity and key ID are required")
     if type(max_tokens) is not int or not 1 <= max_tokens <= 1024:
         raise ValueError("max_tokens outside approved bound")
+    if (type(max_incremental_cost_usd_micros) is not int
+            or max_incremental_cost_usd_micros < 1):
+        raise ValueError("an explicit positive USD-micros budget is required")
 
     current = int(time.time()) if now is None else now
     if type(current) is not int:
@@ -90,7 +94,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
         "agent_id": AGENT, "commit_sha": commit_sha,
     })).hexdigest()
     decision = {
-        "version": 1, "decision_id": decision_id,
+        "version": 2, "decision_id": decision_id,
         "issuer_key_id": issuer_key_id, "issuer_human_id": issuer_human_id,
         "repository_id": REPO_ID, "issue": ISSUE, "mission": MISSION,
         "agent_id": AGENT, "commit_sha": commit_sha,
@@ -98,7 +102,7 @@ def sign_request(*, task: str, context: dict, commit_sha: str,
         "dispatch_id": dispatch_id, "claim_ref": claim_ref,
         "scope": "gt47:execute:AGT-ENG", "not_before": current,
         "expires_at": current + 600, "nonce": nonce, "max_calls": 1,
-        "max_tokens": max_tokens, "max_incremental_cost_brl": 0,
+        "max_tokens": max_tokens, "max_incremental_cost_usd_micros": max_incremental_cost_usd_micros,
         "no_paid_fallback": True,
     }
     key = serialization.load_pem_private_key(private_key_pem, password=None)
@@ -128,6 +132,7 @@ def main() -> int:
             issuer_key_id=source["issuer_key_id"],
             issuer_human_id=source["issuer_human_id"],
             private_key_pem=key, max_tokens=source.get("max_tokens", 1024),
+            max_incremental_cost_usd_micros=source["max_incremental_cost_usd_micros"],
         )
         target = Path(args.output)
         fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)

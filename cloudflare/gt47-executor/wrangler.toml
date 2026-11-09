@@ -16,4 +16,6 @@ new_sqlite_classes = ["GT47Ledger"]
 
 [vars]
 AI_ENABLED = "false"
+AI_COST_AUTHORIZED = "false"
+MAX_EXECUTION_COST_USD_MICROS = "0"
 KILL_SWITCH = "on"
