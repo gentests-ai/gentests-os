@@ -39,8 +39,8 @@ _WORKER_TOOLS = frozenset((
     "get_check_status", "write_file", "open_pull_request",
 ))
 _WRITE_TOOLS = frozenset(("write_file", "open_pull_request"))
-_SHA40 = re.compile(r"[0-9a-f]{40}\\Z")
-_WORKER_SIGNATURE = re.compile(r"[A-Za-z0-9_-]{86}\\Z")
+_SHA40 = re.compile(r"[0-9a-f]{40}\Z")
+_WORKER_SIGNATURE = re.compile(r"[A-Za-z0-9_-]{86}\Z")
 
 
 
