@@ -167,8 +167,8 @@ def main() -> int:
             private_key_pem=key, max_tokens=source.get("max_tokens", 1024),
             max_incremental_cost_usd_micros=source["max_incremental_cost_usd_micros"],
             allowed_tools=source["allowed_tools"],
-            max_model_calls=source.get("max_model_calls", 1),
-            max_tool_calls=source.get("max_tool_calls", 0),
+            max_model_calls=source.get("max_model_calls", 2),
+            max_tool_calls=source.get("max_tool_calls", 1),
         )
         target = Path(args.output)
         fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
