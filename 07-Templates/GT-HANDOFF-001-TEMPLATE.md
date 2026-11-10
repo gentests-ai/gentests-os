@@ -87,7 +87,7 @@ missao: GT-GOV-CHANGE-001
 
 ### 7.1 Modelo integral
 
-\`\`\`markdown
+```markdown
 HANDOFF — [MISSÃO / TAREFA]
 
 [Natureza: CONCLUSÃO | BLOCKED | INTERROMPIDA | CANCELADA | TRANSFERÊNCIA]
@@ -147,7 +147,7 @@ REGISTRO: [LINK DO REGISTRO CANÔNICO OU PENDENTE — MOTIVO]
 PRÓXIMA AÇÃO FORMAL: [AÇÃO E RESPONSÁVEL]
 
 Fim do handoff — [AGENTE DE ORIGEM].
-\`\`\`
+```
 
 ### 7.2 Regra de aceite
 
@@ -155,7 +155,7 @@ O destinatário só responde ACEITO ou DEVOLVIDO quando houver transferência re
 
 ## Modelo enxuto de transferência operacional — proposta #53
 
-Para rotas simples já autorizadas, preferir **uma mensagem única**, sem preencher todos os campos do modelo extensivo. O formato abaixo substitui a obrigatoriedade operacional de reproduzir o formulário completo; utilizar campos adicionais apenas por risco ou gate aplicável. Até homologação, esta é proposta de simplificação, não dispensa de controle vigente.
+Para rotas simples já autorizadas, a mensagem abaixo pode ser usada como aviso de transporte ou resumo de encaminhamento. **Ela não substitui o registro final integral obrigatório da seção 7**, inclusive quando a tarefa termina em transferência. Campos do modelo integral não aplicáveis recebem N/A justificado; não se dispensa a rastreabilidade. Até homologação, esta é proposta documental, não cria canal de transporte ou permissão.
 
 ```markdown
 **Destino:** [agente competente] | **Missão:** [issue canônica]
