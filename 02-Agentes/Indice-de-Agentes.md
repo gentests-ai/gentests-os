@@ -43,6 +43,14 @@ Aplicar a seção “executar e verificar antes de transferir” do GT-EXEC-001.
 
 Aplicar [GT-EXEC-001 — Bloqueio localizado, continuidade global](../docs/GT-EXEC-001-Continuidade-Execucao.md#bloqueio-localizado-continuidade-global): revisão ou autorização pendente impede apenas a ação dependente. Após registrar dono, evidência e condição de desbloqueio, prosseguir nas demais atividades independentes autorizadas. Não confundir gate legítimo de merge com paralisação de toda a missão nem reabrir PR integrada sem razão material.
 
+## Regra global de registro final de tarefa — proposta
+
+Todo agente catalogado neste índice e qualquer agente futuro deve emitir, ao encerrar uma tarefa delimitada, um HANDOFF integral no modelo GT-HANDOFF-001, mesmo quando não houver transferência para outro agente. Aplicar aos estados CONCLUÍDA, BLOCKED, INTERROMPIDA, CANCELADA e TRANSFERIDA. O relatório deve registrar trabalho real, artefatos/arquivos/contratos/commits/PRs afetados, verificações e evidências, itens não executados, riscos, estado final e próxima ação/responsável.
+
+A obrigação é de encerramento de tarefa, não de checkpoint: não gerar um HANDOFF completo a cada commit, teste ou ação intermediária enquanto a mesma tarefa continua. Relatório de conclusão sem transferência não altera ownership e não exige aceite fictício; transferência real continua sujeita a transporte comprovado e aceite explícito. Conclusão da tarefa não equivale a aprovação, merge, deploy ou encerramento da missão.
+
+Fonte e modelo: [GT-HANDOFF-001 — Processo](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) e [Template](../07-Templates/GT-HANDOFF-001-TEMPLATE.md). O estado desses documentos permanece proposta até homologação; esta referência não cria permissão, autonomia, canal de transporte ou implementação no runtime.
+
 ## Interfaces e regras comuns
 
 **Execução eficiente:** aplicar também a seção [GT-EXEC-001 — Execução eficiente da demanda](../docs/GT-EXEC-001-Continuidade-Execucao.md#execucao-eficiente-da-demanda--diretriz-registrada-em-12102026), mantendo handoffs horizontais, revisão final por QA/Revisor distinto conforme a diretriz e finalização automática condicionada a critérios/evidências. Isso não cria passagem pelos 14 papéis nem autoriza atos reservados.
