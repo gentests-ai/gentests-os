@@ -1,11 +1,11 @@
 ---
 tipo: template
 id: GT-HANDOFF-001
-versao: 0.2.2
+versao: 0.3.0
 status: proposta
 missao: GT-GOV-CHANGE-001
 ---
-# GT-HANDOFF-001 — Modelo de transferência e retorno (PROPOSTA v0.2.2)
+# GT-HANDOFF-001 — Modelo obrigatório de conclusão de tarefa e transferência (PROPOSTA v0.3.0)
 
 > Não homologado, não concede permissão, não cria acionamento e não autoriza merge. `tipo: template` diferencia este artefato do `tipo: processo` com o mesmo ID. [Processo proposto](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55) · [REV-02](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
@@ -76,41 +76,86 @@ missao: GT-GOV-CHANGE-001
 - [ ] **Mensagem final integral, endereçada, preenchida e copiável**, sem placeholders ou links isolados, incluída.
 - [ ] Parecer relevante registrado na issue canônica para os responsáveis e verificadores pertinentes; sem destinatário central obrigatório.
 
-## 7. GT-HANDOFF-001 — Mensagem final integral pronta para copiar (OBRIGATÓRIA)
+## 7. Registro final obrigatório — mensagem integral pronta para copiar
 
-**Na emissão efetiva, substituir todo o bloco abaixo por dados verdadeiros e uma mensagem única, sem colchetes de preenchimento.** Na conversa, preferir bloco de escrita copiável ou um único bloco de código Markdown; em GitHub/Obsidian publicar o texto integral selecionável. Um resumo, tabela ou link **não** satisfaz o DoD. O remetente não atribui ACEITO nem entrega a terceiro sem prova.
+**Obrigatório para qualquer agente, dos 14 papéis catalogados ou futuro, ao concluir, bloquear, interromper, cancelar ou transferir uma tarefa delimitada.** O relatório de conclusão não implica mudança de ownership. Não emitir a cada checkpoint ou passo interno enquanto a tarefa continua em execução.
+
+- Em CONCLUSÃO/BLOCKED/INTERROMPIDA/CANCELADA, preencher o modelo e indicar destinatário como responsável pela missão/owner da issue; aceite de transferência = N/A — sem transferência de ownership.
+- Em TRANSFERÊNCIA, identificar o próximo agente competente e manter as exigências de transporte comprovado e aceite explícito ACEITO/DEVOLVIDO.
+- Separar estado da tarefa, estado da etapa e estado da missão. Concluir uma tarefa não significa concluir a missão, aprovar qualidade, autorizar merge ou efetuar deploy.
+- Substituir todos os campos por dados reais. Campos não aplicáveis devem conter N/A e justificativa. Não deixar colchetes, inventar evidências ou declarar testes não executados como aprovados.
+
+### 7.1 Modelo integral
 
 ```markdown
-# GT-HANDOFF-001 — MENSAGEM PRONTA PARA ENCAMINHAR
-**DESTINO:** [AGENTE DESTINATÁRIO CONFIRMADO]
-**AÇÃO:** [EXECUTAR OU ACEITAR/DEVOLVER ESTA SOLICITAÇÃO]
-**Missão:** [mission_id] | **Handoff:** [handoff_id] | **Evento/versão:** [event_id / version]
-**Origem:** [ator] | **Data/hora/fuso:** [timestamp]
-**Rota:** [horizontal autorizada / exceção operacional ao Scrum Master] | **Destino:** [especialista e competência]
-**Responsável atual/próximo:** [donos] | **Prioridade:** [prioridade]
-**Missão:** [estado] | **Etapa:** [estado e transição]
-**Preparado/registrado/acionado/recebido/aceito:** [cinco estados distintos, evidências ou PENDENTE]
-**Issue, PR, commit e fontes:** [referências reais]
-## Objetivo e DoR
-[resultado específico, insumos conferidos, lacunas e dependências]
-## Escopo e autoridade
-[atos permitidos e prova de cada autorização; ações vedadas; POL-003/#53 se relevante]
-## Entregáveis, execução e verificações
-[resultados reais ou PENDENTE; testes feitos com resultado/exit code e não feitos com motivo; QA, validação, auditoria e revisão independentes e dispensas]
-## Riscos, ownership e WIP
-[bloqueios/donos/ação, conflitos/substituições, transferência e condição de liberar WIP]
-## DoD e próximo passo
-[condição observável de conclusão, próxima ação, responsável, alternativa, retorno, decisões reservadas e condição real para encerrar a missão]
-**Aceite requerido:** responder ACEITO ou DEVOLVIDO com motivo e evidência. Não presumir acionamento nem aceite.
+HANDOFF — [MISSÃO / TAREFA]
+
+[Natureza: CONCLUSÃO | BLOCKED | INTERROMPIDA | CANCELADA | TRANSFERÊNCIA]
+
+Origem: [AGENTE / ID]
+Destinatário: [PRÓXIMO AGENTE OU OWNER DA MISSÃO]
+Ciência: [PAPÉIS PERTINENTES OU N/A]
+Projeto: [IDENTIFICADOR]
+Repositório: [OWNER/REPO OU N/A]
+Issue: [NÚMERO/LINK OU N/A]
+PR: [NÚMERO/TÍTULO OU N/A]
+Commit de referência: [SHA OU N/A]
+Entregável: [ARTEFATO/VERSÃO]
+Prioridade: [VALOR]
+Estado da tarefa: [CONCLUÍDA / BLOCKED / INTERROMPIDA / CANCELADA]
+Estado da missão: [ESTADO REAL, SEM INFERIR ENCERRAMENTO]
+
+⸻
+
+1. CONTEXTO E OBJETIVO
+
+[Objetivo, escopo, critérios de aceite e contexto necessário.]
+
+2. TRABALHO EXECUTADO
+
+[O que foi efetivamente realizado, decisões tomadas e resultado observado.]
+
+3. ARTEFATOS E ALTERAÇÕES
+
+[Arquivos, contratos, schemas, configurações, documentos, código, links, commits e PRs afetados. Declarar expressamente quando nada foi alterado.]
+
+4. VALIDAÇÃO E EVIDÊNCIAS
+
+[Testes/verificações realizados, ambiente/versão/commit, resultado e links de evidência. Informar testes não realizados e motivo.]
+
+5. PENDÊNCIAS, LIMITES E RISCOS
+
+[O que ficou pendente, riscos residuais, dependências, restrições e responsável por cada item.]
+
+6. ESTADO FINAL
+
+[Estado da tarefa e da etapa. Diferenciar entrega produzida, validação, aprovação, integração e encerramento da missão.]
+
+7. PRÓXIMA AÇÃO
+
+Responsável: [AGENTE/OWNER OU N/A]
+Ação: [PRÓXIMA AÇÃO CONCRETA OU N/A]
+Condição para avançar: [CRITÉRIO/EVIDÊNCIA]
+Condição para encerrar a missão: [CRITÉRIOS/GATES PENDENTES]
+
+8. TRANSFERÊNCIA E ACEITE
+
+[Se houver transferência: destinatário, canal, prova de entrega e estado ACEITO/DEVOLVIDO/AGUARDANDO.
+Se não houver: N/A — não houve transferência de ownership; o responsável permanece [IDENTIDADE].]
+
+REGISTRO: [LINK DO REGISTRO CANÔNICO OU PENDENTE — MOTIVO]
+PRÓXIMA AÇÃO FORMAL: [AÇÃO E RESPONSÁVEL]
+
+Fim do handoff — [AGENTE DE ORIGEM].
 ```
 
-**Regra horizontal:** remetente e destinatário seguem diretamente conforme autoridade vigente. O Scrum Master intervém somente por exceção e não é destinatário obrigatório de registros, despachos ou prestações de contas. Quando não houver próximo especialista, o responsável pela missão registra o resultado ao owner/autoridade da missão. A Direção delibera atos reservados; não transporta nem escolhe rotas ordinárias.
+### 7.2 Regra de aceite
 
-**Referências:** [[03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001]] · [issue #55](https://github.com/gentestsai-sudo/gentests-os/issues/55).
+O destinatário só responde ACEITO ou DEVOLVIDO quando houver transferência real. No relatório de conclusão sem transferência, não se exige aceite fictício; o registro é dirigido ao owner da missão e preserva o estado real. Silêncio nunca é aceite.
 
 ## Modelo enxuto de transferência operacional — proposta #53
 
-Para rotas simples já autorizadas, preferir **uma mensagem única**, sem preencher todos os campos do modelo extensivo. O formato abaixo substitui a obrigatoriedade operacional de reproduzir o formulário completo; utilizar campos adicionais apenas por risco ou gate aplicável. Até homologação, esta é proposta de simplificação, não dispensa de controle vigente.
+Para rotas simples já autorizadas, a mensagem abaixo pode ser usada como aviso de transporte ou resumo de encaminhamento. **Ela não substitui o registro final integral obrigatório da seção 7**, inclusive quando a tarefa termina em transferência. Campos do modelo integral não aplicáveis recebem N/A justificado; não se dispensa a rastreabilidade. Até homologação, esta é proposta documental, não cria canal de transporte ou permissão.
 
 ```markdown
 **Destino:** [agente competente] | **Missão:** [issue canônica]

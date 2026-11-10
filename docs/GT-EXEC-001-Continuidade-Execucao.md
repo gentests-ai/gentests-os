@@ -12,11 +12,13 @@
 
 - Após cada commit, teste, correção ou registro, verificar a próxima ação **já autorizada** e prosseguir na mesma execução sempre que possível.
 - Registrar checkpoints e evidências no GitHub sem transformar cada registro em uma solicitação de "siga" no chat.
-- Relatar no encerramento da execução apenas o resultado acumulado, o impedimento real (caso exista), a evidência e o próximo responsável.
+- No encerramento de cada tarefa delimitada, emitir o HANDOFF integral do GT-HANDOFF-001 v0.3.0: resultado real, artefatos/arquivos/contratos/commits/PRs afetados, testes feitos e não feitos, evidências, riscos, estado e próxima ação. Aplicar também a BLOCKED/interrompida/cancelada. Não emitir a cada checkpoint enquanto a tarefa continua; sem transferência, registrar aceite como N/A e manter o ownership atual.
 - Se a próxima atividade exigir outra identidade revisora, permissão, aprovação humana ou canal entre agentes indisponível, registrar o gate verdadeiro e **não simular** execução, aceite nem independência.
 - A continuidade só se aplica enquanto ferramentas, tempo de execução e limites operacionais permitirem. Ao encerrar uma resposta, o chat não continua autonomamente por esta regra.
 
 ## Princípio transversal — executar e verificar antes de transferir
+
+**Encerramento obrigatório:** ao terminar uma tarefa delimitada, qualquer agente deve emitir o registro integral de conclusão/transferência do GT-HANDOFF-001. O registro é obrigatório mesmo sem troca de agente; não cria checkpoint intermediário nem exige aceite quando não há transferência.
 
 **Enquanto houver trabalho útil, permitido e tecnicamente executável dentro do escopo, o agente deve atuar.** O nome do papel não limita tarefas auxiliares necessárias à qualidade da própria entrega. Transferência de responsabilidade deve ocorrer quando houver competência, independência, permissão ou gate específico que não possa ser satisfeito pelo executor.
 

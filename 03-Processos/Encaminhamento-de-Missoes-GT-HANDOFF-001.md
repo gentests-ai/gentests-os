@@ -1,13 +1,13 @@
 ---
 tipo: processo
 id: GT-HANDOFF-001
-versao: 0.2.2
+versao: 0.3.0
 status: proposta
 responsavel: Governança
 missao: GT-GOV-CHANGE-001
 issue: https://github.com/gentestsai-sudo/gentests-os/issues/55
 ---
-# GT-HANDOFF-001 — Encaminhamento de missões (PROPOSTA v0.2.2)
+# GT-HANDOFF-001 — Encaminhamento de missões e registro final de tarefas (PROPOSTA v0.3.0)
 
 > **Não homologado.** Este desenho não concede acessos, não altera POL-003, contratos ou hierarquia, não autoriza merge, publicação, piloto, GT-WIP-001, Agile Coach ou automação #47. Base: [Governança v0.2.0](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111790899) e [REV-GOV-CHANGE-002](https://github.com/gentestsai-sudo/gentests-os/issues/55#issuecomment-6111890108).
 
@@ -111,13 +111,58 @@ Inventariar, antes da edição: arquivos e IDs canônicos, PRs abertos, versões
 
 **Regra operacional proposta de simplificação (#53/#86):** registrar uma vez na issue canônica o resultado, evidência, responsável, próxima ação, risco e autorização já aplicável. Para continuidade dentro da mesma especialidade, não criar handoff, evento ou pedido de aprovação adicional. Na transferência horizontal, o remetente encaminha diretamente ao destinatário competente; não há ciência ou aprovação central obrigatória.
 
-**Transporte proporcional:** com canal conectado e autorizado, utilizar payload estruturado e prova de entrega/ACEITO. Sem canal conectado, disponibilizar **uma única mensagem copiável suficiente para executar**, contendo destino, objetivo, escopo, fonte de autoridade existente, links de evidências, próximo passo e condição de aceite. O template extenso é opcional para casos simples; campos adicionais são exigidos somente quando o risco/gate material os demandar. Nunca presumir entrega ou aceite por comentário no GitHub.
+**Transporte proporcional:** com canal conectado e autorizado, utilizar payload estruturado e prova de entrega/ACEITO. Sem canal conectado, disponibilizar **uma única mensagem copiável suficiente para executar**, contendo destino, objetivo, escopo, fonte de autoridade existente, links de evidências, próximo passo e condição de aceite. Para todo encerramento de tarefa, o registro integral da seção 8 e do template é obrigatório; uma mensagem curta pode servir apenas como aviso/transporte complementar, nunca como substituta do relatório. Campos não aplicáveis recebem N/A justificado; a proporcionalidade não elimina a entrega integral. Nunca presumir entrega ou aceite por comentário no GitHub.
 
 **Reuso de autorização:** consultar decisão válida para o objeto e escopo; não pedir novamente aprovação de atividade ordinária já coberta. Atos protegidos continuam sujeitos à autorização expressa aplicável e permissão técnica efetiva. Bloquear somente o ato sem autoridade e avançar trabalho independente autorizado.
 
 **DoD proporcional:** resultado verificável, testes realizados/não realizados relevantes, risco residual, próximo dono e próximo passo. QA e revisão independente permanecem separados quando obrigatórios. Evitar reproduzir a mesma evidência em múltiplos documentos ou devoluções sem alteração material. Pareceres ficam registrados na issue canônica para os responsáveis e verificadores pertinentes; visibilidade não significa aceite do destinatário.
 
-## 8. Piloto e indicadores — apenas planejamento
+## 8. Registro final obrigatório de tarefa — proposta focal da Direção
+
+**Regra transversal proposta:** todo agente, sem exceção, deve emitir um registro final estruturado no padrão GT-HANDOFF-001 ao atingir o limite terminal de uma tarefa sob sua responsabilidade. Aplica-se aos 14 papéis catalogados e a qualquer agente futuro, independentemente de especialidade, ferramenta, canal ou existência de outro agente destinatário.
+
+### 8.1 Quando emitir
+
+Emitir o registro quando a tarefa delimitada pelos critérios de aceite da missão terminar em um destes estados:
+- **CONCLUÍDA:** entregável produzido e critérios da tarefa conferidos;
+- **BLOCKED:** impedimento real impede prosseguir;
+- **INTERROMPIDA:** execução foi interrompida antes do resultado;
+- **CANCELADA:** cancelamento decidido por autoridade competente;
+- **TRANSFERIDA:** responsabilidade será efetivamente entregue a outro agente.
+
+Não emitir um HANDOFF completo a cada checkpoint, commit, teste, correção ou subtarefa interna enquanto a mesma tarefa continua em execução. O agente deve continuar o trabalho útil e autorizado, sem criar cerimônia ou troca artificial de agente.
+
+### 8.2 Conclusão não é transferência
+
+O registro de conclusão é obrigatório mesmo quando **não existe mudança de responsável**. Nesse caso:
+- Natureza: CONCLUSÃO (ou BLOCKED/INTERROMPIDA/CANCELADA);
+- destinatário: responsável pela missão/owner da issue ou N/A justificado;
+- próximo responsável: permanece o responsável atual ou é indicado o owner da próxima etapa;
+- aceite de transferência: **N/A — não houve transferência de ownership**.
+
+Quando houver transferência real, aplicam-se adicionalmente as regras existentes de transporte comprovado, aceite explícito ACEITO/DEVOLVIDO e manutenção da responsabilidade do remetente até o aceite. O relatório final não simula entrega, recebimento ou aceite.
+
+### 8.3 Conteúdo mínimo obrigatório
+
+Usar o modelo integral do [template GT-HANDOFF-001](../07-Templates/GT-HANDOFF-001-TEMPLATE.md), preenchido com dados reais e sem placeholders:
+1. Identificação da missão/tarefa, origem, destinatário/owner e ciência pertinente;
+2. objetivo, escopo, critérios de aceite e estado final da tarefa;
+3. resumo objetivo do trabalho executado e do que não foi executado;
+4. arquivos, contratos, schemas, configurações, artefatos, commits, PRs e links afetados — ou declaração explícita de que nada foi alterado;
+5. testes/verificações realizados e não realizados, resultados e evidências;
+6. riscos residuais, pendências, dependências e restrições;
+7. próximo responsável, próxima ação e condição objetiva para continuidade/encerramento;
+8. distinção entre conclusão da tarefa, conclusão da etapa e encerramento da missão.
+
+Campos não aplicáveis devem conter N/A com justificativa. Nunca inventar commit, PR, teste, evidência, destinatário, aceite ou autorização; não incluir segredos, credenciais ou dados sensíveis desnecessários.
+
+### 8.4 Registro e transporte
+
+Quando existir issue/PR canônica e permissão de escrita, registrar o relatório integral nela ou no artefato de evidência previsto pela missão, com referência cruzada ao commit/versão. Se não houver canal autorizado ou acesso efetivo, produzir a mensagem integral pronta para copiar e declarar o registro/transporte como **PENDENTE**. Um comentário GitHub, por si só, não prova que outro chat/agente recebeu a mensagem.
+
+**DoD do registro:** conteúdo completo e verificável; estado real declarado; evidências vinculadas; nenhum placeholder; próximo responsável/ação definido; e, somente para transferência real, aceite explícito comprovado. A emissão do relatório não aprova qualidade, não autoriza merge/deploy/publicação/gasto e não encerra automaticamente a missão.
+
+## 9. Piloto e indicadores — apenas planejamento
 
 Candidato: missão #55, somente após autorização própria. O responsável pela missão e os participantes registram timestamps de acionamento/aceite/execução/verificações/decisão, WIP, idade por estado, bloqueios, devoluções, lead time, throughput e colisões. **Baseline N/D (não apurada)**; piloto não executado. Uma única amostra não comprova melhoria geral. Automação, GT-WIP-001 e Agile Coach seguem não ativados.
 

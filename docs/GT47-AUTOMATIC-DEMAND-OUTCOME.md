@@ -22,6 +22,8 @@ resultado a partir dos pareceres. Novos avanços QA persistem `demand_outcome`.
 A rodada 03 tem QA `needs_changes`: troca concluída, demanda com ajustes
 necessários. Nenhuma aprovação favorável será inventada para fechar o piloto.
 
+O registro final de tarefa definido pelo GT-HANDOFF-001 v0.3.0 é uma obrigação documental transversal para os agentes. No piloto GTS-47, ele não substitui os pareceres de Engenharia/QA, a conferência de commit/agente nem a evidência específica de transferência exigida pelo fluxo. A ausência de registro obrigatório torna a saída documental incompleta; isso não prova, por si só, falha de runtime ou transferência não realizada.
+
 A finalização da demanda não concede permissão de execução técnica, merge,
 deploy, mensagem externa ou gasto. Flags de autorização técnica permanecem
 false. Nenhum retry, reset de claim ou retorno automático foi introduzido.
