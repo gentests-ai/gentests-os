@@ -45,11 +45,13 @@ Aplicar [GT-EXEC-001 — Bloqueio localizado, continuidade global](../docs/GT-EX
 
 ## Regra global de registro final de tarefa — proposta
 
-Todo agente catalogado neste índice e qualquer agente futuro deve emitir, ao encerrar uma tarefa delimitada, um HANDOFF integral no modelo GT-HANDOFF-001, mesmo quando não houver transferência para outro agente. Aplicar aos estados CONCLUÍDA, BLOCKED, INTERROMPIDA, CANCELADA e TRANSFERIDA. O relatório deve registrar trabalho real, artefatos/arquivos/contratos/commits/PRs afetados, verificações e evidências, itens não executados, riscos, estado final e próxima ação/responsável.
+Regra transversal de conclusão e transferência — proposta v0.4.0
 
-A obrigação é de encerramento de tarefa, não de checkpoint: não gerar um HANDOFF completo a cada commit, teste ou ação intermediária enquanto a mesma tarefa continua. Relatório de conclusão sem transferência não altera ownership e não exige aceite fictício; transferência real continua sujeita a transporte comprovado e aceite explícito. Conclusão da tarefa não equivale a aprovação, merge, deploy ou encerramento da missão.
+Quando homologado e incorporado à hierarquia documental, GT-HANDOFF-001 aplica-se aos agentes existentes e futuros por referência normativa. Distingue HANDOFF DE CONCLUSÃO (registro de tarefa terminal, sem mudança de ownership e sem aceite de transferência) de HANDOFF DE TRANSFERÊNCIA (passagem real, com identificadores, ownership, WIP, transporte comprovado e aceite explícito). Não emitir HANDOFF integral por checkpoint/commit/teste. TRANSFERIDA não é estado de conclusão da tarefa. Conclusão não equivale a aprovação, merge, deploy ou encerramento da missão.
 
-Fonte e modelo: [GT-HANDOFF-001 — Processo](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md) e [Template](../07-Templates/GT-HANDOFF-001-TEMPLATE.md). O estado desses documentos permanece proposta até homologação; esta referência não cria permissão, autonomia, canal de transporte ou implementação no runtime.
+Processo e template v0.4.0 permanecem propostas; esta referência não cria permissão, canal, transporte ou enforcement no runtime. A auditoria documental localizou 17 contratos de agente, enquanto este índice descreve 14 agentes catalogados e mantém perfis adicionais/propostos; a conciliação do catálogo e dos contratos é pendência explícita.
+
+Fonte: [GT-HANDOFF-001 — Processo](../03-Processos/Encaminhamento-de-Missoes-GT-HANDOFF-001.md), [Template](../07-Templates/GT-HANDOFF-001-TEMPLATE.md) e [Auditoria v0.4.0](../docs/GT-HANDOFF-001-AUDIT-v0.4.0.md).
 
 ## Interfaces e regras comuns
 
